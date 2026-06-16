@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Utholdenhet – Undervisningsopplegg</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1F3A;
+    --navy-mid: #1A3A5C;
+    --teal: #00C2A8;
+    --teal-light: #e0f7f4;
+    --orange: #E85D26;
+    --bg: #F0F5FA;
+    --white: #ffffff;
+    --text: #2D2D2D;
+    --text-muted: #5a6a7a;
+    --border: #d0dde8;
+    --success: #27ae60;
+    --success-light: #eafaf0;
+    --warn: #c0442a;
+    --warn-light: #fef0ee;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    color: white; padding: 52px 24px 40px; text-align: center; position: relative; overflow: hidden;
+  }
+  header::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(0,194,168,0.10) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(232,93,38,0.07) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .header-badge {
+    display: inline-block; background: var(--teal); color: var(--navy);
+    font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; margin-bottom: 18px;
+  }
+  header h1 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2.6rem, 7vw, 4.5rem);
+    font-weight: 800; letter-spacing: 2px; line-height: 1.05; margin-bottom: 14px;
+  }
+  header h1 span { color: var(--teal); }
+  header p { font-size: 1.05rem; color: #a8c4d8; max-width: 560px; margin: 0 auto 20px; }
+  .header-pills { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .header-pill {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    color: #c8d8e8; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;
+  }
+
+  /* ECG */
+  .ecg-divider { width: 100%; height: 44px; overflow: hidden; background: var(--bg); display: flex; align-items: center; }
+  .ecg-svg { width: 100%; height: 40px; }
+  .ecg-path {
+    fill: none; stroke: var(--teal); stroke-width: 2.5;
+    stroke-linecap: round; stroke-linejoin: round;
+    animation: ecg-flow 3.5s linear infinite;
+    stroke-dasharray: 900; stroke-dashoffset: 900;
+  }
+  @keyframes ecg-flow {
+    0% { stroke-dashoffset: 900; opacity: 0.2; }
+    8% { opacity: 1; }
+    85% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0.2; }
+  }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    background: var(--white); border-bottom: 1px solid var(--border); padding: 14px 24px;
+    position: sticky; top: 0; z-index: 100; display: flex; align-items: center;
+    gap: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .progress-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+  .progress-track { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--orange)); border-radius: 4px; transition: width 0.5s ease; width: 0%; }
+  .progress-count { font-size: 0.82rem; font-weight: 700; color: var(--navy); white-space: nowrap; }
+
+  /* MAIN */
+  main { max-width: 880px; margin: 0 auto; padding: 36px 20px 80px; }
+
+  /* SECTION EYEBROW */
+  .section-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 2.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--teal); opacity: 0.25; }
+
+  /* SUMMARY */
+  .summary-card {
+    background: var(--navy); color: white; border-radius: 18px; padding: 34px; margin-bottom: 40px;
+    position: relative; overflow: hidden;
+  }
+  .summary-card::after {
+    content: '🫀'; position: absolute; right: 28px; top: 24px; font-size: 4rem; opacity: 0.08;
+  }
+  .summary-card h2 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 800;
+    color: var(--teal); margin-bottom: 12px; letter-spacing: 0.5px;
+  }
+  .summary-card > p { color: #b8ccd8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 22px; }
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  .summary-concept {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 18px;
+  }
+  .summary-concept h3 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem; font-weight: 700;
+    color: var(--teal); margin-bottom: 6px;
+  }
+  .summary-concept p { font-size: 0.85rem; color: #a0b8c8; line-height: 1.55; }
+
+  /* TRENINGSMETODER TABLE */
+  .methods-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.84rem; }
+  .methods-table th {
+    background: rgba(0,194,168,0.15); color: var(--teal); padding: 10px 12px;
+    text-align: left; font-weight: 700; letter-spacing: 0.5px;
+  }
+  .methods-table td { padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,0.07); color: #b8ccd8; vertical-align: top; }
+  .methods-table tr:last-child td { border-bottom: none; }
+  .methods-table .aerob-row td:first-child { color: var(--teal); font-weight: 600; }
+  .methods-table .anaerob-row td:first-child { color: #f0a070; font-weight: 600; }
+
+  /* ACTIVITY CARDS */
+  .activity-card {
+    background: var(--white); border: 1.5px solid var(--border); border-radius: 16px;
+    overflow: hidden; margin-bottom: 18px; transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .activity-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.09); border-color: #b0ccd8; }
+  .activity-card.completed { border-color: var(--success); }
+  .activity-header {
+    display: flex; align-items: center; gap: 14px; padding: 18px 22px;
+    cursor: pointer; user-select: none; background: var(--white);
+  }
+  .activity-icon {
+    width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center;
+    justify-content: center; font-size: 1.3rem; flex-shrink: 0; background: var(--teal-light);
+  }
+  .activity-card.completed .activity-icon { background: var(--success-light); }
+  .activity-meta { flex: 1; }
+  .activity-type { font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+  .activity-title { font-size: 1rem; font-weight: 600; color: var(--navy); }
+  .activity-chevron { color: var(--text-muted); font-size: 0.85rem; transition: transform 0.2s; flex-shrink: 0; }
+  .activity-card.open .activity-chevron { transform: rotate(180deg); }
+  .activity-check {
+    width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+    color: transparent; transition: all 0.25s; flex-shrink: 0;
+  }
+  .activity-card.completed .activity-check { background: var(--success); border-color: var(--success); color: white; }
+  .activity-body { display: none; padding: 22px; border-top: 1px solid var(--border); }
+  .activity-card.open .activity-body { display: block; }
+
+  /* QUIZ */
+  .quiz-question { margin-bottom: 22px; }
+  .quiz-q { font-size: 0.97rem; font-weight: 600; margin-bottom: 10px; color: var(--navy); line-height: 1.5; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-option {
+    display: flex; align-items: flex-start; gap: 10px; padding: 11px 14px;
+    border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer;
+    transition: all 0.15s; font-size: 0.91rem; background: var(--bg);
+  }
+  .quiz-option:hover:not(.disabled) { border-color: var(--teal); background: var(--teal-light); }
+  .quiz-option.selected { border-color: var(--navy); background: #e8f0f8; }
+  .quiz-option.correct { background: var(--success-light); border-color: var(--success); color: #1a5c35; font-weight: 600; }
+  .quiz-option.wrong { background: var(--warn-light); border-color: #e0856a; color: var(--warn); }
+  .quiz-option.disabled { cursor: default; pointer-events: none; }
+  .opt-letter { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 0.95rem; width: 20px; flex-shrink: 0; padding-top: 1px; }
+  .quiz-feedback { font-size: 0.85rem; margin-top: 8px; padding: 10px 14px; border-radius: 8px; display: none; line-height: 1.5; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.good { background: var(--success-light); color: #1a5c35; border: 1px solid #a3dfb8; }
+  .quiz-feedback.bad { background: var(--warn-light); color: var(--warn); border: 1px solid #f0b8a8; }
+
+  /* MATCH */
+  .match-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .match-col { display: flex; flex-direction: column; gap: 8px; }
+  .match-col-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+  .match-item {
+    padding: 11px 14px; border: 2px solid var(--border); border-radius: 8px;
+    font-size: 0.87rem; cursor: pointer; transition: all 0.15s; min-height: 50px;
+    display: flex; align-items: center; line-height: 1.4;
+  }
+  .match-item.term { font-weight: 600; background: var(--navy); color: #c8d8e8; border-color: var(--navy-mid); }
+  .match-item.definition { background: var(--bg); color: var(--text); }
+  .match-item.selected-term { background: var(--teal); border-color: var(--teal); color: white; }
+  .match-item.selected-def { border-color: var(--teal); background: var(--teal-light); }
+  .match-item.matched-correct { background: var(--success-light); border-color: var(--success); color: var(--success); cursor: default; pointer-events: none; font-weight: 600; }
+  .match-item.matched-wrong { animation: shake 0.4s; background: var(--warn-light); border-color: #e0856a; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+  /* FILL BLANKS */
+  .blank-para { font-size: 0.95rem; line-height: 2.4; margin-bottom: 8px; }
+  .blank-input {
+    border: none; border-bottom: 2.5px solid var(--teal); background: transparent;
+    font-size: 0.95rem; font-family: 'Inter', sans-serif; color: var(--navy); font-weight: 600;
+    width: 140px; text-align: center; outline: none; padding: 0 4px; transition: border-color 0.15s;
+  }
+  .blank-input:focus { border-color: var(--orange); }
+  .blank-input.correct { border-color: var(--success); color: var(--success); }
+  .blank-input.wrong { border-color: #e0856a; color: var(--warn); }
+  .blank-hint { font-size: 0.78rem; color: var(--text-muted); margin-top: 8px; font-style: italic; }
+
+  /* TRUE/FALSE */
+  .tf-row { margin-bottom: 18px; }
+  .tf-stmt { font-size: 0.95rem; margin-bottom: 8px; color: var(--navy); line-height: 1.5; font-weight: 500; }
+  .tf-btns { display: flex; gap: 8px; }
+  .tf-btn {
+    padding: 8px 22px; border-radius: 8px; border: 2px solid var(--border);
+    font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 600; cursor: pointer;
+    background: var(--bg); color: var(--text); transition: all 0.15s;
+  }
+  .tf-btn:hover:not(.disabled) { border-color: var(--teal); background: var(--teal-light); }
+  .tf-btn.selected-sant { background: #e8f0f8; border-color: var(--navy); }
+  .tf-btn.selected-usant { background: #f5e8f0; border-color: #a0407a; }
+  .tf-btn.correct { background: var(--success-light); border-color: var(--success); color: var(--success); }
+  .tf-btn.wrong { background: var(--warn-light); border-color: #e0856a; color: var(--warn); }
+  .tf-btn.disabled { cursor: default; pointer-events: none; }
+  .tf-feedback { font-size: 0.84rem; margin-top: 6px; display: none; padding: 8px 12px; border-radius: 7px; }
+  .tf-feedback.show { display: block; }
+  .tf-feedback.good { background: var(--success-light); color: #1a5c35; }
+  .tf-feedback.bad { background: var(--warn-light); color: var(--warn); }
+
+  /* SORT */
+  .sort-list { display: flex; flex-direction: column; gap: 8px; }
+  .sort-item {
+    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+    background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px;
+    cursor: grab; user-select: none; font-size: 0.9rem; font-weight: 500;
+    transition: box-shadow 0.15s, border-color 0.15s;
+  }
+  .sort-item:hover { border-color: var(--teal); box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+  .sort-item.dragging { opacity: 0.4; cursor: grabbing; }
+  .sort-item .drag-handle { color: var(--text-muted); font-size: 1.1rem; }
+  .sort-item .sort-num { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--teal); width: 24px; text-align: center; flex-shrink: 0; }
+  .sort-item .sort-label { flex: 1; }
+  .sort-item .sort-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 1px; }
+
+  /* OPEN TASK */
+  .open-textarea {
+    width: 100%; min-height: 130px; padding: 14px; border: 1.5px solid var(--border);
+    border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 0.92rem; color: var(--text);
+    background: var(--bg); resize: vertical; transition: border-color 0.15s; outline: none; line-height: 1.6;
+  }
+  .open-textarea:focus { border-color: var(--teal); }
+  .model-answer { background: var(--teal-light); border-left: 3px solid var(--teal); border-radius: 0 10px 10px 0; padding: 14px 16px; font-size: 0.87rem; margin-top: 12px; display: none; line-height: 1.6; color: #005a50; }
+  .model-answer.show { display: block; }
+  .model-answer strong { color: var(--navy); display: block; margin-bottom: 4px; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px; padding: 10px 22px;
+    border-radius: 9px; border: none; font-family: 'Inter', sans-serif;
+    font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-primary { background: var(--teal); color: var(--navy); }
+  .btn-primary:hover { background: #00a891; transform: translateY(-1px); }
+  .btn-secondary { background: var(--bg); color: var(--navy); border: 1.5px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--teal); }
+  .btn-group { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+
+  /* RESULTS */
+  .result-msg { text-align: center; padding: 16px; border-radius: 10px; margin-top: 16px; font-weight: 700; font-size: 1rem; display: none; }
+  .result-msg.show { display: block; }
+  .result-msg.great { background: var(--success-light); color: var(--success); border: 1.5px solid #a3dfb8; }
+  .result-msg.ok { background: #fef8ec; color: #a07000; border: 1.5px solid #f0d070; }
+  .task-done-banner { display: none; align-items: center; gap: 8px; padding: 9px 14px; background: var(--success-light); border-radius: 9px; color: var(--success); font-size: 0.87rem; font-weight: 600; margin-top: 14px; }
+  .task-done-banner.show { display: flex; }
+
+  /* INFO BOX */
+  .info-box { background: #e8f0f8; border-left: 3px solid var(--navy-mid); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 0.88rem; color: var(--navy); margin-bottom: 16px; line-height: 1.55; }
+
+
+  /* ── TOOLTIPS ── */
+  .tt {
+    border-bottom: 2px dashed var(--teal);
+    cursor: help;
+    position: relative;
+  }
+  #globalTooltip {
+    position: fixed;
+    background: var(--navy);
+    color: #ddeaf5;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    max-width: 250px;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    font-family: 'Inter', sans-serif;
+    border: 1px solid rgba(0,194,168,0.25);
+  }
+  #globalTooltip strong {
+    color: var(--teal);
+    font-size: 0.83rem;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* ── KEY SUMMARY BOX ── */
+  .key-summary-box {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-top: 4px solid var(--teal);
+    border-radius: 16px;
+    padding: 28px 30px;
+    margin-bottom: 36px;
+  }
+  .key-summary-box h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.35rem; font-weight: 800; color: var(--navy);
+    margin-bottom: 4px; letter-spacing: 0.5px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .key-summary-box .ks-intro {
+    font-size: 0.87rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5;
+  }
+  .ks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; }
+  .ks-col h4 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 10px;
+    padding-bottom: 6px; border-bottom: 2px solid var(--teal-light);
+  }
+  .ks-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .ks-list li {
+    font-size: 0.86rem; color: var(--text); padding: 7px 10px 7px 14px;
+    position: relative; line-height: 1.45; border-radius: 6px;
+    background: var(--bg); border-left: 2.5px solid var(--border);
+    transition: border-color 0.15s;
+  }
+  .ks-list li:hover { border-left-color: var(--teal); }
+  .ks-list li strong { color: var(--navy); font-weight: 600; }
+
+  /* ── STUDENT INFO BAR ── */
+  .student-bar {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .student-bar-label {
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.2px; color: var(--text-muted); white-space: nowrap;
+  }
+  .student-input-field {
+    border: none; border-bottom: 2px solid var(--border); background: transparent;
+    font-family: 'Inter', sans-serif; font-size: 0.92rem; color: var(--navy);
+    font-weight: 600; padding: 2px 6px; outline: none; transition: border-color 0.15s;
+    min-width: 130px;
+  }
+  .student-input-field:focus { border-color: var(--teal); }
+  .student-bar-note {
+    margin-left: auto; font-size: 0.77rem; color: var(--text-muted); font-style: italic;
+  }
+
+  /* ── PRINT SUBMIT SECTION ── */
+  .print-submit-section {
+    background: linear-gradient(135deg, var(--navy) 0%, #0e2d50 100%);
+    border-radius: 18px; padding: 34px; margin-top: 40px; color: white;
+    position: relative; overflow: hidden;
+  }
+  .print-submit-section::before {
+    content: '🖨️'; position: absolute; right: 32px; top: 28px;
+    font-size: 4rem; opacity: 0.07; pointer-events: none;
+  }
+  .print-submit-section h3 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 1.6rem; font-weight: 800;
+    color: var(--teal); margin-bottom: 6px; letter-spacing: 0.5px;
+  }
+  .print-submit-section > p { color: #a8c4d8; font-size: 0.9rem; margin-bottom: 22px; line-height: 1.6; }
+  .print-fields-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 22px; }
+  .print-field { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 130px; }
+  .print-field label { font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #7090aa; }
+  .print-field input, .print-field select {
+    background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.14);
+    border-radius: 8px; padding: 10px 13px; color: white;
+    font-family: 'Inter', sans-serif; font-size: 0.91rem; outline: none; transition: border-color 0.15s;
+  }
+  .print-field input:focus, .print-field select:focus { border-color: var(--teal); }
+  .print-field input::placeholder { color: rgba(255,255,255,0.28); }
+  .print-field select option { background: #1a3a5c; color: white; }
+  .btn-print {
+    background: var(--teal); color: var(--navy); padding: 13px 28px;
+    border-radius: 10px; border: none; font-family: 'Inter', sans-serif;
+    font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-print:hover { background: #00a891; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,194,168,0.3); }
+  .print-checklist {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+  }
+  .pci {
+    font-size: 0.78rem; padding: 4px 12px; border-radius: 20px;
+    background: rgba(255,255,255,0.07); color: #90acbe;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.2s;
+  }
+  .pci.done { background: rgba(39,174,96,0.15); color: #5cdb95; border-color: rgba(39,174,96,0.3); }
+  .print-tip { font-size: 0.8rem; color: #7090aa; margin-top: 12px; }
+
+  /* ── PRINT-ONLY ELEMENTS (hidden on screen) ── */
+  .print-only { display: none; }
+
+  /* ════════════════════════════════════════
+     @MEDIA PRINT
+  ════════════════════════════════════════ */
+  @media print {
+    @page { margin: 1.8cm; size: A4 portrait; }
+
+    body { background: white !important; font-size: 11pt; }
+
+    /* Show print-only header */
+    .print-only { display: block !important; }
+
+    /* Hide screen-only chrome */
+    .progress-bar-wrap,
+    .ecg-divider,
+    .btn-group,
+    .activity-chevron,
+    .activity-check,
+    .model-answer,
+    .task-done-banner,
+    .print-submit-section,
+    .student-bar-note,
+    .blank-hint,
+    .quiz-feedback,
+    .tf-feedback,
+    .result-msg,
+    #globalTooltip { display: none !important; }
+
+    /* Simplify header for print */
+    header {
+      background: white !important;
+      padding: 0 0 14px !important;
+      border-bottom: 2.5px solid var(--navy);
+      margin-bottom: 14px;
+      text-align: left !important;
+    }
+    header h1 { color: var(--navy) !important; font-size: 1.7rem !important; margin-bottom: 0 !important; }
+    header p, .header-pills, .header-badge { display: none !important; }
+
+    /* Student bar in print */
+    .student-bar {
+      border-color: #ccc !important;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+    }
+    .student-input-field { border-bottom-color: #888 !important; color: #111 !important; }
+
+    /* Summary card */
+    .summary-card {
+      background: #f4f8fc !important;
+      color: #1a2a3a !important;
+      border: 1px solid #c0d0e0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .summary-card h2 { color: #0B1F3A !important; }
+    .summary-card > p { color: #333 !important; }
+    .summary-concept { background: white !important; border: 1px solid #d0dde8 !important; }
+    .summary-concept h3 { color: #0B1F3A !important; }
+    .summary-concept p { color: #333 !important; }
+    .methods-table th { background: #e8f3f8 !important; color: #0B1F3A !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .methods-table td { color: #333 !important; }
+
+    /* Key summary box */
+    .key-summary-box { border-top-color: #00C2A8 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .ks-col h4 { color: #008a78 !important; border-color: #c0ede8 !important; }
+    .ks-list li { background: #f8fafb !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    /* Open ALL activity cards */
+    .activity-body { display: block !important; }
+    .activity-card {
+      border: 1px solid #ccc !important;
+      margin-bottom: 10mm;
+      page-break-inside: avoid;
+      box-shadow: none !important;
+      border-radius: 8px !important;
+    }
+    .activity-header { border-bottom: 1px solid #ddd; padding: 10px 16px !important; }
+    .activity-icon { background: #e8f5f3 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .activity-type { color: #555 !important; }
+    .activity-title { color: #0B1F3A !important; }
+    .activity-body { padding: 14px 16px !important; }
+
+    /* Quiz options */
+    .quiz-option { border-color: #ddd !important; background: white !important; color: #333 !important; }
+    .quiz-option.selected { background: #e8f0f8 !important; border-color: #1A3A5C !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .quiz-option.correct { background: #eafaf0 !important; border-color: #27ae60 !important; color: #1a5c35 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .quiz-option.wrong { background: #fef0ee !important; border-color: #e0856a !important; color: #c0442a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    /* T/F buttons */
+    .tf-btn { background: white !important; color: #333 !important; border-color: #ccc !important; }
+    .tf-btn.selected-sant { background: #e8f0f8 !important; border-color: #1A3A5C !important; color: #1A3A5C !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tf-btn.selected-usant { background: #f5e8f0 !important; border-color: #a0407a !important; color: #a0407a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tf-btn.correct { background: #eafaf0 !important; border-color: #27ae60 !important; color: #1a5c35 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tf-btn.wrong { background: #fef0ee !important; border-color: #e0856a !important; color: #c0442a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tf-btn.disabled { pointer-events: none; }
+
+    /* Textareas and inputs */
+    .open-textarea { border: 1px solid #bbb !important; background: white !important; min-height: 60px; }
+    .blank-input { border-bottom-color: #888 !important; color: #111 !important; }
+    .blank-para { line-height: 2 !important; }
+
+    /* Sort items */
+    .sort-item { border-color: #ccc !important; background: #fafafa !important; cursor: default; }
+    .sort-item .drag-handle { display: none; }
+
+    /* Match items */
+    .match-item.term { background: #1A3A5C !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .match-item.matched-correct { background: #eafaf0 !important; border-color: #27ae60 !important; color: #1a5c35 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .match-item.definition { background: white !important; }
+
+    /* Info box */
+    .info-box { background: #f0f4f8 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    main { padding: 0 !important; max-width: 100% !important; }
+    .slider-box { border-color: #ccc !important; page-break-inside: avoid; }
+    .intensity-fill-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .sport-pill { border: 1px solid #ccc !important; background: #f8f8f8 !important; color: #333 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .slider-gradient-bg { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .energy-seg-an, .energy-seg-ae { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .badge-aerob, .badge-anaerob, .badge-overgang { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .prose-summary { border-color: #ccc !important; }
+    .prose-summary h2 { color: #0B1F3A !important; }
+    .methods-box { border-color: #ccc !important; overflow: visible !important; }
+    .methods-box h2 { color: #0B1F3A !important; }
+    .methods-table-new thead th { background: #f0f4f8 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .type-badge.aerob { background: #e0f7f4 !important; color: #006a5e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .type-badge.anaerob { background: #fff0e8 !important; color: #a03a0a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .intensity-fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tt { border-bottom: none !important; }
+  }
+
+
+  /* ── PROSE SUMMARY BOX ── */
+  .prose-summary {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 34px;
+    margin-bottom: 28px;
+  }
+  .prose-summary h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.4rem; font-weight: 800; color: var(--navy);
+    margin-bottom: 16px; letter-spacing: 0.5px;
+  }
+  .prose-summary p {
+    font-size: 0.95rem; color: var(--text); line-height: 1.8;
+    margin-bottom: 14px;
+  }
+  .prose-summary p:last-child { margin-bottom: 0; }
+  .prose-summary strong { color: var(--navy); }
+  .prose-summary em { color: var(--text-muted); }
+
+  /* ── TRENINGSMETODER BOX ── */
+  .methods-box {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 30px;
+    margin-bottom: 28px;
+    overflow-x: auto;
+  }
+  .methods-box h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.35rem; font-weight: 800; color: var(--navy);
+    margin-bottom: 6px; letter-spacing: 0.5px;
+  }
+  .methods-box .mb-intro {
+    font-size: 0.87rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.5;
+  }
+  .methods-tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+  .methods-tab {
+    padding: 6px 16px; border-radius: 20px; border: 1.5px solid var(--border);
+    font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
+    background: var(--bg); color: var(--text-muted);
+  }
+  .methods-tab.active-aerob { background: var(--teal-light); border-color: var(--teal); color: #006a5e; }
+  .methods-tab.active-anaerob { background: #fff0e8; border-color: var(--orange); color: #a03a0a; }
+  .methods-tab.active-all { background: #eef0f8; border-color: var(--navy); color: var(--navy); }
+
+  .methods-table-new { width: 100%; border-collapse: collapse; font-size: 0.875rem; min-width: 500px; }
+  .methods-table-new thead th {
+    background: var(--bg); padding: 10px 14px; text-align: left;
+    font-weight: 700; color: var(--text-muted); font-size: 0.75rem;
+    letter-spacing: 0.8px; text-transform: uppercase; border-bottom: 2px solid var(--border);
+  }
+  .methods-table-new tbody tr { transition: background 0.1s; }
+  .methods-table-new tbody tr:hover { background: var(--bg); }
+  .methods-table-new td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .methods-table-new tr:last-child td { border-bottom: none; }
+  .type-badge {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 0.72rem; font-weight: 700; white-space: nowrap;
+  }
+  .type-badge.aerob { background: var(--teal-light); color: #006a5e; }
+  .type-badge.anaerob { background: #fff0e8; color: #a03a0a; }
+  .method-name { font-weight: 600; color: var(--navy); }
+  .method-details { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+  .intensity-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .intensity-bar {
+    height: 6px; border-radius: 3px; flex: 1; max-width: 100px;
+    background: var(--border); position: relative; overflow: hidden;
+  }
+  .intensity-fill { height: 100%; border-radius: 3px; }
+  .intensity-label { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+
+
+  /* ── DURATION SLIDER SECTION ── */
+  .slider-box {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 30px 30px 28px;
+    margin-bottom: 0;
+  }
+  .slider-box h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.35rem; font-weight: 800; color: var(--navy);
+    margin-bottom: 4px; letter-spacing: 0.5px;
+  }
+  .slider-intro {
+    font-size: 0.87rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5;
+  }
+
+  /* Zone header labels */
+  .slider-zone-header {
+    display: flex; justify-content: space-between; margin-bottom: 6px;
+  }
+  .slider-zone-header span {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+  }
+  .slider-zone-header .zh-anaerob { color: var(--orange); }
+  .slider-zone-header .zh-aerob   { color: var(--teal); }
+
+  /* Gradient track */
+  .slider-track-outer {
+    position: relative; height: 44px; margin-bottom: 4px;
+  }
+  .slider-gradient-bg {
+    position: absolute; top: 50%; left: 0; right: 0;
+    transform: translateY(-50%);
+    height: 12px; border-radius: 6px;
+    background: linear-gradient(90deg,
+      #E85D26 0%,
+      #E85D26 24%,
+      #d44020 26%,
+      #d44020 39%,
+      #c8a000 41%,
+      #c8a000 57%,
+      #20a870 59%,
+      #20a870 82%,
+      #00C2A8 84%,
+      #00C2A8 100%
+    );
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.15);
+  }
+  /* Zone dividers */
+  .slider-divider {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 2px; height: 18px; background: white; opacity: 0.6; border-radius: 1px;
+  }
+
+  /* Range input */
+  .duration-slider {
+    -webkit-appearance: none; appearance: none;
+    position: absolute; top: 50%; left: 0; right: 0; width: 100%;
+    transform: translateY(-50%);
+    height: 12px; background: transparent; cursor: pointer; z-index: 2;
+  }
+  .duration-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: white; border: 3px solid var(--navy);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+    cursor: grab; transition: border-color 0.2s, transform 0.1s;
+  }
+  .duration-slider::-webkit-slider-thumb:hover { transform: scale(1.1); }
+  .duration-slider:active::-webkit-slider-thumb { cursor: grabbing; border-color: var(--teal); }
+  .duration-slider::-moz-range-thumb {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: white; border: 3px solid var(--navy);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25); cursor: grab;
+  }
+
+  /* Time tick labels */
+  .slider-ticks {
+    display: flex; justify-content: space-between;
+    padding: 0 2px; margin-bottom: 20px;
+  }
+  .slider-ticks span {
+    font-size: 0.72rem; color: var(--text-muted); text-align: center;
+  }
+  .slider-ticks span:first-child { text-align: left; }
+  .slider-ticks span:last-child  { text-align: right; }
+
+  /* Info panel */
+  .slider-info {
+    display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start;
+    background: var(--bg); border-radius: 12px; padding: 20px 22px;
+    border: 1.5px solid var(--border); transition: border-color 0.3s;
+  }
+  .slider-info.zone-aerob    { border-color: var(--teal);   }
+  .slider-info.zone-anaerob  { border-color: var(--orange); }
+  .slider-info.zone-overgang { border-color: #c8a000;       }
+
+  .slider-left { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 84px; }
+  .slider-zone-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem; font-weight: 800; letter-spacing: 2px;
+    text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .badge-aerob    { background: var(--teal-light);  color: #006a5e; }
+  .badge-anaerob  { background: #fff0e8;             color: #a03a0a; }
+  .badge-overgang { background: #fef8e8;             color: #7a6000; }
+  .slider-time {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.5rem; font-weight: 800; color: var(--navy); line-height: 1; text-align: center;
+  }
+  .slider-hf-label {
+    font-size: 0.72rem; color: var(--text-muted); text-align: center; line-height: 1.3;
+  }
+
+  .slider-right {}
+  .slider-method {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.15rem; font-weight: 800; color: var(--navy);
+    margin-bottom: 6px; letter-spacing: 0.3px;
+  }
+  .slider-desc-text {
+    font-size: 0.87rem; color: var(--text); line-height: 1.55; margin-bottom: 12px;
+  }
+
+  /* Energy split */
+  .energy-split { margin-top: 4px; }
+  .energy-split-labels {
+    display: flex; justify-content: space-between; font-size: 0.75rem;
+    font-weight: 700; margin-bottom: 5px;
+  }
+  .energy-split-labels .el-an { color: var(--orange); }
+  .energy-split-labels .el-ae { color: var(--teal);   }
+  .energy-bar-track {
+    height: 10px; border-radius: 5px; overflow: hidden;
+    display: flex; background: var(--border);
+  }
+  .energy-seg-an { height: 100%; background: var(--orange); transition: width 0.4s ease; border-radius: 5px 0 0 5px; }
+  .energy-seg-ae { height: 100%; background: var(--teal);   transition: width 0.4s ease; border-radius: 0 5px 5px 0; }
+
+  @media (max-width: 540px) {
+    .slider-info { grid-template-columns: 1fr; }
+    .slider-left { flex-direction: row; align-items: center; min-width: 0; }
+  }
+
+
+  /* ── SLIDER BARS + SPORTS (additions) ── */
+  .slider-bars { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+
+  .sbar-row { display: flex; flex-direction: column; gap: 4px; }
+  .sbar-label-row { display: flex; justify-content: space-between; align-items: baseline; }
+  .sbar-title { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); }
+  .sbar-vals { font-size: 0.78rem; font-weight: 600; }
+  .el-an { color: var(--orange); }
+  .el-ae { color: var(--teal); }
+
+  .intensity-bg-track {
+    height: 10px; border-radius: 5px; background: var(--border); overflow: hidden;
+  }
+  .intensity-fill-bar {
+    height: 100%; border-radius: 5px;
+    background: var(--orange);
+    transition: width 0.4s ease, background 0.4s ease;
+  }
+  .intensity-axis {
+    display: flex; justify-content: space-between;
+    font-size: 0.67rem; color: var(--text-muted); margin-top: 2px; padding: 0 1px;
+  }
+
+  .sports-row { border-top: 1px solid var(--border); padding-top: 12px; }
+  .sports-label { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 8px; }
+  .sports-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .sport-pill {
+    font-size: 0.8rem; padding: 4px 11px; border-radius: 20px;
+    font-weight: 500; white-space: nowrap; transition: transform 0.15s;
+  }
+  .sport-pill:hover { transform: translateY(-1px); }
+  .sport-pill-aerob    { background: var(--teal-light);  color: #005e54; border: 1px solid #a0ddd8; }
+  .sport-pill-anaerob  { background: #fff0e8;             color: #8a3010; border: 1px solid #f0c0a0; }
+  .sport-pill-overgang { background: #fef8e8;             color: #6a5000; border: 1px solid #e8d090; }
+
+  @media (max-width: 600px) {
+    .match-wrap { grid-template-columns: 1fr; }
+    .summary-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">1IFA – Treningslære</div>
+  <h1>UTHOLDENHETS<span>TRENING</span></h1>
+  <p>Lær de viktigste begrepene og prinsippene – basert på pensumtekst og presentasjon</p>
+  <div class="header-pills">
+    <span class="header-pill">VO₂-maks</span>
+    <span class="header-pill">Laktatterskel</span>
+    <span class="header-pill">Arbeidsøkonomi</span>
+    <span class="header-pill">Kretsløpet</span>
+    <span class="header-pill">Treningsmetoder</span>
+  </div>
+</header>
+
+<div class="ecg-divider">
+  <svg class="ecg-svg" viewBox="0 0 900 40" preserveAspectRatio="none">
+    <path class="ecg-path" d="M0,20 L90,20 L108,20 L120,5 L136,35 L148,2 L164,38 L178,20 L210,20 L300,20 L318,20 L330,5 L346,35 L358,2 L374,38 L388,20 L420,20 L510,20 L528,20 L540,5 L556,35 L568,2 L584,38 L598,20 L630,20 L720,20 L738,20 L750,5 L766,35 L778,2 L794,38 L808,20 L900,20"/>
+  </svg>
+</div>
+
+<div class="progress-bar-wrap">
+  <span class="progress-label">Fremgang</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-count" id="progressCount">0 / 7 fullført</span>
+</div>
+
+<main>
+
+  <!-- ══ OPPSUMMERING ══ -->
+  <section style="margin-bottom: 40px;">
+    <div class="section-eyebrow">Oppsummering av kapitlet</div>
+    <div class="summary-card">
+      <h2>Hva er utholdenhet?</h2>
+      <p><strong style="color:var(--teal)">Definisjon:</strong> Organismen sin evne til å arbeide med relativt høg intensitet over lang tid. God utholdenhet avhenger av tre nøkkelfaktorer: <span class="tt" data-tip="Kroppen sin maksimale evne til å ta opp og omsette oksygen per minutt. Måles i ml/kg/min. Kan økes med opptil 40% hos utrente.">VO₂-maks</span>, <span class="tt" data-tip="Den gjennomsnittlige prosenten av VO₂-maks en utøver klarer å jobbe på over en gitt arbeidstid. Godt trente: 85–90%.">utnyttingsgrad</span> og <span class="tt" data-tip="Mål på hvor mye energi/oksygen en utøver bruker ved en bestemt fart. Avhenger av teknikk – god teknikk = lavere oksygenforbruk.">arbeidsøkonomi</span> – og skilles mellom <span class="tt" data-tip="Med tilstrekkelig oksygen. Energifrigjøring som kan opprettholdes over lang tid."><em style="color:#80d8cc">aerob</em></span> (med oksygen) og <span class="tt" data-tip="Uten tilstrekkelig oksygen. Svært høy intensitet over kort tid – gir melkesyreoppbygging."><em style="color:#f0a070">anaerob</em></span> (uten nok oksygen) form.</p>
+      <div class="summary-grid">
+        <div class="summary-concept">
+          <h3>VO₂-maks</h3>
+          <p>Kroppen sin maksimale evne til å ta opp og omsette oksygen per minutt. Måles i liter/min eller ml/kg/min. Trenbart – kan økes med opptil 40% hos utrente. Hjertets <span class="tt" data-tip="Slagvolum × hjertefrekvens = totalt blod pumpet per minutt. I hvile ca. 5,2 l/min. Under maks trening: 30–40 l/min hos godt trente.">minuttvolum</span> er viktigste påvirkningsfaktor.</p>
+        </div>
+        <div class="summary-concept">
+          <h3>Utnyttingsgrad</h3>
+          <p>Den gjennomsnittlige prosenten av VO₂-maks en utøver klarer å oppnå over en gitt arbeidstid. Godt trente kan utnytte 85–90%. Avhenger av glykogenlager, fettforbrenning og muskelstyrke over tid.</p>
+        </div>
+        <div class="summary-concept">
+          <h3>Arbeidsøkonomi</h3>
+          <p>Mål på hvor mye energi en utøver bruker ved en bestemt fart. Avhenger av teknikk – god teknikk = bruke kreftene rasjonelt = lavere oksygenforbruk.</p>
+        </div>
+        <div class="summary-concept">
+          <h3>Laktatterskel (LT)</h3>
+          <p>Det høyeste intensitetsnivået med full likevekt mellom produksjon og eliminasjon av melkesyre. Godt trente: LT ved 80–90% av VO₂-maks. Dårlig trente: 65–75%. Oppgis som fart, % av VO₂-maks eller % av maks HF.</p>
+        </div>
+        <div class="summary-concept">
+          <h3>Puls og hjertet</h3>
+          <p>Hvilepuls: 60–80 bpm (utrente), under 40 bpm (toppidrett). Makspuls ≈ 220 – alder. Minuttvolum = slagvolum × HF. I hvile: ca. 5,2 l/min. Ved hard trening: 30–40 l/min hos godt trente.</p>
+        </div>
+        <div class="summary-concept">
+          <h3>Treningsbelastning</h3>
+          <p>Treningsutbyttet avhenger av <span class="tt" data-tip="Hvor lenge den enkelte økt varer. Start med lengre, lavintensitetsøkter før du øker intensiteten."><strong style="color:var(--teal)">varighet</strong></span> (hvor lenge), <span class="tt" data-tip="Hvor ofte du trener per uke. Minimum 3 ganger per uke anbefales for helsegevinst."><strong style="color:var(--teal)">hyppighet</strong></span> (hvor ofte) og <span class="tt" data-tip="Hvor hardt du trener, målt som % av maks HF. Treningseffekt oppnås fra ca. 60% av maks HF."><strong style="color:var(--teal)">intensitet</strong></span> (hvor hardt). Øk først varighet, deretter intensitet. Intensitet virker fra 60% av maks HF.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PROSE SUMMARY ══ -->
+  <section style="margin-bottom: 0;">
+    <div class="section-eyebrow">Tekstlig oppsummering</div>
+    <div class="prose-summary">
+      <h2>Utholdenhet – hva kapitlet handler om</h2>
+
+      <p>Utholdenhet er et av de mest grunnleggende begrepene i treningslære, og handler om organismen sin evne til å arbeide med relativt høy intensitet over lang tid. God utholdenhet er ikke bare viktig for idrettsprestasjoner – det har også stor betydning for helse, trivsel og evnen til å takle hverdagens fysiske belastninger. Godt uthald gir større arbeidskapasitet, lavere risiko for hjerte- og karsykdommer og økt evne til å takle stress.</p>
+
+      <p>Vi skiller mellom <strong><span class="tt" data-tip="Aerob utholdenhet: evnen til å arbeide med tilstrekkelig oksygentilgang over lang tid. Energien frigjøres i mitokondriene ved forbrenning med O₂.">aerob</span></strong> og <strong><span class="tt" data-tip="Anaerob utholdenhet: evnen til å arbeide med svært høy intensitet der kroppen ikke får tilført nok oksygen. Gir rask energi, men medfører melkesyreoppbygging og er tidsbegrenset.">anaerob</span></strong> utholdenhet. Aerob utholdenhet er evnen til å arbeide over lengre tid med tilstrekkelig oksygentilgang – typisk løping, sykling og langrenn. Anaerob utholdenhet handler om å jobbe på svært høy intensitet over kortere tid, der kroppen ikke rekker å hente inn nok oksygen og i stedet produserer <span class="tt" data-tip="Melkesyre (laktat) produseres når kroppen jobber anaerobt. Oppbygging av melkesyre gir den brennende følelsen i musklene under hardt arbeid.">melkesyre</span>.</p>
+
+      <p>Tre faktorer avgjør i særlig grad hvor god den aerobe utholdenheten er: <span class="tt" data-tip="Kroppen sin maksimale evne til å ta opp og omsette oksygen per minutt. Måles i ml/kg/min."><strong>VO₂-maks</strong></span>, <span class="tt" data-tip="Den gjennomsnittlige prosenten av VO₂-maks en utøver klarer å jobbe på over en gitt arbeidstid. Godt trente: 85–90%."><strong>utnyttingsgrad</strong></span> og <span class="tt" data-tip="Mål på hvor mye energi/oksygen en utøver bruker ved en bestemt fart. God teknikk gir bedre arbeidsøkonomi."><strong>arbeidsøkonomi</strong></span>. VO₂-maks er kroppens maksimale evne til å ta opp og omsette oksygen per minutt, og regnes som det viktigste enkeltmålet for aerob kapasitet – det er trenbart og kan økes med opptil 40 % hos utrente. Utnyttingsgraden forteller oss hvilken andel av dette maksnivået utøveren faktisk klarer å opprettholde. Arbeidsøkonomi handler om effektivitet: god teknikk gjør at kroppen bruker mindre oksygen på samme fart.</p>
+
+      <p><span class="tt" data-tip="Det høyeste intensitetsnivået med full likevekt mellom produksjon og eliminasjon av melkesyre. Godt trente: 80–90% av VO₂-maks."><strong>Laktatterskelen</strong></span> er det høyeste intensitetsnivået der det er full likevekt mellom produksjon og eliminasjon av melkesyre. Under terskelen kan kroppen jobbe lenge uten at melkesyren bygger seg opp. Godt trente utøvere har laktatterskel ved 80–90 % av VO₂-maks, mens utrente gjerne ligger på 65–75 %. Dette betyr at to utøvere med likt VO₂-maks kan ha svært ulik utholdenhetsprestasjon, avhengig av laktatterskelen og utnyttingsgraden.</p>
+
+      <p>Bak prestasjonene ligger fysiologiske tilpasninger. <span class="tt" data-tip="Mengde blod hjertet pumper ut per slag. Ca. 75 ml i hvile. Øker betydelig med aerob trening."><strong>Slagvolumet</strong></span> øker, hvilepulsen synker, og <span class="tt" data-tip="Slagvolum × hjertefrekvens = totalt blod pumpet per minutt. Ca. 5,2 l/min i hvile, opptil 30–40 l/min under maks innsats."><strong>minuttvolumtet</strong></span> kan stige fra ca. 5 liter i hvile til over 30 liter per minutt under maximal innsats. I muskulaturen øker <span class="tt" data-tip="De aller minste blodårene som omgir muskelfibrene og sørger for O₂-tilførsel og avfallsopphenting."><strong>kapillærtetthet</strong></span> og antall <span class="tt" data-tip="Cellens kraftverk der aerob energifrigjøring skjer. Øker i antall og størrelse med aerob utholdenhetstrening."><strong>mitokondrier</strong></span>, slik at cellene effektivt kan bruke oksygen og forbrenne fett. Blod og oksygen fraktes rundt via det store og det lille kretsløpet, der <span class="tt" data-tip="Lungeblærer der gassutveksling skjer: oksygen tas opp i blodet og karbondioksid avgis til lungene."><strong>alveolene</strong></span> i lungene sørger for gassutveksling.</p>
+
+      <p>For å oppnå treningseffekt gjelder noen grunnleggende retningslinjer: tren minst tre halvtimer i uken, bruk store muskelgrupper, og øk alltid <em>varigheten</em> før du øker <em>intensiteten</em>. Treningseffekten starter fra ca. 60 % av makspuls. Overdosering av anaerob trening kan ha negative konsekvenser – særlig for unge utøvere – som nedbryting av mitokondrier og redusert treningslyst.</p>
+    </div>
+  </section>
+
+  <!-- ══ TRENINGSMETODER BOX ══ -->
+  <section style="margin-bottom: 28px;">
+    <div class="section-eyebrow">Treningsmetoder</div>
+    <div class="methods-box">
+      <h2>Oversikt over treningsmetoder</h2>
+      <p class="mb-intro">Utholdenhetstrening deles i aerobe og anaerobe metoder, og videre i kontinuerlig arbeid og intervallarbeid. Intensitet oppgis som prosent av maksimal hjertefrekvens (HFmaks).</p>
+
+      <table class="methods-table-new">
+        <thead>
+          <tr>
+            <th style="width:110px">Type</th>
+            <th>Metode</th>
+            <th>Varighet</th>
+            <th>Intensitet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="type-badge aerob">Aerob</span><br><span style="font-size:0.75rem;color:var(--text-muted)">Kontinuerlig</span></td>
+            <td><div class="method-name">Langkjøring</div><div class="method-details">Jevnt, rolig tempo over lang tid</div></td>
+            <td style="color:var(--text-muted);font-size:0.85rem">20 min – flere timer</td>
+            <td>
+              <div class="intensity-bar-wrap">
+                <div class="intensity-bar"><div class="intensity-fill" style="width:62%;background:var(--teal)"></div></div>
+                <span class="intensity-label">60–85%</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="type-badge aerob">Aerob</span><br><span style="font-size:0.75rem;color:var(--text-muted)">Kontinuerlig</span></td>
+            <td><div class="method-name">Hurtig langkjøring</div><div class="method-details">Kontinuerlig, høyere tempo</div></td>
+            <td style="color:var(--text-muted);font-size:0.85rem">10 min – 1 time+</td>
+            <td>
+              <div class="intensity-bar-wrap">
+                <div class="intensity-bar"><div class="intensity-fill" style="width:78%;background:var(--teal)"></div></div>
+                <span class="intensity-label">85–95%</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="type-badge aerob">Aerob</span><br><span style="font-size:0.75rem;color:var(--text-muted)">Intervall</span></td>
+            <td><div class="method-name">Naturlig intervall / Fartslek</div><div class="method-details">Terrenget eller lysten styrer lengden på innsats og pause</div></td>
+            <td style="color:var(--text-muted);font-size:0.85rem">20–90 min</td>
+            <td>
+              <div class="intensity-bar-wrap">
+                <div class="intensity-bar"><div class="intensity-fill" style="width:72%;background:var(--teal)"></div></div>
+                <span class="intensity-label">80–90%</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="type-badge aerob">Aerob</span><br><span style="font-size:0.75rem;color:var(--text-muted)">Intervall</span></td>
+            <td><div class="method-name">Langintervall</div><div class="method-details">2–10 reps à 1,5–10 min med aktiv pause</div></td>
+            <td style="color:var(--text-muted);font-size:0.85rem">15 min – 1 time</td>
+            <td>
+              <div class="intensity-bar-wrap">
+                <div class="intensity-bar"><div class="intensity-fill" style="width:80%;background:var(--teal)"></div></div>
+                <span class="intensity-label">80–95%</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="type-badge aerob">Aerob</span><br><span style="font-size:0.75rem;color:var(--text-muted)">Intervall</span></td>
+            <td><div class="method-name">Kortintervall / Pyramide</div><div class="method-details">5–40 reps à 10–60 sek per serie</div></td>
+            <td style="color:var(--text-muted);font-size:0.85rem">10–40 min</td>
+            <td>
+              <div class="intensity-bar-wrap">
+                <div class="intensity-bar"><div class="intensity-fill" style="width:84%;background:var(--teal)"></div></div>
+                <span class="intensity-label">85–95%</span>
+              </div>
+            </td>
+          </tr>
+          <tr style="border-top: 2px solid var(--border);">
+            <td><span class="type-badge anaerob">Anaerob</span><br><span style="font-size:0.75rem;color:var(--text-muted)">Kontinuerlig</span></td>
+            <td><div class="method-name">Testløp / Konkurranse</div><div class="method-details">Svært høy til maksimal innsats i 1–3 min</div></td>
+            <td style="color:var(--text-muted);font-size:0.85rem">1–3 min</td>
+            <td>
+              <div class="intensity-bar-wrap">
+                <div class="intensity-bar"><div class="intensity-fill" style="width:98%;background:var(--orange)"></div></div>
+                <span class="intensity-label">Maks</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="type-badge anaerob">Anaerob</span><br><span style="font-size:0.75rem;color:var(--text-muted)">Intervall</span></td>
+            <td><div class="method-name">Korte tempointervaller</div><div class="method-details">2–6 reps à 20–60 sek, pause 8–20 min</div></td>
+            <td style="color:var(--text-muted);font-size:0.85rem">2–6 reps</td>
+            <td>
+              <div class="intensity-bar-wrap">
+                <div class="intensity-bar"><div class="intensity-fill" style="width:98%;background:var(--orange)"></div></div>
+                <span class="intensity-label">Maks</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="type-badge anaerob">Anaerob</span><br><span style="font-size:0.75rem;color:var(--text-muted)">Intervall</span></td>
+            <td><div class="method-name">Lange tempointervaller</div><div class="method-details">2–6 reps à 40 sek–2 min, pause 8–20 min</div></td>
+            <td style="color:var(--text-muted);font-size:0.85rem">2–6 reps</td>
+            <td>
+              <div class="intensity-bar-wrap">
+                <div class="intensity-bar"><div class="intensity-fill" style="width:98%;background:var(--orange)"></div></div>
+                <span class="intensity-label">Maks</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══ SLIDER ══ -->
+  <section style="margin-bottom: 28px;">
+    <div class="section-eyebrow">Interaktiv utforsker</div>
+    <div class="slider-box">
+      <h2>⏱ Varighet → Treningsmetode</h2>
+      <p class="slider-intro">Dra glidebryteren for å se hvilken treningsmetode som passer til ulik treningsvarighet – og overgangen mellom anaerob og aerob energifrigjøring.</p>
+
+      <div class="slider-zone-header">
+        <span class="zh-anaerob">◀ Anaerob</span>
+        <span class="zh-aerob">Aerob ▶</span>
+      </div>
+
+      <div class="slider-track-outer">
+        <div class="slider-gradient-bg"></div>
+        <!-- Zone dividers at approx log positions -->
+        <div class="slider-divider" style="left:25.5%"></div>
+        <div class="slider-divider" style="left:41%"></div>
+        <div class="slider-divider" style="left:58.5%"></div>
+        <div class="slider-divider" style="left:84%"></div>
+        <input type="range" id="durationSlider" class="duration-slider" min="0" max="100" value="15" oninput="updateSlider()">
+      </div>
+
+      <div class="slider-ticks">
+        <span>10 sek</span>
+        <span>1 min</span>
+        <span>~5 min</span>
+        <span>1 time</span>
+        <span>3 timer</span>
+      </div>
+
+      <div class="slider-info" id="sliderInfo">
+        <div class="slider-left">
+          <div class="slider-zone-badge badge-anaerob" id="sliderBadge">ANAEROB</div>
+          <div class="slider-time" id="sliderTime">30 sek</div>
+          <div class="slider-hf-label" id="sliderHf">95–100%<br>av HFmaks</div>
+        </div>
+        <div class="slider-right">
+          <div class="slider-method" id="sliderMethod">Korte tempointervaller</div>
+          <div class="slider-desc-text" id="sliderDesc">Svært høy til maksimal intensitet. Overhastighet i forhold til konkurransetempo. 2–6 repetisjoner à 20–60 sekunder med 8–20 minutters pause mellom hvert drag.</div>
+
+          <div class="slider-bars">
+            <!-- Energibidrag -->
+            <div class="sbar-row">
+              <div class="sbar-label-row">
+                <span class="sbar-title">Energibidrag</span>
+                <span class="sbar-vals"><span class="el-an"><span id="anPct">85</span>% anaerob</span> / <span class="el-ae"><span id="aePct">15</span>% aerob</span></span>
+              </div>
+              <div class="energy-bar-track">
+                <div class="energy-seg-an" id="segAn" style="width:85%"></div>
+                <div class="energy-seg-ae" id="segAe" style="width:15%"></div>
+              </div>
+            </div>
+
+            <!-- Intensitet -->
+            <div class="sbar-row">
+              <div class="sbar-label-row">
+                <span class="sbar-title">Intensitet (% av HFmaks)</span>
+                <span class="sbar-vals" id="intensityLabel" style="color:var(--orange); font-weight:700">~100%</span>
+              </div>
+              <div class="intensity-bg-track">
+                <div class="intensity-fill-bar" id="intensityFill" style="width:100%"></div>
+              </div>
+              <div class="intensity-axis">
+                <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Idretter -->
+          <div class="sports-row">
+            <div class="sports-label">Typiske idretter / aktiviteter:</div>
+            <div class="sports-pills" id="sportsPills"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ELEV-INFORMASJON ══ -->
+  <div class="student-bar">
+    <span class="student-bar-label">Elev</span>
+    <input class="student-input-field" id="sName" placeholder="Fullt navn..." />
+    <span class="student-bar-label">Klasse</span>
+    <input class="student-input-field" id="sClass" placeholder="f.eks. 1IFA" style="min-width:80px"/>
+    <span class="student-bar-note">📄 Fyll inn navn og klasse – dato settes automatisk</span>
+  </div>
+
+  <!-- ══ KEY SUMMARY BOX ══ -->
+  <section style="margin-bottom: 32px;">
+    <div class="section-eyebrow">Viktigste å huske</div>
+    <div class="key-summary-box">
+      <h2>📋 Kompendium – Utholdenhet</h2>
+      <p class="ks-intro">En samlet oversikt over de viktigste begrepene, formlene og prinsippene du trenger å kunne. Hold musepekeren over <span class="tt" data-tip="Fagbegreper er merket med stiplet teal-strek. Hold musepekeren over dem for å lese definisjonen.">understrekede begreper</span> for å lese definisjonen.</p>
+      <div class="ks-grid">
+        <div class="ks-col">
+          <h4>Nøkkelbegreper</h4>
+          <ul class="ks-list">
+            <li><strong><span class="tt" data-tip="Kroppen sin maksimale evne til å ta opp og omsette oksygen per minutt. Måles i ml/kg/min. Trenbart – øker med opptil 40% hos utrente.">VO₂-maks</span></strong> – maks oksygenopptak per minutt</li>
+            <li><strong><span class="tt" data-tip="Den gjennomsnittlige prosenten av VO₂-maks en utøver klarer å jobbe på over en gitt arbeidstid. Godt trente: 85–90%.">Utnyttingsgrad</span></strong> – andel av VO₂-maks man kan jobbe på</li>
+            <li><strong><span class="tt" data-tip="Mål på hvor mye energi/oksygen en utøver bruker ved en bestemt fart eller belastning. God teknikk = bedre økonomi.">Arbeidsøkonomi</span></strong> – oksygenbruk ved gitt fart/belastning</li>
+            <li><strong><span class="tt" data-tip="Det høyeste intensitetsnivået med full likevekt mellom produksjon og eliminasjon av melkesyre. Godt trente: 80–90% av VO₂-maks.">Laktatterskel</span></strong> – maks intensitet uten melkesyreoppbygging</li>
+            <li><strong><span class="tt" data-tip="Mengde blod hjertet pumper ut per slag. Ca. 75 ml i hvile, øker med aerob trening.">Slagvolum</span></strong> – blod per hjerteslag (ca. 75 ml hvile)</li>
+            <li><strong><span class="tt" data-tip="Slagvolum × hjertefrekvens. I hvile ca. 5,2 l/min. Under maks innsats: 30–40 l/min hos toppidrettsutøvere.">Minuttvolum</span></strong> – slagvolum × HF (5,2 l/min i hvile)</li>
+          </ul>
+        </div>
+        <div class="ks-col">
+          <h4>Fysiologi</h4>
+          <ul class="ks-list">
+            <li><strong>Makspuls</strong> ≈ 220 – alder (± 15 slag) – <em>ikke</em> trenbar</li>
+            <li><strong>Hvilepuls</strong>: 60–80 bpm (utrente) / under 40 (toppidrett)</li>
+            <li><span class="tt" data-tip="Lungeblærer der gassutveksling skjer: O₂ fra luft inn i blodet, CO₂ fra blodet ut i lungene."><strong>Alveolene</strong></span> – gassutveksling i lungene (O₂ inn, CO₂ ut)</li>
+            <li><span class="tt" data-tip="Cellens kraftverk – der aerob energifrigjøring skjer med O₂. Øker i antall og størrelse med aerob trening."><strong>Mitokondrier</strong></span> – cellens «kraftverk» for aerob energi</li>
+            <li><span class="tt" data-tip="De aller minste blodårene som omgir muskelfibrene og leverer O₂ og næring."><strong>Kapillærer</strong></span> – omgir muskelfibrer og leverer O₂</li>
+            <li><span class="tt" data-tip="Lagret karbohydrat i muskler og lever. Viktigste energikilde ved høy intensitet. Oppbrukes etter 1,5–2 timer med høy intensitet."><strong>Glykogen</strong></span> – lagret karbohydrat i muskler og lever</li>
+          </ul>
+        </div>
+        <div class="ks-col">
+          <h4>Treningsmetoder</h4>
+          <ul class="ks-list">
+            <li><strong>Aerob – kontinuerlig:</strong> Langkjøring (60–85%) og hurtig langkjøring (85–95%)</li>
+            <li><strong>Aerob – intervall:</strong> Naturlig, fartslek, langintervall (80–95%), kortintervall og pyramide (85–95%)</li>
+            <li><strong>Anaerob – kontinuerlig:</strong> Testløp og konkurranser (maks)</li>
+            <li><strong>Anaerob – intervall:</strong> Korte og lange tempointervaller (maks intensitet)</li>
+            <li>Øk alltid <em>varighet</em> før du øker <em>intensitet</em></li>
+          </ul>
+        </div>
+        <div class="ks-col">
+          <h4>Retningslinjer</h4>
+          <ul class="ks-list">
+            <li>Minimum <strong>3 × 30 min</strong> per uke for helsegevinst</li>
+            <li>Bruk <strong>store muskelgrupper</strong> (løping, sykling, svømming)</li>
+            <li>Treningseffekt fra <strong>60% av maks HF</strong></li>
+            <li>Aerob trening: lavere hvilepuls, større slagvolum</li>
+            <li>Anaerob trening: økt melkesyretoleranse, men NB – negative virkninger ved overdosering (særlig for unge)</li>
+            <li>Varier treningssted, metoder og underlag</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ OPPGAVE 1: FLERVALG ══ -->
+  <div class="activity-card open" id="act1">
+    <div class="activity-header" onclick="toggleCard('act1')">
+      <div class="activity-icon">🧠</div>
+      <div class="activity-meta">
+        <div class="activity-type">Oppgave 1 – Flervalg</div>
+        <div class="activity-title">Test kunnskapen din om nøkkelbegreper</div>
+      </div>
+      <div class="activity-check">✓</div>
+      <div class="activity-chevron">▼</div>
+    </div>
+    <div class="activity-body">
+      <div id="quiz1Container"></div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="checkQuiz1()">Sjekk svar</button>
+        <button class="btn btn-secondary" onclick="resetQuiz1()">Start på nytt</button>
+      </div>
+      <div class="result-msg" id="quiz1Result"></div>
+      <div class="task-done-banner" id="act1-done">✓ Oppgave 1 fullført!</div>
+    </div>
+  </div>
+
+  <!-- ══ OPPGAVE 2: KOBLING ══ -->
+  <div class="activity-card" id="act2">
+    <div class="activity-header" onclick="toggleCard('act2')">
+      <div class="activity-icon">🔗</div>
+      <div class="activity-meta">
+        <div class="activity-type">Oppgave 2 – Kobling</div>
+        <div class="activity-title">Koble begrep til riktig definisjon</div>
+      </div>
+      <div class="activity-check">✓</div>
+      <div class="activity-chevron">▼</div>
+    </div>
+    <div class="activity-body">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">Klikk på et begrep til venstre, deretter riktig definisjon til høyre.</p>
+      <div class="match-wrap">
+        <div class="match-col"><div class="match-col-label">Begrep</div><div id="matchTerms"></div></div>
+        <div class="match-col"><div class="match-col-label">Definisjon</div><div id="matchDefs"></div></div>
+      </div>
+      <div class="btn-group"><button class="btn btn-secondary" onclick="resetMatch()">Start på nytt</button></div>
+      <div class="result-msg" id="matchResult"></div>
+      <div class="task-done-banner" id="act2-done">✓ Oppgave 2 fullført!</div>
+    </div>
+  </div>
+
+  <!-- ══ OPPGAVE 3: FYLL INN ══ -->
+  <div class="activity-card" id="act3">
+    <div class="activity-header" onclick="toggleCard('act3')">
+      <div class="activity-icon">✏️</div>
+      <div class="activity-meta">
+        <div class="activity-type">Oppgave 3 – Fyll inn</div>
+        <div class="activity-title">Fyll inn de manglende fagbegrepene</div>
+      </div>
+      <div class="activity-check">✓</div>
+      <div class="activity-chevron">▼</div>
+    </div>
+    <div class="activity-body">
+      <div id="fillBlanksText"></div>
+      <p class="blank-hint">Tips: Svarene er fagbegreper fra kapitlet om utholdenhet.</p>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="checkBlanks()">Sjekk svar</button>
+        <button class="btn btn-secondary" onclick="resetBlanks()">Nullstill</button>
+      </div>
+      <div class="result-msg" id="blanksResult"></div>
+      <div class="task-done-banner" id="act3-done">✓ Oppgave 3 fullført!</div>
+    </div>
+  </div>
+
+  <!-- ══ OPPGAVE 4: SANT/USANT ══ -->
+  <div class="activity-card" id="act4">
+    <div class="activity-header" onclick="toggleCard('act4')">
+      <div class="activity-icon">⚡</div>
+      <div class="activity-meta">
+        <div class="activity-type">Oppgave 4 – Sant eller usant</div>
+        <div class="activity-title">Er påstanden riktig?</div>
+      </div>
+      <div class="activity-check">✓</div>
+      <div class="activity-chevron">▼</div>
+    </div>
+    <div class="activity-body">
+      <div id="tfContainer"></div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="checkTF()">Sjekk svar</button>
+        <button class="btn btn-secondary" onclick="resetTF()">Start på nytt</button>
+      </div>
+      <div class="result-msg" id="tfResult"></div>
+      <div class="task-done-banner" id="act4-done">✓ Oppgave 4 fullført!</div>
+    </div>
+  </div>
+
+  <!-- ══ OPPGAVE 5: SORTERING ══ -->
+  <div class="activity-card" id="act5">
+    <div class="activity-header" onclick="toggleCard('act5')">
+      <div class="activity-icon">↕️</div>
+      <div class="activity-meta">
+        <div class="activity-type">Oppgave 5 – Sortering</div>
+        <div class="activity-title">Sorter treningsmetodene fra lavest til høyest intensitet</div>
+      </div>
+      <div class="activity-check">✓</div>
+      <div class="activity-chevron">▼</div>
+    </div>
+    <div class="activity-body">
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">Dra og slipp kortene slik at intensiteten øker fra topp (lavest) til bunn (høyest).</p>
+      <div class="sort-list" id="sortList"></div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="checkSort()">Sjekk rekkefølge</button>
+        <button class="btn btn-secondary" onclick="resetSort()">Bland igjen</button>
+      </div>
+      <div class="result-msg" id="sortResult"></div>
+      <div class="task-done-banner" id="act5-done">✓ Oppgave 5 fullført!</div>
+    </div>
+  </div>
+
+  <!-- ══ OPPGAVE 6: KRETSLØPET ══ -->
+  <div class="activity-card" id="act6">
+    <div class="activity-header" onclick="toggleCard('act6')">
+      <div class="activity-icon">🫀</div>
+      <div class="activity-meta">
+        <div class="activity-type">Oppgave 6 – Skriveoppgave</div>
+        <div class="activity-title">Forklar det store og det lille kretsløpet</div>
+      </div>
+      <div class="activity-check">✓</div>
+      <div class="activity-chevron">▼</div>
+    </div>
+    <div class="activity-body">
+      <div class="info-box">Forklar med egne ord hvordan det <strong>store</strong> og det <strong>lille kretsløpet</strong> fungerer. Bruk fagbegrepene: <span class="tt" data-tip="Hjertet har 4 kamre. Det venstre kammeret pumper oksygenrikt blod ut til kroppen. Det høyre kammeret pumper oksygenfattig blod til lungene.">hjertekammer</span>, <span class="tt" data-tip="De aller minste blodårene. Ligger tett rundt muskelfibrene og sørger for utveksling av O₂ og CO₂.">kapillærer</span>, <span class="tt" data-tip="Lungeblærer der gassutveksling skjer: O₂ tas opp i blodet fra innåndingsluften, mens CO₂ avgis til utåndingsluften.">alveolene</span>, <span class="tt" data-tip="Oksygen (O₂) – livsnødvendig gass som kroppen bruker til å frigjøre energi fra mat. Fraktes av røde blodceller.">oksygen (O₂)</span>, <span class="tt" data-tip="Karbondioksid (CO₂) – avfallsstoff fra energifrigjøringen i cellene. Fraktes tilbake til lungene og pustes ut.">karbondioksid (CO₂)</span>, <span class="tt" data-tip="Mengde blod hjertet pumper per slag. Ca. 75 ml i hvile. Øker med aerob trening til over 100 ml.">slagvolum</span>, <span class="tt" data-tip="Slagvolum × hjertefrekvens = totalt blod per minutt. Ca. 5,2 l/min i hvile, opptil 40 l/min ved maks trening hos toppidrettsutøvere.">minuttvolum</span>.</div>
+      <textarea class="open-textarea" id="openText1" placeholder="Skriv svaret ditt her..." rows="7"></textarea>
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="toggleModelAnswer('ma1')">💡 Vis modellesvar</button>
+        <button class="btn btn-primary" onclick="markOpenDone('act6','openText1')">Marker som fullført</button>
+      </div>
+      <div class="model-answer" id="ma1">
+        <strong>Det store kretsløpet:</strong> Oksygenrikt blod pumpes fra venstre hjertekammer ut i kroppen. Blodet transporteres via pulsårer til kapillærene rundt muskelfibrene, leverer O₂ og tar opp CO₂, og returnerer via blodårer til høyre side av hjertet.
+        <br><br><strong>Det lille kretsløpet:</strong> Oksygenfattig blod pumpes fra høyre hjertekammer inn i lungene. I alveolene (lungeblærene) skjer gassutveksling – blodet tar opp nytt O₂ og avgir CO₂. Det oksygenrike blodet strømmer tilbake til venstre hjertekammer, klar for nytt pumpeslag.
+      </div>
+      <div class="task-done-banner" id="act6-done">✓ Oppgave 6 fullført!</div>
+    </div>
+  </div>
+
+  <!-- ══ OPPGAVE 7: VIRKNINGER ══ -->
+  <div class="activity-card" id="act7">
+    <div class="activity-header" onclick="toggleCard('act7')">
+      <div class="activity-icon">💪</div>
+      <div class="activity-meta">
+        <div class="activity-type">Oppgave 7 – Skriveoppgave</div>
+        <div class="activity-title">Hva er hovedvirkningene av aerob og anaerob trening?</div>
+      </div>
+      <div class="activity-check">✓</div>
+      <div class="activity-chevron">▼</div>
+    </div>
+    <div class="activity-body">
+      <div class="info-box">Beskriv de viktigste <strong>fysiologiske virkningene</strong> av henholdsvis aerob og anaerob utholdenhetstrening. Nevn minst 3 virkninger for hver. Husk å skille mellom sentrale og perifere faktorer der det er relevant.</div>
+      <textarea class="open-textarea" id="openText2" placeholder="Skriv svaret ditt her..." rows="8"></textarea>
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="toggleModelAnswer('ma2')">💡 Vis modellesvar</button>
+        <button class="btn btn-primary" onclick="markOpenDone('act7','openText2')">Marker som fullført</button>
+      </div>
+      <div class="model-answer" id="ma2">
+        <strong>Aerob utholdenhetstrening gir:</strong>
+        Hjertet: Større slagvolum, større slagkraft, lavere hvilepuls. Lungene: Mer effektiv ventilasjon. Blodet/blodårene: Bedre O₂- og næringstransport, økt kapillærtetthet rundt muskler. Perifert: Muskelfibrene blir mer utholdende, mitokondriene øker i antall og størrelse, aerobe enzymer øker, bedre fettforbrenning. VO₂-maks øker, utnyttingsgrad øker, laktatterskel øker, bedre arbeidsøkonomi.
+        <br><br><strong>Anaerob utholdenhetstrening gir:</strong>
+        Anaerob energifrigjøring øker, bedre eliminasjon av melkesyre, anaerobe enzymer øker, evne til å presse seg tross smerter øker. <em>NB – for mye anaerob trening kan gi negative virkninger:</em> nedbryting av mitokondrier, tykke hjertevegger med lite slagvolum, redusert treningslyst hos unge.
+      </div>
+      <div class="task-done-banner" id="act7-done">✓ Oppgave 7 fullført!</div>
+    </div>
+  </div>
+
+
+  <!-- ══ LEVER INN ══ -->
+  <div class="print-submit-section">
+    <h3>📄 LEVER INN BESVARELSE</h3>
+    <p>Fyll inn navn og klasse, og klikk «Skriv ut / Lagre som PDF». Velg «Lagre som PDF» i utskriftsdialogen. Dato fylles ut automatisk.</p>
+
+    <div id="printChecklist" class="print-checklist"></div>
+
+    <div class="print-fields-row">
+      <div class="print-field">
+        <label>Fullt navn</label>
+        <input type="text" id="pName" placeholder="Ditt fulle navn..." oninput="syncStudentFields()" />
+      </div>
+      <div class="print-field">
+        <label>Klasse</label>
+        <input type="text" id="pClass" placeholder="f.eks. 1IFA" oninput="syncStudentFields()" />
+      </div>
+      <div class="print-field" style="justify-content:flex-end; opacity:0.7; pointer-events:none;">
+        <label>Innleveringsdato</label>
+        <div id="autoDateDisplay" style="font-family:'Inter',sans-serif; font-size:0.91rem; color:white; font-weight:600; padding:10px 13px; background:rgba(255,255,255,0.07); border:1.5px solid rgba(255,255,255,0.14); border-radius:8px;">–</div>
+      </div>
+    </div>
+
+    <button class="btn-print" onclick="doPrint()">🖨️&nbsp; Skriv ut / Lagre som PDF</button>
+    <p class="print-tip">Tips: I utskriftsdialogen → velg «Lagre som PDF» som skriver. Alle svar og valg du har gjort vil vises i utskriften.</p>
+  </div>
+
+  <!-- PRINT-ONLY header (hidden on screen, visible when printing) -->
+  <div class="print-only" id="printOnlyHeader" style="margin-bottom:16px; padding-bottom:12px; border-bottom:2px solid #0B1F3A;">
+    <table style="width:100%; font-size:10pt; font-family:Arial,sans-serif;">
+      <tr>
+        <td><strong>Elev:</strong> <span id="poName">–</span></td>
+        <td><strong>Klasse:</strong> <span id="poClass">–</span></td>
+        <td><strong>Dato:</strong> <span id="poDate">–</span></td>
+        <td style="text-align:right; color:#888;">Treningslære – Utholdenhet</td>
+      </tr>
+    </table>
+  </div>
+
+</main>
+
+<div id="globalTooltip"></div>
+
+<script>
+const TOTAL = 7;
+const completed = new Set();
+
+function updateProgress() {
+  const n = completed.size;
+  document.getElementById('progressFill').style.width = (n/TOTAL*100)+'%';
+  document.getElementById('progressCount').textContent = `${n} / ${TOTAL} fullført`;
+}
+
+function markComplete(id) {
+  completed.add(id);
+  document.getElementById(id).classList.add('completed');
+  document.getElementById(id+'-done').classList.add('show');
+  updateProgress();
+}
+
+function toggleCard(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ─── QUIZ 1 ───────────────────────────────────────────────
+const quizData = [
+  { q: 'Hva er definisjonen på maksimalt oksygenopptak (VO₂-maks)?',
+    opts: ['Mengden oksygen kroppen bruker ved hvile', 'Kroppen sin maksimale evne til å ta opp og omsette oksygen per minutt', 'Andelen av maks puls man kan jobbe på', 'Mengden melkesyre i blodet ved maks intensitet'],
+    correct: 1, fb: 'VO₂-maks måles i liter/min eller ml/kg/min og er trenbart – kan økes med opptil 40% hos utrente.' },
+  { q: 'Hva er utnyttingsgraden?',
+    opts: ['Prosentandelen fett kroppen forbrenner under trening', 'Det høyeste intensitetsnivået med likevekt i melkesyreproduksjon', 'Den gjennomsnittlige prosenten av VO₂-maks en utøver klarer å oppnå over en gitt arbeidstid', 'Antall slag hjertet tar per minutt'],
+    correct: 2, fb: 'Utnyttingsgraden er individuell – det er ikke nødvendigvis utøveren med høyest VO₂-maks som vinner et maratonløp, dersom en annen har bedre utnyttingsgrad.' },
+  { q: 'Hva vil si at en idrettsutøver har god arbeidsøkonomi?',
+    opts: ['Han tjener mye penger på idretten', 'Han bruker lite energi/oksygen ved en bestemt fart', 'Han har veldig høy makspuls', 'Han kan trene mange timer uten hvile'],
+    correct: 1, fb: 'God arbeidsøkonomi henger tett sammen med teknikk – å bruke kreftene rasjonelt senker oksygenforbruket ved en gitt fart.' },
+  { q: 'Hva skjer med hjertet etter langvarig aerob utholdenhetstrening?',
+    opts: ['Makspulsen øker', 'Slagvolumet øker og hvilepulsen synker', 'Hjertet pumper mindre blod per minutt', 'Hjertet slår raskere i hvile'],
+    correct: 1, fb: 'Aerob trening gir større slagvolum og slagkraft. Minuttvolum kan øke til 30–40 l/min hos godt trente, mot ca. 5,2 l/min i hvile.' },
+  { q: 'Hva er laktatterskelen (LT)?',
+    opts: ['Det laveste intensitetsnivået kroppen kan jobbe på', 'Det høyeste intensitetsnivået med full likevekt mellom produksjon og eliminasjon av melkesyre', 'Maksimalt antall kalorier kroppen kan forbrenne', 'Punktet der hjertet slår så fort det kan'],
+    correct: 1, fb: 'Godt trente har LT ved 80–90% av VO₂-maks (ca. 90% av maks HF). Dårlig trente: 65–75% av VO₂-maks.' },
+  { q: 'Hva er minuttvolum?',
+    opts: ['Hvor lenge man kan løpe per minutt', 'Slagvolum multiplisert med hjertefrekvens', 'Antall kalorier forbrent per minutt', 'Mengde oksygen opptatt per minutt'],
+    correct: 1, fb: 'Minuttvolum = slagvolum × HF. I hvile ca. 5,2 l/min (75 ml × 70 slag). Under hard trening: 30–40 l/min.' }
+];
+
+let quiz1Answers = [];
+
+function renderQuiz1() {
+  const c = document.getElementById('quiz1Container');
+  c.innerHTML = '';
+  quiz1Answers = quizData.map(() => null);
+  const letters = ['A','B','C','D'];
+  quizData.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.innerHTML = `<div class="quiz-q">${qi+1}. ${q.q}</div>
+      <div class="quiz-options">${q.opts.map((o,oi)=>`<div class="quiz-option" data-qi="${qi}" data-oi="${oi}" onclick="pickQ(${qi},${oi},this)">
+        <span class="opt-letter">${letters[oi]}</span><span>${o}</span></div>`).join('')}</div>
+      <div class="quiz-feedback" id="qf${qi}"></div>`;
+    c.appendChild(div);
+  });
+}
+
+function pickQ(qi, oi, el) {
+  if (el.classList.contains('disabled')) return;
+  document.querySelectorAll(`[data-qi="${qi}"]`).forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  quiz1Answers[qi] = oi;
+}
+
+function checkQuiz1() {
+  let correct = 0;
+  quizData.forEach((q, qi) => {
+    const opts = document.querySelectorAll(`[data-qi="${qi}"]`);
+    opts.forEach(e => { e.classList.remove('selected'); e.classList.add('disabled'); });
+    if (quiz1Answers[qi] === q.correct) { opts[q.correct].classList.add('correct'); correct++; }
+    else { if (quiz1Answers[qi] !== null) opts[quiz1Answers[qi]].classList.add('wrong'); opts[q.correct].classList.add('correct'); }
+    const fb = document.getElementById('qf'+qi);
+    const ok = quiz1Answers[qi] === q.correct;
+    fb.className = 'quiz-feedback show ' + (ok ? 'good' : 'bad');
+    fb.textContent = (ok ? '✓ Riktig! ' : '✗ Feil. ') + q.fb;
+  });
+  const r = document.getElementById('quiz1Result');
+  r.className = 'result-msg show ' + (correct >= 5 ? 'great' : 'ok');
+  r.textContent = correct >= 5 ? `🎉 Flott! ${correct} av ${quizData.length} riktige!` : `${correct} av ${quizData.length} riktige – les tilbakemeldingene og prøv igjen!`;
+  if (correct >= 5) markComplete('act1');
+}
+
+function resetQuiz1() {
+  document.getElementById('quiz1Result').className = 'result-msg';
+  completed.delete('act1'); document.getElementById('act1').classList.remove('completed');
+  document.getElementById('act1-done').classList.remove('show'); updateProgress();
+  renderQuiz1();
+}
+renderQuiz1();
+
+// ─── MATCH ────────────────────────────────────────────────
+const matchPairs = [
+  { term: 'VO₂-maks', def: 'Maks evne til å ta opp og omsette O₂ per minutt' },
+  { term: 'Utnyttingsgrad', def: 'Andel av VO₂-maks man klarer å jobbe på over tid' },
+  { term: 'Laktatterskel', def: 'Maks intensitet med likevekt i melkesyreproduksjon' },
+  { term: 'Arbeidsøkonomi', def: 'Energibruk ved bestemt fart – påvirkes av teknikk' },
+  { term: 'Slagvolum', def: 'Mengde blod hjertet pumper ut per slag' },
+  { term: 'Minuttvolum', def: 'Slagvolum multiplisert med hjertefrekvens' },
+  { term: 'Alveolene', def: 'Lungeblærer der gassutveksling mellom luft og blod skjer' },
+];
+let selTerm = null;
+let matchedCnt = 0;
+
+function renderMatch() {
+  selTerm = null; matchedCnt = 0;
+  const shuffled = [...matchPairs.map(p=>p.def)].sort(()=>Math.random()-0.5);
+  const tCol = document.getElementById('matchTerms');
+  const dCol = document.getElementById('matchDefs');
+  tCol.innerHTML = ''; dCol.innerHTML = '';
+  matchPairs.forEach((p,i) => {
+    const t = document.createElement('div'); t.className = 'match-item term'; t.textContent = p.term; t.dataset.idx = i;
+    t.onclick = () => { if(t.classList.contains('matched-correct')) return; document.querySelectorAll('.match-item.term').forEach(e=>e.classList.remove('selected-term')); t.classList.add('selected-term'); selTerm={el:t,idx:i}; };
+    tCol.appendChild(t);
+  });
+  shuffled.forEach(d => {
+    const el = document.createElement('div'); el.className = 'match-item definition'; el.textContent = d;
+    el.onclick = () => {
+      if (!selTerm || el.classList.contains('matched-correct')) return;
+      if (matchPairs[selTerm.idx].def === d) {
+        selTerm.el.classList.remove('selected-term'); selTerm.el.classList.add('matched-correct');
+        el.classList.add('matched-correct'); matchedCnt++;
+        selTerm = null;
+        if (matchedCnt === matchPairs.length) {
+          const r = document.getElementById('matchResult');
+          r.className = 'result-msg show great'; r.textContent = '🎉 Perfekt! Alle begreper koblet riktig!';
+          markComplete('act2');
+        }
+      } else {
+        el.classList.add('matched-wrong'); setTimeout(()=>el.classList.remove('matched-wrong'), 500);
+      }
+    };
+    dCol.appendChild(el);
+  });
+}
+
+function resetMatch() {
+  document.getElementById('matchResult').className = 'result-msg';
+  completed.delete('act2'); document.getElementById('act2').classList.remove('completed');
+  document.getElementById('act2-done').classList.remove('show'); updateProgress(); renderMatch();
+}
+renderMatch();
+
+// ─── FILL BLANKS ──────────────────────────────────────────
+const blanks = [
+  { before: 'Anaerob utholdenhet er organismen sin evne til å arbeide med svært høg intensitet over ein forhaldsvis ', blank: 'kort', after: ' periode.' },
+  { before: 'For å trene utholdenhet effektivt må vi belaste kroppen hardare enn det vi har gjort ', blank: 'tidlegare', after: '. Dette kalles overbelastningsprinsippet.' },
+  { before: 'Treningsbelastningen påvirkes av varighet, ', blank: 'hyppighet', after: ' og intensitet.' },
+  { before: 'Hjertet sitt ', blank: 'minuttvolum', after: ' er den viktigaste faktoren som påverkar maks. oksygenopptak.' },
+  { before: 'Godt trente utøvere har laktatterskel ved rundt ', blank: '80-90', after: ' % av maksimalt oksygenopptak.' },
+  { before: 'For å få effekt av utholdenhetstrening må hjertet fylles maksimalt. Dette skjer fra ', blank: '60', after: ' % av maks hjertefrekvens.' },
+];
+
+function renderBlanks() {
+  document.getElementById('fillBlanksText').innerHTML = blanks.map((b,i)=>
+    `<p class="blank-para">${b.before}<input class="blank-input" id="bl${i}" placeholder="..." data-ans="${b.blank}">${b.after}</p>`
+  ).join('');
+}
+
+function checkBlanks() {
+  let correct = 0;
+  blanks.forEach((b,i) => {
+    const inp = document.getElementById('bl'+i);
+    const val = inp.value.trim().toLowerCase().replace(/\s/g,'');
+    const ans = b.blank.toLowerCase().replace(/\s/g,'');
+    inp.classList.remove('correct','wrong');
+    const ok = val === ans || ans.includes(val) || val.includes(ans) || (ans==='80-90' && (val.includes('80')||val.includes('85')||val.includes('90')));
+    inp.classList.add(ok ? 'correct' : 'wrong');
+    if (ok) correct++;
+  });
+  const r = document.getElementById('blanksResult');
+  r.className = 'result-msg show ' + (correct >= 5 ? 'great' : 'ok');
+  r.textContent = correct >= 5 ? `🎉 ${correct} av ${blanks.length} riktige!` : `${correct} av ${blanks.length} riktige – sjekk de røde feltene!`;
+  if (correct >= 5) markComplete('act3');
+}
+
+function resetBlanks() {
+  document.getElementById('blanksResult').className = 'result-msg';
+  completed.delete('act3'); document.getElementById('act3').classList.remove('completed');
+  document.getElementById('act3-done').classList.remove('show'); updateProgress(); renderBlanks();
+}
+renderBlanks();
+
+// ─── TRUE/FALSE ───────────────────────────────────────────
+const tfData = [
+  { stmt: 'Makspulsen er trenbar og kan økes med systematisk trening.', ans: false, exp: 'Makspulsen er individuell og IKKE trenbar. Formelen er ca. 220 minus personens alder.' },
+  { stmt: 'Anaerob utholdenhetstrening kan ha negative virkninger – som nedbryting av mitokondrier og redusert treningslyst hos unge.', ans: true, exp: 'Riktig! For mye anaerob trening gir tykke hjertevegger, lite slagvolum og kan ødelegge mitokondriene.' },
+  { stmt: 'En idrettsutøver med høyest VO₂-maks vil alltid vinne et maratonløp.', ans: false, exp: 'Nei – utnyttingsgrad og arbeidsøkonomi er like viktige. Bedre utnyttingsgrad kan kompensere for lavere VO₂-maks.' },
+  { stmt: 'Langkjøring er en aerob treningsmetode med kontinuerlig belastning.', ans: true, exp: 'Riktig! Langkjøring er kontinuerlig aerob trening, typisk 60–85% av maks HF over 20 min til flere timer.' },
+  { stmt: 'Helsedirektoratets retningslinje anbefaler minst 3 halvtimers utholdenhetsøkter per uke.', ans: true, exp: 'Riktig! Minst 3 × 30 min i uken anbefales for helsegevinst, og man trenger ikke høy intensitet.' },
+  { stmt: 'Kortintervaller er en anaerob treningsmetode.', ans: false, exp: 'Kortintervall (10–60 sek per rep, 85–95% HF) er faktisk en AEROB intervallmetode. De anaerobe metodene er tempointervaller og testløp.' },
+];
+
+let tfAnswers = [];
+
+function renderTF() {
+  tfAnswers = new Array(tfData.length).fill(null);
+  document.getElementById('tfContainer').innerHTML = tfData.map((t,i)=>`
+    <div class="tf-row">
+      <div class="tf-stmt">${i+1}. ${t.stmt}</div>
+      <div class="tf-btns">
+        <button class="tf-btn" id="tf${i}S" onclick="pickTF(${i},'S')">✓ Sant</button>
+        <button class="tf-btn" id="tf${i}U" onclick="pickTF(${i},'U')">✗ Usant</button>
+      </div>
+      <div class="tf-feedback" id="tff${i}"></div>
+    </div>`).join('');
+}
+
+function pickTF(i,w) {
+  ['S','U'].forEach(x=>{ const e=document.getElementById('tf'+i+x); e.classList.remove('selected-sant','selected-usant'); });
+  document.getElementById('tf'+i+w).classList.add(w==='S'?'selected-sant':'selected-usant');
+  tfAnswers[i] = w==='S';
+}
+
+function checkTF() {
+  let correct = 0;
+  tfData.forEach((t,i) => {
+    ['S','U'].forEach(w=>{ const e=document.getElementById('tf'+i+w); e.classList.add('disabled'); e.classList.remove('selected-sant','selected-usant'); });
+    const sEl = document.getElementById('tf'+i+'S'), uEl = document.getElementById('tf'+i+'U');
+    const ok = tfAnswers[i] === t.ans;
+    if (ok) correct++;
+    if (t.ans) sEl.classList.add('correct'); else uEl.classList.add('correct');
+    if (!ok && tfAnswers[i]!==null) (tfAnswers[i]?sEl:uEl).classList.add('wrong');
+    const fb = document.getElementById('tff'+i);
+    fb.className = 'tf-feedback show ' + (ok?'good':'bad');
+    fb.textContent = (ok?'✓ Riktig! ':'✗ Feil. ') + t.exp;
+  });
+  const r = document.getElementById('tfResult');
+  r.className = 'result-msg show ' + (correct >= 5 ? 'great' : 'ok');
+  r.textContent = correct >= 5 ? `🎉 Imponerende! ${correct} av ${tfData.length} riktige!` : `${correct} av ${tfData.length} – les forklaringene og prøv igjen!`;
+  if (correct >= 5) markComplete('act4');
+}
+
+function resetTF() {
+  document.getElementById('tfResult').className = 'result-msg';
+  completed.delete('act4'); document.getElementById('act4').classList.remove('completed');
+  document.getElementById('act4-done').classList.remove('show'); updateProgress(); renderTF();
+}
+renderTF();
+
+// ─── SORT ─────────────────────────────────────────────────
+const sortItems = [
+  { label: 'Langkjøring', sub: 'Kontinuerlig aerob / 60–85% HFmaks', correct: 0 },
+  { label: 'Hurtig langkjøring', sub: 'Kontinuerlig aerob / 85–95% HFmaks', correct: 1 },
+  { label: 'Langintervall', sub: 'Aerob intervall / 80–95% HFmaks', correct: 2 },
+  { label: 'Kortintervall / Pyramide', sub: 'Aerob intervall / 85–95% HFmaks', correct: 3 },
+  { label: 'Submaksimale tempointervaller', sub: 'Anaerob / konkurransetempo', correct: 4 },
+  { label: 'Korte/lange tempointervaller (maks)', sub: 'Anaerob / 100% HFmaks', correct: 5 },
+];
+let sortCurrent = [];
+let dragSrc = null;
+
+function renderSort() {
+  sortCurrent = [...sortItems].sort(()=>Math.random()-0.5);
+  const list = document.getElementById('sortList');
+  list.innerHTML = '';
+  sortCurrent.forEach((item,i) => {
+    const el = document.createElement('div');
+    el.className = 'sort-item'; el.draggable = true; el.dataset.origIdx = i;
+    el.innerHTML = `<span class="drag-handle">⠿</span><span class="sort-num">${i+1}</span><div class="sort-label">${item.label}<div class="sort-sub">${item.sub}</div></div>`;
+    el.addEventListener('dragstart', () => { dragSrc = el; setTimeout(()=>el.classList.add('dragging'),0); });
+    el.addEventListener('dragend', () => { el.classList.remove('dragging'); refreshSortNums(); });
+    el.addEventListener('dragover', e => { e.preventDefault(); const after = getDragAfter(list,e.clientY); if(after) list.insertBefore(dragSrc,after); else list.appendChild(dragSrc); });
+    list.appendChild(el);
+  });
+}
+
+function getDragAfter(list, y) {
+  const els = [...list.querySelectorAll('.sort-item:not(.dragging)')];
+  return els.reduce((closest,el) => {
+    const box = el.getBoundingClientRect();
+    const offset = y - box.top - box.height/2;
+    return offset < 0 && offset > closest.offset ? { offset, el } : closest;
+  }, { offset: Number.NEGATIVE_INFINITY }).el;
+}
+
+function refreshSortNums() {
+  document.querySelectorAll('#sortList .sort-num').forEach((el,i)=>el.textContent=i+1);
+}
+
+function checkSort() {
+  const items = document.querySelectorAll('#sortList .sort-item');
+  let correct = 0;
+  items.forEach((el,pos) => {
+    const origIdx = parseInt(el.dataset.origIdx);
+    if (sortCurrent[origIdx].correct === pos) correct++;
+  });
+  const r = document.getElementById('sortResult');
+  r.className = 'result-msg show ' + (correct >= 5 ? 'great' : 'ok');
+  r.textContent = correct >= 5 ? `🎉 Riktig! Intensiteten øker fra rolig langkjøring til anaerobe maksintervaller.` : `${correct} av ${sortItems.length} på riktig plass. Husk: aerob kontinuerlig → aerob intervall → anaerob.`;
+  if (correct >= 5) markComplete('act5');
+}
+
+function resetSort() {
+  document.getElementById('sortResult').className = 'result-msg';
+  completed.delete('act5'); document.getElementById('act5').classList.remove('completed');
+  document.getElementById('act5-done').classList.remove('show'); updateProgress(); renderSort();
+}
+renderSort();
+
+// ─── OPEN TASKS ───────────────────────────────────────────
+function toggleModelAnswer(id) {
+  document.getElementById(id).classList.toggle('show');
+}
+
+function markOpenDone(actId, textId) {
+  const txt = document.getElementById(textId).value.trim();
+  if (txt.length < 60) { alert('Skriv et mer fullstendig svar – forsøk å bruke de oppgitte fagbegrepene!'); return; }
+  markComplete(actId);
+}
+
+// ─── DURATION SLIDER ──────────────────────────────────────
+const sliderZones = [
+  {
+    maxSec: 60,
+    label: 'ANAEROB', type: 'anaerob',
+    metode: 'Korte tempointervaller',
+    aerobPct: 15, intensityPct: 100,
+    hf: '95–100%\nav HFmaks',
+    desc: 'Svært høy til maksimal intensitet. Overhastighet i forhold til konkurransetempo. 2–6 repetisjoner à 20–60 sekunder med 8–20 minutters pause mellom hvert drag.',
+    sports: ['🏃 Sprint 100m','🏃 Sprint 200m','🏊 Svømming 50m','🚴 Bane-sprint','🏋️ Vektløfting','⚡ Styrkeidrett']
+  },
+  {
+    maxSec: 180,
+    label: 'ANAEROB', type: 'anaerob',
+    metode: 'Lange tempointervaller / Testløp',
+    aerobPct: 38, intensityPct: 97,
+    hf: '95–100%\nav HFmaks',
+    desc: 'Lange tempointervaller: 40 sekunder – 2 minutter per rep, 2–6 reps med 8–20 min pause. Testløp og konkurranser på 200–800 m kjøres med maksimal intensitet.',
+    sports: ['🏃 400m løp','🏃 800m løp','🏊 Svømming 100m','🏊 Svømming 200m','🚣 Roing 500m','⛸️ Hurtigløp 500m']
+  },
+  {
+    maxSec: 600,
+    label: 'OVERGANG', type: 'overgang',
+    metode: 'Kortintervall / Pyramideintervall',
+    aerobPct: 70, intensityPct: 90,
+    hf: '85–95%\nav HFmaks',
+    desc: 'Kortintervall: 1–5 serier med 5–40 reps à 10–60 sekunder. Pyramideintervall: 3–12 reps à 0,5–8 min, 80–95% HF. Overveiende aerob, men med klart anaerobt bidrag.',
+    sports: ['🏃 1500m løp','🏃 3000m løp','🚴 Pursuit sykling','🏊 Svømming 400m','🎿 Langrenn sprint','🏸 Badminton']
+  },
+  {
+    maxSec: 3600,
+    label: 'AEROB', type: 'aerob',
+    metode: 'Langintervall / Fartslek / Naturlig intervall',
+    aerobPct: 92, intensityPct: 83,
+    hf: '80–95%\nav HFmaks',
+    desc: 'Langintervall: 2–10 reps à 1,5–10 min med aktiv pause, 80–95% HF. Naturlig intervall og fartslek: 20–90 min, styrt av terreng eller treningslyst, 80–90% HF.',
+    sports: ['🏃 5 km løp','🏃 10 km løp','🚴 Sykkelritt','🎿 Langrenn (distanse)','🏃 Terrengløp','🧭 Orientering']
+  },
+  {
+    maxSec: 10800,
+    label: 'AEROB', type: 'aerob',
+    metode: 'Langkjøring / Hurtig langkjøring',
+    aerobPct: 98, intensityPct: 68,
+    hf: '60–85%\nav HFmaks',
+    desc: 'Langkjøring: 20 min til flere timer i 60–85% av HFmaks – den klassiske aerobe basisøkten. Hurtig langkjøring: 10 min til 1 time+ i 85–95% HF. Bygger det aerobe grunnlaget.',
+    sports: ['🏃 Halvmaraton','🏃 Maraton','🚴 Langdistanse sykling','🎿 Langrennstur','🏊 Åpent vann','🚶 Fjelltur']
+  }
+];
+
+function sliderToSec(pos) {
+  return Math.round(10 * Math.exp((pos / 100) * Math.log(1080)));
+}
+
+function fmtTime(s) {
+  if (s < 60) return s + ' sek';
+  if (s < 3600) {
+    const m = Math.floor(s / 60), r = s % 60;
+    return r ? m + ' min ' + r + ' sek' : m + ' min';
+  }
+  const h = Math.floor(s / 3600), m = Math.round((s % 3600) / 60);
+  return m ? h + ' t ' + m + ' min' : h + ' time';
+}
+
+function updateSlider() {
+  const pos = parseInt(document.getElementById('durationSlider').value);
+  const sec = sliderToSec(pos);
+  const z = sliderZones.find(z => sec <= z.maxSec) || sliderZones[sliderZones.length - 1];
+
+  // Time + zone
+  document.getElementById('sliderTime').textContent = fmtTime(sec);
+  document.getElementById('sliderBadge').textContent = z.label;
+  document.getElementById('sliderBadge').className = 'slider-zone-badge badge-' + z.type;
+  document.getElementById('sliderMethod').textContent = z.metode;
+  document.getElementById('sliderDesc').textContent = z.desc;
+  document.getElementById('sliderHf').innerHTML = z.hf;
+
+  // Energy bar
+  const ae = z.aerobPct, an = 100 - ae;
+  document.getElementById('segAn').style.width = an + '%';
+  document.getElementById('segAe').style.width = ae + '%';
+  document.getElementById('anPct').textContent = an;
+  document.getElementById('aePct').textContent = ae;
+
+  // Intensity bar
+  const ip = z.intensityPct;
+  const intFill = document.getElementById('intensityFill');
+  intFill.style.width = ip + '%';
+  const intColor = ip >= 95 ? 'var(--orange)' : ip >= 85 ? '#c87020' : ip >= 75 ? '#c8a000' : 'var(--teal)';
+  intFill.style.background = intColor;
+  document.getElementById('intensityLabel').textContent = '~' + ip + '%';
+  document.getElementById('intensityLabel').style.color = intColor;
+
+  // Sports pills
+  const pillsEl = document.getElementById('sportsPills');
+  pillsEl.innerHTML = z.sports.map(s =>
+    `<span class="sport-pill sport-pill-${z.type}">${s}</span>`
+  ).join('');
+
+  // Panel border color
+  document.getElementById('sliderInfo').className = 'slider-info zone-' + z.type;
+}
+updateSlider();
+
+// ─── TOOLTIPS ─────────────────────────────────────────────
+const ttEl = document.getElementById('globalTooltip');
+document.addEventListener('mousemove', e => {
+  const t = e.target.closest('.tt');
+  if (!t) { ttEl.style.display = 'none'; return; }
+  ttEl.innerHTML = '<strong>' + t.textContent.replace(/<[^>]+>/g,'').trim() + '</strong>' + t.dataset.tip;
+  ttEl.style.display = 'block';
+  let x = e.clientX + 14, y = e.clientY - 8;
+  ttEl.style.left = x + 'px'; ttEl.style.top = y + 'px';
+  const r = ttEl.getBoundingClientRect();
+  if (r.right > window.innerWidth - 8) ttEl.style.left = (e.clientX - r.width - 14) + 'px';
+  if (r.bottom > window.innerHeight - 8) ttEl.style.top = (e.clientY - r.height - 8) + 'px';
+});
+document.addEventListener('mouseleave', () => { ttEl.style.display = 'none'; });
+
+// ─── STUDENT FIELDS (name + class only, date is automatic) ──
+const todayDate = new Date();
+const todayFormatted = todayDate.toLocaleDateString('no-NO', {day:'2-digit', month:'long', year:'numeric'});
+const todayISO = todayDate.toISOString().split('T')[0];
+
+// Show auto-date in the display box and print header immediately
+document.getElementById('autoDateDisplay').textContent = todayFormatted;
+document.getElementById('poDate').textContent = todayFormatted;
+
+function syncStudentFields() {
+  const n = document.getElementById('pName').value.trim();
+  const c = document.getElementById('pClass').value.trim();
+  // Sync top bar ↔ bottom section
+  if (document.getElementById('sName')) document.getElementById('sName').value = n;
+  if (document.getElementById('sClass')) document.getElementById('sClass').value = c;
+  // Update print-only header
+  document.getElementById('poName').textContent = n || '–';
+  document.getElementById('poClass').textContent = c || '–';
+  document.getElementById('poDate').textContent = todayFormatted;
+}
+
+// Sync top bar → bottom section
+['sName','sClass'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => {
+    if (document.getElementById('sName')) document.getElementById('pName').value = document.getElementById('sName').value;
+    if (document.getElementById('sClass')) document.getElementById('pClass').value = document.getElementById('sClass').value;
+    syncStudentFields();
+  });
+});
+
+syncStudentFields();
+
+// ─── PRINT CHECKLIST ──────────────────────────────────────
+function updatePrintChecklist() {
+  const labels = ['Oppg. 1','Oppg. 2','Oppg. 3','Oppg. 4','Oppg. 5','Oppg. 6','Oppg. 7'];
+  const ids = ['act1','act2','act3','act4','act5','act6','act7'];
+  const c = document.getElementById('printChecklist');
+  c.innerHTML = ids.map((id,i) =>
+    `<span class="pci ${completed.has(id)?'done':''}">
+      ${completed.has(id)?'✓':'○'} ${labels[i]}</span>`
+  ).join('');
+}
+const origMarkComplete = markComplete;
+// Patch markComplete to also update checklist
+const _mc = markComplete;
+// Override updateProgress to also refresh checklist
+const _up = updateProgress;
+function updateProgress() {
+  const n = completed.size;
+  document.getElementById('progressFill').style.width = (n/TOTAL*100)+'%';
+  document.getElementById('progressCount').textContent = `${n} / ${TOTAL} fullført`;
+  updatePrintChecklist();
+}
+updatePrintChecklist();
+
+// ─── PRINT / PDF ──────────────────────────────────────────
+function doPrint() {
+  // Sync print header
+  syncStudentFields();
+  // Open all activity cards for print
+  document.querySelectorAll('.activity-card').forEach(c => c.classList.add('open'));
+  // Brief delay to let DOM update
+  setTimeout(() => { window.print(); }, 120);
+}
+</script>
+</body>
+</html>
