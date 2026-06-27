@@ -424,7 +424,7 @@
     <li><a href="#emner">Emner</a></li>
     <li><a href="#">Kapitler</a></li>
     <li><a href="#">Ressurser</a></li>
-    <li><a href="#">Om</a></li>
+    <li><a href="#om">Om</a></li>
   </ul>
 </nav>
 
@@ -496,6 +496,38 @@
   <div class="subject-grid" id="subjectGrid"></div>
 </section>
 
+<!-- OM SEKSJONEN -->
+<section id="om" style="background: var(--bg-mid); padding: 5rem 2rem;">
+  <div style="max-width: 760px; margin: 0 auto;">
+    <p class="intro-label reveal" style="font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;">Om siden</p>
+    <h2 class="reveal" style="font-family:'Barlow Condensed',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;text-transform:uppercase;color:var(--text);margin-bottom:2rem;line-height:1.05;">Om Edvin's Idretts Lab</h2>
+
+    <div class="reveal" style="background:#d4edda;border:1.5px solid #a8d5b5;border-radius:14px;padding:2.5rem;">
+
+      <p style="font-size:0.95rem;color:var(--text-mid);line-height:1.85;margin-bottom:1.2rem;">
+        👋 Hei! Jeg er Edvin, lærer på idrettsfag og lidenskapelig opptatt av at elever skal ha tilgang på gode, digitale læringsressurser.
+      </p>
+
+      <p style="font-size:0.95rem;color:var(--text-mid);line-height:1.85;margin-bottom:1.2rem;">
+        🎯 Idrettsfag har lenge manglet de nettressursene som finnes i mange andre fag. Edvin's Idretts Lab er mitt forsøk på å gjøre noe med det – et nettsted bygget for elever og lærere på idrettsfag, hvor fagstoffet er samlet på ett sted og presentert på en måte som gjør det enkelt å lære. Nettsiden er ment som et supplement til fagbøkene, og erstatter ikke disse.
+      </p>
+
+      <p style="font-size:0.95rem;color:var(--text-mid);line-height:1.85;margin-bottom:1.2rem;">
+        📚 Alt innhold er basert på fagbøkene i de ulike fagene, samt presentasjoner utviklet av meg og mine kolleger. Her finner du teori, oppgaver og ressurser knyttet til treningslære, aktivitetslære, friluftsliv, toppidrett og mer.
+      </p>
+
+      <p style="font-size:0.95rem;color:var(--text-mid);line-height:1.85;margin-bottom:1.2rem;">
+        🤖 Nettsidene er utviklet med hjelp av AI-verktøyet Claude, og flere av illustrasjonene er generert ved hjelp av ChatGPT. Bruken av kunstig intelligens har gjort det mulig for én lærer å utvikle dette nettstedet på egen hånd. Som med alt AI-generert innhold oppfordres både elever og lærere til å være kritiske – fagbøkene og andre godkjente kilder bør alltid brukes som en kvalitetssjekk.
+      </p>
+
+      <p style="font-size:0.95rem;color:var(--text-mid);line-height:1.85;margin-bottom:0;">
+        🚧 Vær oppmerksom på at dette er et pågående arbeid. Nye kapitler og emner legges til løpende, og det vil ta tid før alle fag er fullstendig dekket. Kom gjerne tilbake – det skjer stadig noe nytt her!
+      </p>
+
+    </div>
+  </div>
+</section>
+
 <footer>
   Laget for idrettsstudenter, trenere og nysgjerrige &nbsp;·&nbsp; <span>Edvin's Idretts Lab</span> &nbsp;·&nbsp; Faglig forankret kunnskap
 </footer>
@@ -538,37 +570,30 @@ const items = [
     ]
   },
   {
-    isFolder: true, icon: "💪", tag: "Trening", tagColor: "#E8380D",
-    name: "Treningslære",
-    desc: "Treningslære 1 og 2 – fra grunnleggende treningsprinsipper til idrettspsykologi og helse.",
-    subjects: [
-      {
-        icon: "💪", tag: "Del 1", tagColor: "#E8380D",
-        name: "Treningslære 1",
-        desc: "Grunnleggende treningslære – oppvarming, utholdenhet, styrke, bevegelighet, spenst, hurtighet, koordinasjon, teknikk og taktikk.",
-        fill: 95,
-        chapters: [
-          "Trening, fellesskap og glede","Oppvarming",{name:"Utholdenhetstrening",url:"Treningslære/Utholdenhetstrening.html"},
-          "Styrketrening","Bevegelsestrening","Spensttrening","Hurtighetstrening",
-          "Koordinasjonstrening","Teknikktrening","Taktikk","Basistrening",
-          "Treningsplanlegging","Kroppens oppbygning og funksjon",
-          "Idrettsskader","Ernæring, restitusjon og livsstil",
-        ]
-      },
-      {
-        icon: "🏋️", tag: "Del 2", tagColor: "#C0392B",
-        name: "Treningslære 2",
-        desc: "Videregående treningslære – idrettspsykologi, mental trening, treningsplanlegging og trening og helse.",
-        fill: 90,
-        chapters: [
-          "Idrettspsykologi og mental trening",
-          "Mer om treningsplanlegging",
-          "Trening og helse",
-          "Bevegelseslære",
-          "Energiomsetning",
-          "Tester",
-        ]
-      },
+    icon: "💪", tag: "Treningslære 1", tagColor: "#E8380D",
+    name: "Treningslære 1",
+    desc: "Grunnleggende treningslære – oppvarming, utholdenhet, styrke, bevegelighet, spenst, hurtighet, koordinasjon, teknikk og taktikk.",
+    fill: 95,
+    chapters: [
+      "Trening, fellesskap og glede","Oppvarming","Utholdenhetstrening",
+      "Styrketrening","Bevegelsestrening","Spensttrening","Hurtighetstrening",
+      "Koordinasjonstrening","Teknikktrening","Taktikk","Basistrening",
+      "Treningsplanlegging","Kroppens oppbygning og funksjon",
+      "Idrettsskader","Ernæring, restitusjon og livsstil",
+    ]
+  },
+  {
+    icon: "🏋️", tag: "Treningslære 2", tagColor: "#C0392B",
+    name: "Treningslære 2",
+    desc: "Videregående treningslære – idrettspsykologi, mental trening, treningsplanlegging og trening og helse.",
+    fill: 90,
+    chapters: [
+      "Idrettspsykologi og mental trening",
+      "Mer om treningsplanlegging",
+      "Trening og helse",
+      "Bevegelseslære",
+      "Energiomsetning",
+      "Tester",
     ]
   },
   {
@@ -625,15 +650,12 @@ function makeSubjectCard(s, delay) {
   const card = document.createElement("div");
   card.className = "subject-card reveal";
   card.style.transitionDelay = delay + "ms";
-  const chapHTML = s.chapters.map((c, ci) => {
-    const name = typeof c === "object" ? c.name : c;
-    const href = typeof c === "object" ? c.url : "#";
-    return `<a class="chapter-item" href="${href}">
+  const chapHTML = s.chapters.map((c, ci) =>
+    `<a class="chapter-item" href="#">
       <span class="chapter-num">${String(ci+1).padStart(2,"0")}</span>
-      <span>${name}</span>
+      <span>${c}</span>
       <span class="chapter-arrow">→</span>
-    </a>`;
-  }).join("");
+    </a>`).join("");
   card.innerHTML = `
     <div class="subject-card-header">
       <span class="subject-icon">${s.icon}</span>
@@ -696,9 +718,9 @@ function makeFolderCard(folder, delay) {
 function matchesQuery(item, q) {
   if (!q) return true;
   if (item.isFolder) return item.name.toLowerCase().includes(q) ||
-    item.subjects.some(s => s.name.toLowerCase().includes(q) || s.chapters.some(c => (typeof c==="object"?c.name:c).toLowerCase().includes(q)));
+    item.subjects.some(s => s.name.toLowerCase().includes(q) || s.chapters.some(c => c.toLowerCase().includes(q)));
   return item.name.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q) ||
-    item.chapters.some(c => (typeof c==="object"?c.name:c).toLowerCase().includes(q));
+    item.chapters.some(c => c.toLowerCase().includes(q));
 }
 
 function buildCards() {
