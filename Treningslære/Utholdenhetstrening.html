@@ -2051,10 +2051,9 @@ function renderBlanks() {
 let activeBlankIdx = null;
 function setActiveBlank(i) { activeBlankIdx = i; }
 function renderWordBank() {
-  const words = blanks.map((b, i) => ({ word: b.blank, idx: i }))
-    .sort(() => Math.random() - 0.5);
-  document.getElementById('wordBankPills').innerHTML = words.map(({word, idx}) =>
-    `<span class="word-pill" id="wp${idx}" onclick="insertWord('${word}',${idx})">${word}</span>`
+  const words = blanks.map(b => b.blank);
+  document.getElementById('wordBankPills').innerHTML = words.map((w,i) =>
+    `<span class="word-pill" id="wp${i}" onclick="insertWord('${w}',${i})">${w}</span>`
   ).join('');
 }
 function insertWord(word, wordIdx) {
