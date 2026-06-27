@@ -575,7 +575,7 @@ const items = [
     desc: "Grunnleggende treningslære – oppvarming, utholdenhet, styrke, bevegelighet, spenst, hurtighet, koordinasjon, teknikk og taktikk.",
     fill: 95,
     chapters: [
-      "Trening, fellesskap og glede","Oppvarming","Utholdenhetstrening",
+      "Trening, fellesskap og glede","Oppvarming",{name:"Utholdenhetstrening",url:"Treningslære/Utholdenhetstrening.html"},
       "Styrketrening","Bevegelsestrening","Spensttrening","Hurtighetstrening",
       "Koordinasjonstrening","Teknikktrening","Taktikk","Basistrening",
       "Treningsplanlegging","Kroppens oppbygning og funksjon",
@@ -650,12 +650,15 @@ function makeSubjectCard(s, delay) {
   const card = document.createElement("div");
   card.className = "subject-card reveal";
   card.style.transitionDelay = delay + "ms";
-  const chapHTML = s.chapters.map((c, ci) =>
-    `<a class="chapter-item" href="#">
+  const chapHTML = s.chapters.map((c, ci) => {
+    const name = typeof c === "object" ? c.name : c;
+    const href = typeof c === "object" ? c.url : "#";
+    return `<a class="chapter-item" href="${href}">
       <span class="chapter-num">${String(ci+1).padStart(2,"0")}</span>
-      <span>${c}</span>
+      <span>${name}</span>
       <span class="chapter-arrow">→</span>
-    </a>`).join("");
+    </a>`;
+  }).join("");
   card.innerHTML = `
     <div class="subject-card-header">
       <span class="subject-icon">${s.icon}</span>
