@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Styrketrening – Treningslære 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --navy:#0B1F3A;
+    --teal:#00C2A8;
+    --orange:#E85D26;
+    --bg:#F0F5FA;
+    --white:#FFFFFF;
+    --muted:#5b6b82;
+    --border:#dde6f1;
+    --shadow:0 4px 22px rgba(11,31,58,.08);
+    --shadow-hover:0 10px 30px rgba(11,31,58,.13);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--navy);
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    line-height:1.7;
+  }
+  h1,h2,h3,h4{font-family:'Barlow Condensed',sans-serif;letter-spacing:.01em;}
+  .eyebrow{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    font-size:.78rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--orange);
+    margin-bottom:.5rem;
+    display:block;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 1.5rem;}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(22px) scale(.98);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0) scale(1);}
+
+  /* ── HEADER ── */
+  header.top{
+    background:linear-gradient(160deg,var(--navy) 0%,#102a4c 100%);
+    color:#fff;
+    padding:4.5rem 1.5rem 3.5rem;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header.top::before{
+    content:'';
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(0,194,168,.18), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(232,93,38,.18), transparent 45%);
+  }
+  header.top .eyebrow{color:var(--teal);position:relative;z-index:1;}
+  header.top h1{
+    font-size:clamp(2.6rem,7vw,4.4rem);
+    font-weight:800;
+    position:relative;z-index:1;
+    line-height:1.0;
+  }
+  header.top p.tagline{
+    color:#c4d3e6; max-width:520px; margin:1rem auto 0;
+    font-size:.95rem; position:relative;z-index:1;
+  }
+
+  /* ── STICKY PROGRESS ── */
+  .progress-bar-section{
+    position:sticky; top:0; z-index:200;
+    background:rgba(240,245,250,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+    padding:.8rem 1.5rem;
+  }
+  .progress-inner{
+    max-width:880px;margin:0 auto;
+    display:flex;align-items:center;gap:1rem;
+  }
+  .progress-label{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;font-size:.85rem;
+    letter-spacing:.08em;color:var(--navy);
+    white-space:nowrap;
+  }
+  .progress-track{
+    flex:1;height:9px;background:var(--border);
+    border-radius:5px;overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;width:0;
+    background:linear-gradient(90deg,var(--teal),var(--orange));
+    border-radius:5px;transition:width .5s ease;
+  }
+  .progress-count{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;color:var(--orange);
+    font-size:1rem;min-width:3.4rem;text-align:right;
+  }
+
+  section{padding:3rem 0;}
+
+  /* ── LÆRINGSMÅL ── */
+  .goals-card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-left:5px solid var(--teal);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:1.8rem 2rem;
+  }
+  .goals-card h2{font-size:1.7rem;font-weight:700;margin-bottom:1rem;color:var(--navy);}
+  .goal-item{
+    display:flex;align-items:flex-start;gap:.7rem;
+    padding:.5rem 0;
+    font-size:.92rem;
+  }
+  .goal-check{
+    flex-shrink:0;width:22px;height:22px;border-radius:6px;
+    border:2px solid var(--teal);
+    display:flex;align-items:center;justify-content:center;
+    font-size:.78rem;color:var(--teal);margin-top:.1rem;
+  }
+
+  /* ── SUMMARY CARD ── */
+  .summary-card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:2rem;
+  }
+  .summary-card h2{font-size:1.9rem;font-weight:700;margin-bottom:.9rem;}
+  .summary-card>p{color:var(--muted);margin-bottom:1.3rem;}
+
+  .term-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:.9rem;
+  }
+  .term-card{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:1rem 1.1rem;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .term-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);}
+  .term-card .ti{font-size:1.3rem;margin-bottom:.3rem;}
+  .term-card h4{font-size:1rem;font-weight:600;margin-bottom:.25rem;color:var(--navy);}
+  .term-card p{font-size:.8rem;color:var(--muted);}
+
+  /* ── TEXT SUMMARY ── */
+  .text-summary{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:2rem;
+  }
+  .text-summary h2{font-size:1.6rem;font-weight:700;margin-bottom:1rem;}
+  .text-summary p{margin-bottom:1rem;font-size:.93rem;color:#33425c;}
+  .text-summary p:last-child{margin-bottom:0;}
+
+  .tt{
+    border-bottom:1.5px dotted var(--orange);
+    color:var(--orange);
+    cursor:help;
+    position:relative;
+    font-weight:600;
+  }
+  .tt::after{
+    content:attr(data-tip);
+    position:absolute;
+    bottom:135%; left:50%;
+    transform:translateX(-50%);
+    background:var(--navy);
+    color:#fff;
+    padding:.5rem .8rem;
+    border-radius:8px;
+    font-size:.76rem;
+    font-weight:400;
+    white-space:normal;
+    width:max-content;
+    max-width:240px;
+    line-height:1.4;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s;
+    z-index:20;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+  }
+  .tt:hover::after{opacity:1;}
+
+  /* ── TABLE ── */
+  .table-card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:1.8rem 1.8rem 1.4rem;
+    overflow-x:auto;
+  }
+  .table-card h2{font-size:1.6rem;font-weight:700;margin-bottom:.3rem;}
+  .table-card .sub{font-size:.82rem;color:var(--muted);margin-bottom:1.1rem;}
+  table.method-table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:560px;}
+  table.method-table thead th{
+    background:var(--navy);color:#fff;
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;font-size:.82rem;letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:.6rem .8rem;text-align:left;
+  }
+  table.method-table thead th:first-child{border-radius:8px 0 0 0;}
+  table.method-table thead th:last-child{border-radius:0 8px 0 0;}
+  table.method-table td{
+    padding:.55rem .8rem;
+    border-bottom:1px solid var(--border);
+    color:#33425c;
+  }
+  table.method-table tbody tr:nth-child(even){background:#f7fafd;}
+  table.method-table tbody tr:hover{background:#eaf6f4;}
+  .intensity-dot{
+    display:inline-block;width:9px;height:9px;border-radius:50%;
+    margin-right:.4rem;
+  }
+
+  /* ── 1RM SLIDER ── */
+  .slider-card{
+    background:var(--white);border:1px solid var(--border);
+    border-radius:16px;box-shadow:var(--shadow);padding:2rem;
+  }
+  .slider-card h2{font-size:1.6rem;font-weight:700;margin-bottom:.4rem;}
+  .slider-intro{font-size:.9rem;color:var(--muted);margin-bottom:1.6rem;}
+
+  .slider-track-wrap{margin-bottom:1.5rem;}
+  .slider-gradient-bar{
+    height:12px;border-radius:6px;
+    background:linear-gradient(90deg, var(--teal) 0%, #7ecfa0 30%, #c8b84a 60%, var(--orange) 100%);
+    margin-bottom:.6rem;position:relative;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:0 .2rem;
+  }
+  .sg-label-left,.sg-label-right{
+    font-size:.65rem;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+
+  .rm-slider{
+    -webkit-appearance:none;appearance:none;
+    width:100%;height:6px;border-radius:3px;
+    background:transparent;outline:none;cursor:pointer;
+    margin:.4rem 0;
+  }
+  .rm-slider::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;
+    width:28px;height:28px;border-radius:50%;
+    background:var(--navy);border:3px solid #fff;
+    box-shadow:0 2px 10px rgba(11,31,58,.3);
+    cursor:pointer;transition:transform .15s;
+  }
+  .rm-slider::-webkit-slider-thumb:hover{transform:scale(1.15);}
+  .rm-slider::-moz-range-thumb{
+    width:28px;height:28px;border-radius:50%;
+    background:var(--navy);border:3px solid #fff;
+    box-shadow:0 2px 10px rgba(11,31,58,.3);cursor:pointer;
+  }
+
+  .slider-tick-row{
+    display:flex;justify-content:space-between;
+    font-size:.72rem;color:var(--muted);margin-top:.2rem;
+  }
+
+  .slider-readout{
+    display:flex;align-items:center;gap:.8rem;
+    flex-wrap:wrap;margin-bottom:1.4rem;
+  }
+  .readout-pill{
+    flex:1;min-width:120px;
+    background:var(--bg);border:1.5px solid var(--border);
+    border-radius:12px;padding:.85rem 1rem;text-align:center;
+    transition:border-color .3s, background .3s;
+  }
+  .pill-label{
+    display:block;font-size:.68rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:.3rem;
+  }
+  .pill-value{
+    display:block;font-family:'Barlow Condensed',sans-serif;
+    font-size:1.5rem;font-weight:700;color:var(--navy);
+    line-height:1;transition:color .3s;
+  }
+  #pillRM  { border-color:var(--teal); }
+  #pillRM .pill-value { color:var(--teal); }
+  #pillReps { border-color:#7aaa6e; }
+  #pillReps .pill-value { color:#4a8a3e; }
+  .pill-method{ border-color:var(--orange) !important; }
+  .pill-method .pill-value{ color:var(--orange) !important; font-size:1.1rem !important; }
+
+  .readout-arrow{
+    color:var(--border);font-size:1.4rem;flex-shrink:0;
+  }
+
+  .method-detail-box{
+    border:1.5px solid var(--border);border-radius:14px;
+    overflow:hidden;transition:border-color .3s;
+  }
+  .mdb-bar{height:6px;background:var(--teal);transition:background .4s;}
+  .mdb-content{padding:1.1rem 1.3rem;}
+  .mdb-content h4{
+    font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;
+    color:var(--navy);margin-bottom:.8rem;
+  }
+  .mdb-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:.6rem;margin-bottom:.8rem;
+  }
+  .mdb-item{
+    background:var(--bg);border-radius:8px;
+    padding:.55rem .7rem;text-align:center;
+  }
+  .mdb-key{
+    display:block;font-size:.68rem;font-weight:600;
+    color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2rem;
+  }
+  .mdb-val{
+    display:block;font-family:'Barlow Condensed',sans-serif;
+    font-size:1.05rem;font-weight:700;color:var(--navy);
+  }
+  .mdb-desc{font-size:.84rem;color:#33425c;line-height:1.6;}
+
+  @media(max-width:540px){
+    .mdb-grid{grid-template-columns:repeat(2,1fr);}
+    .slider-readout{flex-direction:column;}
+    .readout-arrow{transform:rotate(90deg);}
+  }
+
+
+  /* ── KOMPENDIUM 2x2 ── */
+  .kompendium h2{font-size:1.7rem;font-weight:700;margin-bottom:.3rem;text-align:center;}
+  .kompendium .sub{font-size:.85rem;color:var(--muted);text-align:center;margin-bottom:1.5rem;}
+  .komp-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.2rem;
+  }
+  .komp-card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:1.4rem 1.5rem;
+    display:flex;flex-direction:column;
+  }
+  .komp-card .komp-num{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;font-size:.75rem;
+    letter-spacing:.15em;color:var(--teal);
+    margin-bottom:.4rem;
+  }
+  .komp-card h3{font-size:1.25rem;font-weight:700;margin-bottom:.6rem;color:var(--navy);}
+  .komp-card ul{list-style:none;font-size:.84rem;color:#33425c;}
+  .komp-card li{
+    padding:.32rem 0 .32rem 1.1rem;
+    position:relative;
+    border-bottom:1px dashed var(--border);
+  }
+  .komp-card li:last-child{border-bottom:none;}
+  .komp-card li::before{
+    content:'▸';
+    position:absolute;left:0;color:var(--orange);
+  }
+  .komp-card p{font-size:.84rem;color:#33425c;margin-bottom:.5rem;}
+  .komp-card strong{color:var(--navy);}
+
+  /* ── ACTIVITIES ── */
+  .activities-intro{text-align:center;margin-bottom:1.8rem;}
+  .activities-intro h2{font-size:1.9rem;font-weight:700;}
+  .activities-intro p{color:var(--muted);font-size:.9rem;margin-top:.3rem;}
+
+  .activity-card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    margin-bottom:1.1rem;
+    transition:border-color .3s;
+  }
+  .activity-card.completed{border-color:var(--teal);}
+  .activity-header{
+    display:flex;align-items:center;gap:1rem;
+    padding:1.2rem 1.4rem;
+    cursor:pointer;
+    border-left:5px solid var(--orange);
+    transition:background .2s;
+  }
+  .activity-card.completed .activity-header{border-left-color:var(--teal);}
+  .activity-header:hover{background:#f7fafd;}
+  .activity-icon{font-size:1.5rem;flex-shrink:0;}
+  .activity-meta{flex:1;}
+  .activity-type{
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:.74rem;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--orange);
+  }
+  .activity-card.completed .activity-type{color:var(--teal);}
+  .activity-title{font-size:1.08rem;font-weight:600;color:var(--navy);}
+  .activity-check{
+    width:26px;height:26px;border-radius:50%;
+    border:2px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    font-size:.85rem;color:transparent;flex-shrink:0;
+    transition:all .3s;
+  }
+  .activity-card.completed .activity-check{
+    border-color:var(--teal);color:var(--teal);background:#e3faf6;
+  }
+  .activity-chevron{color:var(--muted);transition:transform .3s;flex-shrink:0;}
+  .activity-card.open .activity-chevron{transform:rotate(180deg);}
+  .activity-body{
+    max-height:0;overflow:hidden;
+    transition:max-height .4s ease;
+    padding:0 1.4rem;
+  }
+  .activity-card.open .activity-body{max-height:2400px;padding:0 1.4rem 1.5rem;}
+
+  .info-box{
+    background:#eef6fb;
+    border:1px solid #d3e6f2;
+    border-radius:10px;
+    padding:.85rem 1.05rem;
+    font-size:.87rem;
+    color:#2b3c54;
+    margin-bottom:1rem;
+  }
+  .info-box strong{color:var(--navy);}
+
+  .btn-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem;}
+  .btn{
+    padding:.55rem 1.15rem;border-radius:8px;border:none;
+    font-family:'Inter',sans-serif;font-size:.84rem;font-weight:600;
+    cursor:pointer;transition:all .2s;
+  }
+  .btn-primary{background:var(--navy);color:#fff;}
+  .btn-primary:hover{background:#16335c;transform:translateY(-1px);}
+  .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
+  .btn-ghost:hover{border-color:var(--orange);color:var(--orange);}
+  .btn-secondary{background:#eaf6f4;color:#007863;}
+  .btn-secondary:hover{background:#d5f0eb;}
+
+  .result-msg{
+    margin-top:.8rem;padding:.7rem 1rem;border-radius:10px;
+    font-size:.87rem;font-weight:600;display:none;
+  }
+  .result-msg.show{display:block;animation:fadeIn .3s both;}
+  .result-msg.great{background:#e3faf6;border:1px solid #b7ecdf;color:#007863;}
+  .result-msg.ok{background:#fff2e3;border:1px solid #fcd9af;color:#a85b16;}
+  .result-msg.bad{background:#fdeaea;border:1px solid #f6c2c2;color:#b23a3a;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .done-banner{
+    display:none;margin-top:.7rem;padding:.5rem 1rem;
+    background:#e3faf6;border:1px solid #b7ecdf;border-radius:8px;
+    color:#007863;font-size:.84rem;font-weight:600;
+  }
+  .done-banner.show{display:block;animation:fadeIn .3s both;}
+
+  /* MC */
+  .quiz-q{font-weight:600;margin-bottom:.55rem;font-size:.93rem;}
+  .quiz-question{margin-bottom:1.2rem;}
+  .quiz-options{display:flex;flex-direction:column;gap:.4rem;}
+  .quiz-opt{
+    padding:.6rem .9rem;border-radius:9px;border:1px solid var(--border);
+    cursor:pointer;font-size:.86rem;transition:all .2s;
+  }
+  .quiz-opt:hover{border-color:var(--orange);background:#fff6ef;}
+  .quiz-opt.sel-correct{background:#e3faf6;border-color:var(--teal);color:#007863;}
+  .quiz-opt.sel-wrong{background:#fdeaea;border-color:#e08a8a;color:#b23a3a;}
+  .quiz-opt.reveal-correct{background:#e3faf6;border-color:var(--teal);color:#007863;}
+  .quiz-exp{font-size:.76rem;color:var(--muted);margin-top:.35rem;display:none;}
+  .quiz-exp.show{display:block;}
+
+  /* Fill blanks */
+  .blank-sentence{margin-bottom:.85rem;font-size:.9rem;line-height:2;}
+  .blank-input{
+    border:none;border-bottom:2px solid var(--orange);background:transparent;
+    color:var(--navy);font-family:'Inter',sans-serif;font-size:.88rem;
+    width:150px;padding:0 4px;outline:none;text-align:center;transition:border-color .2s;
+  }
+  .blank-input:focus{border-color:var(--teal);}
+  .blank-input.correct{border-color:#1fa882;color:#007863;}
+  .blank-input.wrong{border-color:#cf4f4f;color:#b23a3a;}
+
+  /* TF */
+  .tf-row{
+    background:var(--bg);border:1px solid var(--border);border-radius:10px;
+    padding:.85rem 1rem;margin-bottom:.6rem;
+  }
+  .tf-stmt{font-size:.87rem;margin-bottom:.55rem;}
+  .tf-btns{display:flex;gap:.5rem;}
+  .tf-btn{
+    padding:.38rem .9rem;border-radius:7px;border:1px solid var(--border);
+    background:#fff;color:var(--muted);cursor:pointer;font-size:.8rem;
+    font-family:'Inter',sans-serif;transition:all .2s;
+  }
+  .tf-btn:hover{border-color:var(--orange);}
+  .tf-btn.sel-sant{background:#e3faf6;border-color:var(--teal);color:#007863;}
+  .tf-btn.sel-usant{background:#fdeaea;border-color:#cf4f4f;color:#b23a3a;}
+  .tf-feedback{
+    font-size:.78rem;color:var(--muted);margin-top:.5rem;
+    padding:.4rem .7rem;border-radius:6px;background:#fff;display:none;
+  }
+  .tf-feedback.show{display:block;}
+  .tf-row-correct{background:#e8faf4 !important;border:1.5px solid #97e0c8 !important;border-radius:10px;}
+  .tf-row-wrong  {background:#fdeaea !important;border:1.5px solid #f0b0b0 !important;border-radius:10px;}
+  .tf-verdict{padding:.3rem .7rem;border-radius:6px;font-size:.8rem;font-weight:700;
+    margin-top:.4rem;margin-bottom:.1rem;display:inline-block;}
+  .verdict-correct{background:#d0f5e6;color:#007863;}
+  .verdict-wrong  {background:#fad4d4;color:#b23a3a;}
+  .blank-select{border:none;border-bottom:2px solid var(--orange);background:transparent;
+    color:var(--navy);font-family:'Inter',sans-serif;font-size:.88rem;
+    padding:0 4px;outline:none;cursor:pointer;transition:border-color .2s;min-width:160px;}
+  .blank-select:focus{border-color:var(--teal);}
+  .blank-select.correct{border-color:#1fa882;color:#007863;}
+  .blank-select.wrong  {border-color:#cf4f4f;color:#b23a3a;}
+
+  /* Drag sort */
+  .sort-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin-bottom:.5rem;}
+  .sort-item{
+    background:var(--bg);border:1px solid var(--border);border-radius:9px;
+    padding:.7rem 1rem;display:flex;align-items:center;gap:.7rem;
+    cursor:grab;font-size:.86rem;transition:all .2s;user-select:none;
+  }
+  .sort-item:active{cursor:grabbing;}
+  .sort-item.dragging{opacity:.4;}
+  .sort-item.drag-over{border-color:var(--orange);background:#fff6ef;}
+  .sort-handle{color:var(--muted);}
+
+  /* Categorize drag-drop */
+  .dnd-bank{
+    display:flex;flex-wrap:wrap;gap:.5rem;
+    padding:.9rem;background:var(--bg);border:1px dashed var(--border);
+    border-radius:10px;margin-bottom:1rem;min-height:50px;
+  }
+  .chip{
+    padding:.5rem .9rem;border-radius:20px;
+    background:#fff;border:1px solid var(--border);
+    font-size:.82rem;cursor:grab;box-shadow:0 2px 6px rgba(11,31,58,.06);
+    transition:opacity .2s;
+  }
+  .chip.dragging{opacity:.35;}
+  .dnd-bins{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.5rem;}
+  .bin{
+    min-height:120px;border-radius:12px;padding:.9rem;
+    border:2px dashed var(--border);
+    display:flex;flex-direction:column;gap:.5rem;
+    transition:border-color .2s, background .2s;
+  }
+  .bin.drag-over{border-color:var(--orange);background:#fff6ef;}
+  .bin-label{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;
+    margin-bottom:.2rem;
+  }
+  .bin-dyn{border-color:#9adfd2;}
+  .bin-dyn .bin-label{color:var(--teal);}
+  .bin-stat{border-color:#f0b48f;}
+  .bin-stat .bin-label{color:var(--orange);}
+  .chip.correct-flag{border-color:var(--teal);background:#e3faf6;}
+  .chip.wrong-flag{border-color:#cf4f4f;background:#fdeaea;}
+
+  /* Matching */
+  .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem;}
+  .match-col{display:flex;flex-direction:column;gap:.5rem;}
+  .match-item{
+    padding:.6rem .9rem;border-radius:9px;border:2px solid var(--border);
+    font-size:.82rem;cursor:pointer;transition:all .2s;text-align:center;background:#fff;
+  }
+  .match-item.left-item:hover,.match-item.left-item.selected{
+    border-color:var(--orange);background:#fff6ef;color:var(--orange);
+  }
+  .match-item.right-item:hover{border-color:var(--teal);background:#eafbf8;}
+  .match-item.matched-correct{border-color:var(--teal);background:#e3faf6;color:#007863;cursor:default;}
+  .match-item.matched-wrong{border-color:#cf4f4f;background:#fdeaea;color:#b23a3a;cursor:default;}
+
+  /* Open writing */
+  .open-textarea{
+    width:100%;background:var(--bg);border:1px solid var(--border);
+    border-radius:10px;color:var(--navy);font-family:'Inter',sans-serif;
+    font-size:.88rem;line-height:1.7;padding:.8rem 1rem;
+    resize:none;outline:none;overflow:hidden;min-height:120px;
+    transition:border-color .2s;margin-top:.4rem;
+  }
+  .open-textarea:focus{border-color:var(--orange);}
+  .model-answer{
+    background:#eafbf8;border:1px solid #b7ecdf;border-radius:10px;
+    padding:1rem;font-size:.85rem;color:#1c3a4a;margin-top:.7rem;
+    display:none;line-height:1.7;
+  }
+  .model-answer.show{display:block;animation:fadeIn .3s both;}
+  .model-answer strong{color:#007863;display:block;margin-top:.5rem;}
+  .model-answer strong:first-child{margin-top:0;}
+
+  /* ── PRAKTISKE STASJONER ── */
+  .stations-intro{text-align:center;margin-bottom:1.8rem;}
+  .stations-intro h2{font-size:1.9rem;font-weight:700;}
+  .stations-intro p{color:var(--muted);font-size:.9rem;margin-top:.3rem;max-width:600px;margin-left:auto;margin-right:auto;}
+
+  .station-flow{
+    display:flex;align-items:flex-start;gap:.4rem;
+    margin-bottom:2rem;overflow-x:auto;padding-bottom:.5rem;
+  }
+  .station-node{
+    display:flex;flex-direction:column;align-items:center;gap:.4rem;
+    flex-shrink:0;
+  }
+  .station-circle{
+    width:52px;height:52px;border-radius:50%;
+    background:var(--teal);color:#fff;
+    font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.35rem;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 14px rgba(0,194,168,.35);
+    transition:all .2s;cursor:pointer;
+    border:3px solid transparent;
+  }
+  .station-circle:hover{transform:scale(1.08);}
+  .station-circle.active{
+    background:var(--orange);box-shadow:0 4px 18px rgba(232,93,38,.4);
+    border-color:#fff;transform:scale(1.1);
+  }
+  .station-name{
+    font-size:.7rem;font-weight:600;color:var(--muted);
+    text-align:center;max-width:68px;line-height:1.3;
+  }
+  .station-arrow{
+    color:var(--border);font-size:1.4rem;margin-top:12px;flex-shrink:0;
+  }
+
+  .timer-box{
+    background:var(--navy);color:#fff;
+    border-radius:16px;padding:1.4rem 1.6rem;
+    display:flex;flex-wrap:wrap;align-items:center;gap:1rem;
+    margin-bottom:1.5rem;
+  }
+  .timer-display{
+    font-family:'Barlow Condensed',sans-serif;font-size:3.2rem;font-weight:800;
+    color:var(--teal);letter-spacing:.05em;line-height:1;min-width:5rem;
+  }
+  .timer-display.warning{color:var(--orange);}
+  .timer-meta{flex:1;}
+  .timer-meta strong{display:block;font-size:.9rem;margin-bottom:.2rem;}
+  .timer-meta span{font-size:.78rem;color:#8aa0be;}
+  .timer-btns{display:flex;gap:.6rem;flex-wrap:wrap;}
+  .tbtn{
+    padding:.5rem 1.1rem;border-radius:8px;border:none;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    font-size:.9rem;letter-spacing:.04em;cursor:pointer;transition:all .2s;
+  }
+  .tbtn-start{background:var(--teal);color:#fff;}
+  .tbtn-start:hover{background:#00a892;}
+  .tbtn-pause{background:#1e3560;color:#8aa0be;}
+  .tbtn-pause:hover{color:#fff;}
+  .tbtn-reset{background:#1e3560;color:#8aa0be;}
+  .tbtn-reset:hover{color:#fff;}
+
+  .station-panel{display:none;}
+  .station-panel.active{display:block;animation:fadeIn .35s both;}
+
+  .station-card{
+    background:var(--white);border:1px solid var(--border);
+    border-radius:16px;box-shadow:var(--shadow);overflow:hidden;
+  }
+  .station-header{
+    background:linear-gradient(135deg,var(--navy),#16335c);
+    color:#fff;padding:1.4rem 1.8rem;
+    display:flex;align-items:center;gap:1rem;
+  }
+  .station-num{
+    width:44px;height:44px;border-radius:50%;
+    background:var(--teal);color:#fff;flex-shrink:0;
+    font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.3rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .station-header h3{font-size:1.4rem;font-weight:700;}
+  .station-header p{color:#c4d3e6;font-size:.84rem;margin-top:.2rem;}
+
+  .station-body{padding:1.5rem 1.8rem;}
+
+  .station-section{margin-bottom:1.4rem;}
+  .station-section h4{
+    font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;
+    color:var(--teal);margin-bottom:.55rem;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  .station-section ul{list-style:none;font-size:.88rem;color:#33425c;}
+  .station-section li{
+    padding:.3rem 0 .3rem 1.1rem;position:relative;
+    border-bottom:1px dashed var(--border);
+  }
+  .station-section li:last-child{border-bottom:none;}
+  .station-section li::before{content:'▸';position:absolute;left:0;color:var(--orange);}
+
+  .obs-grid{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:.8rem;margin-top:.5rem;
+  }
+  .obs-field label{
+    display:block;font-size:.74rem;font-weight:600;
+    color:var(--muted);margin-bottom:.3rem;
+    text-transform:uppercase;letter-spacing:.06em;
+  }
+  .obs-field textarea{
+    width:100%;background:var(--bg);border:1px solid var(--border);
+    border-radius:8px;padding:.55rem .8rem;font-family:'Inter',sans-serif;
+    font-size:.83rem;color:var(--navy);resize:none;height:80px;outline:none;
+    transition:border-color .2s;
+  }
+  .obs-field textarea:focus{border-color:var(--teal);}
+
+  .discussion-box{
+    background:#eaf6f4;border:1px solid #b7ecdf;border-radius:10px;
+    padding:1rem 1.1rem;font-size:.86rem;color:#1c3a4a;
+  }
+  .discussion-box strong{color:var(--navy);display:block;margin-bottom:.3rem;}
+
+  .station-nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:1rem 1.8rem 1.5rem;border-top:1px solid var(--border);
+  }
+  .station-nav .nbtn{
+    padding:.55rem 1.2rem;border-radius:8px;border:none;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.9rem;
+    letter-spacing:.04em;cursor:pointer;transition:all .2s;
+  }
+  .nbtn-prev{background:var(--bg);color:var(--muted);}
+  .nbtn-prev:hover{background:var(--border);}
+  .nbtn-next{background:var(--orange);color:#fff;}
+  .nbtn-next:hover{background:#cf4e1c;}
+  .nbtn-next:disabled{background:var(--border);color:var(--muted);cursor:default;}
+
+  .progress-chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.5rem;}
+  .prog-chip{
+    padding:.32rem .7rem;border-radius:20px;
+    font-size:.76rem;font-weight:600;
+    background:var(--bg);border:1px solid var(--border);color:var(--muted);
+    transition:all .2s;
+  }
+  .prog-chip.done{background:#e3faf6;border-color:var(--teal);color:#007863;}
+
+  @media(max-width:600px){
+    .obs-grid{grid-template-columns:1fr;}
+    .timer-box{flex-direction:column;}
+  }
+
+  /* ── FEEDBACK ── */
+  .feedback-card{
+    background:var(--white);border:1px solid var(--border);
+    border-radius:16px;box-shadow:var(--shadow);padding:2rem;
+  }
+  .feedback-card h2{font-size:1.5rem;font-weight:700;margin-bottom:.3rem;}
+  .feedback-card .sub{font-size:.85rem;color:var(--muted);margin-bottom:1.2rem;}
+  .smiley-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+  .smiley-btn{
+    flex:1;min-width:54px;padding:.7rem .3rem;border-radius:10px;
+    border:2px solid var(--border);background:#fff;cursor:pointer;
+    font-size:1.4rem;text-align:center;transition:all .2s;
+  }
+  .smiley-btn:hover{border-color:var(--orange);}
+  .smiley-btn.selected{border-color:var(--teal);background:#e3faf6;transform:translateY(-2px);}
+  .smiley-num{display:block;font-size:.62rem;color:var(--muted);font-family:'Inter';margin-top:.15rem;}
+  textarea#feedbackText{
+    width:100%;background:var(--bg);border:1px solid var(--border);
+    border-radius:10px;color:var(--navy);font-family:'Inter',sans-serif;
+    font-size:.88rem;padding:.8rem 1rem;resize:vertical;min-height:90px;outline:none;
+  }
+  textarea#feedbackText:focus{border-color:var(--orange);}
+  input#studentName{
+    width:100%;background:var(--bg);border:1px solid var(--border);
+    border-radius:10px;color:var(--navy);font-family:'Inter',sans-serif;
+    font-size:.88rem;padding:.6rem 1rem;outline:none;margin-bottom:1.2rem;
+  }
+  input#studentName:focus{border-color:var(--orange);}
+  .field-label{font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:.35rem;display:block;}
+
+  /* ── PDF SECTION ── */
+  .pdf-card{
+    background:linear-gradient(135deg,var(--navy),#16335c);
+    color:#fff;border-radius:16px;padding:2.2rem 2rem;text-align:center;
+    box-shadow:var(--shadow);
+  }
+  .pdf-card h2{font-size:1.6rem;font-weight:700;margin-bottom:.5rem;}
+  .pdf-card p{color:#c4d3e6;font-size:.88rem;margin-bottom:1.3rem;max-width:460px;margin-left:auto;margin-right:auto;}
+  .btn-pdf{
+    background:var(--orange);color:#fff;border:none;
+    padding:.85rem 2rem;border-radius:10px;font-weight:700;
+    font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;letter-spacing:.04em;
+    cursor:pointer;transition:all .2s;
+  }
+  .btn-pdf:hover{background:#cf4e1c;transform:translateY(-2px);}
+
+  footer.page-footer{
+    text-align:center;padding:2rem 1rem 3rem;
+    color:var(--muted);font-size:.78rem;
+  }
+
+  @media(max-width:640px){
+    .komp-grid,.dnd-bins,.match-grid{grid-template-columns:1fr;}
+    .term-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header class="top">
+  <span class="eyebrow">Treningslære 1 · IDR0203</span>
+  <h1>STYRKETRENING</h1>
+  <p class="tagline">Et interaktivt undervisningsopplegg om muskelstyrke, treningsmetoder og virkningene av styrketrening.</p>
+</header>
+
+<!-- ══ STICKY PROGRESS ══ -->
+<div class="progress-bar-section">
+  <div class="progress-inner">
+    <span class="progress-label">FREMGANG</span>
+    <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+    <span class="progress-count" id="progCount">0/7 fullført</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ══ LÆRINGSMÅL ══ -->
+  <section>
+    <div class="goals-card reveal">
+      <span class="eyebrow" style="color:var(--teal)">Læringsmål</span>
+      <h2>Etter dette kapittelet skal du kunne:</h2>
+      <div class="goal-item"><span class="goal-check">✓</span><span>Forklare forskjellen på dynamisk og statisk muskelstyrke, med eksempler.</span></div>
+      <div class="goal-item"><span class="goal-check">✓</span><span>Beskrive hvordan en muskel er bygd opp og hvordan den kontraherer.</span></div>
+      <div class="goal-item"><span class="goal-check">✓</span><span>Skille mellom konsentrisk, eksentrisk og isometrisk muskelarbeid.</span></div>
+      <div class="goal-item"><span class="goal-check">✓</span><span>Forklare hva agonist og antagonist betyr, med eksempel fra en øvelse.</span></div>
+      <div class="goal-item"><span class="goal-check">✓</span><span>Gjøre rede for ulike treningsmetoder (motstand, repetisjoner, serier, pauser).</span></div>
+      <div class="goal-item"><span class="goal-check">✓</span><span>Forklare hovedvirkningene av styrketrening og hvorfor det er nyttig for alle.</span></div>
+      <div class="goal-item"><span class="goal-check">✓</span><span>Drøfte risiko og retningslinjer ved styrketrening, f.eks. eksentrisk trening.</span></div>
+    </div>
+  </section>
+
+  <!-- ══ SUMMARY CARD ══ -->
+  <section>
+    <div class="summary-card reveal">
+      <span class="eyebrow">Oppsummering</span>
+      <h2>Hva er styrketrening?</h2>
+      <p>
+        Styrketrening handler om å trene musklenes evne til å utvikle kraft. Treningen kan rettes mot ulike mål – 
+        fra å bli sterkest mulig, til å bli raskere, eller til å tåle belastning over tid. Nøkkelbegrepene under går igjen i hele kapittelet.
+      </p>
+      <div class="term-grid">
+        <div class="term-card"><div class="ti">🏋️</div><h4>1RM</h4><p>Den tyngste vekten du klarer å løfte én eneste gang.</p></div>
+        <div class="term-card"><div class="ti">📏</div><h4>Muskeltverrsnitt</h4><p>Tykkelsen på muskelen – viktigste faktor for maksimal styrke.</p></div>
+        <div class="term-card"><div class="ti">🔗</div><h4>Agonist / antagonist</h4><p>Muskler som utfører bevegelsen, og muskler med motsatt virkning.</p></div>
+        <div class="term-card"><div class="ti">🧠</div><h4>Motorisk enhet</h4><p>Nervecelle og alle muskelfibrene den styrer samtidig.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TEXT SUMMARY ══ -->
+  <section>
+    <div class="text-summary reveal">
+      <span class="eyebrow">Fagstoff</span>
+      <h2>Muskelstyrke i korte trekk</h2>
+      <p>
+        Vi skiller mellom to hovedformer for muskelstyrke: 
+        <span class="tt" data-tip="Kraft som utvikles mens muskelen er i bevegelse.">dynamisk styrke</span> og 
+        <span class="tt" data-tip="Kraft som utvikles uten bevegelse i leddet.">statisk styrke</span>. 
+        Begge formene deles videre inn i undertyper: maksimal styrke, eksplosiv styrke og muskulær utholdenhet.
+      </p>
+      <p>
+        Når en muskel jobber, kan den arbeide på tre ulike måter. Ved 
+        <span class="tt" data-tip="Muskelen forkortes og fungerer som en motor.">konsentrisk</span> arbeid forkortes muskelen, 
+        for eksempel når du løfter en vektstang opp. Ved 
+        <span class="tt" data-tip="Muskelen forlenges mens den er aktiv – fungerer som en brems.">eksentrisk</span> arbeid 
+        forlenges muskelen mens den fortsatt er aktiv, slik som når du senker vekten kontrollert ned – dette kalles også 
+        negative reps. Ved <span class="tt" data-tip="Muskelen endrer ikke lengde i det hele tatt.">isometrisk</span> arbeid 
+        holder muskelen seg helt i ro, for eksempel når du holder en planke.
+      </p>
+      <p>
+        I en bevegelse jobber muskler alltid sammen i par. Muskelen som utfører hovedbevegelsen kalles 
+        <span class="tt" data-tip="Muskelen som primært utfører bevegelsen.">agonist</span>, mens muskelen med motsatt 
+        virkning kalles <span class="tt" data-tip="Muskel med motsatt virkning av agonisten.">antagonist</span>. 
+        I en bicepscurl er biceps agonist og triceps antagonist – og rollene bytter når du strekker armen igjen.
+      </p>
+      <p>
+        Selve muskelen er bygd opp av muskelfibre, som inneholder myofibriller satt sammen av trådene 
+        <span class="tt" data-tip="Tynn proteintråd i myofibrillen.">aktin</span> og 
+        <span class="tt" data-tip="Tykk proteintråd som trekker seg inn mellom aktin.">myosin</span>. Når disse trådene trekker 
+        seg inn i hverandre, kontraherer muskelen. Beskjeden om å kontrahere kommer fra hjernen via en 
+        <span class="tt" data-tip="Nervecelle og alle muskelfibrene den styrer.">motorisk enhet</span>.
+      </p>
+      <p>
+        Hvor sterk du er, avhenger av flere faktorer.
+        <span class="tt" data-tip="Hvor tykk muskelen er – regnes som den viktigste enkeltfaktoren.">Muskeltverrsnittet</span> 
+        regnes som viktigst for maksimal styrke, men også nervesystemets evne til å aktivere mange muskelfibre samtidig, 
+        god teknikk og motivasjon spiller en stor rolle.
+      </p>
+      <p>
+        Når du planlegger styrketrening, må du velge treningsmotstand ut fra hva du vil oppnå. Motstanden oppgis ofte som 
+        en prosent av <span class="tt" data-tip="1 repetisjon maksimum – tyngste vekt du klarer én gang.">1RM</span>. 
+        Lav motstand med mange repetisjoner gir muskulær utholdenhet, mens svært tung motstand med få repetisjoner og 
+        lange pauser gir maksimal styrke.
+      </p>
+      <p>
+        Styrketrening gir flere viktige virkninger: muskelstyrken og muskelmassen øker, nervesystemet blir flinkere til å 
+        aktivere musklene, sener blir tykkere og mer fjærstive, og risikoen for belastningsskader går ned. Derfor er 
+        styrketrening nyttig for alle – ikke bare for toppidrettsutøvere.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══ TABLE ══ -->
+  <section>
+    <div class="table-card reveal">
+      <span class="eyebrow">Oversikt</span>
+      <h2>Treningsmetoder sortert etter belastning</h2>
+      <p class="sub">Fra lavest til høyest treningsmotstand (% av 1RM)</p>
+      <table class="method-table">
+        <thead>
+          <tr><th>Metode</th><th>Motstand</th><th>Repetisjoner</th><th>Serier</th><th>Pauser</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="intensity-dot" style="background:var(--teal)"></span>Muskulær utholdenhet</td><td>20–60 % av 1RM</td><td>15–svært mange</td><td>1–4</td><td>0–2 min</td></tr>
+          <tr><td><span class="intensity-dot" style="background:#3fcfb6"></span>Eksplosiv styrke</td><td>Opptil 50 % av 1RM</td><td>1–5</td><td>4–8</td><td>3–5 min</td></tr>
+          <tr><td><span class="intensity-dot" style="background:#9bb86a"></span>Maksimal muskelvekst (pumpemetoden)</td><td>70–85 % av 1RM</td><td>6–12</td><td>2–4</td><td>2–3 min</td></tr>
+          <tr><td><span class="intensity-dot" style="background:#e0a45e"></span>Maks styrke – noe trent</td><td>75–85 % av 1RM</td><td>4–8</td><td>1–3</td><td>3–5 min</td></tr>
+          <tr><td><span class="intensity-dot" style="background:var(--orange)"></span>Maks styrke – viderekommen</td><td>80–100 % av 1RM</td><td>1–5</td><td>3–8</td><td>3–5 min</td></tr>
+          <tr><td><span class="intensity-dot" style="background:#b6391a"></span>Maksimal statisk styrke</td><td>Maks spenning (isometrisk)</td><td>3–5 hold à 5–6 sek</td><td>–</td><td>2–3 min</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══ 1RM SLIDER ══ -->
+  <section>
+    <div class="slider-card reveal">
+      <span class="eyebrow">Interaktivt verktøy</span>
+      <h2>Utforsk sammenhengen mellom belastning og repetisjoner</h2>
+      <p class="slider-intro">Dra slideren og se hvordan <strong>% av 1RM</strong> påvirker antall repetisjoner du kan gjennomføre, og hvilken treningsmetode det tilsvarer.</p>
+
+      <div class="slider-track-wrap">
+        <div class="slider-gradient-bar">
+          <span class="sg-label-left">Lav belastning</span>
+          <span class="sg-label-right">Høy belastning</span>
+        </div>
+        <input type="range" id="rmSlider" min="20" max="100" value="70" step="1" class="rm-slider">
+        <div class="slider-tick-row">
+          <span>20 %</span><span>40 %</span><span>60 %</span><span>80 %</span><span>100 %</span>
+        </div>
+      </div>
+
+      <div class="slider-readout">
+        <div class="readout-pill" id="pillRM">
+          <span class="pill-label">% av 1RM</span>
+          <span class="pill-value" id="valRM">70 %</span>
+        </div>
+        <div class="readout-arrow">→</div>
+        <div class="readout-pill" id="pillReps">
+          <span class="pill-label">Repetisjoner</span>
+          <span class="pill-value" id="valReps">10–12</span>
+        </div>
+        <div class="readout-arrow">→</div>
+        <div class="readout-pill pill-method" id="pillMethod">
+          <span class="pill-label">Treningsmetode</span>
+          <span class="pill-value" id="valMethod">Maks muskelvekst</span>
+        </div>
+      </div>
+
+      <div class="method-detail-box" id="methodDetail">
+        <div class="mdb-bar" id="mdbBar"></div>
+        <div class="mdb-content">
+          <h4 id="mdbTitle">Maks muskelvekst (pumpemetoden)</h4>
+          <div class="mdb-grid">
+            <div class="mdb-item"><span class="mdb-key">Motstand</span><span class="mdb-val" id="mdbMotstand">70–85 %</span></div>
+            <div class="mdb-item"><span class="mdb-key">Repetisjoner</span><span class="mdb-val" id="mdbReps">6–12</span></div>
+            <div class="mdb-item"><span class="mdb-key">Serier</span><span class="mdb-val" id="mdbSerier">2–4</span></div>
+            <div class="mdb-item"><span class="mdb-key">Pauser</span><span class="mdb-val" id="mdbPauser">2–3 min</span></div>
+          </div>
+          <p class="mdb-desc" id="mdbDesc">Langsomt og kontrollert tempo. Målet er å øke muskeltverrsnittet (hypertrofi). Passer for de fleste som ønsker synlig muskelvekst.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ KOMPENDIUM ══ -->
+  <section class="kompendium">
+    <h2 class="reveal">Kompendium</h2>
+    <p class="sub reveal">Referanseark du kan slå opp i mens du jobber med oppgavene</p>
+    <div class="komp-grid">
+      <div class="komp-card reveal">
+        <span class="komp-num">01 — STYRKETYPER</span>
+        <h3>Dynamisk vs. statisk styrke</h3>
+        <p><strong>Dynamisk styrke:</strong> Evnen til å utvikle kraft mens muskelen er i bevegelse.</p>
+        <p><strong>Statisk styrke:</strong> Evnen til å utvikle kraft uten bevegelse i leddet.</p>
+        <ul>
+          <li>Dynamisk → maksimal, eksplosiv, muskulær utholdenhet</li>
+          <li>Statisk → maksimal, muskulær utholdenhet</li>
+          <li>Eks. dynamisk: vektløfting</li>
+          <li>Eks. statisk: klatring, bryting</li>
+        </ul>
+      </div>
+      <div class="komp-card reveal">
+        <span class="komp-num">02 — ANATOMI</span>
+        <h3>Muskelens oppbygning</h3>
+        <ul>
+          <li>Muskel → muskelbunter → muskelfibre</li>
+          <li>Muskelfiber → myofibriller</li>
+          <li>Myofibrill → aktin- og myosintråder</li>
+          <li>Myosin trekkes inn mellom aktin → kontraksjon</li>
+          <li>Styres av motorisk enhet (nerve + fibre)</li>
+        </ul>
+      </div>
+      <div class="komp-card reveal">
+        <span class="komp-num">03 — SAMSPILL</span>
+        <h3>Agonist og antagonist</h3>
+        <p><strong>Agonist:</strong> Muskelen som utfører hovedbevegelsen.</p>
+        <p><strong>Antagonist:</strong> Muskelen med motsatt virkning, som slapper av.</p>
+        <ul>
+          <li>Bicepscurl: biceps = agonist, triceps = antagonist</li>
+          <li>Strekker du armen: triceps = agonist, biceps = antagonist</li>
+          <li>Quadriceps ↔ hamstrings (kne)</li>
+        </ul>
+      </div>
+      <div class="komp-card reveal">
+        <span class="komp-num">04 — EFFEKT</span>
+        <h3>Virkninger og retningslinjer</h3>
+        <ul>
+          <li>Muskelstyrke og -masse øker</li>
+          <li>Nervesystemet aktiverer muskler bedre</li>
+          <li>Sener blir tykkere og mer fjærstive</li>
+          <li>Varm opp og bruk riktig teknikk</li>
+          <li>Øk motstanden gradvis – unngå hopp i belastning</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ACTIVITIES ══ -->
+  <section>
+    <div class="activities-intro reveal">
+      <h2>7 oppgaver</h2>
+      <p>Jobb deg gjennom oppgavene under. Du trenger ca. 80 % riktig for at en oppgave skal markeres som fullført.</p>
+    </div>
+
+    <!-- OPPGAVE 1 — MC -->
+    <div class="activity-card reveal" id="act1">
+      <div class="activity-header" onclick="toggleCard('act1')">
+        <div class="activity-icon">🎯</div>
+        <div class="activity-meta">
+          <div class="activity-type">Oppgave 1 · Flervalg</div>
+          <div class="activity-title">Grunnbegreper i styrketrening</div>
+        </div>
+        <div class="activity-check">✓</div>
+        <div class="activity-chevron">▼</div>
+      </div>
+      <div class="activity-body">
+        <div class="info-box">Velg riktig svar på hvert spørsmål.</div>
+        <div id="mcContainer"></div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="checkMC()">Sjekk svar</button>
+          <button class="btn btn-ghost" onclick="resetMC()">Prøv igjen ↺</button>
+        </div>
+        <div class="result-msg" id="mcResult"></div>
+        <div class="done-banner" id="act1-done">✓ Oppgave 1 fullført!</div>
+      </div>
+    </div>
+
+    <!-- OPPGAVE 2 — KATEGORISERING (DRAG) -->
+    <div class="activity-card reveal" id="act2">
+      <div class="activity-header" onclick="toggleCard('act2')">
+        <div class="activity-icon">🗂️</div>
+        <div class="activity-meta">
+          <div class="activity-type">Oppgave 2 · Dra-og-slipp · Kategorisering</div>
+          <div class="activity-title">Dynamisk eller statisk?</div>
+        </div>
+        <div class="activity-check">✓</div>
+        <div class="activity-chevron">▼</div>
+      </div>
+      <div class="activity-body">
+        <div class="info-box">Dra hver kortet ned i riktig boks: <strong style="color:var(--teal)">Dynamisk</strong> eller <strong style="color:var(--orange)">Statisk</strong>.</div>
+        <div class="dnd-bank" id="dndBank"></div>
+        <div class="dnd-bins">
+          <div class="bin bin-dyn" id="binDyn" data-bin="dyn"><span class="bin-label">Dynamisk</span></div>
+          <div class="bin bin-stat" id="binStat" data-bin="stat"><span class="bin-label">Statisk</span></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="checkCategorize()">Sjekk svar</button>
+          <button class="btn btn-ghost" onclick="resetCategorize()">Prøv igjen ↺</button>
+        </div>
+        <div class="result-msg" id="catResult"></div>
+        <div class="done-banner" id="act2-done">✓ Oppgave 2 fullført!</div>
+      </div>
+    </div>
+
+    <!-- OPPGAVE 3 — FYLL INN BLANKE -->
+    <div class="activity-card reveal" id="act3">
+      <div class="activity-header" onclick="toggleCard('act3')">
+        <div class="activity-icon">🔬</div>
+        <div class="activity-meta">
+          <div class="activity-type">Oppgave 3 · Fyll inn blanke</div>
+          <div class="activity-title">Muskelens oppbygning</div>
+        </div>
+        <div class="activity-check">✓</div>
+        <div class="activity-chevron">▼</div>
+      </div>
+      <div class="activity-body">
+        <div class="info-box">Fyll inn riktig fagbegrep i hver setning. Bruk presise norske fagord.</div>
+        <div id="blanksContainer"></div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="checkBlanks()">Sjekk svar</button>
+          <button class="btn btn-ghost" onclick="resetBlanks()">Prøv igjen ↺</button>
+        </div>
+        <div class="result-msg" id="blanksResult"></div>
+        <div class="done-banner" id="act3-done">✓ Oppgave 3 fullført!</div>
+      </div>
+    </div>
+
+    <!-- OPPGAVE 4 — SANT/USANT -->
+    <div class="activity-card reveal" id="act4">
+      <div class="activity-header" onclick="toggleCard('act4')">
+        <div class="activity-icon">⚖️</div>
+        <div class="activity-meta">
+          <div class="activity-type">Oppgave 4 · Sant / Usant</div>
+          <div class="activity-title">Påstander om styrketrening</div>
+        </div>
+        <div class="activity-check">✓</div>
+        <div class="activity-chevron">▼</div>
+      </div>
+      <div class="activity-body">
+        <div class="info-box">Klikk Sant eller Usant for hver påstand. Du får forklaring etter at du har valgt.</div>
+        <div id="tfContainer"></div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="checkTF()">Sjekk alle</button>
+          <button class="btn btn-ghost" onclick="resetTF()">Prøv igjen ↺</button>
+        </div>
+        <div class="result-msg" id="tfResult"></div>
+        <div class="done-banner" id="act4-done">✓ Oppgave 4 fullført!</div>
+      </div>
+    </div>
+
+    <!-- OPPGAVE 5 — DRAG SORT -->
+    <div class="activity-card reveal" id="act5">
+      <div class="activity-header" onclick="toggleCard('act5')">
+        <div class="activity-icon">↕️</div>
+        <div class="activity-meta">
+          <div class="activity-type">Oppgave 5 · Dra-og-slipp · Sortering</div>
+          <div class="activity-title">Sorter etter treningsmotstand</div>
+        </div>
+        <div class="activity-check">✓</div>
+        <div class="activity-chevron">▼</div>
+      </div>
+      <div class="activity-body">
+        <div class="info-box">Dra kortene slik at de står i stigende rekkefølge etter % av 1RM – lavest øverst.</div>
+        <ul class="sort-list" id="sortList"></ul>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="checkSort()">Sjekk rekkefølge</button>
+          <button class="btn btn-ghost" onclick="resetSort()">Bland om ↺</button>
+        </div>
+        <div class="result-msg" id="sortResult"></div>
+        <div class="done-banner" id="act5-done">✓ Oppgave 5 fullført!</div>
+      </div>
+    </div>
+
+    <!-- OPPGAVE 6 — MATCH AGONIST/ANTAGONIST -->
+    <div class="activity-card reveal" id="act6">
+      <div class="activity-header" onclick="toggleCard('act6')">
+        <div class="activity-icon">🔗</div>
+        <div class="activity-meta">
+          <div class="activity-type">Oppgave 6 · Koble sammen</div>
+          <div class="activity-title">Agonist og antagonist</div>
+        </div>
+        <div class="activity-check">✓</div>
+        <div class="activity-chevron">▼</div>
+      </div>
+      <div class="activity-body">
+        <div class="info-box">Klikk en <strong style="color:var(--orange)">agonist</strong> til venstre, så riktig <strong style="color:var(--teal)">antagonist</strong> til høyre.</div>
+        <div class="match-grid">
+          <div class="match-col" id="matchLeft"></div>
+          <div class="match-col" id="matchRight"></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="resetMatch()">Prøv igjen ↺</button>
+        </div>
+        <div class="result-msg" id="matchResult"></div>
+        <div class="done-banner" id="act6-done">✓ Oppgave 6 fullført!</div>
+      </div>
+    </div>
+
+    <!-- OPPGAVE 7 — ÅPEN SKRIVEOPPGAVE -->
+    <div class="activity-card reveal" id="act7">
+      <div class="activity-header" onclick="toggleCard('act7')">
+        <div class="activity-icon">✍️</div>
+        <div class="activity-meta">
+          <div class="activity-type">Oppgave 7 · Skriveoppgave · Påstand</div>
+          <div class="activity-title">Eksentrisk styrketrening og skaderisiko</div>
+        </div>
+        <div class="activity-check">✓</div>
+        <div class="activity-chevron">▼</div>
+      </div>
+      <div class="activity-body">
+        <div class="info-box">
+          <strong>Påstand:</strong> «Eksentrisk styrketrening (negative reps) kan medføre stor risiko for skader.»<br>
+          Drøft påstanden – ta med argumenter for og imot, og begrunn din egen konklusjon.<br><br>
+          <strong>Krav til svaret:</strong>
+          <ul style="margin:.4rem 0 0 1rem;font-size:.86rem;">
+            <li>Bruk <strong>minst to fagbegreper</strong> fra kapittelet (f.eks. eksentrisk kontraksjon, muskeltverrsnitt, motorisk enhet, agonist, 1RM …)</li>
+            <li>Ta med <strong>minst én kildehenvisning</strong> i teksten (se eksempelet under)</li>
+          </ul>
+        </div>
+
+        <div style="background:#fff8f0;border:1px solid #f5c9a0;border-radius:10px;padding:1rem 1.1rem;font-size:.85rem;margin-bottom:1rem;">
+          <strong style="color:var(--orange);display:block;margin-bottom:.4rem;">📖 Eksempel på kildehenvisning og definisjon</strong>
+          Muskelstyrke blir definert som den evnen en muskel eller en muskelgruppe har til å utvikle størst mulig kraft i en gitt øvelse (Gjerset et al., 2022, s. 73).
+          <br><br>
+          <span style="color:var(--muted);font-size:.78rem;">Format: Etternavn et al., årstall, s. sidetall – eller: Etternavn, årstall, s. sidetall for enkeltforfatter.</span>
+          <div style="margin-top:.8rem;padding-top:.8rem;border-top:1px dashed #f5c9a0;display:flex;flex-wrap:wrap;gap:.6rem;align-items:flex-start;">
+            <div style="flex:1;min-width:200px;">
+              <strong style="color:var(--navy);font-size:.8rem;">🔗 Referanseguide</strong><br>
+              <a href="https://www.kildekompasset.no/referansestiler/apa-7th/" target="_blank" rel="noopener"
+                style="color:var(--teal);font-size:.8rem;word-break:break-all;">
+                kildekompasset.no – APA 7th
+              </a><br>
+              <span style="color:var(--muted);font-size:.75rem;">Her finner du eksempler på hvordan ulike kildetyper skal se ut i APA 7-format.</span>
+            </div>
+            <div style="flex:1;min-width:200px;">
+              <strong style="color:var(--navy);font-size:.8rem;">🛠 Vil du bruke et program?</strong><br>
+              <span style="color:var(--muted);font-size:.8rem;">Læreren anbefaler </span>
+              <a href="https://www.zotero.org/" target="_blank" rel="noopener"
+                style="color:var(--teal);font-size:.8rem;">Zotero</a>
+              <span style="color:var(--muted);font-size:.8rem;"> – gratis referanseverktøy som holder orden på kildene dine og lager referanselister automatisk.</span>
+            </div>
+          </div>
+        </div>
+
+        <textarea class="open-textarea" id="openText7" placeholder="Skriv svaret ditt her. Husk: minst to fagbegreper og minst én kildehenvisning." oninput="autoGrow(this)"></textarea>
+        <div style="font-size:.78rem;color:var(--muted);margin-top:.35rem;" id="act7wordcount">0 ord · 0 fagbegreper gjenkjent · 0 kildehenvisninger</div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="toggleModelAnswer('ma7')">💡 Vis modellesvar</button>
+          <button class="btn btn-primary" onclick="markOpenDone('act7','openText7')">Marker som fullført</button>
+        </div>
+        <div class="model-answer" id="ma7">
+          <strong>Definisjon (med kildehenvisning):</strong>
+          Muskelstyrke blir definert som den evnen en muskel eller en muskelgruppe har til å utvikle størst mulig kraft i en gitt øvelse (Gjerset et al., 2022, s. 73).
+          <strong>For påstanden – økt skaderisiko:</strong>
+          Ved eksentrisk kontraksjon forlenges muskelen mens den er aktiv og fungerer som en brems. Kraften som utvikles kan være større enn ved konsentrisk arbeid, noe som gir høyere mekanisk belastning på muskel- og senevev. Uten tilstrekkelig grunnlag kan dette øke risikoen for muskelrifter og skader på motoriske enheter.
+          <strong>Mot påstanden – trygt og forebyggende:</strong>
+          Eksentrisk styrketrening gjennomført med riktig progresjon, kontrollert tempo og god teknikk er trygt og brukes aktivt i rehabilitering. Sener og bindevev tilpasser seg og tåler mer belastning over tid, noe som tvert imot kan forebygge skader.
+          <strong>Konklusjon:</strong>
+          Risikoen ligger ikke i selve treningsformen, men i gjennomføringen. For rask progresjon, for høy belastning eller dårlig teknikk øker faren for skade – mens gradvis, kontrollert eksentrisk trening er et verdifullt verktøy (Gjerset et al., 2022).
+        </div>
+        <div class="done-banner" id="act7-done">✓ Oppgave 7 fullført!</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══ PRAKTISKE GRUPPEOPPGAVER ══ -->
+  <section>
+    <div class="stations-intro reveal">
+      <span class="eyebrow" style="color:var(--teal)">Praktisk gjennomføring</span>
+      <h2>4 rotasjonsstasjoner</h2>
+      <p>Klassen deles i 4 grupper. Hver gruppe bruker <strong>10 minutter</strong> per stasjon, og roterer deretter til neste. Bruk timeren og skriv ned observasjonene underveis.</p>
+    </div>
+
+    <div class="reveal">
+      <!-- STASJONSOVERSIKT -->
+      <div class="station-flow">
+        <div class="station-node">
+          <div class="station-circle active" id="sBtn1" onclick="goStation(1)">1</div>
+          <span class="station-name">Muskelfiber&shy;typer</span>
+        </div>
+        <div class="station-arrow">→</div>
+        <div class="station-node">
+          <div class="station-circle" id="sBtn2" onclick="goStation(2)">2</div>
+          <span class="station-name">Muskel&shy;kontraksjon</span>
+        </div>
+        <div class="station-arrow">→</div>
+        <div class="station-node">
+          <div class="station-circle" id="sBtn3" onclick="goStation(3)">3</div>
+          <span class="station-name">Muskel&shy;tverrsnitt</span>
+        </div>
+        <div class="station-arrow">→</div>
+        <div class="station-node">
+          <div class="station-circle" id="sBtn4" onclick="goStation(4)">4</div>
+          <span class="station-name">Faktorer for styrke</span>
+        </div>
+      </div>
+
+      <!-- TIMER -->
+      <div class="timer-box">
+        <div class="timer-display" id="timerDisplay">10:00</div>
+        <div class="timer-meta">
+          <strong id="timerStationLabel">Stasjon 1 – Muskelfibertyper</strong>
+          <span id="timerStatus">Klar til å starte</span>
+        </div>
+        <div class="timer-btns">
+          <button class="tbtn tbtn-start" onclick="timerStart()">▶ Start</button>
+          <button class="tbtn tbtn-pause" onclick="timerPause()">⏸ Pause</button>
+          <button class="tbtn tbtn-reset" onclick="timerReset()">↺ Reset</button>
+        </div>
+      </div>
+
+      <!-- STASJON 1 -->
+      <div class="station-panel active" id="sp1">
+        <div class="station-card">
+          <div class="station-header">
+            <div class="station-num">1</div>
+            <div>
+              <h3>Muskelfibertyper</h3>
+              <p>Hvilke fibertyper aktiveres i ulike øvelser?</p>
+            </div>
+          </div>
+          <div class="station-body">
+            <div class="station-section">
+              <h4>🏃 Aktivitet</h4>
+              <ul>
+                <li>Prøv <strong>sprint på stedet</strong> i 5 sekunder – rask, eksplosiv innsats.</li>
+                <li>Deretter <strong>knebøy</strong> i langsomt, kontrollert tempo – 5 repetisjoner ned og opp.</li>
+                <li>Merk forskjellen i muskelbruk og hva du kjenner i de to øvelsene.</li>
+              </ul>
+            </div>
+            <div class="station-section">
+              <h4>📝 Observasjoner – skriv ned</h4>
+              <div class="obs-grid">
+                <div class="obs-field">
+                  <label>Sprinting – hva kjenner dere?</label>
+                  <textarea id="s1obs1" placeholder="F.eks. rask trøtthet, brenning..."></textarea>
+                </div>
+                <div class="obs-field">
+                  <label>Knebøy – hva kjenner dere?</label>
+                  <textarea id="s1obs2" placeholder="F.eks. tyngre, mer kontrollert..."></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="discussion-box">
+              <strong>💬 Diskusjonsoppgave</strong>
+              Hvilke muskelfibertyper tror dere ble mest aktivert i hver øvelse – raske (type II) eller langsomme (type I) fibre? Hvorfor passer ulike fibertyper til ulike idretter?
+            </div>
+          </div>
+          <div class="station-nav">
+            <span></span>
+            <button class="nbtn nbtn-next" onclick="goStation(2)">Neste stasjon →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STASJON 2 -->
+      <div class="station-panel" id="sp2">
+        <div class="station-card">
+          <div class="station-header">
+            <div class="station-num">2</div>
+            <div>
+              <h3>Muskelkontraksjon</h3>
+              <p>Konsentrisk, eksentrisk og isometrisk</p>
+            </div>
+          </div>
+          <div class="station-body">
+            <div class="station-section">
+              <h4>💪 Aktivitet</h4>
+              <ul>
+                <li><strong>Bicepscurl</strong> med lett vekt (eller sekk): løft sakte opp (<em>konsentrisk fase</em>).</li>
+                <li>Hold øverst i 3 sekunder uten å bevege armen (<em>isometrisk fase</em>).</li>
+                <li>Senk vekten sakte og kontrollert ned igjen (<em>eksentrisk fase</em>).</li>
+                <li>Gjennomfør 5 repetisjoner og merk forskjellen mellom fasene.</li>
+              </ul>
+            </div>
+            <div class="station-section">
+              <h4>📝 Observasjoner – skriv ned</h4>
+              <div class="obs-grid">
+                <div class="obs-field">
+                  <label>Konsentrisk (opp) – hva kjenner dere?</label>
+                  <textarea id="s2obs1" placeholder="F.eks. kraftanstrengelse oppover..."></textarea>
+                </div>
+                <div class="obs-field">
+                  <label>Eksentrisk (ned) – hva kjenner dere?</label>
+                  <textarea id="s2obs2" placeholder="F.eks. kontrollert bremsing..."></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="discussion-box">
+              <strong>💬 Diskusjonsoppgave</strong>
+              Hva merket dere under de ulike fasene? I hvilken fase kjentes det tyngst? Vet dere hvilken fase som gir mest muskelvekst?
+            </div>
+          </div>
+          <div class="station-nav">
+            <button class="nbtn nbtn-prev" onclick="goStation(1)">← Forrige</button>
+            <button class="nbtn nbtn-next" onclick="goStation(3)">Neste stasjon →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STASJON 3 -->
+      <div class="station-panel" id="sp3">
+        <div class="station-card">
+          <div class="station-header">
+            <div class="station-num">3</div>
+            <div>
+              <h3>Muskeltverrsnittsareal</h3>
+              <p>Mål effekten av trening med målebånd</p>
+            </div>
+          </div>
+          <div class="station-body">
+            <div class="station-section">
+              <h4>📏 Aktivitet</h4>
+              <ul>
+                <li>Mål omkretsen av overarmen (avslappet) med målebånd – noter målet.</li>
+                <li>Gjennomfør <strong>15–20 armhevinger</strong> (smal bredde for biceps).</li>
+                <li>Mål overarmens omkrets igjen umiddelbart etterpå.</li>
+                <li>Hva skjer med størrelsen? Diskuter hvorfor.</li>
+              </ul>
+            </div>
+            <div class="station-section">
+              <h4>📝 Observasjoner – skriv ned</h4>
+              <div class="obs-grid">
+                <div class="obs-field">
+                  <label>Overarmsmål FØR trening (cm)</label>
+                  <textarea id="s3obs1" placeholder="F.eks. 28 cm..."></textarea>
+                </div>
+                <div class="obs-field">
+                  <label>Overarmsmål ETTER trening (cm)</label>
+                  <textarea id="s3obs2" placeholder="F.eks. 29,5 cm..."></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="discussion-box">
+              <strong>💬 Diskusjonsoppgave</strong>
+              Hva kan endringer i muskeltverrsnittsareal fortelle oss om styrken? Hva er det egentlig som skjer inni muskelen på kort sikt (pumping) vs. langsiktig trening?
+            </div>
+          </div>
+          <div class="station-nav">
+            <button class="nbtn nbtn-prev" onclick="goStation(2)">← Forrige</button>
+            <button class="nbtn nbtn-next" onclick="goStation(4)">Neste stasjon →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STASJON 4 -->
+      <div class="station-panel" id="sp4">
+        <div class="station-card">
+          <div class="station-header">
+            <div class="station-num">4</div>
+            <div>
+              <h3>Viktige faktorer for muskelstyrke</h3>
+              <p>Hva påvirker styrken din – og kan alt trenes opp?</p>
+            </div>
+          </div>
+          <div class="station-body">
+            <div class="station-section">
+              <h4>🧠 Aktivitet</h4>
+              <ul>
+                <li>Diskuter i gruppen: Hvilke faktorer mener dere påvirker muskelstyrken?</li>
+                <li>Ranger faktorene fra <strong>mest</strong> til <strong>minst</strong> påvirkbar gjennom trening.</li>
+                <li>Hjelpekort: muskeltverrsnitt, nervesystemet, teknikk, genetikk, ernæring, alder.</li>
+              </ul>
+            </div>
+            <div class="station-section">
+              <h4>📝 Observasjoner – skriv ned</h4>
+              <div class="obs-grid">
+                <div class="obs-field">
+                  <label>Faktorer dere KAN trene opp</label>
+                  <textarea id="s4obs1" placeholder="F.eks. muskeltverrsnitt, teknikk..."></textarea>
+                </div>
+                <div class="obs-field">
+                  <label>Faktorer som er vanskeligere å endre</label>
+                  <textarea id="s4obs2" placeholder="F.eks. genetikk, beinlengde..."></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="discussion-box">
+              <strong>💬 Diskusjonsoppgave</strong>
+              Hvordan kan disse faktorene variere fra person til person? Kan to utøvere med lik treningsinnsats allikevel ha svært ulik styrke – og i så fall, hvorfor?
+            </div>
+          </div>
+          <div class="station-nav">
+            <button class="nbtn nbtn-prev" onclick="goStation(3)">← Forrige</button>
+            <button class="nbtn nbtn-next" disabled>Alle stasjoner fullført ✓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fullførtbadges -->
+      <div class="progress-chips" id="stationChips"></div>
+    </div>
+  </section>
+
+  <!-- ══ FEEDBACK ══ -->
+  <section>
+    <div class="feedback-card reveal">
+      <span class="eyebrow" style="color:var(--teal)">Tilbakemelding</span>
+      <h2>Hvordan fungerer siden?</h2>
+      <p class="sub">Velg en smiley og skriv gjerne en kommentar. Fungerte alle oppgavene slik de skulle? Hva var lett eller vanskelig? Dette tas automatisk med i PDF-en.</p>
+
+      <div class="smiley-row" id="smileyRow"></div>
+
+      <span class="field-label">Kommentar (valgfritt)</span>
+      <textarea id="feedbackText" placeholder="Hva var lett? Hva var vanskelig? Fungerte siden som den skulle, eller var det noe som ikke virket?"></textarea>
+    </div>
+  </section>
+
+  <!-- ══ PDF ══ -->
+  <section>
+    <div class="pdf-card reveal">
+      <span class="eyebrow" style="color:var(--teal)">Siste steg</span>
+      <h2>Last ned svarene dine</h2>
+      <p>Lag en PDF med alle svarene dine, automatisk retting, skriveoppgaven din i sin helhet, og tilbakemeldingen din.</p>
+      <span class="field-label" style="color:#c4d3e6;text-align:center;display:block;">Navn (valgfritt)</span>
+      <input id="studentName" placeholder="Skriv navnet ditt her" style="max-width:320px;margin:0 auto 1.2rem;">
+      <button class="btn-pdf" onclick="generatePDF()">⬇ Last ned PDF</button>
+    </div>
+  </section>
+
+</div>
+
+<footer class="page-footer">Styrketrening · Treningslære 1 · IDR0203</footer>
+
+<script>
+// ══════════════════════ STATE ══════════════════════
+const completed = new Set();
+const TOTAL = 7;
+
+function updateProgress(){
+  const pct = Math.round((completed.size/TOTAL)*100);
+  document.getElementById('progFill').style.width = pct+'%';
+  document.getElementById('progCount').textContent = completed.size+'/'+TOTAL+' fullført';
+}
+function markComplete(id){
+  completed.add(id);
+  document.getElementById(id).classList.add('completed');
+  document.getElementById(id+'-done').classList.add('show');
+  updateProgress();
+}
+function unmark(id){
+  completed.delete(id);
+  document.getElementById(id).classList.remove('completed');
+  document.getElementById(id+'-done').classList.remove('show');
+  updateProgress();
+}
+function toggleCard(id){
+  const card = document.getElementById(id);
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.activity-card.open').forEach(c=>c.classList.remove('open'));
+  if(!isOpen) card.classList.add('open');
+}
+function toggleModelAnswer(id){ document.getElementById(id).classList.toggle('show'); }
+function autoGrow(el){ el.style.height='auto'; el.style.height=(el.scrollHeight+4)+'px'; }
+function markOpenDone(actId, taId){
+  const val = document.getElementById(taId).value.trim();
+  if(val.length<80){ alert('Skriv litt mer i svaret ditt (minst 80 tegn).'); return; }
+  if(actId==='act7'){
+    const fagCount = countFagbegreper(val);
+    const citeCount = countCitations(val);
+    if(fagCount<2){ alert('Du må bruke minst to fagbegreper fra kapittelet (f.eks. eksentrisk kontraksjon, muskeltverrsnitt, motorisk enhet, 1RM …).'); return; }
+    if(citeCount<1){ alert('Du må ha minst én kildehenvisning i teksten – f.eks. (Gjerset et al., 2022, s. 73).'); return; }
+  }
+  markComplete(actId);
+}
+function normalize(str){
+  return str.trim().toLowerCase()
+    .replace(/[.,;:!?()'"„”«»\-]/g,'')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+
+// Oppgave 7 helpers
+const FAGBEGREPER = ['eksentrisk','konsentrisk','isometrisk','agonist','antagonist',
+  'muskeltverrsnitt','motorisk enhet','motoriske enheter','1rm','myosin','aktin',
+  'myofibrill','muskelfiber','muskelfibre','muskelbunter','dynamisk styrke',
+  'statisk styrke','maksimal styrke','eksplosiv styrke','muskulær utholdenhet',
+  'nervesystemet','kontraherer','kontraksjon','hypertrofi','pumpemetoden',
+  'muskelmasse','fibertypesammensetning'];
+function countFagbegreper(txt){
+  const low=txt.toLowerCase();
+  return FAGBEGREPER.filter(f=>low.includes(f)).length;
+}
+function countCitations(txt){
+  const m=txt.match(/[(][A-ZÆØÅ][a-zæøå]+(?:\s+et\s+al\.)?[,\s]+\d{4}[^)]*[)]/g);
+  return m?m.length:0;
+}
+function updateWordCount(){
+  const ta=document.getElementById('openText7');
+  if(!ta) return;
+  const val=ta.value;
+  const words=val.trim().split(/\s+/).filter(function(w){return w.length>0;}).length;
+  const fag=countFagbegreper(val);
+  const cit=countCitations(val);
+  const el=document.getElementById('act7wordcount');
+  if(!el) return;
+  el.innerHTML=words+' ord &nbsp;&middot;&nbsp; '
+    +'<span style="color:'+(fag>=2?'#007863':'#a85b16')+'">'
+    +fag+' fagbegrep'+(fag!==1?'er':'')+' gjenkjent'+(fag>=2?' ✓':' (trenger 2)')+'</span>'
+    +' &nbsp;&middot;&nbsp; '
+    +'<span style="color:'+(cit>=1?'#007863':'#a85b16')+'">'
+    +cit+' kildehenvisning'+(cit!==1?'er':'')+' '+(cit>=1?'✓':'(trenger 1)')+'</span>';
+}
+document.addEventListener('input',function(e){ if(e.target.id==='openText7') updateWordCount(); });
+
+// scroll reveal
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ══════════════════════ OPPGAVE 1 — MC ══════════════════════
+const mcData = [
+  { q:'Hva er statisk muskelstyrke?', opts:['Kraft mens muskelen er i bevegelse','Kraft uten bevegelse i leddet','Kraft over svært lang tid','Kraft generert kun av sener'], ans:1, exp:'Statisk styrke utvikles uten at det skjer bevegelse i leddet muskelen virker over.' },
+  { q:'Hva skjer med muskelen ved eksentrisk arbeid?', opts:['Den forkortes og fungerer som en motor','Den holder konstant lengde','Den forlenges og fungerer som en brems','Den slapper helt av'], ans:2, exp:'Eksentrisk arbeid: muskelen forlenges mens den er aktiv – fungerer som en brems.' },
+  { q:'I en bicepscurl (du bøyer armen) – hvilken muskel er agonist?', opts:['Triceps (armstrekker)','Biceps (armbøyer)','Quadriceps','Gastrocnemius'], ans:1, exp:'Biceps utfører bevegelsen og er agonist; triceps er antagonist og slapper av.' },
+  { q:'Hva er 1RM?', opts:['Vekten du klarer å løfte 10 ganger','Den tyngste vekten du klarer å løfte én gang','Kroppsvekten din','Antall serier i en økt'], ans:1, exp:'1RM = én repetisjon maksimum, den tyngste motstanden du klarer i én løft.' },
+  { q:'Hvilken faktor regnes som viktigst for maksimal muskelstyrke?', opts:['Antall aktive motoriske enheter','Muskeltverrsnittsareal (tykkelsen på muskelen)','Muskelfilamentenes kalsiumsensitivitet','Antall muskelfibre totalt i kroppen'], ans:1, exp:'Muskeltverrsnittsareal regnes som den viktigste enkeltfaktoren for maksimal styrke – jo tykkere muskelen er, jo mer kraft kan den utvikle. Antall aktive motoriske enheter spiller også en viktig rolle, men er mer trening- og teknikkstyrt.' },
+];
+let mcAnswers = [];
+function renderMC(){
+  mcAnswers = new Array(mcData.length).fill(null);
+  document.getElementById('mcContainer').innerHTML = mcData.map((q,qi)=>`
+    <div class="quiz-question">
+      <div class="quiz-q">${qi+1}. ${q.q}</div>
+      <div class="quiz-options">
+        ${q.opts.map((o,oi)=>`<div class="quiz-opt" id="mc_${qi}_${oi}" onclick="selectMC(${qi},${oi})">${o}</div>`).join('')}
+      </div>
+      <div class="quiz-exp" id="mcexp${qi}">💡 ${q.exp}</div>
+    </div>`).join('');
+}
+function selectMC(qi,oi){
+  mcAnswers[qi]=oi;
+  mcData[qi].opts.forEach((_,i)=>{
+    document.getElementById(`mc_${qi}_${i}`).className = 'quiz-opt'+(i===oi?' sel-correct':'');
+  });
+}
+function checkMC(){
+  let correct=0;
+  mcData.forEach((q,qi)=>{
+    const ans = mcAnswers[qi];
+    q.opts.forEach((_,oi)=>{
+      const el = document.getElementById(`mc_${qi}_${oi}`);
+      if(oi===q.ans) el.className='quiz-opt reveal-correct';
+      else if(oi===ans) el.className='quiz-opt sel-wrong';
+      else el.className='quiz-opt';
+    });
+    if(ans===q.ans) correct++;
+    document.getElementById('mcexp'+qi).classList.add('show');
+  });
+  const r=document.getElementById('mcResult');
+  const need = Math.ceil(mcData.length*0.8);
+  r.className='result-msg show '+(correct>=need?'great':correct>=mcData.length/2?'ok':'bad');
+  r.textContent = `${correct} av ${mcData.length} riktige.`+(correct>=need?' 🏆 Bra jobbet!':' Les forklaringene og prøv igjen.');
+  if(correct>=need) markComplete('act1'); else unmark('act1');
+}
+function resetMC(){
+  document.getElementById('mcResult').className='result-msg';
+  unmark('act1');
+  renderMC();
+}
+renderMC();
+
+// ══════════════════════ OPPGAVE 2 — KATEGORISERING ══════════════════════
+const catItems = [
+  { id:'c1', label:'Knebøy med vektstang', bin:'dyn' },
+  { id:'c2', label:'Holde planke i ro', bin:'stat' },
+  { id:'c3', label:'Bicepscurl gjennom hele bevegelsen', bin:'dyn' },
+  { id:'c4', label:'Holde vektstangen stille i toppstilling', bin:'stat' },
+  { id:'c5', label:'Løpe oppover en trapp', bin:'dyn' },
+  { id:'c6', label:'Fast klatregrep uten bevegelse', bin:'stat' },
+];
+function renderCategorize(){
+  const bank = document.getElementById('dndBank');
+  document.getElementById('binDyn').querySelectorAll('.chip').forEach(c=>c.remove());
+  document.getElementById('binStat').querySelectorAll('.chip').forEach(c=>c.remove());
+  bank.innerHTML='';
+  const shuffled = [...catItems].sort(()=>Math.random()-.5);
+  shuffled.forEach(item=>{
+    const chip = document.createElement('div');
+    chip.className='chip';
+    chip.id=item.id;
+    chip.draggable=true;
+    chip.dataset.bin=item.bin;
+    chip.textContent=item.label;
+    chip.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/plain',item.id); chip.classList.add('dragging'); });
+    chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
+    bank.appendChild(chip);
+  });
+}
+[ 'dndBank','binDyn','binStat' ].forEach(zoneId=>{
+  const zone = document.getElementById(zoneId);
+  zone.addEventListener('dragover', e=>{ e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', ()=> zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e=>{
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    const id = e.dataTransfer.getData('text/plain');
+    const chip = document.getElementById(id);
+    if(chip) zone.appendChild(chip);
+  });
+});
+function checkCategorize(){
+  let correct=0, total=catItems.length;
+  catItems.forEach(item=>{
+    const chip = document.getElementById(item.id);
+    const parentBin = chip.parentElement.dataset.bin;
+    if(parentBin===item.bin){ correct++; chip.className='chip correct-flag'; }
+    else { chip.className='chip wrong-flag'; }
+  });
+  const need = Math.ceil(total*0.8);
+  const r = document.getElementById('catResult');
+  r.className='result-msg show '+(correct>=need?'great':'bad');
+  r.textContent = `${correct} av ${total} riktig plassert.`+(correct>=need?' 🎉 Flott!':' Prøv igjen – husk: dynamisk = bevegelse, statisk = ingen bevegelse.');
+  if(correct>=need) markComplete('act2'); else unmark('act2');
+}
+function resetCategorize(){
+  document.getElementById('catResult').className='result-msg';
+  unmark('act2');
+  renderCategorize();
+}
+renderCategorize();
+
+// ══════════════════════ OPPGAVE 3 — FYLL INN (NEDTREKKSLISTE) ══════════════════════
+const blanks = [
+  { before:'Muskelcellene kalles også', blank:['muskelfibre'], after:'.', opts:['myofibriller','muskelbunter','muskelfibre','motoriske enheter'] },
+  { before:'Myofibrillene er bygd opp av trådene aktin og', blank:['myosin'], after:'.', opts:['keratin','myosin','kollagen','elastin'] },
+  { before:'Når myosin trekker seg inn mellom aktin, sier vi at muskelen', blank:['kontraherer'], after:'.', opts:['relakserer','kontraherer','elongerer','degenererer'] },
+  { before:'Forbindelsen mellom nervecelle og muskelfiber kalles en', blank:['motorisk endeplate'], after:'.', opts:['synaptisk klyft','motorisk endeplate','aksonterminal','nevrotransmitter'] },
+  { before:'Muskelfibrene er samlet i grupper som kalles', blank:['muskelbunter'], after:'.', opts:['muskelfibrer','fascikler/muskelbunter','myofibriller','fascikler'] },
+];
+
+function shuffleArr(arr){ return [...arr].sort(()=>Math.random()-.5); }
+
+function renderBlanks(){
+  document.getElementById('blanksContainer').innerHTML = blanks.map((b,i)=>{
+    const shuffled = shuffleArr(b.opts);
+    const options = `<option value="">— velg —</option>` + shuffled.map(o=>`<option value="${o}">${o}</option>`).join('');
+    return `<div class="blank-sentence">${b.before} <select class="blank-select" id="bl${i}">
+      ${options}
+    </select> ${b.after}</div>`;
+  }).join('');
+}
+function checkBlanks(){
+  let correct=0;
+  blanks.forEach((b,i)=>{
+    const sel = document.getElementById('bl'+i);
+    const val = normalize(sel.value);
+    const ok = b.blank.some(acc=>normalize(acc)===val || val.includes(normalize(acc)));
+    sel.className='blank-select '+(ok?'correct':'wrong');
+    if(ok) correct++;
+  });
+  const need = Math.ceil(blanks.length*0.8);
+  const r=document.getElementById('blanksResult');
+  r.className='result-msg show '+(correct>=need?'great':'bad');
+  r.textContent=`${correct} av ${blanks.length} riktige.`+(correct>=need?' 🎉 Flott!':' Sjekk kompendiet (kort 02) og prøv igjen.');
+  if(correct>=need) markComplete('act3'); else unmark('act3');
+}
+function resetBlanks(){
+  renderBlanks();
+  document.getElementById('blanksResult').className='result-msg';
+  unmark('act3');
+}
+renderBlanks();
+
+// ══════════════════════ OPPGAVE 4 — SANT/USANT ══════════════════════
+const tfData = [
+  { stmt:'Eksentrisk muskelarbeid vil si at muskelen blir kortere mens den jobber.', answer:false, exp:'Ved eksentrisk arbeid forlenges muskelen mens den er aktiv – den fungerer som en brems.' },
+  { stmt:'Statisk muskelarbeid reduserer blodtilførselen til musklene.', answer:true, exp:'Kapillærene klemmes sammen ved statisk arbeid, og blodtilførselen hindres.' },
+  { stmt:'En antagonist jobber i samme retning som agonisten.', answer:false, exp:'Antagonisten har motsatt virkning av agonisten – den motstår og balanserer bevegelsen.' },
+  { stmt:'Muskeltverrsnittet er den viktigste enkeltfaktoren for maksimal styrke.', answer:true, exp:'Et større muskeltverrsnitt gir mer kraftutvikling – dette regnes som den viktigste faktoren.' },
+  { stmt:'Pumpemetoden (maks muskelvekst) bruker 70–85 % av 1RM og 6–12 repetisjoner.', answer:true, exp:'Riktig – pumpemetoden brukes for å øke muskeltverrsnittet med langsomt, kontrollert tempo.' },
+  { stmt:'Man bør starte med eksplosiv styrketrening før man har bygd et styrkegrunnlag.', answer:false, exp:'Man bør ha et godt styrkegrunnlag (f.eks. 6–12 mnd. styrketrening) før man starter eksplosiv trening.' },
+  { stmt:'Sener blir tykkere og mer fjærstive som følge av styrketrening.', answer:true, exp:'Riktig – sterkere og tykkere sener er en av de viktigste tilpasningene til styrketrening.' },
+];
+let tfAnswers=[];
+function renderTF(){
+  tfAnswers = new Array(tfData.length).fill(null);
+  document.getElementById('tfContainer').innerHTML = tfData.map((t,i)=>`
+    <div class="tf-row" id="tfrow${i}">
+      <div class="tf-stmt">${i+1}. ${t.stmt}</div>
+      <div class="tf-btns">
+        <button class="tf-btn" id="tf${i}t" onclick="selectTF(${i},true)">✓ Sant</button>
+        <button class="tf-btn" id="tf${i}f" onclick="selectTF(${i},false)">✗ Usant</button>
+      </div>
+      <div class="tf-verdict" id="tf${i}verdict" style="display:none"></div>
+      <div class="tf-feedback" id="tf${i}exp"></div>
+    </div>`).join('');
+}
+function selectTF(i,val){
+  tfAnswers[i]=val;
+  document.getElementById('tf'+i+'t').className='tf-btn'+(val===true?' sel-sant':'');
+  document.getElementById('tf'+i+'f').className='tf-btn'+(val===false?' sel-usant':'');
+  // reset row colour if re-selecting after check
+  const row=document.getElementById('tfrow'+i);
+  row.classList.remove('tf-row-correct','tf-row-wrong');
+  document.getElementById('tf'+i+'verdict').style.display='none';
+  document.getElementById('tf'+i+'exp').classList.remove('show');
+}
+function checkTF(){
+  let correct=0;
+  tfData.forEach((t,i)=>{
+    const ans=tfAnswers[i];
+    if(ans===null) return;
+    const ok=ans===t.answer;
+    if(ok) correct++;
+    // colour entire row
+    const row=document.getElementById('tfrow'+i);
+    row.classList.remove('tf-row-correct','tf-row-wrong');
+    row.classList.add(ok?'tf-row-correct':'tf-row-wrong');
+    // verdict badge
+    const verdict=document.getElementById('tf'+i+'verdict');
+    verdict.style.display='block';
+    verdict.className='tf-verdict '+(ok?'verdict-correct':'verdict-wrong');
+    verdict.textContent=ok?'✓ RIKTIG SVAR':'✗ FEIL SVAR – riktig svar er: '+(t.answer?'Sant':'Usant');
+    // explanation
+    const exp=document.getElementById('tf'+i+'exp');
+    exp.className='tf-feedback show';
+    exp.textContent=t.exp;
+  });
+  const need=Math.ceil(tfData.length*0.8);
+  const r=document.getElementById('tfResult');
+  r.className='result-msg show '+(correct>=need?'great':'bad');
+  r.textContent=`${correct} av ${tfData.length} riktige.`+(correct>=need?' 🏆 Sterkt!':' Les forklaringene og prøv igjen.');
+  if(correct>=need) markComplete('act4'); else unmark('act4');
+}
+function resetTF(){
+  document.getElementById('tfResult').className='result-msg';
+  unmark('act4');
+  renderTF();
+}
+renderTF();
+
+// ══════════════════════ OPPGAVE 5 — DRAG SORT ══════════════════════
+const sortItems = [
+  { label:'Muskulær utholdenhet', order:0, pct:'20–60 % av 1RM' },
+  { label:'Eksplosiv styrke', order:1, pct:'Opptil 50 % av 1RM' },
+  { label:'Maks muskelvekst (pumpemetoden)', order:2, pct:'70–85 % av 1RM' },
+  { label:'Maks styrke – noe trent', order:3, pct:'75–85 % av 1RM' },
+  { label:'Maks styrke – viderekommen', order:4, pct:'80–100 % av 1RM' },
+];
+let sortOrder=[];
+function buildSortItem(item,i){
+  const li=document.createElement('li');
+  li.className='sort-item';
+  li.dataset.idx=i;
+  li.draggable=true;
+  li.innerHTML=`<span class="sort-handle">⋮⋮</span><span>${item.label}</span><span style="color:var(--muted);font-size:.78rem;margin-left:auto">${item.pct}</span>`;
+  li.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/plain',i); li.classList.add('dragging'); });
+  li.addEventListener('dragend',()=>li.classList.remove('dragging'));
+  li.addEventListener('dragover',e=>{ e.preventDefault(); li.classList.add('drag-over'); });
+  li.addEventListener('dragleave',()=>li.classList.remove('drag-over'));
+  li.addEventListener('drop',e=>{
+    e.preventDefault();
+    li.classList.remove('drag-over');
+    const fromIdx=+e.dataTransfer.getData('text/plain');
+    const toIdx=+li.dataset.idx;
+    if(fromIdx!==toIdx){
+      const tmp=sortOrder[fromIdx];
+      sortOrder[fromIdx]=sortOrder[toIdx];
+      sortOrder[toIdx]=tmp;
+      renderSortList();
+    }
+  });
+  return li;
+}
+function renderSortList(){
+  const list=document.getElementById('sortList');
+  list.innerHTML='';
+  sortOrder.forEach((item,i)=> list.appendChild(buildSortItem(item,i)) );
+}
+function renderSort(){
+  sortOrder=[...sortItems].sort(()=>Math.random()-.5);
+  renderSortList();
+}
+function checkSort(){
+  const correctCount = sortOrder.filter((item,i)=>item.order===i).length;
+  const need = Math.ceil(sortItems.length*0.8);
+  const r=document.getElementById('sortResult');
+  r.className='result-msg show '+(correctCount>=need?'great':'bad');
+  r.textContent = correctCount>=need
+    ? `🎉 ${correctCount} av ${sortItems.length} på riktig plass! Intensiteten øker fra muskulær utholdenhet til maks styrke (viderekommen).`
+    : `${correctCount} av ${sortItems.length} på riktig plass – prøv igjen.`;
+  if(correctCount>=need) markComplete('act5'); else unmark('act5');
+}
+function resetSort(){
+  document.getElementById('sortResult').className='result-msg';
+  unmark('act5');
+  renderSort();
+}
+renderSort();
+
+// ══════════════════════ OPPGAVE 6 — MATCH ══════════════════════
+const matchPairs = [
+  { left:'Biceps brachii (armbøyer)', right:'Triceps brachii (armstrekker)' },
+  { left:'Quadriceps (knestrekker)', right:'Hamstrings (baksiden av låret)' },
+  { left:'Pectoralis major (brystmuskel)', right:'Ryggmuskler mellom skulderbladene' },
+  { left:'Gastrocnemius (legg – tåheving)', right:'Tibialis anterior (legg – framside)' },
+  { left:'Rectus abdominis (mage)', right:'Erector spinae (ryggstrekker)' },
+];
+// Store randomised display order for left column
+let matchLeftOrder=[], matchRightOrder=[];
+let matchSelected=null, matchDone=new Set();
+
+function renderMatch(){
+  matchSelected=null; matchDone=new Set();
+  // randomise both columns independently
+  matchLeftOrder  = [...matchPairs].sort(()=>Math.random()-.5);
+  matchRightOrder = [...matchPairs].sort(()=>Math.random()-.5);
+
+  const leftCol  = document.getElementById('matchLeft');
+  const rightCol = document.getElementById('matchRight');
+  leftCol.innerHTML  = matchLeftOrder.map((p,i)=>
+    `<div class="match-item left-item" id="ml${i}" data-key="${p.left}" onclick="selectLeft(${i})">${p.left}</div>`).join('');
+  rightCol.innerHTML = matchRightOrder.map((p,i)=>
+    `<div class="match-item right-item" id="mr${i}" data-key="${p.right}" onclick="selectRight('${p.right.replace(/'/g,"\\'")}',${i})">${p.right}</div>`).join('');
+}
+
+function selectLeft(i){
+  if(document.getElementById('ml'+i).classList.contains('matched-correct')) return;
+  document.querySelectorAll('.left-item:not(.matched-correct)').forEach(el=>el.classList.remove('selected'));
+  matchSelected=i;
+  document.getElementById('ml'+i).classList.add('selected');
+}
+
+function selectRight(val,ri){
+  if(matchSelected===null) return;
+  const leftEl  = document.getElementById('ml'+matchSelected);
+  const rightEl = document.getElementById('mr'+ri);
+  if(rightEl.classList.contains('matched-correct')) return;
+
+  // find the correct antagonist for the selected left item
+  const leftKey   = matchLeftOrder[matchSelected].left;
+  const pairEntry = matchPairs.find(p=>p.left===leftKey);
+  const correct   = pairEntry && pairEntry.right===val;
+
+  if(correct){
+    leftEl.className='match-item matched-correct';
+    rightEl.className='match-item matched-correct';
+    matchDone.add(leftKey);
+
+    // move matched pair to top of their respective columns
+    const leftCol  = document.getElementById('matchLeft');
+    const rightCol = document.getElementById('matchRight');
+    leftCol.prepend(leftEl);
+    rightCol.prepend(rightEl);
+
+    const need=Math.ceil(matchPairs.length*0.8);
+    if(matchDone.size>=need){
+      const r=document.getElementById('matchResult');
+      r.className='result-msg show great';
+      r.textContent=`🏆 ${matchDone.size} av ${matchPairs.length} riktig koblet! Agonist og antagonist sitter!`;
+      markComplete('act6');
+    }
+  } else {
+    leftEl.style.animation='shake .4s';
+    rightEl.style.animation='shake .4s';
+    setTimeout(()=>{ leftEl.style.animation=''; rightEl.style.animation=''; },500);
+  }
+  matchSelected=null;
+  document.querySelectorAll('.left-item:not(.matched-correct)').forEach(el=>el.classList.remove('selected'));
+}
+function resetMatch(){
+  document.getElementById('matchResult').className='result-msg';
+  unmark('act6');
+  renderMatch();
+}
+renderMatch();
+const shakeStyle=document.createElement('style');
+shakeStyle.textContent=`@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}`;
+document.head.appendChild(shakeStyle);
+
+// ══════════════════════ FEEDBACK — SMILEY ══════════════════════
+const smileys = ['😩','😟','😐','🙂','😀','😄','🤩'];
+let smileyValue = null;
+function renderSmileys(){
+  document.getElementById('smileyRow').innerHTML = smileys.map((s,i)=>
+    `<button type="button" class="smiley-btn" id="smiley${i+1}" onclick="selectSmiley(${i+1})">${s}<span class="smiley-num">${i+1}</span></button>`).join('');
+}
+function selectSmiley(v){
+  smileyValue=v;
+  smileys.forEach((_,i)=> document.getElementById('smiley'+(i+1)).classList.toggle('selected', i+1===v) );
+}
+renderSmileys();
+
+// ══════════════════════ PDF EXPORT ══════════════════════
+function generatePDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const pageH = 285;
+  let y = 18;
+  const marginL = 14, maxW = 182;
+
+  function ensureSpace(lines){
+    if(y + lines*5.2 > pageH){ doc.addPage(); y = 18; }
+  }
+  function heading(text){
+    ensureSpace(3);
+    doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(11,31,58);
+    doc.text(text, marginL, y); y += 7;
+    doc.setDrawColor(0,194,168); doc.setLineWidth(.6);
+    doc.line(marginL, y-5, marginL+maxW, y-5);
+  }
+  function line(text, opts={}){
+    doc.setFont('helvetica', opts.bold?'bold':'normal');
+    doc.setFontSize(opts.size||10);
+    doc.setTextColor(...(opts.color||[40,50,65]));
+    const wrapped = doc.splitTextToSize(text, maxW);
+    ensureSpace(wrapped.length);
+    doc.text(wrapped, marginL, y);
+    y += wrapped.length*5.2 + (opts.gap||1.5);
+  }
+
+  // Title
+  doc.setFont('helvetica','bold'); doc.setFontSize(20); doc.setTextColor(11,31,58);
+  doc.text('Styrketrening – Svarark', marginL, y); y+=8;
+  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(90,100,120);
+  doc.text('Treningslære 1 · IDR0203', marginL, y); y+=6;
+
+  const name = document.getElementById('studentName').value.trim();
+  const dateStr = new Date().toLocaleDateString('nb-NO');
+  doc.text(`Dato: ${dateStr}`+(name?`   ·   Navn: ${name}`:''), marginL, y); y+=10;
+
+  line(`Fullførte oppgaver: ${completed.size}/${TOTAL}`, {bold:true, size:11, color:[0,120,99], gap:6});
+
+  // Oppgave 1
+  heading('Oppgave 1 – Flervalg');
+  let mcCorrect=0;
+  mcData.forEach((q,qi)=>{
+    const studentIdx = mcAnswers[qi];
+    const studentTxt = studentIdx!==null && studentIdx!==undefined ? q.opts[studentIdx] : '(ikke besvart)';
+    const ok = studentIdx===q.ans;
+    if(ok) mcCorrect++;
+    line(`${qi+1}. ${q.q}`, {bold:true, gap:.5});
+    line(`Svar: ${studentTxt}   ${ok?'✓ riktig':'✗ feil — riktig svar: '+q.opts[q.ans]}`, {color: ok?[0,120,99]:[178,58,58], gap:3});
+  });
+  line(`Resultat: ${mcCorrect}/${mcData.length}`, {bold:true, gap:6});
+
+  // Oppgave 2
+  heading('Oppgave 2 – Dynamisk eller statisk?');
+  let catCorrect=0;
+  catItems.forEach(item=>{
+    const chip=document.getElementById(item.id);
+    const placed = chip.parentElement.dataset.bin || '(ikke plassert)';
+    const ok = placed===item.bin;
+    if(ok) catCorrect++;
+    line(`${item.label} → plassert: ${placed==='dyn'?'Dynamisk':placed==='stat'?'Statisk':placed}   ${ok?'✓':'✗ (riktig: '+(item.bin==='dyn'?'Dynamisk':'Statisk')+')'}`, {color: ok?[0,120,99]:[178,58,58], gap:2});
+  });
+  line(`Resultat: ${catCorrect}/${catItems.length}`, {bold:true, gap:6});
+
+  // Oppgave 3
+  heading('Oppgave 3 – Fyll inn blanke');
+  let blCorrect=0;
+  blanks.forEach((b,i)=>{
+    const inp=document.getElementById('bl'+i);
+    const val=inp.value.trim()||'(tomt)';
+    const ok = b.blank.some(acc=>normalize(acc)===normalize(inp.value));
+    if(ok) blCorrect++;
+    line(`${b.before} [${val}] ${b.after}   ${ok?'✓':'✗ (riktig: '+b.blank[0]+')'}`, {color: ok?[0,120,99]:[178,58,58], gap:2});
+  });
+  line(`Resultat: ${blCorrect}/${blanks.length}`, {bold:true, gap:6});
+
+  // Oppgave 4
+  heading('Oppgave 4 – Sant/Usant');
+  let tfCorrect=0;
+  tfData.forEach((t,i)=>{
+    const ans = tfAnswers[i];
+    const ansTxt = ans===null||ans===undefined ? '(ikke besvart)' : (ans?'Sant':'Usant');
+    const ok = ans===t.answer;
+    if(ok) tfCorrect++;
+    line(`${i+1}. ${t.stmt}`, {gap:.5});
+    line(`Svar: ${ansTxt}   ${ok?'✓ riktig':'✗ feil — riktig: '+(t.answer?'Sant':'Usant')}`, {color: ok?[0,120,99]:[178,58,58], gap:3});
+  });
+  line(`Resultat: ${tfCorrect}/${tfData.length}`, {bold:true, gap:6});
+
+  // Oppgave 5
+  heading('Oppgave 5 – Sortering etter treningsmotstand');
+  const studentOrderTxt = sortOrder.map(it=>it.label).join('  →  ');
+  line('Din rekkefølge: '+studentOrderTxt, {gap:3});
+  const correctOrderTxt = [...sortItems].sort((a,b)=>a.order-b.order).map(it=>it.label).join('  →  ');
+  const sortCorrectCount = sortOrder.filter((item,i)=>item.order===i).length;
+  line('Riktig rekkefølge: '+correctOrderTxt, {gap:3});
+  line(`Resultat: ${sortCorrectCount}/${sortItems.length} på riktig plass`, {bold:true, gap:6});
+
+  // Oppgave 6
+  heading('Oppgave 6 – Agonist og antagonist');
+  line(`Riktig koblet: ${matchDone.size}/${matchPairs.length}`, {gap:2});
+  matchPairs.forEach(p=>{ line(`${p.left}  ↔  ${p.right}`, {gap:1.5, size:9, color:[90,100,120]}); });
+  y += 2;
+
+  // Oppgave 7
+  heading('Oppgave 7 – Eksentrisk styrketrening og skaderisiko');
+  const essay = document.getElementById('openText7').value.trim();
+  line('Påstand: «Eksentrisk styrketrening (negative reps) kan medføre stor risiko for skader.»', {bold:true, gap:3});
+  if(essay.length){
+    const ef=countFagbegreper(essay); const ec=countCitations(essay);
+    line('Fagbegreper gjenkjent: '+ef+' | Kildehenvisninger: '+ec, {size:9, color:[90,100,120], gap:2});
+    line(essay, {gap:6});
+  } else { line('(Eleven har ikke skrevet svar på denne oppgaven.)', {gap:6}); }
+
+  // Feedback
+  heading('Tilbakemelding fra eleven');
+  line('Vurdering: '+(smileyValue? smileyValue+'/7 '+smileys[smileyValue-1] : '(ikke valgt)'), {bold:true, gap:3});
+  const fb = document.getElementById('feedbackText').value.trim();
+  line('Kommentar om opplegget: '+(fb.length? fb : '(ingen kommentar)'), {gap:3});
+
+
+  const fileName = 'styrketrening_svar'+(name? '_'+name.replace(/\s+/g,'_') : '')+'.pdf';
+  doc.save(fileName);
+}
+
+// open first card
+setTimeout(()=>toggleCard('act1'), 400);
+
+// ══════════════════════ 1RM SLIDER ══════════════════════
+const rmMethods = [
+  { min:20, max:49,  reps:'20+',    label:'Muskulær utholdenhet',
+    motstand:'20–60 %', repRange:'15 – svært mange', serier:'1–4', pauser:'0–2 min',
+    desc:'Lav motstand med mange repetisjoner. Trener musklenes evne til å jobbe lenge uten å bli utmattet. Brukes i utholdenhetsbaserte idretter og som oppvarming.',
+    color:'#00C2A8' },
+  { min:50, max:64,  reps:'15–20',  label:'Eksplosiv styrke',
+    motstand:'Opptil 50 %', repRange:'1–5', serier:'4–8', pauser:'3–5 min',
+    desc:'Lav motstand, men maksimal hastighet i hvert løft. Målet er å utvikle kraft raskt. Krever godt styrkegrunnlag og brukes mye i idretter som sprint, hopp og kast.',
+    color:'#3fcfb6' },
+  { min:65, max:74,  reps:'12–15',  label:'Maks muskelvekst',
+    motstand:'70–85 %', repRange:'6–12', serier:'2–4', pauser:'2–3 min',
+    desc:'Langsomt og kontrollert tempo. Målet er å øke muskeltverrsnittet (hypertrofi). Passer godt for de fleste som ønsker synlig muskelvekst.',
+    color:'#9bb86a' },
+  { min:75, max:84,  reps:'6–12',   label:'Maks muskelvekst / Maks styrke (noe trent)',
+    motstand:'70–85 %', repRange:'4–12', serier:'2–4', pauser:'2–3 min',
+    desc:'Her overlapper pumpemetoden og maks styrke for noe trente. Langsomt tempo gir mer muskelvekst; raskere tempo med tyngre vekt gir mer maksimal styrke.',
+    color:'#c4a44a' },
+  { min:85, max:94,  reps:'3–5',    label:'Maksimal styrke (noe trent / viderekommen)',
+    motstand:'80–100 %', repRange:'1–5', serier:'3–8', pauser:'3–5 min',
+    desc:'Svært tung belastning med få repetisjoner og lange pauser. Trener nervesystemet til å rekruttere flest mulig motoriske enheter. Krever god teknikk og oppvarming.',
+    color:'#d87a3a' },
+  { min:95, max:100, reps:'1–2',    label:'Maksimal styrke – 1RM-sone',
+    motstand:'95–100 %', repRange:'1–2', serier:'3–6', pauser:'4–5 min',
+    desc:'Maksimal innsats på én eller to repetisjoner. Trener nervesystemet og utvikler størst mulig styrke. Kun for godt trente utøvere med solid teknisk grunnlag.',
+    color:'#E85D26' },
+];
+
+function getRmMethod(pct){
+  return rmMethods.find(m=>pct>=m.min && pct<=m.max) || rmMethods[rmMethods.length-1];
+}
+
+// approximate rep max from % 1RM (Epley-inspired)
+function pctToReps(pct){
+  if(pct>=100) return '1';
+  if(pct>=95)  return '1–2';
+  if(pct>=90)  return '2–3';
+  if(pct>=85)  return '3–5';
+  if(pct>=80)  return '5–8';
+  if(pct>=75)  return '8–10';
+  if(pct>=70)  return '10–12';
+  if(pct>=65)  return '12–15';
+  if(pct>=60)  return '15–20';
+  if(pct>=50)  return '20–25';
+  if(pct>=40)  return '25–35';
+  return '35+';
+}
+
+function updateSlider(){
+  const pct  = +document.getElementById('rmSlider').value;
+  const m    = getRmMethod(pct);
+  const reps = pctToReps(pct);
+
+  document.getElementById('valRM').textContent    = pct + ' %';
+  document.getElementById('valReps').textContent  = reps;
+  document.getElementById('valMethod').textContent = m.label;
+
+  // pill colours follow intensity
+  const rm = document.getElementById('pillRM');
+  rm.style.borderColor = m.color;
+  rm.querySelector('.pill-value').style.color = m.color;
+
+  const rp = document.getElementById('pillReps');
+  rp.style.borderColor = m.color;
+  rp.querySelector('.pill-value').style.color = m.color;
+
+  const pm = document.getElementById('pillMethod');
+  pm.style.borderColor = m.color;
+  pm.querySelector('.pill-value').style.color = m.color;
+
+  // detail box
+  document.getElementById('mdbBar').style.background   = m.color;
+  document.getElementById('methodDetail').style.borderColor = m.color;
+  document.getElementById('mdbTitle').textContent   = m.label;
+  document.getElementById('mdbMotstand').textContent = m.motstand;
+  document.getElementById('mdbReps').textContent     = m.repRange;
+  document.getElementById('mdbSerier').textContent   = m.serier;
+  document.getElementById('mdbPauser').textContent   = m.pauser;
+  document.getElementById('mdbDesc').textContent     = m.desc;
+}
+
+document.getElementById('rmSlider').addEventListener('input', updateSlider);
+updateSlider();
+
+
+const stationNames = [
+  '', // index 0 unused
+  'Stasjon 1 – Muskelfibertyper',
+  'Stasjon 2 – Muskelkontraksjon',
+  'Stasjon 3 – Muskeltverrsnittsareal',
+  'Stasjon 4 – Faktorer for muskelstyrke',
+];
+let currentStation = 1;
+const visitedStations = new Set();
+let timerSeconds = 600;
+let timerInterval = null;
+let timerRunning = false;
+
+function goStation(n){
+  // deactivate old
+  document.getElementById('sp'+currentStation).classList.remove('active');
+  document.getElementById('sBtn'+currentStation).classList.remove('active');
+  currentStation = n;
+  // activate new
+  document.getElementById('sp'+n).classList.add('active');
+  document.getElementById('sBtn'+n).classList.add('active');
+  // reset timer for new station
+  timerReset();
+  document.getElementById('timerStationLabel').textContent = stationNames[n];
+  document.getElementById('timerStatus').textContent = 'Klar til å starte';
+  document.getElementById('timerDisplay').classList.remove('warning');
+  // scroll to timer
+  document.getElementById('timerDisplay').closest('.timer-box').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function formatTime(s){
+  const m = Math.floor(s/60);
+  const sec = s%60;
+  return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
+function updateTimerDisplay(){
+  const el = document.getElementById('timerDisplay');
+  el.textContent = formatTime(timerSeconds);
+  el.classList.toggle('warning', timerSeconds <= 60 && timerSeconds > 0);
+}
+function timerStart(){
+  if(timerRunning || timerSeconds<=0) return;
+  timerRunning=true;
+  document.getElementById('timerStatus').textContent = 'Teller ned…';
+  timerInterval = setInterval(()=>{
+    timerSeconds--;
+    updateTimerDisplay();
+    if(timerSeconds <= 0){
+      clearInterval(timerInterval);
+      timerRunning=false;
+      document.getElementById('timerDisplay').textContent='00:00';
+      document.getElementById('timerStatus').textContent = '⏰ Tid er ute! Roter til neste stasjon.';
+      document.getElementById('timerDisplay').classList.remove('warning');
+      // mark visited
+      visitedStations.add(currentStation);
+      updateStationChips();
+    }
+  },1000);
+}
+function timerPause(){
+  if(!timerRunning) return;
+  clearInterval(timerInterval);
+  timerRunning=false;
+  document.getElementById('timerStatus').textContent = 'Pauset';
+}
+function timerReset(){
+  clearInterval(timerInterval);
+  timerRunning=false;
+  timerSeconds=600;
+  updateTimerDisplay();
+}
+function updateStationChips(){
+  const chips = document.getElementById('stationChips');
+  chips.innerHTML = [1,2,3,4].map(i=>
+    `<span class="prog-chip${visitedStations.has(i)?' done':''}">Stasjon ${i}${visitedStations.has(i)?' ✓':''}</span>`
+  ).join('');
+}
+
+// init
+document.getElementById('timerStationLabel').textContent = stationNames[1];
+updateTimerDisplay();
+updateStationChips();
+
+// ══════════════════════ PDF – inkluder stasjonsnotat ══════════════════════
+// Patch generatePDF to also write station observations
+const _origPDF = generatePDF;
+window.generatePDF = function(){
+  // We rebuild the whole PDF inline so station notes are included
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const pageH = 285;
+  let y = 18;
+  const marginL = 14, maxW = 182;
+
+  function ensureSpace(lines){ if(y+lines*5.2>pageH){ doc.addPage(); y=18; } }
+  function heading(text){
+    ensureSpace(3);
+    doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(11,31,58);
+    doc.text(text, marginL, y); y+=7;
+    doc.setDrawColor(0,194,168); doc.setLineWidth(.6);
+    doc.line(marginL, y-5, marginL+maxW, y-5);
+  }
+  function line(text, opts={}){
+    doc.setFont('helvetica', opts.bold?'bold':'normal');
+    doc.setFontSize(opts.size||10);
+    doc.setTextColor(...(opts.color||[40,50,65]));
+    const wrapped = doc.splitTextToSize(text, maxW);
+    ensureSpace(wrapped.length);
+    doc.text(wrapped, marginL, y);
+    y += wrapped.length*5.2 + (opts.gap||1.5);
+  }
+
+  const name = document.getElementById('studentName').value.trim();
+  const dateStr = new Date().toLocaleDateString('nb-NO');
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(20); doc.setTextColor(11,31,58);
+  doc.text('Styrketrening – Svarark', marginL, y); y+=8;
+  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(90,100,120);
+  doc.text('Treningslære 1 · IDR0203', marginL, y); y+=6;
+  doc.text(`Dato: ${dateStr}`+(name?`   ·   Navn: ${name}`:''), marginL, y); y+=10;
+  line(`Fullførte oppgaver: ${completed.size}/${TOTAL}`, {bold:true,size:11,color:[0,120,99],gap:6});
+
+  // MC
+  heading('Oppgave 1 – Flervalg');
+  let mcC=0;
+  mcData.forEach((q,qi)=>{
+    const si=mcAnswers[qi]; const st=si!=null?q.opts[si]:'(ikke besvart)'; const ok=si===q.ans; if(ok) mcC++;
+    line(`${qi+1}. ${q.q}`,{bold:true,gap:.5});
+    line(`Svar: ${st}   ${ok?'✓ riktig':'✗ feil — riktig: '+q.opts[q.ans]}`,{color:ok?[0,120,99]:[178,58,58],gap:3});
+  });
+  line(`Resultat: ${mcC}/${mcData.length}`,{bold:true,gap:6});
+
+  // Kategorisering
+  heading('Oppgave 2 – Kategorisering');
+  let catC=0;
+  catItems.forEach(item=>{
+    const chip=document.getElementById(item.id);
+    const placed=chip.parentElement.dataset.bin||'(ikke plassert)';
+    const ok=placed===item.bin; if(ok) catC++;
+    line(`${item.label} → ${placed==='dyn'?'Dynamisk':placed==='stat'?'Statisk':placed}   ${ok?'✓':'✗ (riktig: '+(item.bin==='dyn'?'Dynamisk':'Statisk')+')'}`,{color:ok?[0,120,99]:[178,58,58],gap:2});
+  });
+  line(`Resultat: ${catC}/${catItems.length}`,{bold:true,gap:6});
+
+  // Blanks
+  heading('Oppgave 3 – Fyll inn blanke');
+  let blC=0;
+  blanks.forEach((b,i)=>{
+    const inp=document.getElementById('bl'+i); const val=inp.value.trim()||'(tomt)';
+    const ok=b.blank.some(a=>normalize(a)===normalize(inp.value)); if(ok) blC++;
+    line(`${b.before} [${val}] ${b.after}   ${ok?'✓':'✗ (riktig: '+b.blank[0]+')'}`,{color:ok?[0,120,99]:[178,58,58],gap:2});
+  });
+  line(`Resultat: ${blC}/${blanks.length}`,{bold:true,gap:6});
+
+  // TF
+  heading('Oppgave 4 – Sant/Usant');
+  let tfC=0;
+  tfData.forEach((t,i)=>{
+    const ans=tfAnswers[i]; const at=ans==null?'(ikke besvart)':(ans?'Sant':'Usant'); const ok=ans===t.answer; if(ok) tfC++;
+    line(`${i+1}. ${t.stmt}`,{gap:.5});
+    line(`Svar: ${at}   ${ok?'✓ riktig':'✗ feil — riktig: '+(t.answer?'Sant':'Usant')}`,{color:ok?[0,120,99]:[178,58,58],gap:3});
+  });
+  line(`Resultat: ${tfC}/${tfData.length}`,{bold:true,gap:6});
+
+  // Sort
+  heading('Oppgave 5 – Sortering');
+  const sc=sortOrder.filter((item,i)=>item.order===i).length;
+  line('Din rekkefølge: '+sortOrder.map(it=>it.label).join(' → '),{gap:3});
+  line('Riktig: '+[...sortItems].sort((a,b)=>a.order-b.order).map(it=>it.label).join(' → '),{gap:3});
+  line(`Resultat: ${sc}/${sortItems.length}`,{bold:true,gap:6});
+
+  // Match
+  heading('Oppgave 6 – Agonist og antagonist');
+  line(`Riktig koblet: ${matchDone.size}/${matchPairs.length}`,{gap:2});
+  matchPairs.forEach(p=>{ line(`${p.left}  ↔  ${p.right}`,{gap:1.5,size:9,color:[90,100,120]}); });
+  y+=2;
+
+  // Essay
+  heading('Oppgave 7 – Drøfting av påstand');
+  line('Påstand: «Eksentrisk styrketrening (negative reps) kan medføre stor risiko for skader.»',{bold:true,gap:3});
+  const essay=document.getElementById('openText7').value.trim();
+  line(essay.length?essay:'(ikke besvart)',{gap:6});
+
+  // Stasjonsnotat
+  heading('Praktiske stasjonsnotat');
+  const stationObs = [
+    {n:'Stasjon 1 – Muskelfibertyper', fields:[{id:'s1obs1',label:'Sprinting'},{id:'s1obs2',label:'Knebøy'}]},
+    {n:'Stasjon 2 – Muskelkontraksjon', fields:[{id:'s2obs1',label:'Konsentrisk'},{id:'s2obs2',label:'Eksentrisk'}]},
+    {n:'Stasjon 3 – Muskeltverrsnitt', fields:[{id:'s3obs1',label:'Mål FØR'},{id:'s3obs2',label:'Mål ETTER'}]},
+    {n:'Stasjon 4 – Faktorer for styrke', fields:[{id:'s4obs1',label:'Faktorer som kan trenes'},{id:'s4obs2',label:'Vanskeligere å endre'}]},
+  ];
+  stationObs.forEach(st=>{
+    line(st.n,{bold:true,gap:1.5,color:[0,99,130]});
+    st.fields.forEach(f=>{
+      const val=(document.getElementById(f.id)||{}).value||'(ikke fylt inn)';
+      line(`${f.label}: ${val.trim().length?val.trim():'(ikke fylt inn)'}`,{gap:2.5});
+    });
+    y+=1;
+  });
+
+  // Feedback
+  heading('Tilbakemelding fra eleven');
+  line('Vurdering: '+(smileyValue?smileyValue+'/7 '+smileys[smileyValue-1]:'(ikke valgt)'),{bold:true,gap:3});
+  const fb=document.getElementById('feedbackText').value.trim();
+  line('Kommentar om opplegget: '+(fb.length?fb:'(ingen kommentar)'),{gap:3});
+
+
+  const fileName='styrketrening_svar'+(name?'_'+name.replace(/\s+/g,'_'):'')+'.pdf';
+  doc.save(fileName);
+};
+</script>
+</body>
+</html>
