@@ -254,6 +254,9 @@ table.okt-table textarea.cell-ta:focus{outline:none;background:rgba(0,194,168,.0
 /* COMMON BTN */
 .chk-btn{background:var(--navy);color:#fff;border:none;border-radius:999px;padding:.65rem 1.5rem;font-weight:700;font-family:'Inter',sans-serif;font-size:.88rem;cursor:pointer;margin-top:.8rem;transition:transform .12s,background .12s;}
 .chk-btn:hover{background:#16294e;transform:translateY(-1px);}
+.reset-btn{background:transparent;color:var(--sub);border:1.5px solid #c0cfe0;border-radius:999px;padding:.5rem 1.1rem;font-weight:700;font-family:'Inter',sans-serif;font-size:.82rem;cursor:pointer;margin-top:.8rem;margin-left:.6rem;transition:all .12s;}
+.reset-btn:hover{border-color:var(--navy);color:var(--navy);}
+.btn-row{display:flex;align-items:center;flex-wrap:wrap;gap:.3rem;}
 .res-box{margin-top:.9rem;padding:.8rem 1rem;border-radius:11px;font-size:.88rem;font-weight:700;display:none;}
 .res-box.ok{display:block;background:var(--teal-s);color:#016e5e;}
 .res-box.no{display:block;background:var(--orange-s);color:#9e3a18;}
@@ -534,7 +537,7 @@ footer{text-align:center;padding:2.4rem 0 3rem;color:#7889a4;font-size:.8rem;}
       <div class="correct-hint" id="hint-mcq5">✓ Riktig svar: Du bør trene de egenskapene du vil bli god på</div>
     </div>
 
-    <button class="chk-btn" onclick="checkMC()">Sjekk svar</button>
+    <div class="btn-row"><button class="chk-btn" onclick="checkMC()">Sjekk svar</button><button class="reset-btn" onclick="resetMC()">↺ Start på nytt</button></div>
     <div class="res-box" id="res1"></div>
   </div>
 
@@ -605,7 +608,7 @@ footer{text-align:center;padding:2.4rem 0 3rem;color:#7889a4;font-size:.8rem;}
       </div>
     </div>
 
-    <button class="chk-btn" onclick="checkTF()">Sjekk svar</button>
+    <div class="btn-row"><button class="chk-btn" onclick="checkTF()">Sjekk svar</button><button class="reset-btn" onclick="resetTF()">↺ Start på nytt</button></div>
     <div class="res-box" id="res2"></div>
   </div>
 
@@ -642,7 +645,7 @@ footer{text-align:center;padding:2.4rem 0 3rem;color:#7889a4;font-size:.8rem;}
       </div>
     </div>
 
-    <button class="chk-btn" onclick="checkCloze()">Sjekk svar</button>
+    <div class="btn-row"><button class="chk-btn" onclick="checkCloze()">Sjekk svar</button><button class="reset-btn" onclick="resetCloze()">↺ Start på nytt</button></div>
     <div class="res-box" id="res3"></div>
   </div>
 
@@ -667,7 +670,7 @@ footer{text-align:center;padding:2.4rem 0 3rem;color:#7889a4;font-size:.8rem;}
       <div class="drop-zone" data-cat="resultat"><span class="zlbl">🏆 Resultatmål</span></div>
       <div class="drop-zone" data-cat="innsats"><span class="zlbl">💪 Innsats- og samarbeidsmål</span></div>
     </div>
-    <button class="chk-btn" onclick="checkDrop()">Sjekk svar</button>
+    <div class="btn-row"><button class="chk-btn" onclick="checkDrop()">Sjekk svar</button><button class="reset-btn" onclick="resetDrop()">↺ Start på nytt</button></div>
     <div class="res-box" id="res4"></div>
   </div>
 
@@ -1123,56 +1126,167 @@ buildSliders();drawChart();
 
 
 /* ===== PDF ===== */
-function genPDF(){
-  const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'pt',format:'a4'});
-  const H=842,ML=50,MW=495;let y=56;
-  function ln(text,size,bold,color){
-    size=size||11;doc.setFont('helvetica',bold?'bold':'normal');doc.setFontSize(size);doc.setTextColor(color||[11,31,58]);
-    const ls=doc.splitTextToSize(String(text),MW);
-    ls.forEach(l=>{if(y>H-55){doc.addPage();y=56;}doc.text(l,ML,y);y+=size*1.38;});
+
+/* ===== RESET FUNCTIONS ===== */
+function resetMC(){
+  document.querySelectorAll('#t1 input[type=radio]').forEach(function(r){r.checked=false;});
+  document.querySelectorAll('#t1 .mc-q').forEach(function(q){q.classList.remove('q-ok','q-no');});
+  document.querySelectorAll('#t1 .q-badge').forEach(function(b){b.className='q-badge';b.textContent='';});
+  document.querySelectorAll('#t1 .mc-option').forEach(function(l){l.classList.remove('opt-correct','opt-wrong');});
+  document.querySelectorAll('#t1 .correct-hint').forEach(function(h){h.classList.remove('show');});
+  var r=document.getElementById('res1');r.className='res-box';r.innerHTML='';
+  done[1]=false;updProg();
+}
+function resetTF(){
+  document.querySelectorAll('#t2 input[type=radio]').forEach(function(r){r.checked=false;});
+  document.querySelectorAll('#t2 .tf-item').forEach(function(t){t.classList.remove('q-ok','q-no');});
+  document.querySelectorAll('#t2 .tf-badge').forEach(function(b){b.className='tf-badge';b.textContent='';});
+  for(var i=1;i<=6;i++){
+    var ls=document.getElementById('lbl-tf'+i+'-s');
+    var lu=document.getElementById('lbl-tf'+i+'-u');
+    if(ls)ls.classList.remove('tf-selected-sant','tf-selected-usant');
+    if(lu)lu.classList.remove('tf-selected-sant','tf-selected-usant');
   }
-  function gap(n){y+=n||8;}
-  const navn=document.getElementById('elevnavn').value.trim()||'Ikke oppgitt';
+  var r=document.getElementById('res2');r.className='res-box';r.innerHTML='';
+  done[2]=false;updProg();
+}
+function resetCloze(){
+  var bank=document.getElementById('word-bank');
+  for(var i=1;i<=7;i++){
+    var b=document.getElementById('db'+i);
+    if(!b) continue;
+    if(b._chip){
+      b._chip.classList.remove('wb-used');
+      bank.appendChild(b._chip);
+      b._chip=null;
+    }
+    b.textContent='';
+    b.classList.remove('has-chip','b-ok','b-no');
+  }
+  document.querySelectorAll('.blank-hint').forEach(function(h){h.className='blank-hint';h.textContent='';});
+  var r=document.getElementById('res3');r.className='res-box';r.innerHTML='';
+  done[3]=false;updProg();
+}
+function resetDrop(){
+  var pool=document.getElementById('pool4');
+  document.querySelectorAll('#t4 .chip').forEach(function(c){
+    c.classList.remove('ch-ok','ch-no','picked');
+    pool.appendChild(c);
+  });
+  var r=document.getElementById('res4');r.className='res-box';r.innerHTML='';
+  done[4]=false;updProg();
+}
+
+function genPDF(){
+  if(typeof window.jspdf==='undefined'){alert('PDF-biblioteket lastes – prøv igjen om ett sekund.');return;}
+  var jsPDF=window.jspdf.jsPDF;
+  var doc=new jsPDF({unit:'pt',format:'a4'});
+  var H=842,ML=50,MW=495;var y=56;
+
+  function ln(text,size,bold,color){
+    size=size||11;
+    doc.setFont('helvetica',bold?'bold':'normal');
+    doc.setFontSize(size);
+    if(color){doc.setTextColor(color[0],color[1],color[2]);}else{doc.setTextColor(11,31,58);}
+    var ls=doc.splitTextToSize(String(text),MW);
+    ls.forEach(function(l){
+      if(y>H-55){doc.addPage();y=56;}
+      doc.text(l,ML,y);y+=size*1.38;
+    });
+  }
+  function gap(n){y+=(n||8);}
+  function nrm(s){return String(s||'').trim().toLowerCase().replace(/\s+/g,' ').replace(/[.,;:!?'"´`]/g,'');}
+
+  var navn=document.getElementById('elevnavn').value.trim()||'Ikke oppgitt';
   ln('Treningsplanlegging – IDR0203 · Elevbesvarelse',17,true);
-  ln('Navn: '+navn);ln('Dato: '+new Date().toLocaleDateString('nb-NO'));gap(12);
+  ln('Navn: '+navn);
+  ln('Dato: '+new Date().toLocaleDateString('nb-NO'));
+  gap(14);
+
+  /* --- OPPGAVE 1 --- */
   ln('Oppgave 1 – Flervalg',13,true);
-  MCQ_DEFS.forEach((q,i)=>{
-    const ch=document.querySelector('input[name="'+q.name+'"]:checked');
-    const ok=ch&&ch.value===q.correct;
-    ln((i+1)+'. '+(ch?ch.closest('label').textContent.trim():'Ikke besvart')+' '+(ok?'✓':'✗'),10,false,ok?[0,130,110]:[160,50,20]);
-  });gap();
+  var mcDefs=[{n:'q1a',c:'b'},{n:'q1b',c:'c'},{n:'q1c',c:'b'},{n:'q1d',c:'b'},{n:'q1e',c:'a'}];
+  mcDefs.forEach(function(q,i){
+    var ch=document.querySelector('input[name="'+q.n+'"]:checked');
+    var ok=ch&&ch.value===q.c;
+    var lbl=ch?ch.closest('label').textContent.trim():'Ikke besvart';
+    ln((i+1)+'. '+lbl+' '+(ok?'✓':'✗'),10,false,ok?[0,130,110]:[160,50,20]);
+  });
+  gap();
+
+  /* --- OPPGAVE 2 --- */
   ln('Oppgave 2 – Sant eller usant',13,true);
-  TF_DEFS.forEach((t,i)=>{
-    const ch=document.querySelector('input[name="'+t.n+'"]:checked');
-    const ok=ch&&ch.value===t.c;
-    ln((i+1)+'. '+(ch?(ch.value==='s'?'Sant':'Usant'):'Ikke besvart')+' '+(ok?'✓':'✗'),10,false,ok?[0,130,110]:[160,50,20]);
-  });gap();
+  var tfQ=['Progresjon = gradvis økt belastning','Arbeidskrav = idrettens krav (ikke egne)','Spesifisitet = tren det du vil bli god på','Periodeplan = én økt (usant)','Resultatmål = konkret plassering','Periodisering = variert treningsår'];
+  var tfDefs=[{n:'tf1',c:'s'},{n:'tf2',c:'u'},{n:'tf3',c:'s'},{n:'tf4',c:'u'},{n:'tf5',c:'s'},{n:'tf6',c:'s'}];
+  tfDefs.forEach(function(t,i){
+    var ch=document.querySelector('input[name="'+t.n+'"]:checked');
+    var ok=ch&&ch.value===t.c;
+    var svar=ch?(ch.value==='s'?'Sant':'Usant'):'Ikke besvart';
+    ln((i+1)+'. '+tfQ[i]+' → '+svar+' '+(ok?'✓':'✗'),10,false,ok?[0,130,110]:[160,50,20]);
+  });
+  gap();
+
+  /* --- OPPGAVE 3 --- */
   ln('Oppgave 3 – Dra inn begrep',13,true);
-  for(let i=1;i<=7;i++){
-    const b=document.getElementById('db'+i);if(!b)continue;const correctAns=b.dataset.ans;const userVal=b._chip?b._chip.dataset.word:'';const ok=norm(userVal)===norm(correctAns);
-    ln((i)+'. Ditt svar: '+(b.value||'(tomt)')+' | Riktig: '+ans[0]+' '+(ok?'✓':'✗'),10,false,ok?[0,130,110]:[160,50,20]);
-  }gap();
+  for(var i=1;i<=7;i++){
+    var b=document.getElementById('db'+i);
+    if(!b) continue;
+    var correctAns=b.dataset.ans;
+    var userVal=b.textContent.trim();
+    var ok3=nrm(userVal)===nrm(correctAns);
+    ln(i+'. Ditt svar: '+(userVal||'(tomt)')+' | Riktig: '+correctAns+' '+(ok3?'✓':'✗'),10,false,ok3?[0,130,110]:[160,50,20]);
+  }
+  gap();
+
+  /* --- OPPGAVE 4 --- */
   ln('Oppgave 4 – Kategorisering',13,true);
-  document.querySelectorAll('#t4 .chip').forEach(c=>{
-    const zone=c.closest('.drop-zone');const ok=zone&&zone.dataset.cat===c.dataset.cat;
-    ln(c.textContent.trim()+' → '+(zone?zone.querySelector('.zlbl').textContent.trim():'Ikke plassert')+' '+(ok?'✓':'✗'),10,false,ok?[0,130,110]:[160,50,20]);
-  });gap();
+  document.querySelectorAll('#t4 .chip').forEach(function(c){
+    var zone=c.closest('.drop-zone');
+    var ok=zone&&zone.dataset.cat===c.dataset.cat;
+    var dest=zone?zone.querySelector('.zlbl').textContent.trim():'Ikke plassert';
+    ln(c.textContent.trim()+' → '+dest+' '+(ok?'✓':'✗'),10,false,ok?[0,130,110]:[160,50,20]);
+  });
+  gap();
+
+  /* --- KAPASITETSPROFIL --- */
   ln('Kapasitetsprofil – '+curPos,13,true);
-  CATS.forEach(cat=>ln(cat.l+': Arbeidskrav '+arkV[cat.k]+'/10, Kapasitet '+kapV[cat.k]+'/10',10));gap();
+  CATS.forEach(function(cat){
+    ln(cat.l+': Arbeidskrav '+arkV[cat.k]+'/10, Kapasitet '+kapV[cat.k]+'/10',10);
+  });
+  gap();
+
+  /* --- OPPGAVE 5 --- */
   ln('Oppgave 5 – Øktplan',13,true);
-  const fields=[['Navn',document.getElementById('okt-navn')],['Idrett',document.getElementById('okt-idrett')],['Mål',document.getElementById('okt-maal')],['Belastning',document.getElementById('okt-belast')],['Intensitet',document.getElementById('okt-intens')]];
-  fields.forEach(([l,el])=>{if(el&&el.value)ln(l+': '+el.value,10);});
-  [['Innledning',['c-inn-tid','c-inn-form','c-inn-ovelser','c-inn-hensikt']],['Hoveddel',['c-hov-tid','c-hov-form','c-hov-ovelser','c-hov-hensikt']],['Avslutning',['c-avs-tid','c-avs-form','c-avs-ovelser','c-avs-hensikt']]].forEach(([sec,ids])=>{
-    ln(sec,11,true);
-    ids.forEach(id=>{const el=document.getElementById(id);if(el&&el.value.trim())ln(el.value.trim(),10);});
-  });gap();
-  ln('Tilbakemelding (teknisk)',13,true);
-  const smile=document.querySelector('input[name="smile"]:checked');
-  ln('Fungerte alt: '+(smile?smile.value+'/7':'Ikke oppgitt'));
-  const checked=[...document.querySelectorAll('input[name="fbc"]:checked')].map(c=>c.value).join(', ');
-  ln('Avkryssinger: '+(checked||'Ingen'));
-  ln('Kommentar: '+(document.getElementById('fb-text').value.trim()||'(Ingen)'),10);
-  doc.save('Treningsplanlegging_'+navn.replace(/\s+/g,'_')+'.pdf');
+  var metaIds=[['Idrett','okt-idrett'],['Mål for økta','okt-maal'],['Belastning','okt-belast'],['Intensitet','okt-intens'],['Treningssted','okt-sted'],['Utstyr','okt-utstyr'],['Tid','okt-tid']];
+  metaIds.forEach(function(pair){
+    var el=document.getElementById(pair[1]);
+    if(el&&el.value.trim()) ln(pair[0]+': '+el.value.trim(),10);
+  });
+  gap(4);
+  [['Innledning',['c-inn-tid','c-inn-form','c-inn-metode','c-inn-ovelser','c-inn-hensikt']],
+   ['Hoveddel',['c-hov-tid','c-hov-form','c-hov-metode','c-hov-ovelser','c-hov-hensikt']],
+   ['Avslutning',['c-avs-tid','c-avs-form','c-avs-metode','c-avs-ovelser','c-avs-hensikt']]
+  ].forEach(function(pair){
+    var sec=pair[0],ids=pair[1];
+    ln(sec+':',11,true);
+    ids.forEach(function(id){
+      var el=document.getElementById(id);
+      if(el&&el.value.trim()) ln('  '+el.value.trim(),10);
+    });
+  });
+  gap();
+
+  /* --- TILBAKEMELDING --- */
+  ln('Tilbakemelding til læreren',13,true);
+  var smile=document.querySelector('input[name="smile"]:checked');
+  ln('Vurdering fungerte: '+(smile?smile.value+'/7':'Ikke oppgitt'));
+  var fbVal=document.getElementById('fb-text').value.trim();
+  ln('Kommentar: '+(fbVal||'(Ingen kommentar)'),10);
+  gap();
+
+  /* --- SAVE --- */
+  var safeName=navn.replace(/[^a-zA-Z0-9æøåÆØÅ_\-]/g,'_');
+  doc.save('Treningsplanlegging_'+safeName+'.pdf');
 }
 </script>
 </body>
