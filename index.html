@@ -359,6 +359,17 @@
       color: var(--text-light); min-width: 24px;
     }
     .chapter-arrow { margin-left: auto; font-size: 0.7rem; opacity: 0.4; }
+    .chapter-lock { margin-left: auto; font-size: 0.8rem; opacity: 0.5; }
+    .chapter-item.locked { cursor: pointer; }
+    .chapter-item.locked:hover { background: rgba(232,56,13,0.05); color: var(--text-mid); }
+
+    #werewolfPopup { display: none; }
+    #werewolfPopup.active { display: flex; }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85) translateY(12px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
 
     /* TOGGLE */
     .card-toggle {
@@ -496,6 +507,74 @@
   <div class="subject-grid" id="subjectGrid"></div>
 </section>
 
+<!-- VARULV POPUP -->
+<div id="werewolfPopup" onclick="if(event.target===this)closeWerewolf()" style="
+  display:none; position:fixed; inset:0; z-index:999;
+  background:rgba(10,20,40,0.7); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center; padding:1rem;">
+  <div style="
+    background:#fff; border-radius:18px; max-width:380px; width:100%;
+    padding:2rem 2rem 1.5rem; text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,0.35);
+    animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards;">
+    <div style="font-size:4rem; line-height:1; margin-bottom:0.5rem;">🌕</div>
+    <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" style="width:180px;height:auto;margin:0 auto 1rem;display:block;">
+      <!-- Moon background glow -->
+      <circle cx="160" cy="30" r="28" fill="#fff7aa" opacity="0.6"/>
+      <circle cx="160" cy="30" r="20" fill="#ffe066"/>
+      <!-- Tree -->
+      <rect x="92" y="110" width="8" height="40" fill="#5a3a1a"/>
+      <polygon points="96,55 75,115 117,115" fill="#2d5a27"/>
+      <polygon points="96,38 79,95 113,95" fill="#3a7a34"/>
+      <!-- Werewolf body -->
+      <ellipse cx="96" cy="138" rx="18" ry="10" fill="#3a2a1a"/>
+      <!-- Legs -->
+      <line x1="88" y1="138" x2="82" y2="155" stroke="#3a2a1a" stroke-width="5" stroke-linecap="round"/>
+      <line x1="104" y1="138" x2="110" y2="155" stroke="#3a2a1a" stroke-width="5" stroke-linecap="round"/>
+      <!-- Torso -->
+      <ellipse cx="96" cy="120" rx="14" ry="18" fill="#4a3525"/>
+      <!-- Arms reaching up -->
+      <line x1="83" y1="115" x2="60" y2="88" stroke="#4a3525" stroke-width="6" stroke-linecap="round"/>
+      <line x1="109" y1="115" x2="132" y2="88" stroke="#4a3525" stroke-width="6" stroke-linecap="round"/>
+      <!-- Claws left -->
+      <line x1="60" y1="88" x2="53" y2="80" stroke="#4a3525" stroke-width="3" stroke-linecap="round"/>
+      <line x1="60" y1="88" x2="57" y2="78" stroke="#4a3525" stroke-width="3" stroke-linecap="round"/>
+      <line x1="60" y1="88" x2="63" y2="79" stroke="#4a3525" stroke-width="3" stroke-linecap="round"/>
+      <!-- Claws right -->
+      <line x1="132" y1="88" x2="139" y2="80" stroke="#4a3525" stroke-width="3" stroke-linecap="round"/>
+      <line x1="132" y1="88" x2="135" y2="78" stroke="#4a3525" stroke-width="3" stroke-linecap="round"/>
+      <line x1="132" y1="88" x2="128" y2="79" stroke="#4a3525" stroke-width="3" stroke-linecap="round"/>
+      <!-- Head -->
+      <ellipse cx="96" cy="97" rx="13" ry="12" fill="#5a4030"/>
+      <!-- Snout -->
+      <ellipse cx="96" cy="103" rx="7" ry="5" fill="#4a3025"/>
+      <ellipse cx="96" cy="101" rx="4" ry="2.5" fill="#2a1a10"/>
+      <!-- Eyes -->
+      <circle cx="90" cy="95" r="3" fill="#ff9900"/>
+      <circle cx="102" cy="95" r="3" fill="#ff9900"/>
+      <circle cx="91" cy="95" r="1.2" fill="#111"/>
+      <circle cx="103" cy="95" r="1.2" fill="#111"/>
+      <!-- Ears -->
+      <polygon points="86,87 82,76 91,84" fill="#5a4030"/>
+      <polygon points="106,87 110,76 101,84" fill="#5a4030"/>
+      <!-- Howl text -->
+      <text x="96" y="72" text-anchor="middle" font-size="11" fill="#ffe066" font-family="Georgia,serif" font-style="italic">Awoooo!</text>
+    </svg>
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;text-transform:uppercase;color:#0E1E35;margin-bottom:0.5rem;">Beklager!</h3>
+    <p style="font-size:0.9rem;color:#5A7A9A;line-height:1.65;margin-bottom:1.5rem;">
+      Denne siden har jeg ikke rukket å fikse enda.<br>
+      <strong style="color:#0E1E35;">Prøv igjen neste fullmåne.</strong> 🌕
+    </p>
+    <button onclick="closeWerewolf()" style="
+      background:#1A6FBA; color:#fff; border:none; border-radius:8px;
+      padding:0.7rem 2rem; font-family:'Barlow Condensed',sans-serif;
+      font-size:1rem; font-weight:700; letter-spacing:0.08em;
+      text-transform:uppercase; cursor:pointer; transition:background 0.2s;">
+      OK, jeg venter!
+    </button>
+  </div>
+</div>
+
 <!-- OM SEKSJONEN -->
 <section id="om" style="background: var(--bg-mid); padding: 5rem 2rem;">
   <div style="max-width: 760px; margin: 0 auto;">
@@ -533,6 +612,16 @@
 </footer>
 
 <script>
+// Werewolf popup
+function showWerewolf(e) {
+  e.preventDefault();
+  document.getElementById("werewolfPopup").classList.add("active");
+}
+function closeWerewolf() {
+  document.getElementById("werewolfPopup").classList.remove("active");
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeWerewolf(); });
+
 // NAV scroll behaviour
 const nav = document.getElementById("mainNav");
 window.addEventListener("scroll", () => {
@@ -575,10 +664,10 @@ const items = [
     desc: "Grunnleggende treningslære – oppvarming, utholdenhet, styrke, bevegelighet, spenst, hurtighet, koordinasjon, teknikk og taktikk.",
     fill: 95,
     chapters: [
-      "Trening, fellesskap og glede","Oppvarming",{name:"Utholdenhetstrening",url:"Treningsl%C3%A6re/Utholdenhetstrening.html"},
-      {name:"Styrketrening",url:"Treningsl%C3%A6re/Styrketrening.html"},"Bevegelsestrening","Spensttrening","Hurtighetstrening",
+      "Trening, fellesskap og glede","Oppvarming","Utholdenhetstrening",
+      "Styrketrening","Bevegelsestrening","Spensttrening","Hurtighetstrening",
       "Koordinasjonstrening","Teknikktrening","Taktikk","Basistrening",
-      {name:"Treningsplanlegging",url:"Treningsl%C3%A6re/Treningsplanlegging.html"},"Kroppens oppbygning og funksjon",
+      "Treningsplanlegging","Kroppens oppbygning og funksjon",
       "Idrettsskader","Ernæring, restitusjon og livsstil",
     ]
   },
@@ -650,14 +739,40 @@ function makeSubjectCard(s, delay) {
   const card = document.createElement("div");
   card.className = "subject-card reveal";
   card.style.transitionDelay = delay + "ms";
+  // Chapters that are finished — [name-match, url]
+  const DONE = [
+    ["utholdenhetstrening", "https://edvinidrett.github.io/Idrettsfag/Treningslære/Utholdenhetstrening.html"],
+    ["styrketrening",       "https://edvinidrett.github.io/Idrettsfag/Treningslære/Styrketrening.html"],
+    ["treningsplanlegging", "https://edvinidrett.github.io/Idrettsfag/Treningslære/Treningsplanlegging.html"],
+    ["lek, spill og idrett", null],
+  ];
+  function getDoneUrl(chapter) {
+    const match = DONE.find(([d]) => chapter.toLowerCase().includes(d));
+    return match ? match[1] : null;
+  }
+
   const chapHTML = s.chapters.map((c, ci) => {
-    const name = typeof c === "object" ? c.name : c;
-    const href = typeof c === "object" ? c.url : "#";
-    return `<a class="chapter-item" href="${href}">
-      <span class="chapter-num">${String(ci+1).padStart(2,"0")}</span>
-      <span>${name}</span>
-      <span class="chapter-arrow">→</span>
-    </a>`;
+    const url = getDoneUrl(c);
+    if (url) {
+      return `<a class="chapter-item" href="${url}" target="_blank">
+        <span class="chapter-num">${String(ci+1).padStart(2,"0")}</span>
+        <span>${c}</span>
+        <span class="chapter-arrow">→</span>
+      </a>`;
+    } else if (getDoneUrl(c) === null && DONE.some(([d]) => c.toLowerCase().includes(d))) {
+      // Done but no URL yet
+      return `<a class="chapter-item" href="#" onclick="showWerewolf(event)">
+        <span class="chapter-num">${String(ci+1).padStart(2,"0")}</span>
+        <span>${c}</span>
+        <span class="chapter-lock">🔒</span>
+      </a>`;
+    } else {
+      return `<a class="chapter-item locked" href="#" onclick="showWerewolf(event)">
+        <span class="chapter-num">${String(ci+1).padStart(2,"0")}</span>
+        <span>${c}</span>
+        <span class="chapter-lock">🔒</span>
+      </a>`;
+    }
   }).join("");
   card.innerHTML = `
     <div class="subject-card-header">
