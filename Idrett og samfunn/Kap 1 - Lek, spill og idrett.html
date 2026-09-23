@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lek, spill og idrett | Idrett og Samfunn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --navy:#0B1F3A;
+    --navy-light:#16305a;
+    --teal:#00C2A8;
+    --orange:#E85D26;
+    --bg:#F5F7FA;
+    --card:#FFFFFF;
+    --text:#1c2733;
+    --muted:#5c6b7a;
+    --border:#e3e8ef;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+  }
+  h1,h2,h3,h4,.display{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.3px;}
+  .container{max-width:980px;margin:0 auto;padding:0 24px;}
+
+  /* HERO */
+  .hero{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 60%,#1d3a66 100%);
+    color:#fff;
+    padding:90px 0 70px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-80px;right:-80px;
+    width:340px;height:340px;
+    background:radial-gradient(circle,rgba(0,194,168,.25),transparent 70%);
+    border-radius:50%;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    bottom:-120px;left:-60px;
+    width:300px;height:300px;
+    background:radial-gradient(circle,rgba(232,93,38,.18),transparent 70%);
+    border-radius:50%;
+  }
+  .hero-inner{position:relative;z-index:2;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.2);
+    padding:6px 16px;border-radius:999px;
+    font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;
+    font-family:'Inter',sans-serif;font-weight:600;
+    color:var(--teal);
+    margin-bottom:22px;
+  }
+  .hero h1{font-size:3.4rem;line-height:1.05;margin-bottom:16px;}
+  .hero h1 span{color:var(--teal);}
+  .hero p.lede{font-size:1.15rem;max-width:620px;color:#c7d3e2;font-family:'Inter',sans-serif;}
+  .hero-meta{display:flex;gap:28px;margin-top:32px;flex-wrap:wrap;}
+  .hero-meta div{font-size:.85rem;color:#9db0c8;}
+  .hero-meta strong{display:block;color:#fff;font-size:1rem;font-family:'Barlow Condensed',sans-serif;font-weight:600;}
+
+  /* STICKY PROGRESS */
+  .progress-bar{
+    position:sticky;top:0;z-index:100;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--border);
+    padding:10px 0;
+  }
+  .progress-track{
+    height:6px;background:#e6ebf1;border-radius:99px;overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;width:0%;
+    background:linear-gradient(90deg,var(--teal),var(--orange));
+    border-radius:99px;
+    transition:width .25s ease;
+  }
+  .progress-label{
+    display:flex;justify-content:space-between;
+    font-size:.75rem;color:var(--muted);margin-bottom:6px;
+    font-weight:600;
+  }
+
+  section{padding:56px 0;}
+  .section-title{
+    font-size:2.1rem;color:var(--navy);margin-bottom:8px;
+  }
+  .section-sub{color:var(--muted);margin-bottom:28px;font-size:1rem;max-width:640px;}
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+
+  /* Learning objectives */
+  .objectives{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:28px 30px;
+    box-shadow:0 2px 14px rgba(11,31,58,.05);
+  }
+  .objectives h3{color:var(--navy);font-size:1.4rem;margin-bottom:16px;}
+  .obj-item{
+    display:flex;align-items:flex-start;gap:12px;
+    padding:10px 0;border-bottom:1px dashed var(--border);
+    cursor:pointer;
+  }
+  .obj-item:last-child{border-bottom:none;}
+  .obj-check{
+    width:22px;height:22px;min-width:22px;border-radius:6px;
+    border:2px solid var(--teal);
+    display:flex;align-items:center;justify-content:center;
+    font-size:.8rem;color:#fff;transition:.2s;
+  }
+  .obj-item.done .obj-check{background:var(--teal);}
+  .obj-item.done span.obj-text{color:var(--muted);text-decoration:line-through;}
+
+  /* Key concepts */
+  .concept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .concept-card{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:22px;position:relative;transition:transform .2s, box-shadow .2s;
+  }
+  .concept-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(11,31,58,.08);}
+  .concept-card .icon{font-size:1.8rem;margin-bottom:10px;display:block;}
+  .concept-card h4{color:var(--navy);font-size:1.3rem;margin-bottom:6px;}
+  .concept-card p{font-size:.9rem;color:var(--muted);}
+  .tooltip-trigger{
+    border-bottom:1px dotted var(--orange);cursor:help;position:relative;color:var(--orange);font-weight:600;
+  }
+  .tooltip-trigger .tooltip-box{
+    visibility:hidden;opacity:0;position:absolute;bottom:130%;left:50%;
+    transform:translateX(-50%);
+    background:var(--navy);color:#fff;padding:10px 14px;border-radius:8px;
+    font-size:.8rem;width:220px;line-height:1.4;z-index:10;
+    transition:opacity .2s;font-weight:400;
+  }
+  .tooltip-trigger:hover .tooltip-box{visibility:visible;opacity:1;}
+
+  /* Flow diagram */
+  .flow-diagram{
+    display:flex;align-items:center;justify-content:center;gap:0;
+    margin:36px 0 10px;flex-wrap:wrap;
+  }
+  .flow-step{
+    background:var(--card);border:2px solid var(--border);border-radius:14px;
+    padding:18px 26px;text-align:center;min-width:140px;
+    box-shadow:0 4px 14px rgba(11,31,58,.05);
+  }
+  .flow-step .flow-icon{font-size:1.6rem;display:block;margin-bottom:6px;}
+  .flow-step .flow-label{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;color:var(--navy);}
+  .flow-step .flow-sub{font-size:.75rem;color:var(--muted);margin-top:2px;}
+  .flow-step:nth-child(1){border-color:var(--teal);}
+  .flow-step:nth-child(3){border-color:#3fa9dd;}
+  .flow-step:nth-child(5){border-color:var(--orange);}
+  .flow-arrow{font-size:1.6rem;color:var(--muted);padding:0 14px;}
+  .flow-caption{text-align:center;font-size:.85rem;color:var(--muted);margin-top:6px;}
+
+  /* Versus comparison */
+  .versus-wrap{
+    display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:0;margin-top:20px;
+  }
+  .versus-card{
+    border-radius:14px;padding:24px;position:relative;
+  }
+  .versus-card.konkurranse{background:linear-gradient(135deg,#eaf6fc,#f4fbff);border:1px solid #cde8f5;}
+  .versus-card.samarbeid{background:linear-gradient(135deg,#f2effb,#f8f6fd);border:1px solid #ded7f2;}
+  .versus-card h4{font-size:1.25rem;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .versus-card.konkurranse h4{color:#1a7fb0;}
+  .versus-card.samarbeid h4{color:#6b56b8;}
+  .versus-card p{font-size:.88rem;color:var(--text);margin-bottom:10px;}
+  .versus-card .versus-example{font-size:.8rem;color:var(--muted);font-style:italic;}
+  .versus-divider{
+    width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;font-size:.85rem;margin:0 -22px;z-index:2;position:relative;
+  }
+  @media(max-width:700px){
+    .versus-wrap{grid-template-columns:1fr;}
+    .versus-divider{margin:14px auto;}
+  }
+
+  /* Narrative */
+  .narrative{background:var(--card);border-radius:16px;padding:34px;border:1px solid var(--border);}
+  .narrative h3{color:var(--navy);font-size:1.5rem;margin:22px 0 10px;}
+  .narrative h3:first-child{margin-top:0;}
+  .narrative p{margin-bottom:14px;color:var(--text);}
+  .quote-block{
+    border-left:4px solid var(--teal);
+    background:#f0fbfa;
+    padding:16px 20px;border-radius:0 10px 10px 0;
+    font-style:italic;color:var(--navy);margin:18px 0;
+  }
+  .quote-block cite{display:block;margin-top:8px;font-style:normal;font-size:.85rem;color:var(--muted);}
+
+  /* Table */
+  .overview-table{width:100%;border-collapse:collapse;margin-top:10px;border-radius:12px;overflow:hidden;}
+  .overview-table th{
+    background:var(--navy);color:#fff;text-align:left;padding:14px 16px;
+    font-family:'Barlow Condensed',sans-serif;font-size:1rem;letter-spacing:.5px;
+  }
+  .overview-table td{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--card);font-size:.92rem;}
+  .overview-table tr:last-child td{border-bottom:none;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.75rem;font-weight:700;color:#fff;}
+
+  /* Kompendium grid */
+  .kompendium-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .komp-card{
+    background:var(--card);border-radius:14px;border:1px solid var(--border);
+    padding:22px;
+  }
+  .komp-card h4{color:var(--orange);font-size:1.2rem;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .komp-card ul{padding-left:20px;font-size:.9rem;color:var(--text);}
+  .komp-card li{margin-bottom:6px;}
+
+  /* Tasks */
+  .task-card{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    margin-bottom:16px;overflow:hidden;
+  }
+  .task-header{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:20px 24px;cursor:pointer;background:#fafcfe;
+  }
+  .task-header h4{color:var(--navy);font-size:1.25rem;display:flex;align-items:center;gap:10px;}
+  .task-num{
+    background:var(--navy);color:#fff;width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:.85rem;font-family:'Barlow Condensed',sans-serif;
+  }
+  .chevron{transition:transform .25s;color:var(--muted);}
+  .task-card.open .chevron{transform:rotate(180deg);}
+  .task-body{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+  .task-card.open .task-body{max-height:3000px;}
+  .task-content{padding:0 24px 26px;}
+  .task-score{font-size:.8rem;font-weight:700;padding:4px 12px;border-radius:99px;background:#eef1f5;color:var(--muted);}
+  .task-score.good{background:#e3fbf6;color:#0a9b84;}
+  .task-score.bad{background:#fdeceb;color:var(--orange);}
+
+  .mc-option{
+    display:flex;align-items:center;gap:12px;
+    border:1px solid var(--border);border-radius:10px;
+    padding:12px 16px;margin-bottom:10px;cursor:pointer;transition:.15s;
+  }
+  .mc-option:hover{border-color:var(--teal);}
+  .mc-option.correct{background:#e3fbf6;border-color:var(--teal);}
+  .mc-option.incorrect{background:#fdeceb;border-color:var(--orange);}
+  .mc-letter{
+    width:26px;height:26px;border-radius:6px;background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;min-width:26px;
+  }
+
+  .tf-row{
+    display:flex;justify-content:space-between;align-items:center;
+    border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px;
+  }
+  .tf-row.correct-highlight{background:#e3fbf6;border-color:var(--teal);}
+  .tf-row.incorrect-highlight{background:#fdeceb;border-color:var(--orange);}
+  .tf-buttons button{
+    border:1px solid var(--border);background:#fff;padding:6px 16px;border-radius:8px;
+    cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;margin-left:8px;transition:.15s;
+  }
+  .tf-buttons button.selected-true{background:var(--teal);color:#fff;border-color:var(--teal);}
+  .tf-buttons button.selected-false{background:var(--orange);color:#fff;border-color:var(--orange);}
+  .verdict-badge{font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:99px;margin-left:10px;}
+  .verdict-badge.ok{background:#e3fbf6;color:#0a9b84;}
+  .verdict-badge.no{background:#fdeceb;color:var(--orange);}
+
+  .blank-sentence{font-size:1.02rem;margin-bottom:16px;line-height:2.1;}
+  select.blank-select{
+    font-family:'Inter',sans-serif;font-weight:600;color:var(--navy);
+    border:2px solid var(--teal);border-radius:8px;padding:4px 10px;background:#fff;
+  }
+  select.blank-select.correct{border-color:var(--teal);background:#e3fbf6;}
+  select.blank-select.incorrect{border-color:var(--orange);background:#fdeceb;}
+
+  .dd-wrap{display:flex;gap:24px;flex-wrap:wrap;}
+  .dd-bank{flex:1;min-width:220px;}
+  .dd-targets{flex:1.4;min-width:280px;}
+  .dd-word{
+    background:var(--navy);color:#fff;padding:9px 16px;border-radius:8px;
+    margin:0 8px 8px 0;display:inline-block;cursor:grab;font-weight:600;font-size:.9rem;
+  }
+  .dd-word.placed{opacity:.3;cursor:default;}
+  .dd-target{
+    border:2px dashed var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px;
+    min-height:44px;display:flex;align-items:center;gap:10px;font-size:.9rem;
+  }
+  .dd-target.filled{border-style:solid;border-color:var(--teal);background:#f0fbfa;}
+  .dd-target.wrong{border-color:var(--orange);background:#fdeceb;}
+  .dd-target .placed-word{background:var(--teal);color:#fff;padding:4px 12px;border-radius:6px;font-weight:700;font-size:.85rem;}
+  .dd-target.wrong .placed-word{background:var(--orange);}
+
+  .sort-item{
+    background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 16px;
+    margin-bottom:10px;cursor:grab;display:flex;align-items:center;gap:12px;font-size:.92rem;
+  }
+  .sort-item .drag-handle{color:var(--muted);}
+  .sort-zone{
+    border:2px dashed var(--border);border-radius:12px;padding:14px;min-height:70px;margin-bottom:14px;
+  }
+  .sort-zone-label{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;color:var(--muted);}
+
+  textarea.essay{
+    width:100%;min-height:140px;border:1px solid var(--border);border-radius:10px;
+    padding:14px;font-family:'Inter',sans-serif;font-size:.95rem;resize:vertical;
+  }
+  .essay-meta{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-top:8px;flex-wrap:wrap;gap:6px;}
+  .essay-links a{color:var(--teal);font-weight:600;text-decoration:none;}
+  .essay-links a:hover{text-decoration:underline;}
+
+  .check-btn{
+    background:var(--navy);color:#fff;border:none;padding:11px 26px;border-radius:8px;
+    font-family:'Inter',sans-serif;font-weight:700;cursor:pointer;margin-top:14px;transition:.15s;
+  }
+  .check-btn:hover{background:var(--navy-light);}
+  .toggle-all-row{display:flex;justify-content:flex-end;gap:12px;margin-bottom:14px;}
+  .toggle-all-row button{
+    background:none;border:1px solid var(--border);padding:7px 16px;border-radius:8px;
+    font-size:.85rem;font-weight:600;color:var(--navy);cursor:pointer;
+  }
+
+  /* feedback */
+  .feedback-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:30px;}
+  .emoji-row{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap;}
+  .emoji-btn{
+    font-size:1.8rem;background:#fff;border:2px solid var(--border);border-radius:12px;
+    width:56px;height:56px;cursor:pointer;transition:.15s;
+  }
+  .emoji-btn.selected{border-color:var(--teal);background:#f0fbfa;transform:scale(1.08);}
+  textarea.feedback-text{
+    width:100%;min-height:90px;border:1px solid var(--border);border-radius:10px;padding:12px;
+    font-family:'Inter',sans-serif;margin-top:10px;
+  }
+
+  .pdf-section{text-align:center;padding:50px 0 70px;}
+  .pdf-btn{
+    background:linear-gradient(135deg,var(--orange),#f07a49);
+    color:#fff;border:none;padding:16px 42px;border-radius:10px;
+    font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;
+    cursor:pointer;letter-spacing:.5px;box-shadow:0 8px 20px rgba(232,93,38,.3);
+    transition:.2s;
+  }
+  .pdf-btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(232,93,38,.4);}
+  .pdf-note{font-size:.85rem;color:var(--muted);margin-top:14px;}
+
+  footer{background:var(--navy);color:#9db0c8;text-align:center;padding:26px 0;font-size:.85rem;}
+
+  @media(max-width:760px){
+    .hero h1{font-size:2.4rem;}
+    .concept-grid{grid-template-columns:1fr;}
+    .kompendium-grid{grid-template-columns:1fr;}
+    .dd-wrap{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="container hero-inner">
+    <div class="eyebrow">🏟️ Idrett og Samfunn · Kapittel 1</div>
+    <h1>Lek, spill <span>og idrett</span></h1>
+    <p class="lede">Hva er egentlig forskjellen på å leke, å spille og å drive idrett? I dette kapittelet ser vi på fagets mest sentrale nøkkelbegreper — og hvordan de henger sammen historisk og teoretisk.</p>
+    <div class="hero-meta">
+      <div><strong>7</strong>oppgaver</div>
+      <div><strong>~45 min</strong>estimert tid</div>
+      <div><strong>80%</strong>bestått-grense</div>
+      <div><strong>Loland (2013)</strong>hovedkilde</div>
+    </div>
+  </div>
+</div>
+
+<div class="progress-bar">
+  <div class="container">
+    <div class="progress-label"><span>Din fremdrift</span><span id="progressPct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+</div>
+
+<section class="container reveal" id="objectivesSection">
+  <div class="objectives">
+    <h3>🎯 Læringsmål</h3>
+    <div class="obj-item" data-obj="1"><div class="obj-check"></div><span class="obj-text">Jeg kan forklare hva som kjennetegner lek.</span></div>
+    <div class="obj-item" data-obj="2"><div class="obj-check"></div><span class="obj-text">Jeg kan gjøre rede for sammenhengen og forskjellen mellom lek og spill.</span></div>
+    <div class="obj-item" data-obj="3"><div class="obj-check"></div><span class="obj-text">Jeg kan forklare hvor ordet «idrett» kommer fra, og hva det opprinnelig betydde.</span></div>
+    <div class="obj-item" data-obj="4"><div class="obj-check"></div><span class="obj-text">Jeg kan gjengi og drøfte lærebokas definisjon av idrett (Loland, 2013).</span></div>
+    <div class="obj-item" data-obj="5"><div class="obj-check"></div><span class="obj-text">Jeg kan skille mellom konkurransespill, samarbeidsspill og åpne aktiviteter.</span></div>
+  </div>
+</section>
+
+<section class="container reveal">
+  <h2 class="section-title">Nøkkelbegreper</h2>
+  <p class="section-sub">De tre begrepene bygger på hverandre — hold musepekeren over <span class="tooltip-trigger">de uthevede ordene<span class="tooltip-box">Fagbegreper du bør kunne definisjonen på til prøve/eksamen.</span></span> for en kort forklaring.</p>
+  <div class="concept-grid">
+    <div class="concept-card">
+      <span class="icon">🧸</span>
+      <h4>Lek</h4>
+      <p>En <span class="tooltip-trigger">frivillig aktivitet<span class="tooltip-box">Vi velger leken selv — ingen tvinger oss inn i den.</span></span> med <span class="tooltip-trigger">egenverdi<span class="tooltip-box">Leken er et mål i seg selv, ikke et middel for å oppnå noe annet.</span></span>. Beskrevet i Johan Huizingas bok «Homo Ludens» (1938) — «det lekende mennesket».</p>
+    </div>
+    <div class="concept-card">
+      <span class="icon">🎲</span>
+      <h4>Spill</h4>
+      <p>Aktiviteter utviklet fordi de innbyr til en <span class="tooltip-trigger">lekende holdning<span class="tooltip-box">Man kan ha en avslappet, lystbetont innstilling selv i konkurranse.</span></span>. Spill definerer alltid et mål og avgrenser midlene man har for å nå det (f.eks. ballen kan ikke tas med hendene i fotball).</p>
+    </div>
+    <div class="concept-card">
+      <span class="icon">🏋️</span>
+      <h4>Idrett</h4>
+      <p>Fra gammelnorsk <em>id</em> (virksomhet) + <em>prottr</em> (styrke) — kraftfulle, imponerende handlinger. Kroppsstillinger og kroppsbevegelser står sentralt, ofte i konkurranse.</p>
+    </div>
+  </div>
+  <div class="flow-diagram">
+    <div class="flow-step"><span class="flow-icon">🧸</span><div class="flow-label">Lek</div><div class="flow-sub">Frivillig · egenverdi</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><span class="flow-icon">🎲</span><div class="flow-label">Spill</div><div class="flow-sub">Mål + avgrensede midler</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step"><span class="flow-icon">🏋️</span><div class="flow-label">Idrett</div><div class="flow-sub">Kropp + ofte konkurranse</div></div>
+  </div>
+  <p class="flow-caption">Begrepene bygger på hverandre — men grensene mellom dem er ikke alltid skarpe.</p>
+</section>
+
+<section class="container reveal">
+  <div class="narrative">
+    <h3>Hvorfor leker mennesker?</h3>
+    <p>Mange hevder at idretten har sine dypeste røtter i leken — men er idrett og lek egentlig det samme? I 1938 utga den nederlandske historikeren og kulturteoretikeren Johan Huizinga boken <em>Homo Ludens</em> («det lekende mennesket»), der han hevdet at lek er en grunnleggende og selvstendig kategori i menneskelig kultur, like viktig som fornuft (Homo Sapiens) og arbeid (Homo Faber).</p>
+
+    <h3>Hva kjennetegner leken?</h3>
+    <p>Leken har noen klare kjennetegn: den er <strong>frivillig</strong> — ingen tvinger oss til å leke. Den har <strong>egenverdi</strong> fremfor nytteverdi — vi leker for lekens skyld, ikke for å oppnå noe utenfor selve aktiviteten. Samtidig kan lek også ha en <strong>nytteverdi</strong>, for eksempel ved at barn utvikler motoriske eller sosiale ferdigheter gjennom lek, uten at det er hovedhensikten. I leken er vi gjerne <strong>engasjert med hele oss</strong>, og selv om leken kan ha <strong>regler</strong>, er disse mer flytende og kan endres underveis av deltakerne selv.</p>
+    <p>Verdien og betydningen av en aktivitet kan endre seg avhengig av kontekst og innstilling — den samme fysiske handlingen kan oppleves som ren lek i én situasjon, og som seriøs trening eller konkurranse i en annen.</p>
+
+    <h3>Fra lek til spill</h3>
+    <p>Begrepene lek og spill er tett knyttet sammen. Lek viser til aktiviteter vi velger fritt på grunn av egenverdien, og i lek har vi gjerne en «lekende holdning». Spill er i stor grad utviklet nettopp fordi de innbyr til en slik holdning — men alle spill definerer samtidig et mål vi skal nå, og avgrenser hvilke midler vi har til rådighet for å nå målet. I fotball er det for eksempel ulovlig å ta ballen med hendene; i håndball er spark ulovlig.</p>
+    <p>Vi kan altså spille med en lekende holdning — men den viktige forskjellen mellom lek og spill er at vi <em>kan spille uten</em> en lekende holdning. Spill deles gjerne i to hovedtyper:</p>
+    <div class="versus-wrap">
+      <div class="versus-card konkurranse">
+        <h4>🏆 Konkurransespill</h4>
+        <p>Handler om å måle, sammenligne og rangere prestasjoner mot hverandre.</p>
+        <div class="versus-example">Eksempel: sjakk, langrennsløp</div>
+      </div>
+      <div class="versus-divider">VS</div>
+      <div class="versus-card samarbeid">
+        <h4>🤝 Samarbeidsspill</h4>
+        <p>Mindre opptatt av å måle og rangere — fokus på felles mestring.</p>
+        <div class="versus-example">Eksempel: to som holder en ball i lufta lengst mulig sammen</div>
+      </div>
+    </div>
+
+    <h3>Hva er idrett?</h3>
+    <p>Ordet «idrett» kommer fra gammelnorsk: <em>id</em> betyr virksomhet, og <em>prottr</em> betyr styrke. Sammen beskriver ordet kraftfulle og imponerende handlinger og virksomhet. Idrett skiller seg fra spill generelt ved at kroppsstillinger og kroppsbevegelser står sentralt — noe som også gjenspeiles i Norges idrettsforbunds (NIF) definisjon.</p>
+    <p>Konkurranse er en kjerne i det vi vanligvis forstår med idrett — altså sammenligning og rangering. Samtidig finnes det mange idrettsaktiviteter med sterke innslag av lek og kroppsutfoldelse, uten en tydelig konkurranseorientering. Barneidrett er et godt eksempel, der man ofte er varsom med rangering. Det samme gjelder mosjonsaktiviteter som aerobic, jogging og styrketrening på treningssenter.</p>
+
+    <div class="quote-block">
+      «Med idrett forstår vi aktiviteter med vekt på kroppsstillinger og kroppsbevegelser i form av konkurransespill, samarbeidsspill eller åpne aktiviteter som trening og mosjon.»
+      <cite>— Loland, 2013, s. 17</cite>
+    </div>
+    <p>Dette er en vid definisjon. Idrett kan være alt fra fjellskigåing og jogging til banesykling og profesjonell tennis. Samtidig gir definisjonen en klar retning: idrett har et preg av kroppsutfoldelse og lek, eller innbyr i det minste til en lekende holdning. For de fleste av oss er aktiviteter som fjellskigåing, jogging og tennis meningsfulle og har sterk egenverdi.</p>
+  </div>
+</section>
+
+<section class="container reveal">
+  <h2 class="section-title">Oversikt: Fra lek til idrett</h2>
+  <p class="section-sub">Slik bygger de tre begrepene på hverandre.</p>
+  <table class="overview-table">
+    <thead><tr><th>Begrep</th><th>Kjennetegn</th><th>Eksempel</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge" style="background:var(--teal)">Lek</span></td><td>Frivillig, egenverdi, flytende regler, engasjement</td><td>Barn som bygger sandslott</td></tr>
+      <tr><td><span class="badge" style="background:#3fa9dd">Spill</span></td><td>Definert mål, avgrensede midler, kan ha lekende holdning</td><td>Fotball, sjakk, håndball</td></tr>
+      <tr><td><span class="badge" style="background:var(--orange)">Idrett</span></td><td>Kroppsstillinger/-bevegelser, ofte konkurranse</td><td>Friidrett, langrenn, styrketrening</td></tr>
+      <tr><td><span class="badge" style="background:var(--navy)">Konkurransespill</span></td><td>Måle, sammenligne, rangere prestasjoner</td><td>Sjakk, langrennsløp</td></tr>
+      <tr><td><span class="badge" style="background:#8a7bd8">Samarbeidsspill</span></td><td>Lite fokus på rangering, felles mestring</td><td>To som holder en ball i lufta sammen</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="container reveal">
+  <h2 class="section-title">Kompendium</h2>
+  <p class="section-sub">Kjapp referanse til de viktigste poengene i kapittelet.</p>
+  <div class="kompendium-grid">
+    <div class="komp-card">
+      <h4>📘 Homo Ludens (1938)</h4>
+      <ul>
+        <li>Skrevet av Johan Huizinga</li>
+        <li>Betyr «det lekende mennesket»</li>
+        <li>Hevder lek er en grunnleggende kulturell kategori</li>
+      </ul>
+    </div>
+    <div class="komp-card">
+      <h4>🧩 Kjennetegn ved lek</h4>
+      <ul>
+        <li>Frivillig</li>
+        <li>Egenverdi (og noen ganger nytteverdi)</li>
+        <li>Engasjert med hele seg</li>
+        <li>Regler som kan endres av deltakerne</li>
+      </ul>
+    </div>
+    <div class="komp-card">
+      <h4>⚔️ Ordet «idrett»</h4>
+      <ul>
+        <li>Gammelnorsk: <em>id</em> (virksomhet) + <em>prottr</em> (styrke)</li>
+        <li>Kroppsstillinger og -bevegelser er sentralt</li>
+      </ul>
+    </div>
+    <div class="komp-card">
+      <h4>📖 Lærebokas definisjon</h4>
+      <ul>
+        <li>Loland (2013, s. 17)</li>
+        <li>Konkurransespill, samarbeidsspill eller åpne aktiviteter</li>
+        <li>En vid definisjon som dekker mosjon til toppidrett</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="container reveal">
+  <h2 class="section-title">Oppgaver</h2>
+  <p class="section-sub">Fullfør alle syv oppgavene. Du må ha minst 80% riktig på hver deloppgave for å bestå.</p>
+  <div class="toggle-all-row">
+    <button onclick="toggleAllTasks(true)">Vis alle</button>
+    <button onclick="toggleAllTasks(false)">Skjul alle</button>
+  </div>
+
+  <!-- OPPGAVE 1: MC -->
+  <div class="task-card" id="task1">
+    <div class="task-header" onclick="toggleTask('task1')">
+      <h4><span class="task-num">1</span> Flervalgsoppgave</h4>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="task-score" id="score1">0/4</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="task-body"><div class="task-content">
+      <div id="mc-q1">
+        <p style="margin-bottom:10px;font-weight:600;">1. Hva heter boken der Johan Huizinga beskriver «det lekende mennesket»?</p>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">A</span>Ludus Ludens</div>
+        <div class="mc-option" data-correct="true"><span class="mc-letter">B</span>Homo Ludens</div>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">C</span>Homo Sapiens</div>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">D</span>Ludens Faber</div>
+      </div>
+      <div id="mc-q2" style="margin-top:22px;">
+        <p style="margin-bottom:10px;font-weight:600;">2. Hva betyr det gammelnorske ordet «prottr»?</p>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">A</span>Virksomhet</div>
+        <div class="mc-option" data-correct="true"><span class="mc-letter">B</span>Styrke</div>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">C</span>Konkurranse</div>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">D</span>Lek</div>
+      </div>
+      <div id="mc-q3" style="margin-top:22px;">
+        <p style="margin-bottom:10px;font-weight:600;">3. Hva er den viktigste forskjellen mellom lek og spill, slik den forklares i teksten?</p>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">A</span>Lek har regler, mens spill aldri har regler</div>
+        <div class="mc-option" data-correct="true"><span class="mc-letter">B</span>Man kan spille uten en lekende holdning, mens lek per definisjon krever den</div>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">C</span>Spill er alltid frivillig, mens lek aldri er det</div>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">D</span>Lek krever konkurranse, mens spill ikke gjør det</div>
+      </div>
+      <div id="mc-q4" style="margin-top:22px;">
+        <p style="margin-bottom:10px;font-weight:600;">4. Hvorfor omtales lærebokas definisjon av idrett (Loland, 2013) som «vid»?</p>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">A</span>Fordi den bare gjelder toppidrett på internasjonalt nivå</div>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">B</span>Fordi den krever at aktiviteten foregår i konkurranse mot andre</div>
+        <div class="mc-option" data-correct="true"><span class="mc-letter">C</span>Fordi den dekker alt fra mosjon og trening til profesjonell konkurranseidrett</div>
+        <div class="mc-option" data-correct="false"><span class="mc-letter">D</span>Fordi den utelukker aktiviteter med kroppsbevegelse</div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- OPPGAVE 2: True/False -->
+  <div class="task-card" id="task2">
+    <div class="task-header" onclick="toggleTask('task2')">
+      <h4><span class="task-num">2</span> Sant eller usant</h4>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="task-score" id="score2">0/5</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="task-body"><div class="task-content" id="tf-container">
+      <div class="tf-row" data-correct="true"><span>1. Lek er alltid frivillig.</span><div class="tf-buttons"><button onclick="setTF(this,true)">Sant</button><button onclick="setTF(this,false)">Usant</button></div></div>
+      <div class="tf-row" data-correct="false"><span>2. Reglene i lek er alltid faste og kan aldri endres.</span><div class="tf-buttons"><button onclick="setTF(this,true)">Sant</button><button onclick="setTF(this,false)">Usant</button></div></div>
+      <div class="tf-row" data-correct="true"><span>3. I fotball er det ulovlig å ta ballen med hendene, mens det i håndball er ulovlig å sparke ballen.</span><div class="tf-buttons"><button onclick="setTF(this,true)">Sant</button><button onclick="setTF(this,false)">Usant</button></div></div>
+      <div class="tf-row" data-correct="false"><span>4. Man kan aldri spille uten en lekende holdning.</span><div class="tf-buttons"><button onclick="setTF(this,true)">Sant</button><button onclick="setTF(this,false)">Usant</button></div></div>
+      <div class="tf-row" data-correct="true"><span>5. Lærebokas definisjon av idrett inkluderer åpne aktiviteter som trening og mosjon.</span><div class="tf-buttons"><button onclick="setTF(this,true)">Sant</button><button onclick="setTF(this,false)">Usant</button></div></div>
+    </div></div>
+  </div>
+
+  <!-- OPPGAVE 3: Fill in blanks -->
+  <div class="task-card" id="task3">
+    <div class="task-header" onclick="toggleTask('task3')">
+      <h4><span class="task-num">3</span> Fyll inn riktig begrep</h4>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="task-score" id="score3">0/5</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="task-body"><div class="task-content" id="blank-container">
+      <p class="blank-sentence">1. Ifølge Huizinga er mennesket like mye et lekende vesen som et fornuftig vesen — dette kaller han <span class="blank-slot" data-answer="Homo Ludens"></span>.</p>
+      <p class="blank-sentence">2. Leken kjennetegnes blant annet ved at den har <span class="blank-slot" data-answer="egenverdi"></span> — den er et mål i seg selv.</p>
+      <p class="blank-sentence">3. Ordet idrett kommer fra gammelnorsk «id», som betyr <span class="blank-slot" data-answer="virksomhet"></span>.</p>
+      <p class="blank-sentence">4. Sjakk og langrenn er eksempler på <span class="blank-slot" data-answer="konkurransespill"></span>, der man måler og rangerer prestasjoner.</p>
+      <p class="blank-sentence">5. To personer som samarbeider om å holde en ball i lufta lengst mulig, driver med et <span class="blank-slot" data-answer="samarbeidsspill"></span>.</p>
+    </div></div>
+  </div>
+
+  <!-- OPPGAVE 4: Drag and drop matching -->
+  <div class="task-card" id="task4">
+    <div class="task-header" onclick="toggleTask('task4')">
+      <h4><span class="task-num">4</span> Match begrep til definisjon</h4>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="task-score" id="score4">0/5</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="task-body"><div class="task-content">
+      <p style="margin-bottom:14px;color:var(--muted);font-size:.9rem;">Dra begrepet fra ordbanken til riktig definisjon.</p>
+      <div class="dd-wrap">
+        <div class="dd-bank" id="dd-bank"></div>
+        <div class="dd-targets" id="dd-targets"></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- OPPGAVE 5: Sort activities -->
+  <div class="task-card" id="task5">
+    <div class="task-header" onclick="toggleTask('task5')">
+      <h4><span class="task-num">5</span> Sorter aktivitetene</h4>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="task-score" id="score5">0/6</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="task-body"><div class="task-content">
+      <p style="margin-bottom:14px;color:var(--muted);font-size:.9rem;">Dra hver aktivitet til riktig kategori: konkurransespill eller samarbeidsspill.</p>
+      <div id="sort-bank"></div>
+      <div class="sort-zone" data-zone="konkurranse"><div class="sort-zone-label">🏆 Konkurransespill</div></div>
+      <div class="sort-zone" data-zone="samarbeid"><div class="sort-zone-label">🤝 Samarbeidsspill</div></div>
+      <button class="check-btn" onclick="checkSort()">Sjekk svar</button>
+    </div></div>
+  </div>
+
+  <!-- OPPGAVE 6: Discussion / observation -->
+  <div class="task-card" id="task6">
+    <div class="task-header" onclick="toggleTask('task6')">
+      <h4><span class="task-num">6</span> Er dette lek? — Refleksjonsoppgave</h4>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="task-score" id="score6">–</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="task-body"><div class="task-content">
+      <p style="margin-bottom:14px;">Tenk på tre ulike aktiviteter du selv har deltatt i (f.eks. en fotballkamp, en treningsøkt, et brettspill med familien). Beskriv for hver aktivitet:</p>
+      <ul style="padding-left:22px;margin-bottom:14px;color:var(--muted);font-size:.92rem;">
+        <li>Hadde du en «lekende holdning» eller en mer alvorlig/konkurransepreget holdning?</li>
+        <li>Var aktiviteten frivillig, og hadde den egenverdi for deg?</li>
+        <li>Ville du kalt aktiviteten for lek, spill eller idrett — og hvorfor?</li>
+      </ul>
+      <textarea class="essay" id="obs-notes" placeholder="Skriv dine observasjoner og refleksjoner her..."></textarea>
+      <div class="essay-meta"><span id="obs-wordcount">0 ord</span></div>
+    </div></div>
+  </div>
+
+  <!-- OPPGAVE 7: Writing task -->
+  <div class="task-card" id="task7">
+    <div class="task-header" onclick="toggleTask('task7')">
+      <h4><span class="task-num">7</span> Drøftingsoppgave</h4>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="task-score" id="score7">–</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="task-body"><div class="task-content">
+      <p style="margin-bottom:14px;font-weight:600;">Drøft: Er det en tydelig grense mellom lek, spill og idrett, eller flyter begrepene over i hverandre? Bruk eksempler og lærebokas definisjon (Loland, 2013, s. 17) i drøftingen din.</p>
+      <p style="margin-bottom:14px;color:var(--muted);font-size:.88rem;">Krav: minst 150 ord, bruk minst 4 fagbegreper fra kapittelet, og inkluder én kildehenvisning i APA 7-format.</p>
+      <textarea class="essay" id="essay-text" placeholder="Skriv drøftingen din her..."></textarea>
+      <div class="essay-meta">
+        <span id="essay-wordcount">0 ord (min. 150)</span>
+        <span id="essay-keywordcount">0 fagbegreper funnet</span>
+        <span id="essay-apa">Ingen APA-kilde funnet ennå</span>
+      </div>
+      <div class="essay-links" style="margin-top:10px;font-size:.85rem;">
+        📚 <a href="https://www.kildekompasset.no" target="_blank">Kildekompasset.no</a> (APA 7. utgave) · <a href="https://www.zotero.org" target="_blank">Zotero</a> (kildehåndtering)
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section class="container reveal">
+  <div class="feedback-box">
+    <h3 style="color:var(--navy);margin-bottom:6px;">Hvordan fungerer siden?</h3>
+    <p style="color:var(--muted);font-size:.9rem;margin-bottom:6px;">Gi tilbakemelding på om nettsiden fungerer teknisk som den skal — ikke om innholdet i kapittelet.</p>
+    <div class="emoji-row">
+      <button class="emoji-btn" data-val="1">😡</button>
+      <button class="emoji-btn" data-val="2">😕</button>
+      <button class="emoji-btn" data-val="3">😐</button>
+      <button class="emoji-btn" data-val="4">🙂</button>
+      <button class="emoji-btn" data-val="5">🤩</button>
+    </div>
+    <textarea class="feedback-text" id="feedback-comment" placeholder="Fungerte noe dårlig? Beskriv gjerne hva (f.eks. en oppgave som ikke virket, noe som ikke lastet osv.)"></textarea>
+  </div>
+</section>
+
+<section class="pdf-section">
+  <button class="pdf-btn" onclick="exportPDF()">📄 Last ned svarark som PDF</button>
+  <p class="pdf-note">PDF-en samler alle svarene dine, poengsum og refleksjoner automatisk.</p>
+</section>
+
+<footer>
+  Idrett og Samfunn · Kapittel 1: Lek, spill og idrett · Edvin's Idretts Lab
+</footer>
+
+<script>
+/* ---------- Reveal on scroll ---------- */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); } });
+},{threshold:.12});
+revealEls.forEach(el=>io.observe(el));
+
+/* ---------- Learning objectives + progress ---------- */
+document.querySelectorAll('.obj-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    item.classList.toggle('done');
+    if(item.classList.contains('done')) item.querySelector('.obj-check').textContent='✓';
+    else item.querySelector('.obj-check').textContent='';
+    updateProgress();
+  });
+});
+
+function updateProgress(){
+  let total=0, done=0;
+  document.querySelectorAll('.obj-item').forEach(i=>{total++; if(i.classList.contains('done')) done++;});
+  document.querySelectorAll('.task-card').forEach(t=>{total++; if(t.dataset.completed==='true') done++;});
+  const pct = total? Math.round((done/total)*100):0;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=pct+'%';
+}
+
+/* ---------- Task accordion ---------- */
+function toggleTask(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleAllTasks(open){
+  document.querySelectorAll('.task-card').forEach(t=>{
+    if(open) t.classList.add('open'); else t.classList.remove('open');
+  });
+}
+
+/* ---------- Oppgave 1: MC ---------- */
+['mc-q1','mc-q2','mc-q3','mc-q4'].forEach(qid=>{
+  document.querySelectorAll('#'+qid+' .mc-option').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      const group = document.querySelectorAll('#'+qid+' .mc-option');
+      if(group[0].dataset.locked==='true') return;
+      group.forEach(o=>{
+        o.dataset.locked='true';
+        if(o.dataset.correct==='true') o.classList.add('correct');
+        else if(o===opt) o.classList.add('incorrect');
+      });
+      updateScore1();
+    });
+  });
+});
+function updateScore1(){
+  let correct=0, answered=0;
+  ['mc-q1','mc-q2','mc-q3','mc-q4'].forEach(qid=>{
+    const group = document.querySelectorAll('#'+qid+' .mc-option');
+    if(group[0].dataset.locked==='true'){
+      answered++;
+      const chosenIncorrect = document.querySelector('#'+qid+' .mc-option.incorrect');
+      if(!chosenIncorrect) correct++;
+    }
+  });
+  document.getElementById('score1').textContent = correct+'/4';
+  document.getElementById('score1').className = 'task-score' + (answered===4 ? (correct/4>=0.8?' good':' bad') : '');
+  if(answered===4){ document.getElementById('task1').dataset.completed = 'true'; updateProgress(); }
+}
+
+/* ---------- Oppgave 2: True/False ---------- */
+function setTF(btn,val){
+  const row = btn.closest('.tf-row');
+  const buttons = row.querySelectorAll('button');
+  buttons.forEach(b=>b.classList.remove('selected-true','selected-false'));
+  btn.classList.add(val?'selected-true':'selected-false');
+  row.dataset.chosen = val;
+  const correct = row.dataset.correct==='true';
+  row.classList.remove('correct-highlight','incorrect-highlight');
+  const oldBadge = row.querySelector('.verdict-badge'); if(oldBadge) oldBadge.remove();
+  const badge = document.createElement('span');
+  badge.className = 'verdict-badge ' + (val===correct?'ok':'no');
+  badge.textContent = val===correct?'Riktig':'Feil';
+  row.querySelector('.tf-buttons').appendChild(badge);
+  row.classList.add(val===correct?'correct-highlight':'incorrect-highlight');
+  updateScore2();
+}
+function updateScore2(){
+  const rows = document.querySelectorAll('.tf-row');
+  let correct=0, answered=0;
+  rows.forEach(r=>{
+    if(r.dataset.chosen!==undefined){
+      answered++;
+      if((r.dataset.chosen==='true')===(r.dataset.correct==='true')) correct++;
+    }
+  });
+  document.getElementById('score2').textContent = correct+'/5';
+  document.getElementById('score2').className = 'task-score' + (answered===5 ? (correct/5>=0.8?' good':' bad'):'');
+  if(answered===5){ document.getElementById('task2').dataset.completed='true'; updateProgress(); }
+}
+
+/* ---------- Oppgave 3: Fill in blanks (shuffled dropdowns) ---------- */
+const blankOptions = ["Homo Ludens","egenverdi","virksomhet","konkurransespill","samarbeidsspill","styrke","nytteverdi","idrett"];
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+document.querySelectorAll('.blank-slot').forEach(slot=>{
+  const answer = slot.dataset.answer;
+  const select = document.createElement('select');
+  select.className='blank-select';
+  const shuffled = shuffle(blankOptions);
+  const blank = document.createElement('option'); blank.value=''; blank.textContent='– velg –';
+  select.appendChild(blank);
+  shuffled.forEach(opt=>{
+    const o = document.createElement('option'); o.value=opt; o.textContent=opt;
+    select.appendChild(o);
+  });
+  select.addEventListener('change',()=>{
+    select.classList.remove('correct','incorrect');
+    if(select.value===answer) select.classList.add('correct');
+    else if(select.value!=='') select.classList.add('incorrect');
+    updateScore3();
+  });
+  slot.appendChild(select);
+});
+function updateScore3(){
+  const selects = document.querySelectorAll('.blank-select');
+  let correct=0, answered=0;
+  selects.forEach(s=>{
+    if(s.value!==''){
+      answered++;
+      const parentSlot = s.parentElement;
+      if(s.value===parentSlot.dataset.answer) correct++;
+    }
+  });
+  document.getElementById('score3').textContent = correct+'/5';
+  document.getElementById('score3').className = 'task-score' + (answered===5 ? (correct/5>=0.8?' good':' bad'):'');
+  if(answered===5){ document.getElementById('task3').dataset.completed='true'; updateProgress(); }
+}
+
+/* ---------- Oppgave 4: Drag and drop matching ---------- */
+const ddPairs = [
+  {term:"Homo Ludens", def:"Begrepet Huizinga brukte om «det lekende mennesket»"},
+  {term:"Egenverdi", def:"Aktiviteten er et mål i seg selv, ikke et middel"},
+  {term:"Konkurransespill", def:"Måler, sammenligner og rangerer prestasjoner"},
+  {term:"Samarbeidsspill", def:"Mindre opptatt av å rangere deltakere mot hverandre"},
+  {term:"Idrett", def:"Fra gammelnorsk «id» og «prottr» — kraftfulle, imponerende handlinger"}
+];
+const ddBank = document.getElementById('dd-bank');
+const ddTargets = document.getElementById('dd-targets');
+shuffle(ddPairs.map(p=>p.term)).forEach(term=>{
+  const w = document.createElement('div');
+  w.className='dd-word'; w.draggable=true; w.textContent=term; w.dataset.term=term;
+  w.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/plain',term); });
+  ddBank.appendChild(w);
+});
+shuffle(ddPairs).forEach(pair=>{
+  const t = document.createElement('div');
+  t.className='dd-target'; t.dataset.answer=pair.term;
+  t.innerHTML = '<span>'+pair.def+'</span>';
+  t.addEventListener('dragover',e=>e.preventDefault());
+  t.addEventListener('drop',e=>{
+    e.preventDefault();
+    const term = e.dataTransfer.getData('text/plain');
+    if(t.classList.contains('filled')) return;
+    const wordEl = [...ddBank.children].find(w=>w.dataset.term===term && !w.classList.contains('placed'));
+    if(!wordEl) return;
+    wordEl.classList.add('placed');
+    const placedSpan = document.createElement('span');
+    placedSpan.className='placed-word'; placedSpan.textContent=term;
+    t.insertBefore(placedSpan, t.firstChild);
+    t.classList.add('filled');
+    if(term!==t.dataset.answer) t.classList.add('wrong');
+    updateScore4();
+  });
+  ddTargets.appendChild(t);
+});
+function updateScore4(){
+  const targets = document.querySelectorAll('.dd-target');
+  let correct=0, answered=0;
+  targets.forEach(t=>{
+    if(t.classList.contains('filled')){
+      answered++;
+      if(!t.classList.contains('wrong')) correct++;
+    }
+  });
+  document.getElementById('score4').textContent = correct+'/5';
+  document.getElementById('score4').className = 'task-score' + (answered===5 ? (correct/5>=0.8?' good':' bad'):'');
+  if(answered===5){ document.getElementById('task4').dataset.completed='true'; updateProgress(); }
+}
+
+/* ---------- Oppgave 5: Sort activities ---------- */
+const sortItems = [
+  {name:"Sjakkturnering", zone:"konkurranse"},
+  {name:"Langrennsløp", zone:"konkurranse"},
+  {name:"To som header en ball til hverandre for å se hvor mange de klarer", zone:"samarbeid"},
+  {name:"100-meterfinale i friidrett", zone:"konkurranse"},
+  {name:"Klatrepar som sikrer hverandre opp en vegg", zone:"samarbeid"},
+  {name:"To som kaster og fanger ball sammen for å holde den i gang lengst mulig", zone:"samarbeid"}
+];
+const sortBank = document.getElementById('sort-bank');
+shuffle(sortItems).forEach(item=>{
+  const el = document.createElement('div');
+  el.className='sort-item'; el.draggable=true; el.dataset.zone=item.zone;
+  el.innerHTML = '<span class="drag-handle">⠿</span>'+item.name;
+  el.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/plain', item.name); e.dataTransfer.setData('zone-source', item.zone); draggedSortEl=el; });
+  sortBank.appendChild(el);
+});
+let draggedSortEl=null;
+document.querySelectorAll('.sort-zone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>e.preventDefault());
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();
+    if(draggedSortEl){
+      zone.appendChild(draggedSortEl);
+      draggedSortEl.dataset.placedZone = zone.dataset.zone;
+    }
+  });
+});
+function checkSort(){
+  let correct=0, total=sortItems.length, answered=0;
+  document.querySelectorAll('.sort-item').forEach(el=>{
+    el.classList.remove('correct-item','incorrect-item');
+    if(el.dataset.placedZone){
+      answered++;
+      if(el.dataset.placedZone===el.dataset.zone){
+        correct++;
+        el.style.borderColor='var(--teal)'; el.style.background='#e3fbf6';
+      } else {
+        el.style.borderColor='var(--orange)'; el.style.background='#fdeceb';
+      }
+    }
+  });
+  document.getElementById('score5').textContent = correct+'/'+total;
+  document.getElementById('score5').className = 'task-score' + (answered===total ? (correct/total>=0.8?' good':' bad'):'');
+  if(answered===total){ document.getElementById('task5').dataset.completed='true'; updateProgress(); }
+}
+
+/* ---------- Oppgave 6: word count ---------- */
+document.getElementById('obs-notes').addEventListener('input',function(){
+  const words = this.value.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById('obs-wordcount').textContent = words+' ord';
+  if(words>=30 && this.dataset.marked!=='true'){
+    this.dataset.marked='true';
+    document.getElementById('task6').dataset.completed='true';
+    document.getElementById('score6').textContent='✓';
+    document.getElementById('score6').className='task-score good';
+    updateProgress();
+  }
+});
+
+/* ---------- Oppgave 7: essay validation ---------- */
+const fagbegreper = ["lek","spill","idrett","egenverdi","nytteverdi","konkurransespill","samarbeidsspill","frivillig","huizinga","loland","homo ludens","kroppsbevegelser","kroppsstillinger"];
+document.getElementById('essay-text').addEventListener('input',function(){
+  const text = this.value;
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById('essay-wordcount').textContent = words+' ord (min. 150)';
+  const lower = text.toLowerCase();
+  const foundTerms = fagbegreper.filter(t=>lower.includes(t));
+  document.getElementById('essay-keywordcount').textContent = foundTerms.length+' fagbegreper funnet';
+  const apaPattern = /\(([A-ZÆØÅ][a-zæøåA-ZÆØÅ.,&\s]+),?\s*\d{4}[a-z]?(,\s*s\.?\s*\d+)?\)/;
+  const hasAPA = apaPattern.test(text);
+  document.getElementById('essay-apa').textContent = hasAPA? 'APA-kilde funnet ✓' : 'Ingen APA-kilde funnet ennå';
+  if(words>=150 && foundTerms.length>=4 && hasAPA && this.dataset.marked!=='true'){
+    this.dataset.marked='true';
+    document.getElementById('task7').dataset.completed='true';
+    document.getElementById('score7').textContent='✓';
+    document.getElementById('score7').className='task-score good';
+    updateProgress();
+  }
+});
+
+/* ---------- Feedback emoji ---------- */
+let selectedEmoji=null;
+document.querySelectorAll('.emoji-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.emoji-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedEmoji = btn.dataset.val;
+  });
+});
+
+/* ---------- PDF export ---------- */
+function exportPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({unit:'pt',format:'a4'});
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const margin = 48;
+  let y = 60;
+
+  function addTitle(text){
+    doc.setFont('helvetica','bold'); doc.setFontSize(16); doc.setTextColor(11,31,58);
+    doc.text(text, margin, y); y+=22;
+  }
+  function addSubtitle(text){
+    doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(0,150,130);
+    checkPage(20); doc.text(text, margin, y); y+=16;
+  }
+  function addText(text, indent=0){
+    doc.setFont('helvetica','normal'); doc.setFontSize(10.5); doc.setTextColor(30,30,30);
+    const lines = doc.splitTextToSize(text, pageWidth - margin*2 - indent);
+    lines.forEach(line=>{
+      checkPage(14);
+      doc.text(line, margin+indent, y);
+      y+=14;
+    });
+    y+=4;
+  }
+  function checkPage(need){
+    if(y+need > 800){ doc.addPage(); y=60; }
+  }
+
+  addTitle('Lek, spill og idrett — Svarark');
+  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(90,90,90);
+  doc.text('Idrett og Samfunn · Kapittel 1', margin, y); y+=10;
+  doc.text('Generert: '+new Date().toLocaleDateString('nb-NO'), margin, y); y+=24;
+
+  addSubtitle('Oppgave 1: Flervalgsoppgave — Poeng: '+document.getElementById('score1').textContent);
+  ['mc-q1','mc-q2','mc-q3','mc-q4'].forEach((qid,idx)=>{
+    const chosen = document.querySelector('#'+qid+' .mc-option.incorrect, #'+qid+' .mc-option.correct');
+    addText((idx+1)+'. '+ (document.querySelector('#'+qid+' p').textContent));
+    addText('Svart: '+(chosen? chosen.textContent.replace(/^[A-D]/,'').trim() : 'Ikke besvart'), 12);
+  });
+
+  addSubtitle('Oppgave 2: Sant/usant — Poeng: '+document.getElementById('score2').textContent);
+  document.querySelectorAll('.tf-row').forEach((row,idx)=>{
+    const q = row.querySelector('span').textContent;
+    const chosen = row.dataset.chosen;
+    addText((idx+1)+'. '+q);
+    addText('Svart: '+(chosen===undefined? 'Ikke besvart' : (chosen==='true'?'Sant':'Usant')), 12);
+  });
+
+  addSubtitle('Oppgave 3: Fyll inn begrep — Poeng: '+document.getElementById('score3').textContent);
+  document.querySelectorAll('.blank-sentence').forEach((p,idx)=>{
+    const select = p.querySelector('select');
+    addText((idx+1)+'. Svart: '+(select.value||'Ikke besvart'));
+  });
+
+  addSubtitle('Oppgave 4: Match begrep — Poeng: '+document.getElementById('score4').textContent);
+  document.querySelectorAll('.dd-target').forEach(t=>{
+    const placed = t.querySelector('.placed-word');
+    addText('Definisjon: '+t.querySelector('span:not(.placed-word)')?.textContent);
+    addText('Svart: '+(placed? placed.textContent : 'Ikke besvart'), 12);
+  });
+
+  addSubtitle('Oppgave 5: Sorter aktiviteter — Poeng: '+document.getElementById('score5').textContent);
+  document.querySelectorAll('.sort-item').forEach(el=>{
+    addText(el.textContent.replace('⠿','').trim()+' → '+(el.dataset.placedZone||'Ikke plassert'));
+  });
+
+  addSubtitle('Oppgave 6: Er dette lek? — Refleksjon');
+  addText(document.getElementById('obs-notes').value || 'Ikke besvart');
+
+  addSubtitle('Oppgave 7: Drøftingsoppgave');
+  addText(document.getElementById('essay-text').value || 'Ikke besvart');
+
+  addSubtitle('Tilbakemelding om siden');
+  addText('Vurdering: '+(selectedEmoji? selectedEmoji+'/5' : 'Ikke gitt'));
+  addText('Kommentar: '+(document.getElementById('feedback-comment').value || 'Ingen kommentar'));
+
+  doc.save('Lek_spill_idrett_svarark.pdf');
+}
+</script>
+</body>
+</html>
