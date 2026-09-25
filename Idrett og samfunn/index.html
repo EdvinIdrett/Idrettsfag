@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idrett og Samfunn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B1F3A;--navy-light:#16305a;--teal:#00C2A8;--orange:#E85D26;
+    --bg:#F5F7FA;--card:#FFFFFF;--text:#1c2733;--muted:#5c6b7a;--border:#e3e8ef;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;}
+  h1,h2,h3,h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.3px;}
+  .container{max-width:980px;margin:0 auto;padding:0 24px;}
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 60%,#1d3a66 100%);color:#fff;padding:90px 0 70px;position:relative;overflow:hidden;}
+  .hero::before{content:"";position:absolute;top:-80px;right:-80px;width:340px;height:340px;background:radial-gradient(circle,rgba(0,194,168,.25),transparent 70%);border-radius:50%;}
+  .hero::after{content:"";position:absolute;bottom:-120px;left:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(232,93,38,.18),transparent 70%);border-radius:50%;}
+  .hero-inner{position:relative;z-index:2;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:6px 16px;border-radius:999px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;color:var(--teal);margin-bottom:22px;}
+  .hero h1{font-size:3.4rem;line-height:1.05;margin-bottom:16px;}
+  .hero h1 span{color:var(--teal);}
+  .hero p{font-size:1.15rem;max-width:620px;color:#c7d3e2;}
+  section{padding:56px 0;}
+  .section-title{font-size:2.1rem;color:var(--navy);margin-bottom:8px;}
+  .section-sub{color:var(--muted);margin-bottom:28px;}
+  .chapters{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+  .chapter{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;transition:transform .2s,box-shadow .2s;}
+  .chapter:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(11,31,58,.08);border-color:var(--teal);}
+  .chapter .num{font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);}
+  .chapter h3{color:var(--navy);font-size:1.5rem;margin:4px 0 8px;}
+  .chapter p{font-size:.9rem;color:var(--muted);}
+  .chapter .go{display:inline-block;margin-top:14px;font-weight:700;color:var(--teal);font-size:.9rem;}
+  .chapter.soon{opacity:.55;pointer-events:none;}
+  footer{background:var(--navy);color:#9db0c8;text-align:center;padding:26px 0;font-size:.85rem;}
+  footer a{color:var(--teal);text-decoration:none;}
+  @media(max-width:760px){.hero h1{font-size:2.4rem;}.hero{padding:60px 0 50px;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="container hero-inner">
+    <div class="eyebrow">🏟️ Nettressurs</div>
+    <h1>Idrett <span>og samfunn</span></h1>
+    <p>Interaktive kapitler med fagstoff, begreper og oppgaver. Velg et kapittel under for å komme i gang.</p>
+  </div>
+</div>
+
+<section class="container">
+  <h2 class="section-title">Kapitler</h2>
+  <p class="section-sub">Hvert kapittel har læringsmål, fagtekst, oppgaver og svarark du kan laste ned som PDF.</p>
+  <div class="chapters">
+    <a class="chapter" href="Kap%201%20-%20Lek%2C%20spill%20og%20idrett.html">
+      <div class="num">Kapittel 1</div>
+      <h3>Lek, spill og idrett</h3>
+      <p>Hva skiller lek, spill og idrett? Huizinga, ordet «idrett» og lærebokas definisjon (Loland, 2013).</p>
+      <span class="go">Åpne kapittel →</span>
+    </a>
+    <a class="chapter" href="Kapittel%202%20-%20Idrett%2C%20kultur%20og%20samfunn.html">
+      <div class="num">Kapittel 2</div>
+      <h3>Idrett, kultur og samfunn</h3>
+      <p>Samfunn, kultur, verdier og normer — idrett som kultur i bevegelse, og hva som egentlig er idrett.</p>
+      <span class="go">Åpne kapittel →</span>
+    </a>
+    <div class="chapter soon">
+      <div class="num">Flere kapitler</div>
+      <h3>Kommer snart</h3>
+      <p>Nye kapitler legges ut fortløpende.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Idrett og Samfunn · <a href="../">Tilbake til Idrettsfag</a>
+</footer>
+
+</body>
+</html>
