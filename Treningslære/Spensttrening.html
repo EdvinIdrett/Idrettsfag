@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spensttrening</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--navy:#0f2a4a;--navy2:#1c3f68;--teal:#12a39a;--teal-l:#e3f6f4;--orange:#f08a24;--orange-l:#fff1e3;--bg:#f5f7fa;--card:#fff;--text:#1d2733;--muted:#5d6b7a;--line:#dde3ea;--ok:#1f9d55;--ok-l:#e5f6ec;--bad:#d64545;--bad-l:#fdeaea}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+h1,h2,h3{font-family:'Barlow Condensed',sans-serif;color:var(--navy);line-height:1.1;margin:0 0 .5em}
+h2{font-size:2.1rem;border-left:6px solid var(--teal);padding-left:12px;margin-top:0}
+h3{font-size:1.45rem}
+a{color:var(--teal)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+section{padding:44px 0}
+.card{background:var(--card);border-radius:14px;box-shadow:0 2px 10px rgba(15,42,74,.07);padding:24px;margin-bottom:20px}
+#progress{position:fixed;top:0;left:0;height:5px;background:linear-gradient(90deg,var(--teal),var(--orange));width:0;z-index:99}
+.hero{position:relative;min-height:440px;display:flex;align-items:flex-end;color:#fff;background:#0f2a4a url('https://images.unsplash.com/photo-1491484815100-6f2890d04007?w=1800&q=70&auto=format&fit=crop') center/cover}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,42,74,.15),rgba(15,42,74,.88))}
+.hero .wrap{position:relative;padding-bottom:40px;width:100%}
+.hero h1{color:#fff;font-size:clamp(3rem,9vw,5.5rem);margin:0}
+.hero p{font-size:1.15rem;max-width:620px;margin:.3em 0 0}
+.tag{display:inline-block;background:var(--orange);color:#fff;font-weight:700;padding:3px 12px;border-radius:20px;font-size:.8rem;letter-spacing:.05em;text-transform:uppercase}
+.credit{font-size:.72rem;opacity:.8;margin-top:12px}
+.credit a{color:#fff}
+.goals label{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.goals input{width:20px;height:20px;accent-color:var(--teal);margin-top:3px;flex-shrink:0}
+.concepts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.concept{position:relative;background:var(--teal-l);border:2px solid var(--teal);border-radius:10px;padding:14px;font-weight:700;color:var(--navy);cursor:help;text-align:center}
+.concept .tip{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:260px;background:var(--navy);color:#fff;font-weight:400;font-size:.88rem;padding:12px;border-radius:8px;transition:.2s;z-index:10;text-align:left}
+.concept:hover .tip,.concept:focus .tip{visibility:visible;opacity:1}
+.split{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center}
+.split img,.imgfull{width:100%;border-radius:12px;display:block;object-fit:cover}
+.split img{height:340px}
+figcaption{font-size:.75rem;color:var(--muted);margin-top:4px}
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.phase{border-radius:10px;padding:14px;color:#fff}
+.phase b{font-family:'Barlow Condensed';font-size:1.3rem;display:block}
+.p1{background:var(--orange)}.p2{background:var(--navy2)}.p3{background:var(--teal)}
+.callout{background:var(--orange-l);border-left:5px solid var(--orange);padding:14px 18px;border-radius:8px;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th{background:var(--navy);color:#fff;text-align:left;padding:10px}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:#f9fbfc}
+.tablewrap{overflow-x:auto}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.komp{border-top:5px solid var(--teal)}
+.komp:nth-child(2),.komp:nth-child(3){border-top-color:var(--orange)}
+.komp ul{padding-left:18px;margin:0}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.gallery img{width:100%;height:200px;object-fit:cover;border-radius:10px}
+/* tasks */
+.toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+button{font-family:Inter;font-weight:600;border:none;border-radius:8px;padding:10px 18px;cursor:pointer;font-size:.95rem}
+.btn{background:var(--teal);color:#fff}.btn:hover{background:#0e8a82}
+.btn2{background:#e8edf2;color:var(--navy)}
+.btn3{background:var(--orange);color:#fff}
+.task{background:var(--card);border-radius:14px;box-shadow:0 2px 10px rgba(15,42,74,.07);margin-bottom:16px;overflow:hidden}
+.task-head{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;cursor:pointer;background:#fff}
+.task-head h3{margin:0}
+.task-head .score{font-weight:700;color:var(--muted);font-size:.9rem;white-space:nowrap;margin-left:10px}
+.task-body{padding:0 22px 22px;display:none}
+.task.open .task-body{display:block}
+.task-head .arrow{transition:.2s;margin-left:10px}
+.task.open .arrow{transform:rotate(90deg)}
+.q{border:2px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px;position:relative}
+.q.ok{border-color:var(--ok);background:var(--ok-l)}
+.q.bad{border-color:var(--bad);background:var(--bad-l)}
+.badge{position:absolute;top:10px;right:10px;font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:12px;color:#fff}
+.opt{display:flex;gap:10px;align-items:center;padding:9px 12px;border:1.5px solid var(--line);border-radius:8px;margin-top:8px;cursor:pointer;background:#fff}
+.opt .l{width:28px;height:28px;border-radius:50%;background:#e8edf2;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy);flex-shrink:0}
+.opt.sel{border-color:var(--teal)}.opt.sel .l{background:var(--teal);color:#fff}
+.opt.right{border-color:var(--ok);background:var(--ok-l)}.opt.wrong{border-color:var(--bad);background:var(--bad-l)}
+.tf{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.tf .btns button{padding:7px 14px;background:#e8edf2;color:var(--navy)}
+.tf .btns button.sel{background:var(--navy);color:#fff}
+select{font-family:Inter;font-size:.95rem;padding:4px 6px;border:1.5px solid var(--teal);border-radius:6px;background:#fff;max-width:100%}
+select.ok{border-color:var(--ok);background:var(--ok-l)}select.bad{border-color:var(--bad);background:var(--bad-l)}
+.bank{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:var(--teal-l);border-radius:10px;min-height:52px;margin-bottom:14px}
+.chip{background:#fff;border:2px solid var(--teal);border-radius:20px;padding:5px 14px;cursor:grab;font-weight:600;font-size:.9rem;user-select:none}
+.chip.picked{background:var(--teal);color:#fff}
+.drop{display:inline-block;min-width:150px;min-height:34px;border:2px dashed var(--muted);border-radius:8px;padding:3px 8px;vertical-align:middle;margin:3px;background:#fff}
+.drop.ok{border:2px solid var(--ok);background:var(--ok-l)}.drop.bad{border:2px solid var(--bad);background:var(--bad-l)}
+.drop.over{border-color:var(--teal);background:var(--teal-l)}
+.match{display:grid;grid-template-columns:1fr 1.4fr;gap:10px;align-items:center}
+.match .left{font-weight:700;color:var(--navy)}
+.okt input,.okt textarea{width:100%;font-family:Inter;font-size:.9rem;border:1.5px solid var(--line);border-radius:6px;padding:6px}
+.okt td{padding:6px}
+textarea{width:100%;font-family:Inter;font-size:.95rem;border:1.5px solid var(--line);border-radius:8px;padding:10px;min-height:170px}
+.counter{display:flex;gap:16px;flex-wrap:wrap;font-size:.88rem;color:var(--muted);margin-top:6px}
+.kw{padding:2px 9px;border-radius:12px;background:#e8edf2}.kw.hit{background:var(--ok);color:#fff}
+.result{margin-top:10px;font-weight:700}
+.sources li{margin-bottom:10px;padding-left:2.2em;text-indent:-2.2em;list-style:none}
+.sources ul{padding:0}
+footer{background:var(--navy);color:#cfd8e3;padding:30px 0;font-size:.85rem}
+footer a{color:#9fe3dc}
+.reveal{opacity:0;transform:translateY(24px);transition:.6s}
+.reveal.vis{opacity:1;transform:none}
+@media(max-width:760px){.split,.grid2{grid-template-columns:1fr}.phases{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.match{grid-template-columns:1fr}.split img{height:240px}}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">Treningslære 1 · Idrettsfag</span>
+    <h1>Spensttrening</h1>
+    <p>Evnen til å hoppe høyt eller langt – og hvordan musklene dine kan fungere som en fjær.</p>
+    <div class="credit">Foto: <a href="https://unsplash.com/photos/3yLpryRajZs" target="_blank">Joshua Earle / Unsplash</a></div>
+  </div>
+</header>
+
+<main>
+<section class="reveal"><div class="wrap">
+  <h2>Læringsmål</h2>
+  <div class="card goals">
+    <label><input type="checkbox">Forklare hva spenst er, og skille mellom vertikal og horisontal spenst.</label>
+    <label><input type="checkbox">Forklare hva som menes med plyometrisk muskelarbeid (strekk–forkortningssyklus).</label>
+    <label><input type="checkbox">Begrunne hvorfor det er viktig å trene spenst.</label>
+    <label><input type="checkbox">Gjøre rede for faktorer som har betydning for spenst.</label>
+    <label><input type="checkbox">Kjenne retningslinjene for spensttrening og bruke dem i en øktplan.</label>
+    <label><input type="checkbox">Forklare hvordan spensttrening virker på muskler, sener og nervesystem.</label>
+  </div>
+</div></section>
+
+<section class="reveal"><div class="wrap">
+  <h2>Nøkkelbegreper</h2>
+  <p style="color:var(--muted)">Hold musepekeren over (eller trykk på) et begrep for å se forklaringen.</p>
+  <div class="concepts">
+    <div class="concept" tabindex="0">Spenst<span class="tip">Evnen til å hoppe høyt eller langt. En kombinasjon av styrke og hurtighet.</span></div>
+    <div class="concept" tabindex="0">Eksplosiv styrke<span class="tip">Evnen til å utvikle størst mulig kraft på kortest mulig tid.</span></div>
+    <div class="concept" tabindex="0">Maksimal muskelstyrke (relativ styrke)<span class="tip">Den største kraften musklene kan utvikle, sett i forhold til kroppsmassen – hvor mye kraft du har per kilo du skal flytte.</span></div>
+    <div class="concept" tabindex="0">Eksentrisk<span class="tip">Muskelen forlenges mens den er under belastning – «bremsefasen».</span></div>
+    <div class="concept" tabindex="0">Konsentrisk<span class="tip">Muskelen forkortes og skaper bevegelse – «løftefasen» eller «motoren».</span></div>
+    <div class="concept" tabindex="0">Plyometrisk<span class="tip">En rask eksentrisk strekk rett før en eksplosiv konsentrisk forkortning. Muskelen virker som en fjær.</span></div>
+    <div class="concept" tabindex="0">Hill-kurven<span class="tip">Kraft–hastighetskurven: jo større kraft en muskel skal utvikle, desto lavere blir hastigheten, og omvendt.</span></div>
+    <div class="concept" tabindex="0">Bakketid<span class="tip">Tiden foten er i kontakt med underlaget. Kort bakketid gir bedre utnyttelse av elastisk energi.</span></div>
+    <div class="concept" tabindex="0">Type 2-fibre<span class="tip">Raske muskelfibre (2A og 2X) som kan utvikle stor kraft raskt, men som trettes fort.</span></div>
+  </div>
+</div></section>
+
+<section class="reveal"><div class="wrap">
+  <h2>Hva er spenst?</h2>
+  <div class="split card">
+    <div>
+      <p><strong>Spenst er evnen til å hoppe høyt eller langt.</strong> Vi deler gjerne spenst inn i <em>vertikal spenst</em> (høyde – for eksempel i volleyball, basketball og høydehopp) og <em>horisontal spenst</em> (lengde – for eksempel i lengdehopp, tresteg og i sprintens akselerasjon).</p>
+      <p>Spenst er en kombinasjon av <strong>styrke og hurtighet</strong>. God spenst krever at du er sterk i musklene som utfører satsen – ankel-, kne- og hofteleddsstrekkerne, ofte kalt <em>strekkapparatet</em> – og at du klarer å utnytte styrken når bevegelsen foregår i stor fart.</p>
+      <p>Fordi du skal flytte din egen kropp, er det den <strong>maksimale muskelstyrken (relativ styrke)</strong> som teller, altså maksimal muskelstyrke sett i forhold til kroppsmassen. Målet er å bli sterkest mulig i strekkapparatet uten at kroppsmassen øker unødvendig.</p>
+    </div>
+    <figure style="margin:0"><img src="https://images.unsplash.com/photo-1517626102333-83f7319aa06e?w=900&q=70&auto=format&fit=crop" alt="Person som hopper høyt under hvit himmel"><figcaption>Foto: Nathan Nichols / Unsplash</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="reveal"><div class="wrap">
+  <h2>Plyometrisk muskelarbeid – muskelen som fjær</h2>
+  <div class="card">
+    <p>I nesten alle hopp og løp skjer en rask bremsing rett før en eksplosiv fraspark. Dette kalles <strong>plyometrisk muskelarbeid</strong>, eller strekk–forkortningssyklus (Komi, 2000). En vanlig definisjon er at en muskel fungerer som en fjær når den i spent tilstand utsettes for en kort og rask strekking før den trekker seg sammen.</p>
+    <div class="phases">
+      <div class="phase p1"><b>1 · Eksentrisk fase</b>Du lander fra kassen. Strekkerne i ankel, kne, hofte og rygg bremser, og musklene utvikler kraft mens de strekkes.</div>
+      <div class="phase p2"><b>2 · Omslag</b>Helt i slutten av oppbremsingen strekkes tverrbroene mellom aktin og myosin uten å slippe taket. Dette gir en tilleggsspenning.</div>
+      <div class="phase p3"><b>3 · Konsentrisk fase</b>Musklene trekker seg sammen som motor. Tilleggsspenningen og elastisk energi i sener gir ekstra kraft i frasparket.</div>
+    </div>
+    <div class="callout"><strong>Nøkkelen er rask overgang.</strong> Jo kortere tid mellom bremsing og fraspark (kort bakketid), desto mer av den lagrede energien utnyttes. Blir omslaget for tregt, går mye av energien tapt som varme.</div>
+    <p>Et klassisk eksempel er <strong>fallhopp</strong>: Du hopper ned fra en kasse og spretter umiddelbart opp over en hekk. Hele fallhoppet er eksentrisk–konsentrisk arbeid – altså plyometrisk.</p>
+  </div>
+  <div class="grid2">
+    <figure style="margin:0"><img class="imgfull" style="height:280px" src="https://images.unsplash.com/photo-1631361927604-424b038b558c?w=900&q=70&auto=format&fit=crop" alt="Mann i luften under et hopp"><figcaption>Foto: Ameer Hamza / Unsplash</figcaption></figure>
+    <figure style="margin:0"><img class="imgfull" style="height:280px" src="https://images.unsplash.com/photo-1579156618568-a641377ae974?w=900&q=70&auto=format&fit=crop" alt="Historisk foto av kvinne som hopper hekk"><figcaption>Foto: Austrian National Library / Unsplash</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="reveal" id="hill"><div class="wrap">
+  <h2>Hill-kurven: kraft og hastighet</h2>
+  <div class="split card">
+    <div>
+      <p>Den britiske fysiologen A. V. Hill (1938) viste at en muskel ikke kan utvikle stor kraft og stor hastighet samtidig. Sammenhengen kalles <strong>kraft–hastighetskurven</strong> eller <strong>Hill-kurven</strong>.</p>
+      <ul>
+        <li><strong>Stor kraft, lav hastighet:</strong> tunge løft, for eksempel 1RM i knebøy.</li>
+        <li><strong>Liten kraft, høy hastighet:</strong> raske bevegelser uten belastning, for eksempel et kast med lett ball.</li>
+        <li><strong>Effekt = kraft × hastighet.</strong> Effekten er størst et sted midt på kurven, ofte rundt 30 % av maks kraft og hastighet.</li>
+      </ul>
+      <p><strong>Hva betyr dette for spenst?</strong> Et hopp krever <em>stor kraft på kort tid</em>. Tung styrketrening løfter kurven i kraftenden, og spensttrening løfter den i hastighetsenden. Kombinerer du begge, flyttes hele kurven opp og ut, og du får mer effekt i satsen.</p>
+      <p>Kurven gjelder konsentrisk arbeid. Når muskelen jobber eksentrisk, kan den utvikle <em>mer</em> kraft enn maksimal statisk kraft. Det er en av grunnene til at plyometrisk arbeid fungerer.</p>
+    </div>
+    <figure style="margin:0">
+      <svg viewBox="0 0 400 320" style="width:100%;background:#fff;border-radius:12px" role="img" aria-label="Kraft–hastighetskurve med effektkurve">
+        <line x1="50" y1="270" x2="380" y2="270" stroke="#0f2a4a" stroke-width="2"/>
+        <line x1="50" y1="270" x2="50" y2="20" stroke="#0f2a4a" stroke-width="2"/>
+        <text x="215" y="300" text-anchor="middle" font-size="13" fill="#0f2a4a" font-family="Inter">Hastighet →</text>
+        <text x="18" y="145" text-anchor="middle" font-size="13" fill="#0f2a4a" font-family="Inter" transform="rotate(-90 18 145)">Kraft →</text>
+        <path d="M50,35 C90,150 160,225 370,262" fill="none" stroke="#12a39a" stroke-width="4"/>
+        <path d="M50,35 C110,110 200,170 380,215" fill="none" stroke="#12a39a" stroke-width="2.5" stroke-dasharray="6 5"/>
+        <path d="M50,270 C110,150 170,140 220,170 C270,205 330,250 370,270" fill="none" stroke="#f08a24" stroke-width="3"/>
+        <circle cx="160" cy="153" r="5" fill="#f08a24"/>
+        <text x="168" y="145" font-size="12" fill="#c46a12" font-family="Inter" font-weight="700">Maks effekt</text>
+        <text x="62" y="30" font-size="12" fill="#0f2a4a" font-family="Inter">Maks kraft (tunge løft)</text>
+        <text x="300" y="255" font-size="12" fill="#0f2a4a" font-family="Inter">Maks fart</text>
+        <rect x="235" y="40" width="14" height="4" fill="#12a39a"/><text x="255" y="46" font-size="11" fill="#1d2733" font-family="Inter">Kraft–hastighet</text>
+        <rect x="235" y="58" width="14" height="4" fill="#f08a24"/><text x="255" y="64" font-size="11" fill="#1d2733" font-family="Inter">Effekt</text>
+        <line x1="235" y1="78" x2="249" y2="78" stroke="#12a39a" stroke-width="2.5" stroke-dasharray="4 3"/><text x="255" y="82" font-size="11" fill="#1d2733" font-family="Inter">Etter trening</text>
+      </svg>
+      <figcaption>Forenklet Hill-kurve. Den stiplede linjen viser kurven etter kombinert styrke- og spensttrening.</figcaption>
+    </figure>
+  </div>
+  <div class="card" style="max-width:720px;margin:0 auto">
+    <div style="position:relative;padding-top:56.25%;border-radius:10px;overflow:hidden"><iframe style="position:absolute;inset:0;width:100%;height:100%;border:0" src="https://www.youtube-nocookie.com/embed/76tdg0oSXb0" title="Hill-kurven forklart" allowfullscreen loading="lazy"></iframe></div>
+    <figcaption><a href="https://www.youtube.com/watch?v=76tdg0oSXb0" target="_blank">Se videoen om Hill-kurven på YouTube</a></figcaption>
+  </div>
+</div></section>
+
+<section class="reveal"><div class="wrap">
+  <h2>Hva avgjør hvor god spenst du har?</h2>
+  <div class="split card">
+    <div>
+      <ul>
+        <li><strong>Stor maksimal muskelstyrke (relativ styrke)</strong> i strekkapparatet.</li>
+        <li><strong>Evne til å skape stor kraft ved høy forkortningshastighet.</strong></li>
+        <li><strong>Stor andel raske fibre</strong> (type 2A og 2X) – delvis arvelig.</li>
+        <li><strong>God aktivering av musklene</strong> – nervesystemet rekrutterer mange motoriske enheter samtidig og med høy impulsfrekvens.</li>
+        <li><strong>God teknikk</strong> – koordinasjon mellom ledd og riktig armsving.</li>
+        <li><strong>Konsentrasjon og motivasjon</strong> – spenst krever maksimal innsats i hvert hopp.</li>
+      </ul>
+    </div>
+    <figure style="margin:0"><img src="https://images.unsplash.com/photo-1602489700038-9f2ff4227e0a?w=900&q=70&auto=format&fit=crop" alt="Mann i treningstøy som gjør et hopp"><figcaption>Foto: Emanuel Kionke / Unsplash</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="reveal"><div class="wrap">
+  <h2>Retningslinjer for spensttrening</h2>
+  <div class="card tablewrap">
+    <table>
+      <tr><th>Retningslinje</th><th>Begrunnelse</th></tr>
+      <tr><td>Varm godt opp</td><td>Høy muskeltemperatur gir raskere kontraksjon og reduserer skaderisiko ved store belastninger.</td></tr>
+      <tr><td>Øvelsene skal ligne idretten</td><td>Treningen er spesifikk: bevegelsesbane og bevegelseshastighet bør ligne det du skal prestere i.</td></tr>
+      <tr><td>Tren spenst tidlig i økten, uthvilt</td><td>Trøtte muskler og et slitent nervesystem gir lavere kvalitet i hvert hopp.</td></tr>
+      <tr><td>Innøv riktig hoppteknikk først</td><td>God landing og frasparksteknikk gir bedre effekt og beskytter ledd.</td></tr>
+      <tr><td>Høy intensitet og full konsentrasjon</td><td>Det er de maksimale forsøkene som gir tilpasning i nervesystemet.</td></tr>
+      <tr><td>Øk mengden gradvis</td><td>Intensiteten er alltid høy, så progresjon skjer ved å øke antall hopp over tid.</td></tr>
+      <tr><td>Pauser på ca. 2–3 minutter mellom seriene</td><td>Gir tid til å fylle opp kreatinfosfat-lagrene, slik at hvert hopp blir maksimalt.</td></tr>
+      <tr><td>Varier treningen</td><td>Ulike hopp og underlag gir bredere stimulering og holder motivasjonen oppe.</td></tr>
+    </table>
+  </div>
+</div></section>
+
+<section class="reveal"><div class="wrap">
+  <h2>Kompendium</h2>
+  <div class="grid2">
+    <div class="card komp"><h3>Treningsmetoder</h3><ul>
+      <li><strong>Hopp uten ekstra belastning:</strong> sprett, spensthopp, hinkehopp, hekkehopp.</li>
+      <li><strong>Fallhopp:</strong> hopp ned fra kasse (ca. 20–60 cm) og rett opp igjen. Krever god styrkebase.</li>
+      <li><strong>Hopp med lett belastning:</strong> knebøyhopp med vektvest eller lett stang.</li>
+      <li><strong>Tung styrketrening:</strong> bygger maksimal muskelstyrke (relativ styrke) som spensten bygger på.</li></ul></div>
+    <div class="card komp"><h3>Hovedvirkninger</h3><ul>
+      <li>Større evne til å utvikle kraft med høy hastighet.</li>
+      <li>Bedre eksplosiv styrke i strekkapparatet.</li>
+      <li>Sterkere sener.</li>
+      <li>Bedre nevromuskulær styring: høyere impulsfrekvens, bedre aktivering og teknikk.</li>
+      <li>Bedre konsentrasjon, vilje og selvtillit.</li></ul></div>
+    <div class="card komp"><h3>Tester av spenst</h3><ul>
+      <li><strong>Svikthopp (CMJ):</strong> vertikal spenst med nedsvikt – måler plyometrisk evne.</li>
+      <li><strong>Knebøyhopp (SJ):</strong> fra stillestående knebøy – uten strekk-forkortning.</li>
+      <li><strong>Stille lengde:</strong> horisontal spenst.</li>
+      <li>En god test er <em>valid</em> (måler det den skal) og <em>reliabel</em> (gir like resultater ved gjentak).</li></ul></div>
+    <div class="card komp"><h3>Forskning i korte trekk</h3><ul>
+      <li>En metaanalyse fant at plyometrisk trening gir en tydelig forbedring i vertikal hopphøyde, med størst effekt i svikthopp (Markovic, 2007).</li>
+      <li>Forskjellen mellom CMJ og SJ viser hvor godt du utnytter strekk–forkortningssyklusen (Bosco mfl., 1983; Komi, 2000).</li>
+      <li>Styrketrening og spensttrening kombinert gir ofte bedre resultat enn hver for seg (Raastad mfl., 2010).</li></ul></div>
+  </div>
+  <div class="gallery" style="margin-top:6px">
+    <figure style="margin:0"><img src="https://images.unsplash.com/photo-1470468969717-61d5d54fd036?w=700&q=70&auto=format&fit=crop" alt="Kvinne som hopper foran en hvit vegg"><figcaption>Foto: Clem Onojeghuo / Unsplash</figcaption></figure>
+    <figure style="margin:0"><img src="https://images.unsplash.com/photo-1598728633436-d518391e3fec?w=700&q=70&auto=format&fit=crop" alt="Mann som hopper ved betongvegg"><figcaption>Foto: Creative Christians / Unsplash</figcaption></figure>
+    <figure style="margin:0"><img src="https://images.unsplash.com/photo-1555991910-65b4c0139fdf?w=700&q=70&auto=format&fit=crop" alt="Silhuett av en person i et hopp"><figcaption>Foto: Ricardo / Unsplash</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="reveal" id="praktisk"><div class="wrap">
+  <h2>Praktisk del: Hvilke tester er best?</h2>
+  <div class="card" style="background:var(--orange-l);border:2px solid var(--orange)">
+    <span class="tag">Opp av stolen!</span>
+    <h3 style="margin-top:10px">Prøv det selv</h3>
+    <p>Se de tre videoene, og diskuter i grupper på 3–4 hvilken spensttest som er best. Gå deretter ut på gulvet og <strong>prøv den vertikale testen</strong>: Gjør svikthopp med hendene i hoftene, tre forsøk hver, og noter det beste resultatet. Bytt på å være utøver, måler og observatør.</p>
+    <div class="callout" style="background:#fff;margin-bottom:0"><strong>Observatørens oppgave:</strong> Når er musklene eksentrisk aktive, og når er de konsentrisk aktive? Er bakketiden i nedsvikten kort eller lang?</div>
+  </div>
+  <div class="gallery" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+    <div><div style="position:relative;padding-top:56.25%;border-radius:10px;overflow:hidden"><iframe style="position:absolute;inset:0;width:100%;height:100%;border:0" src="https://www.youtube-nocookie.com/embed/at_jeLqBTJk" title="Spenstvideo 1" allowfullscreen loading="lazy"></iframe></div><figcaption><a href="https://www.youtube.com/watch?v=at_jeLqBTJk" target="_blank">Video 1 – åpne på YouTube</a></figcaption></div>
+    <div><div style="position:relative;padding-top:56.25%;border-radius:10px;overflow:hidden"><iframe style="position:absolute;inset:0;width:100%;height:100%;border:0" src="https://www.youtube-nocookie.com/embed/85EtdsmFCoY" title="Spenstvideo 2" allowfullscreen loading="lazy"></iframe></div><figcaption><a href="https://www.youtube.com/watch?v=85EtdsmFCoY" target="_blank">Video 2 – åpne på YouTube</a></figcaption></div>
+    <div><div style="position:relative;padding-top:56.25%;border-radius:10px;overflow:hidden"><iframe style="position:absolute;inset:0;width:100%;height:100%;border:0" src="https://www.youtube-nocookie.com/embed/Mw-liY3cOR8" title="Spenstvideo 3" allowfullscreen loading="lazy"></iframe></div><figcaption><a href="https://www.youtube.com/watch?v=Mw-liY3cOR8" target="_blank">Video 3 – åpne på YouTube</a></figcaption></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>Diskuter i gruppa</h3>
+    <ul>
+      <li>Hvilken test synes dere er best? Hvorfor?</li>
+      <li>Er testen <strong>valid</strong>, altså måler den spensten som er viktig i idretten deres?</li>
+      <li>Er testen <strong>reliabel</strong>, altså får samme person omtrent likt resultat ved neste forsøk? Hva kan gi feilkilder?</li>
+      <li>Hvilken test passer best for en volleyballspiller, og hvilken passer best for en sprinter?</li>
+    </ul>
+    <p style="font-size:.9rem;color:var(--muted)">Dere skal jobbe mer med tester senere, så her holder det å gjøre dere noen tanker. Noter gruppas konklusjon og resultatene fra den vertikale testen (tas med i PDF-en):</p>
+    <textarea id="testDisk" style="min-height:110px" placeholder="Vi mener den beste testen er … fordi … Mitt beste hopp: … cm"></textarea>
+  </div>
+</div></section>
+
+<!-- ============ OPPGAVER ============ -->
+<section class="reveal" id="oppgaver"><div class="wrap">
+  <h2>Oppgaver</h2>
+  <p style="color:var(--muted)">Sju oppgaver. Målet er minst 80 % riktig. Svarene dine tas med i PDF-en nederst.</p>
+  <div class="toolbar"><button class="btn2" onclick="toggleAll(true)">Vis alle</button><button class="btn2" onclick="toggleAll(false)">Skjul alle</button></div>
+
+  <!-- 1 MC -->
+  <div class="task" id="t1"><div class="task-head" onclick="tog('t1')"><h3>1 · Flervalg</h3><span><span class="score" id="s1"></span><span class="arrow">▶</span></span></div>
+   <div class="task-body"><div id="mc"></div><button class="btn" onclick="checkMC()">Sjekk svar</button> <button class="btn2" onclick="buildMC()">↺ Start på nytt</button></div></div>
+
+  <!-- 2 TF -->
+  <div class="task" id="t2"><div class="task-head" onclick="tog('t2')"><h3>2 · Sant eller usant</h3><span><span class="score" id="s2"></span><span class="arrow">▶</span></span></div>
+   <div class="task-body"><div id="tf"></div><button class="btn" onclick="checkTF()">Sjekk svar</button> <button class="btn2" onclick="buildTF()">↺ Start på nytt</button></div></div>
+
+  <!-- 3 Cloze dropdown -->
+  <div class="task" id="t3"><div class="task-head" onclick="tog('t3')"><h3>3 · Fyll inn – fallhoppet</h3><span><span class="score" id="s3"></span><span class="arrow">▶</span></span></div>
+   <div class="task-body"><div class="q" id="clozeBox" style="line-height:2.3"></div><button class="btn" onclick="checkCloze()">Sjekk svar</button> <button class="btn2" onclick="buildCloze()">↺ Start på nytt</button></div></div>
+
+  <!-- 4 Drag -->
+  <div class="task" id="t4"><div class="task-head" onclick="tog('t4')"><h3>4 · Ordbank – retningslinjer</h3><span><span class="score" id="s4"></span><span class="arrow">▶</span></span></div>
+   <div class="task-body"><p style="font-size:.9rem;color:var(--muted)">Dra ordene til riktig plass, eller klikk på et ord og deretter på en boks. Banken inneholder to ord som ikke skal brukes.</p><div class="bank" id="bank"></div><div id="dragText" style="line-height:2.4"></div><button class="btn" onclick="checkDrag()">Sjekk svar</button> <button class="btn2" onclick="buildDrag()">↺ Start på nytt</button></div></div>
+
+  <!-- 5 Matching -->
+  <div class="task" id="t5"><div class="task-head" onclick="tog('t5')"><h3>5 · Koble idrett og spenstbehov</h3><span><span class="score" id="s5"></span><span class="arrow">▶</span></span></div>
+   <div class="task-body"><p style="font-size:.9rem;color:var(--muted)">Velg den situasjonen som best beskriver hvilken spenst eller hvilket muskelarbeid som er viktigst.</p><div id="match"></div><button class="btn" onclick="checkMatch()">Sjekk svar</button> <button class="btn2" onclick="buildMatch()">↺ Start på nytt</button></div></div>
+
+  <!-- 6 Øktplan -->
+  <div class="task" id="t6"><div class="task-head" onclick="tog('t6')"><h3>6 · Lag en øktplan for spensttrening</h3><span><span class="score" id="s6"></span><span class="arrow">▶</span></span></div>
+   <div class="task-body"><p>Velg en idrett og lag en økt som følger retningslinjene. Idrett: <input id="oktIdrett" style="padding:6px;border:1.5px solid var(--line);border-radius:6px" placeholder="f.eks. volleyball"></p>
+    <div class="tablewrap okt"><table><tr><th></th><th>Tid</th><th>Treningsform</th><th>Treningsmetode</th><th>Treningsøvelser</th><th>Hensikt</th></tr>
+     <tr><td><b>Innledning</b></td><td><input></td><td><input></td><td><input></td><td><textarea rows="3"></textarea></td><td><textarea rows="3"></textarea></td></tr>
+     <tr><td><b>Hoveddel</b></td><td><input></td><td><input></td><td><input></td><td><textarea rows="3"></textarea></td><td><textarea rows="3"></textarea></td></tr>
+     <tr><td><b>Avslutning</b></td><td><input></td><td><input></td><td><input></td><td><textarea rows="3"></textarea></td><td><textarea rows="3"></textarea></td></tr></table></div>
+    <p style="font-size:.9rem;color:var(--muted)">Sjekken ser etter at alle celler er fylt ut og at planen nevner sentrale retningslinjer (oppvarming, pause, antall hopp/serier).</p>
+    <button class="btn" onclick="checkOkt()">Sjekk plan</button> <button class="btn2" onclick="resetOkt()">↺ Start på nytt</button><div class="result" id="oktRes"></div></div></div>
+
+  <!-- 7 Skriveoppgave -->
+  <div class="task" id="t7"><div class="task-head" onclick="tog('t7')"><h3>7 · Drøfting</h3><span><span class="score" id="s7"></span><span class="arrow">▶</span></span></div>
+   <div class="task-body">
+    <p><strong>Velg en idrett og drøft:</strong> Hvor viktig er spenst i idretten, og hvordan bør en utøver trene spenst? Bruk begrepene plyometrisk muskelarbeid og maksimal muskelstyrke (relativ styrke), og vis til minst én kilde etter APA 7.</p>
+    <p style="font-size:.9rem">Struktur: innledning → teori → drøfting → avslutning. Hjelp til kildehenvisning: <a href="https://kildekompasset.no" target="_blank">Kildekompasset.no</a> · <a href="https://www.zotero.org" target="_blank">Zotero</a></p>
+    <textarea id="essay" oninput="countEssay()" placeholder="Skriv her …"></textarea>
+    <div class="counter"><span id="wc">0 ord (mål: 300+)</span><span id="kws"></span></div>
+    <button class="btn" onclick="checkEssay()" style="margin-top:10px">Sjekk teksten</button> <button class="btn2" onclick="document.getElementById('essay').value='';countEssay();document.getElementById('s7').textContent=''">↺ Start på nytt</button><div class="result" id="essayRes"></div></div></div>
+
+  <div class="card" style="text-align:center"><h3>Totalt: <span id="total">–</span></h3></div>
+</div></section>
+
+<section class="reveal"><div class="wrap">
+  <h2>Kilder</h2>
+  <div class="card sources"><ul>
+    <li>Bosco, C., Luhtanen, P., &amp; Komi, P. V. (1983). A simple method for measurement of mechanical power in jumping. <em>European Journal of Applied Physiology and Occupational Physiology, 50</em>(2), 273–282. https://doi.org/10.1007/BF00422166</li>
+    <li>Hill, A. V. (1938). The heat of shortening and the dynamic constants of muscle. <em>Proceedings of the Royal Society of London. Series B, 126</em>(843), 136–195. https://doi.org/10.1098/rspb.1938.0050</li>
+    <li>Gjerset, A. mfl. (2022). <em>Idrettens treningslære</em>. Gyldendal.</li>
+    <li>Komi, P. V. (2000). Stretch-shortening cycle: A powerful model to study normal and fatigued muscle. <em>Journal of Biomechanics, 33</em>(10), 1197–1206. https://doi.org/10.1016/S0021-9290(00)00064-6</li>
+    <li>Markovic, G. (2007). Does plyometric training improve vertical jump height? A meta-analytical review. <em>British Journal of Sports Medicine, 41</em>(6), 349–355. https://doi.org/10.1136/bjsm.2007.035113</li>
+    <li>Raastad, T., Paulsen, G., Refsnes, P. E., Rønnestad, B. R., &amp; Wisnes, A. R. (2010). <em>Styrketrening – i teori og praksis</em>. Gyldendal Undervisning.</li>
+    <li>Rylandsholm, E. (u.å.). <em>Spensttrening</em> [Undervisningspresentasjon]. Idrettsfag, Treningslære 1.</li>
+    <li>Bilder: Unsplash (Joshua Earle, Nathan Nichols, Ameer Hamza, Austrian National Library, Emanuel Kionke, Clem Onojeghuo, Creative Christians, Ricardo). https://unsplash.com/license</li>
+  </ul></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="card"><h3>Hvordan fungerer siden?</h3><p style="font-size:.9rem;color:var(--muted)">Meld fra om tekniske feil, for eksempel knapper som ikke virker eller feil i rettingen.</p><textarea id="feedback" style="min-height:90px"></textarea></div>
+  <div class="card" style="text-align:center"><p style="margin-top:0">Navn: <input id="navn" style="padding:8px;border:1.5px solid var(--line);border-radius:6px;min-width:220px"></p><button class="btn3" onclick="makePDF()">⬇ Last ned PDF med svarene dine</button></div>
+</div></section>
+</main>
+<footer><div class="wrap">Edvin's Idretts Lab · Treningslære 1 · Spensttrening</div></footer>
+
+<script>
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>(s||'').trim().toLowerCase();
+const scores={};
+function setScore(n,got,max){scores[n]={got,max};document.getElementById('s'+n).textContent=got+' / '+max;let g=0,m=0;for(const k in scores){g+=scores[k].got;m+=scores[k].max}document.getElementById('total').textContent=g+' / '+m+' ('+Math.round(g/m*100)+' %)'}
+function badge(el,ok){el.classList.remove('ok','bad');el.classList.add(ok?'ok':'bad');let b=el.querySelector('.badge');if(!b){b=document.createElement('span');b.className='badge';el.appendChild(b)}b.textContent=ok?'Riktig':'Feil';b.style.background=ok?'var(--ok)':'var(--bad)'}
+function tog(id){document.getElementById(id).classList.toggle('open')}
+function toggleAll(o){document.querySelectorAll('.task').forEach(t=>t.classList.toggle('open',o))}
+
+/* 1 MC */
+const MC=[
+ {q:'Hvorfor er det viktig for en høydehopper å ha stor maksimal muskelstyrke (relativ styrke)?',o:['Fordi hopperen skal flytte sin egen kroppsmasse','Fordi maksimal muskelstyrke (relativ styrke) gir større muskelvolum','Fordi maksimal muskelstyrke (relativ styrke) bare kan trenes med maskiner','Fordi maksimal muskelstyrke (relativ styrke) øker andelen type 1-fibre'],a:0},
+ {q:'Hva skjer med tverrbroene helt i slutten av den eksentriske fasen i et fallhopp?',o:['De strekkes uten å slippe taket og gir en tilleggsspenning','De slipper taket slik at muskelen blir avslappet','De brytes ned og må bygges opp igjen','De omdanner kreatinfosfat til elastisk energi'],a:0},
+ {q:'En utøver står lenge i bunnen av nedsvikten før frasparket. Hva blir konsekvensen?',o:['Mindre av den lagrede elastiske energien utnyttes','Hoppet blir høyere fordi musklene får hvile','Muskelarbeidet blir mer plyometrisk','Andelen type 2X-fibre øker'],a:0},
+ {q:'Hvorfor bør pausen mellom spenstseriene være omtrent 2–3 minutter?',o:['For at kreatinfosfatlagrene skal fylles opp slik at hvert hopp blir maksimalt','For å holde pulsen høy og trene aerob kapasitet','For å øke melkesyreproduksjonen','For at musklene skal bli stive før neste serie'],a:0},
+ {q:'Hvilken test skiller best mellom evne til maksimal kraft og evne til å utnytte strekk–forkortningssyklusen?',o:['Å sammenligne svikthopp (CMJ) med knebøyhopp (SJ)','Å måle maksimal knebøy (1RM)','Å måle hvilepuls','Å teste stille lengde to ganger'],a:0}];
+let mcAns=[];
+function buildMC(){const box=document.getElementById('mc');box.innerHTML='';mcAns=[];MC.forEach((it,i)=>{const order=shuffle(it.o.map((t,k)=>({t,k})));const d=document.createElement('div');d.className='q';d.innerHTML='<p style="margin:0 60px 4px 0"><b>'+(i+1)+'. '+it.q+'</b></p>';order.forEach((o,j)=>{const r=document.createElement('div');r.className='opt';r.dataset.k=o.k;r.innerHTML='<span class="l">'+'ABCD'[j]+'</span>'+o.t;r.onclick=()=>{d.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));r.classList.add('sel');mcAns[i]=o.k};d.appendChild(r)});box.appendChild(d)});document.getElementById('s1').textContent='';delete scores[1]}
+function checkMC(){let g=0;document.querySelectorAll('#mc .q').forEach((d,i)=>{const ok=mcAns[i]===MC[i].a;if(ok)g++;d.querySelectorAll('.opt').forEach(o=>{o.classList.remove('right','wrong');if(+o.dataset.k===MC[i].a)o.classList.add('right');else if(o.classList.contains('sel'))o.classList.add('wrong')});badge(d,ok)});setScore(1,g,MC.length)}
+
+/* 2 TF */
+const TF=[['Spenst er en kombinasjon av styrke og hurtighet.',true],['Spensttrening bør legges til slutten av økten, når musklene er godt oppvarmet av annen trening.',false],['Siden intensiteten alltid skal være høy, skjer progresjon i spensttrening ved å øke antall hopp.',true],['I et plyometrisk hopp kommer den konsentriske fasen før den eksentriske.',false],['Spensttrening kan gjøre sener sterkere.',true],['Stor muskelmasse gir alltid bedre spenst, uansett kroppsvekt.',false]];
+let tfOrder=[],tfAns={};
+function buildTF(){tfOrder=shuffle(TF.map((_,i)=>i));tfAns={};const b=document.getElementById('tf');b.innerHTML='';tfOrder.forEach((k,n)=>{const d=document.createElement('div');d.className='q tf';d.innerHTML='<span style="flex:1;min-width:200px;padding-right:60px">'+(n+1)+'. '+TF[k][0]+'</span>';const bs=document.createElement('span');bs.className='btns';['Sant','Usant'].forEach((l,v)=>{const x=document.createElement('button');x.textContent=l;x.onclick=()=>{bs.querySelectorAll('button').forEach(y=>y.classList.remove('sel'));x.classList.add('sel');tfAns[k]=(v===0)};bs.appendChild(x)});d.appendChild(bs);b.appendChild(d)});document.getElementById('s2').textContent='';delete scores[2]}
+function checkTF(){let g=0;document.querySelectorAll('#tf .q').forEach((d,n)=>{const k=tfOrder[n];const ok=tfAns[k]===TF[k][1];if(ok)g++;badge(d,ok)});setScore(2,g,TF.length)}
+
+/* 3 Cloze */
+const CLOZE={text:'Når du lander fra kassen, må strekkerne i ankel, kne og hofte jobbe {0} for å bremse. Helt i slutten av oppbremsingen strekkes {1} mellom aktin og myosin, og det dannes en {2}. Når du så hopper over hekken, jobber musklene {3}. Hele fallhoppet kalles derfor {4} muskelarbeid, og effekten blir størst når {5} er kort.',
+ ans:['eksentrisk','tverrbroene','tilleggsspenning','konsentrisk','plyometrisk','bakketiden'],
+ opts:[['eksentrisk','konsentrisk','isometrisk'],['tverrbroene','sarkomerene','motonevronene'],['tilleggsspenning','melkesyre','avslapning'],['konsentrisk','eksentrisk','statisk'],['plyometrisk','isometrisk','aerobt'],['bakketiden','pausen','oppvarmingen']]};
+function buildCloze(){const b=document.getElementById('clozeBox');b.classList.remove('ok','bad');b.innerHTML=CLOZE.text.replace(/\{(\d)\}/g,(m,i)=>'<select data-i="'+i+'"><option value="">velg …</option>'+shuffle(CLOZE.opts[i]).map(o=>'<option>'+o+'</option>').join('')+'</select>');document.getElementById('s3').textContent='';delete scores[3]}
+function checkCloze(){let g=0;document.querySelectorAll('#clozeBox select').forEach(s=>{const ok=norm(s.value)===CLOZE.ans[s.dataset.i];s.className=ok?'ok':'bad';if(ok)g++});setScore(3,g,CLOZE.ans.length)}
+
+/* 4 Drag */
+const DRAG={parts:['Spensttrening bør komme','i økten, og utøveren bør være','. Intensiteten skal være','. Pausene mellom seriene bør være rundt',', og øvelsene bør ligne på','i idretten.'],ans:['tidlig','uthvilt','høy','2–3 minutter','bevegelsesmønsteret'],distr:['sent','20 sekunder']};
+let picked=null;
+function makeChip(t){const c=document.createElement('span');c.className='chip';c.textContent=t;c.draggable=true;c.ondragstart=e=>{e.dataTransfer.setData('text',t);window._drag=c};c.onclick=e=>{e.stopPropagation();document.querySelectorAll('.chip').forEach(x=>x.classList.remove('picked'));if(picked===c){picked=null;return}picked=c;c.classList.add('picked')};return c}
+function place(drop,chip){const old=drop.querySelector('.chip');if(old)document.getElementById('bank').appendChild(old);drop.appendChild(chip);chip.classList.remove('picked');picked=null;drop.classList.remove('ok','bad')}
+function buildDrag(){const bank=document.getElementById('bank');bank.innerHTML='';shuffle([...DRAG.ans,...DRAG.distr]).forEach(t=>bank.appendChild(makeChip(t)));bank.ondragover=e=>e.preventDefault();bank.ondrop=e=>{e.preventDefault();if(window._drag)bank.appendChild(window._drag)};bank.onclick=()=>{if(picked){bank.appendChild(picked);picked.classList.remove('picked');picked=null}};const t=document.getElementById('dragText');t.innerHTML='';DRAG.parts.forEach((p,i)=>{t.append(p+' ');if(i<DRAG.ans.length){const d=document.createElement('span');d.className='drop';d.dataset.i=i;d.ondragover=e=>{e.preventDefault();d.classList.add('over')};d.ondragleave=()=>d.classList.remove('over');d.ondrop=e=>{e.preventDefault();d.classList.remove('over');if(window._drag)place(d,window._drag)};d.onclick=()=>{if(picked)place(d,picked)};t.append(d,' ')}});document.getElementById('s4').textContent='';delete scores[4]}
+function checkDrag(){let g=0;document.querySelectorAll('#dragText .drop').forEach(d=>{const c=d.querySelector('.chip');const ok=c&&c.textContent===DRAG.ans[d.dataset.i];d.classList.remove('ok','bad');d.classList.add(ok?'ok':'bad');if(ok)g++});setScore(4,g,DRAG.ans.length)}
+
+/* 5 Matching */
+const MATCH=[['Volleyball – blokk ved nettet','Vertikal spenst med rask nedsvikt og kort bakketid'],['Lengdehopp – satsen','Horisontal fart omgjort til et kraftig fraspark på ett bein'],['Sprint – de første stegene','Horisontal eksplosiv styrke fra lav kroppsposisjon'],['Alpint – landing etter hopp','Eksentrisk styrke for å bremse og stabilisere kroppen'],['Basketball – retur','Gjentatte vertikale hopp med minimal tid mellom hvert hopp']];
+let mOrder=[];
+function buildMatch(){const b=document.getElementById('match');b.innerHTML='';mOrder=shuffle(MATCH.map((_,i)=>i));const rights=shuffle(MATCH.map(m=>m[1]));mOrder.forEach(k=>{const d=document.createElement('div');d.className='q match';d.dataset.k=k;d.innerHTML='<div class="left">'+MATCH[k][0]+'</div><select style="margin-right:60px"><option value="">velg …</option>'+rights.map(r=>'<option>'+r+'</option>').join('')+'</select>';b.appendChild(d)});document.getElementById('s5').textContent='';delete scores[5]}
+function checkMatch(){let g=0;const b=document.getElementById('match');const rows=[...b.children];rows.forEach(d=>{const ok=d.querySelector('select').value===MATCH[d.dataset.k][1];d.dataset.ok=ok?1:0;if(ok)g++;badge(d,ok)});rows.sort((a,c)=>c.dataset.ok-a.dataset.ok).forEach(d=>b.appendChild(d));setScore(5,g,MATCH.length)}
+
+/* 6 Øktplan */
+function oktCells(){return [...document.querySelectorAll('.okt input,.okt textarea')]}
+function checkOkt(){const cells=oktCells();const filled=cells.filter(c=>c.value.trim().length>1).length;const all=norm(cells.map(c=>c.value).join(' '));const crit=[['oppvarming',/oppvarm|jogg|dynamisk/],['pause',/pause|hvile|min/],['hopp/serier',/hopp|serie|repetisjon|x\s*\d|\d\s*x/],['uthvilt/tidlig',/tidlig|uthvil|kvalitet|maks/]];let got=0;const miss=[];crit.forEach(c=>{if(c[1].test(all))got++;else miss.push(c[0])});const ok1=filled===cells.length;const g=(ok1?1:0)+got;const r=document.getElementById('oktRes');r.innerHTML=(ok1?'✅ Alle celler er fylt ut.':'❌ '+(cells.length-filled)+' celler mangler innhold.')+'<br>'+(miss.length?'Mangler omtale av: '+miss.join(', '):'✅ Planen dekker sentrale retningslinjer.');r.style.color=g===5?'var(--ok)':'var(--bad)';setScore(6,g,5)}
+function resetOkt(){oktCells().forEach(c=>c.value='');document.getElementById('oktIdrett').value='';document.getElementById('oktRes').textContent='';document.getElementById('s6').textContent='';delete scores[6]}
+
+/* 7 Essay */
+const KW=[['plyometrisk',/plyometrisk/],['maksimal muskelstyrke (relativ styrke)',/relativ\s+(muskel)?styrke|maksimal\s+muskelstyrke/],['eksentrisk',/eksentrisk/],['konsentrisk',/konsentrisk/],['retningslinje',/pause|oppvarm|intensitet|uthvil/],['APA-kilde',/\([A-ZÆØÅ][^()]*\d{4}\)/]];
+function countEssay(){const v=document.getElementById('essay').value;const w=v.trim()?v.trim().split(/\s+/).length:0;document.getElementById('wc').textContent=w+' ord (mål: 300+)';document.getElementById('kws').innerHTML=KW.map(k=>{const src=k[0]==='APA-kilde'?v:v.toLowerCase();return '<span class="kw'+(k[1].test(src)?' hit':'')+'">'+k[0]+'</span>'}).join(' ')}
+function checkEssay(){const v=document.getElementById('essay').value;const w=v.trim()?v.trim().split(/\s+/).length:0;let g=w>=300?1:0;KW.forEach(k=>{const src=k[0]==='APA-kilde'?v:v.toLowerCase();if(k[1].test(src))g++});const r=document.getElementById('essayRes');r.textContent=g===7?'✅ Teksten har riktig lengde og bruker alle sentrale begreper og en kilde.':'Teksten mangler fortsatt noe – se de grå merkene over og ordtellingen.';r.style.color=g===7?'var(--ok)':'var(--bad)';setScore(7,g,7)}
+
+/* PDF */
+function makePDF(){var jsPDF=window.jspdf.jsPDF;const doc=new jsPDF();let y=18;const line=(t,s=10,b=false)=>{doc.setFont('helvetica',b?'bold':'normal');doc.setFontSize(s);doc.splitTextToSize(t,180).forEach(l=>{if(y>282){doc.addPage();y=18}doc.text(l,15,y);y+=s*0.5})};
+ line('Spensttrening – besvarelse',16,true);line('Navn: '+(document.getElementById('navn').value||'–')+'   Dato: '+new Date().toLocaleDateString('no-NO'));line('Totalt: '+document.getElementById('total').textContent,11,true);y+=3;
+ line('Læringsmål krysset av: '+document.querySelectorAll('.goals input:checked').length+' / 6');y+=3;
+ line('Praktisk del – hvilke tester er best?',12,true);line(document.getElementById('testDisk').value||'(tom)');y+=3;
+ line('1. Flervalg '+(document.getElementById('s1').textContent||'(ikke sjekket)'),12,true);MC.forEach((m,i)=>line((i+1)+'. '+m.q+' → '+(mcAns[i]!=null?m.o[mcAns[i]]:'ubesvart')+(mcAns[i]===m.a?' ✓':' ✗')));y+=2;
+ line('2. Sant/usant '+(document.getElementById('s2').textContent||'(ikke sjekket)'),12,true);tfOrder.forEach(k=>line('- '+TF[k][0]+' → '+(tfAns[k]==null?'ubesvart':tfAns[k]?'Sant':'Usant')+(tfAns[k]===TF[k][1]?' ✓':' ✗')));y+=2;
+ line('3. Fyll inn '+(document.getElementById('s3').textContent||'(ikke sjekket)'),12,true);document.querySelectorAll('#clozeBox select').forEach((s,i)=>line((i+1)+': '+(s.value||'ubesvart')+(norm(s.value)===CLOZE.ans[s.dataset.i]?' ✓':' ✗')));y+=2;
+ line('4. Ordbank '+(document.getElementById('s4').textContent||'(ikke sjekket)'),12,true);document.querySelectorAll('#dragText .drop').forEach((d,i)=>{const c=d.querySelector('.chip');line((i+1)+': '+(c?c.textContent:'tom')+(c&&c.textContent===DRAG.ans[d.dataset.i]?' ✓':' ✗'))});y+=2;
+ line('5. Kobling '+(document.getElementById('s5').textContent||'(ikke sjekket)'),12,true);document.querySelectorAll('#match .q').forEach(d=>{const v=d.querySelector('select').value;line('- '+MATCH[d.dataset.k][0]+' → '+(v||'ubesvart')+(v===MATCH[d.dataset.k][1]?' ✓':' ✗'))});y+=2;
+ line('6. Øktplan '+(document.getElementById('s6').textContent||'(ikke sjekket)'),12,true);line('Idrett: '+(document.getElementById('oktIdrett').value||'–'));const cells=oktCells();const hd=['Tid','Treningsform','Treningsmetode','Treningsøvelser','Hensikt'];['Innledning','Hoveddel','Avslutning'].forEach((r,ri)=>{line(r+':',10,true);hd.forEach((h,hi)=>line('  '+h+': '+(cells[ri*5+hi].value||'–')))});y+=2;
+ line('7. Drøfting '+(document.getElementById('s7').textContent||'(ikke sjekket)'),12,true);line(document.getElementById('essay').value||'(tom)');y+=2;
+ line('Hvordan fungerer siden?',12,true);line(document.getElementById('feedback').value||'–');
+ doc.save('Spensttrening_'+(document.getElementById('navn').value||'besvarelse').replace(/\s+/g,'_')+'.pdf')}
+
+/* init */
+buildMC();buildTF();buildCloze();buildDrag();buildMatch();countEssay();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+window.addEventListener('scroll',()=>{const h=document.documentElement;document.getElementById('progress').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'});
+</script>
+</body>
+</html>
