@@ -449,7 +449,7 @@
     <p class="hero-sub">Utforsk treningslære, aktivitetslære, friluftsliv, toppidrett og mye mer – alt samlet på ett sted.</p>
     <div class="hero-search">
       <input type="text" placeholder="Søk etter emner, kapitler, tema…" id="searchInput" oninput="filterCards()" />
-      <button>Søk</button>
+      <button onclick="document.getElementById('subjectGrid').scrollIntoView({behavior:'smooth',block:'start'})">Søk</button>
     </div>
   </div>
   <div class="hero-scroll-hint">
@@ -777,7 +777,10 @@ function makeSubjectCard(s, delay) {
     return match ? match[1] : null;
   }
 
+  const q = (document.getElementById("searchInput").value || "").trim().toLowerCase();
+  const subjectHit = q && (s.name.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q));
   const chapHTML = s.chapters.map((c, ci) => {
+    if (q && !subjectHit && !c.toLowerCase().includes(q)) return "";
     const url = getDoneUrl(c);
     if (url) {
       return `<a class="chapter-item" href="${url}" target="_blank">
@@ -814,9 +817,9 @@ function makeSubjectCard(s, delay) {
       </div>
     </div>
     <button class="card-toggle" onclick="toggleChapters(this)">
-      <span class="toggle-icon">▼</span> Vis kapitler
+      <span class="toggle-icon">${q ? "▲" : "▼"}</span> ${q ? "Skjul kapitler" : "Vis kapitler"}
     </button>
-    <div class="chapters-list">${chapHTML}</div>`;
+    <div class="chapters-list${q ? " open" : ""}">${chapHTML}</div>`;
   setTimeout(() => {
     const fill = card.querySelector(".perf-bar-fill");
     fill.style.width = s.fill + "%";
@@ -843,11 +846,15 @@ function makeFolderCard(folder, delay) {
     </div>
     <div class="folder-meta">
       <span class="folder-count">${folder.subjects.length} emner · ${total} kapitler</span>
-      <span class="folder-chevron">▼</span>
+      <span class="folder-chevron">${(document.getElementById("searchInput").value || "").trim() ? "▲" : "▼"}</span>
     </div>`;
   const subContainer = document.createElement("div");
   subContainer.className = "folder-subjects";
-  folder.subjects.forEach((s, i) => subContainer.appendChild(makeSubjectCard(s, i * 80)));
+  const fq = (document.getElementById("searchInput").value || "").trim();
+  if (fq) { subContainer.classList.add("open"); wrapper.classList.add("open"); }
+  folder.subjects
+    .filter(s => !fq || matchesQuery(s, fq.toLowerCase()))
+    .forEach((s, i) => subContainer.appendChild(makeSubjectCard(s, i * 80)));
   header.addEventListener("click", () => {
     const open = subContainer.classList.toggle("open");
     wrapper.classList.toggle("open", open);
@@ -873,6 +880,7 @@ function buildCards() {
   const q = document.getElementById("searchInput").value.toLowerCase();
   const visible = items.filter(item => matchesQuery(item, q));
   document.getElementById("cardCount").textContent = `${visible.length} emne${visible.length !== 1 ? "r" : ""}`;
+  if (!visible.length) grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-mid);padding:2rem 0;">Ingen treff på «' + q.replace(/[<>&]/g, "") + '».</p>';
   visible.forEach((item, i) => {
     const delay = i * 80;
     grid.appendChild(item.isFolder ? makeFolderCard(item, delay) : makeSubjectCard(item, delay));
