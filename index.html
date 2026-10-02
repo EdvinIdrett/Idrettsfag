@@ -772,7 +772,7 @@ function makeSubjectCard(s, delay) {
     ["norsk idretts historie", "Idrett%20og%20samfunn/Kapittel%203%20-%20Norsk%20idretts%20historie.html"],
   ];
   function getDoneUrl(chapter) {
-    const match = DONE.find(([d]) => chapter.toLowerCase().includes(d));
+    const match = DONE.find(([d]) => chapter.toLowerCase().startsWith(d));
     return match ? match[1] : null;
   }
 
@@ -784,7 +784,7 @@ function makeSubjectCard(s, delay) {
         <span>${c}</span>
         <span class="chapter-arrow">→</span>
       </a>`;
-    } else if (getDoneUrl(c) === null && DONE.some(([d]) => c.toLowerCase().includes(d))) {
+    } else if (getDoneUrl(c) === null && DONE.some(([d]) => c.toLowerCase().startsWith(d))) {
       // Done but no URL yet
       return `<a class="chapter-item" href="#" onclick="showWerewolf(event)">
         <span class="chapter-num">${String(ci+1).padStart(2,"0")}</span>
