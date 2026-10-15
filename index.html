@@ -576,6 +576,16 @@
 </div>
 
 <!-- OM SEKSJONEN -->
+<section id="oppdateringer" style="padding: 3rem 2rem 0;">
+  <div style="max-width: 760px; margin: 0 auto;">
+    <div class="reveal" style="background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:1.8rem 2rem;">
+      <p style="font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin:0 0 0.4rem;">Nytt på siden</p>
+      <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:900;text-transform:uppercase;color:var(--text);margin:0 0 1rem;line-height:1.1;">Siste oppdateringer</h3>
+      <ul id="updatesList" style="list-style:none;margin:0;padding:0;"></ul>
+    </div>
+  </div>
+</section>
+
 <section id="om" style="background: var(--bg-mid); padding: 5rem 2rem;">
   <div style="max-width: 760px; margin: 0 auto;">
     <p class="intro-label reveal" style="font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;">Om siden</p>
@@ -897,6 +907,22 @@ function toggleChapters(btn) {
 function filterCards() { buildCards(); }
 
 buildCards();
+
+// Siste oppdateringer – legg nyeste øverst, behold maks 5
+const UPDATES = [
+  { date: "2026-10-15", text: "Utholdenhetstrening er oppdatert" },
+  { date: "2026-10-15", text: "Bevegelighetstrening er oppdatert" },
+  { date: "2026-10-02", text: "Nytt kapittel: Organisering av norsk idrett" },
+  { date: "2026-10-01", text: "Nytt kapittel: Spensttrening" },
+  { date: "2026-09-30", text: "Nytt kapittel: Norsk idretts historie" },
+];
+(function renderUpdates() {
+  const ul = document.getElementById("updatesList");
+  ul.innerHTML = UPDATES.slice(0, 5).map(u => {
+    const d = new Date(u.date + "T12:00:00").toLocaleDateString("nb-NO", { day: "numeric", month: "long", year: "numeric" });
+    return `<li style="display:flex;gap:1rem;align-items:baseline;padding:0.6rem 0;border-top:1px solid var(--border);font-size:0.95rem;color:var(--text-mid);"><span style="font-weight:700;color:var(--text);min-width:8.5rem;font-size:0.85rem;">${d}</span><span>${u.text}</span></li>`;
+  }).join("");
+})();
 </script>
 </body>
 </html>
