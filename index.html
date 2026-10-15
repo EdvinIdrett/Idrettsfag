@@ -781,6 +781,7 @@ function makeSubjectCard(s, delay) {
     ["idrett, kultur og samfunn", "Idrett%20og%20samfunn/Kapittel%202%20-%20Idrett%2C%20kultur%20og%20samfunn.html"],
     ["norsk idretts historie", "Idrett%20og%20samfunn/Kapittel%203%20-%20Norsk%20idretts%20historie.html"],
     ["organisering av norsk idrett", "Idrett%20og%20samfunn/Kapittel%204%20-%20Organisering%20av%20norsk%20idrett.html"],
+    ["idrett og helse", "Idrett%20og%20samfunn/Kapittel%2013%20-%20Idrett%20og%20helse.html"],
   ];
   function getDoneUrl(chapter) {
     const match = DONE.find(([d]) => chapter.toLowerCase().startsWith(d));
@@ -910,6 +911,7 @@ buildCards();
 
 // Siste oppdateringer – legg nyeste øverst, behold maks 5
 const UPDATES = [
+  { date: "2026-10-15", text: "Nytt kapittel: Idrett og helse" },
   { date: "2026-10-15", text: "Kapittel 4: Organisering av norsk idrett er oppdatert" },
   { date: "2026-10-15", text: "Utholdenhetstrening er oppdatert" },
   { date: "2026-10-15", text: "Bevegelighetstrening er oppdatert" },
