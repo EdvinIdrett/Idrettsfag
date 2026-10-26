@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" role="img" aria-label="Edvins Idrettslab – merke med ball og pulslinje">
+<defs>
+<path id="topArc" d="M 68 200 A 132 132 0 0 1 332 200"></path>
+<path id="botArc" d="M 46 200 A 154 154 0 0 0 354 200"></path>
+</defs>
+<circle cx="200" cy="200" r="194" fill="#0E1A3A" stroke="#FFCC00" stroke-width="6"></circle>
+<circle cx="200" cy="200" r="182" fill="none" stroke="#FFFFFF" stroke-width="2"></circle>
+<circle cx="200" cy="200" r="108" fill="none" stroke="#FFFFFF" stroke-width="2"></circle>
+<text font-family="Anton, sans-serif" font-size="44" fill="#FFFFFF" letter-spacing="3"><textPath href="#topArc" startOffset="50%" text-anchor="middle">EDVINS <tspan fill="#FFCC00">IDRETTS</tspan>LAB</textPath></text>
+<text font-family="Inter, sans-serif" font-weight="700" font-size="17" fill="#FFCC00" letter-spacing="4"><textPath href="#botArc" startOffset="50%" text-anchor="middle">BEVEGELSE · KUNNSKAP · LÆRING</textPath></text>
+<circle cx="48" cy="200" r="6" fill="#FFCC00"></circle>
+<circle cx="352" cy="200" r="6" fill="#FFCC00"></circle>
+<g transform="translate(200 200) scale(0.95) translate(-208 -206)">
+<path d="M 92 150 A 112 112 0 0 1 150 96" fill="none" stroke="#FFCC00" stroke-width="5" stroke-linecap="round"></path>
+<path d="M 98 176 A 104 104 0 0 1 120 128" fill="none" stroke="#FFCC00" stroke-width="3" stroke-linecap="round" opacity="0.6"></path>
+<circle cx="208" cy="208" r="88" fill="#FFCC00"></circle>
+<g fill="none" stroke="#0E1A3A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<path d="M208 120 V296"></path>
+<path d="M146 146 Q182 208 146 270"></path>
+<path d="M270 146 Q234 208 270 270"></path>
+<path d="M120 208 H168 L180 180 L194 238 L206 194 L214 208 H296"></path>
+</g>
+</g>
+</svg>
