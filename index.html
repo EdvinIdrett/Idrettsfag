@@ -57,6 +57,23 @@
     nav.scrolled .nav-logo { color: var(--text); text-shadow: none; }
     .nav-logo span { color: #ffcc00; }
     nav.scrolled .nav-logo span { color: var(--accent); }
+    /* Stor logo på toppen, liten når man har scrollet */
+    .nav-logo { position: relative; width: 0; height: 64px; }
+    .nav-logo a { display: block; }
+    .nav-logo-img {
+      position: absolute; top: 12px; left: 0;
+      width: 150px; height: 150px;
+      filter: drop-shadow(0 4px 14px rgba(0,0,0,0.45));
+      transition: width 0.4s ease, height 0.4s ease, top 0.4s ease, filter 0.4s ease;
+    }
+    nav.scrolled .nav-logo-img {
+      width: 48px; height: 48px; top: 8px;
+      filter: drop-shadow(0 1px 4px rgba(0,0,0,0.25));
+    }
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .nav-logo-img { width: 100px; height: 100px; top: 10px; }
+    }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
       color: rgba(255,255,255,0.85);
@@ -431,7 +448,7 @@
 <body>
 
 <nav id="mainNav">
-  <div class="nav-logo"><img src="images/logo.png" alt="Edvins Idrettslab" style="height:44px;width:44px;vertical-align:middle;"/></div>
+  <div class="nav-logo"><a href="#" aria-label="Til toppen"><img class="nav-logo-img" src="images/logo.png" alt="Edvins Idrettslab"/></a></div>
   <ul class="nav-links">
     <li><a href="#emner">Emner</a></li>
     <li><a href="#">Kapitler</a></li>
