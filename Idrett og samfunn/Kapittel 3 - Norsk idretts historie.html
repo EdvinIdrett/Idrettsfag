@@ -216,6 +216,18 @@ h2::after{content:"";position:absolute;left:0;bottom:0;width:90px;height:5px;bor
 .ti-ev li.none{border:0;background:none;color:var(--muted);padding:0 2px;font-size:.8rem;font-weight:600}
 .trange{width:100%;margin-top:10px;accent-color:var(--navy2)}
 @media(max-width:640px){.tinfo{grid-template-columns:1fr}}
+.fasit{margin-top:8px;padding:8px 12px;border-radius:8px;background:var(--card);border-left:4px solid var(--ok);font-size:.88rem;line-height:1.45;flex-basis:100%}
+.fasit.good{border-left-color:var(--teal);color:var(--muted)}
+.fasit b{color:var(--ok)}
+.q.tf{flex-wrap:wrap}
+.opt.show{border-color:var(--ok);border-style:dashed;background:var(--ok-l)}
+.opt.show::after{content:"Riktig svar";margin-left:auto;font-size:.72rem;font-weight:700;color:var(--ok);white-space:nowrap}
+.chip[data-hint]::after{content:" → " attr(data-hint);font-weight:700;color:var(--ok);font-size:.8rem}
+.chip.dis{opacity:.55;text-decoration:line-through}
+.fix{display:inline-block;margin:0 4px;padding:1px 8px;border-radius:10px;background:var(--ok-l);color:var(--ok);font-weight:700;font-size:.85rem;border:1.5px dashed var(--ok)}
+.fix::before{content:"✔ "}
+.fslot .fasit{font-size:.78rem;padding:6px 8px;margin-top:6px}
+.match .row .fasit{grid-column:1/-1;margin-top:2px}
 </style>
 </head>
 <body>
@@ -249,9 +261,12 @@ h2::after{content:"";position:absolute;left:0;bottom:0;width:90px;height:5px;bor
 <section class="reveal">
   <h2>Nøkkelbegreper</h2>
   <div class="concepts">
-    <div class="concept" title="Grunnlagt 1861. Første nasjonale idrettsorganisasjon, med mål om å styrke forsvarsevnen.">Centralforeningen<span>1861 – idrett som forsvarsforberedelse</span></div>
+    <div class="concept" title="Grunnlagt 1861. Norges første landsomfattende idrettsorganisasjon, med mål om å styrke folkehelsen og forsvarsevnen.">Centralforeningen<span>1861 – idrett for folkehelse og forsvar</span></div>
+    <div class="concept" title="Idretten er verdifull i seg selv – for gleden, konkurransen og prestasjonen.">Egenverdi<span>Idrett for idrettens skyld</span></div>
+    <div class="concept" title="Idretten skal tjene et mål utenfor seg selv, for eksempel forsvar, folkehelse eller politikk.">Nytteverdi<span>Idrett som middel for noe annet</span></div>
+    <div class="concept" title="Et særforbund organiserer én idrett nasjonalt, for eksempel ski eller fotball.">Særforbund<span>Ett forbund per idrett</span></div>
     <div class="concept" title="Norges Landsforbund for Idrett, fra 1919. Den «borgerlige» hovedorganisasjonen.">Landsforbundet<span>Borgerlig idrettsorganisasjon (1919–1940)</span></div>
-    <div class="concept" title="Arbeidernes Idrettsforbund, stiftet 1924, knyttet til arbeiderbevegelsen.">AIF<span>Arbeidernes Idrettsforbund (1924–1940)</span></div>
+    <div class="concept" title="Arbeidernes Idrettsforbund, stiftet 1924 på sosialistiske ideer. Organisert i fleridrettslag, idrettskretser og et sentralt idrettsstyre.">AIF<span>Arbeidernes Idrettsforbund (1924–1940)</span></div>
     <div class="concept" title="Boikott av all organisert idrett styrt av NS-regimet under okkupasjonen.">Idrettsstreiken<span>1940–1945: «ingen idrett under nazistisk styring»</span></div>
     <div class="concept" title="Norges Idrettsforbund, formelt samlet 1946. I dag NIF – Norges idrettsforbund og olympiske og paralympiske komité.">NIF<span>Én samlet idrettsorganisasjon fra 1946</span></div>
     <div class="concept" title="Statens ungdoms- og idrettskontor. Statens fagorgan for idrett, ledet av Rolf Hofmo.">STUI<span>Statens idrettsforvaltning etter krigen</span></div>
@@ -391,7 +406,9 @@ h2::after{content:"";position:absolute;left:0;bottom:0;width:90px;height:5px;bor
       <tr><th></th><th>Arbeidernes Idrettsforbund (AIF)</th><th>Norges Landsforbund for Idrett</th></tr>
       <tr><td><b>Stiftet</b></td><td>1924</td><td>1919 (røtter tilbake til 1861)</td></tr>
       <tr><td><b>Tilknytning</b></td><td>Arbeiderbevegelsen og Arbeiderpartiet</td><td>Borgerlig, men sa seg politisk nøytralt</td></tr>
-      <tr><td><b>Syn på idrett</b></td><td>Del av klassekampen; bredde, fellesskap, solidaritet</td><td>Konkurranse, prestasjon, rekorder</td></tr>
+      <tr><td><b>Syn på idrett</b></td><td>Bygd på sosialistiske ideer; motvekt til borgerlig idrett, bredde, fellesskap og solidaritet</td><td>Konkurranse og prestasjon, men intern strid mellom egenverdi (Riksforbundet) og nytteverdi (den gamle Centralforeningen)</td></tr>
+      <tr><td><b>Organisering</b></td><td>Fleridrettslag, idrettskretser og et sentralt idrettsstyre</td><td>Særforbund for hver idrett</td></tr>
+      <tr><td><b>Forholdet mellom dem</b></td><td colspan="2" style="text-align:center">Utøverne fikk ikke konkurrere mot hverandre. Fra midten av 1930-tallet vokste samlingstanken.</td></tr>
       <tr><td><b>Internasjonalt</b></td><td>Arbeideridrettens internasjonale samarbeid (Arbeiderolympiader)</td><td>Det olympiske systemet</td></tr>
       <tr><td><b>Arv i NIF</b></td><td>Idrett for alle, demokrati, tett bånd til staten (Hofmo/STUI)</td><td>Særforbundsmodellen og konkurranseidretten</td></tr>
     </table>
@@ -401,10 +418,10 @@ h2::after{content:"";position:absolute;left:0;bottom:0;width:90px;height:5px;bor
 <section class="reveal">
   <h2>Kompendium</h2>
   <div class="grid2">
-    <div class="card komp"><h3>Før krigen</h3><p>To konkurrerende forbund speilet klassekonflikten i samfunnet. Idretten var splittet både organisatorisk og politisk.</p></div>
+    <div class="card komp"><h3>Før krigen</h3><p>Skytterbevegelsen, turnbevegelsen og den engelske sporten hadde ulike mål med idretten. Striden mellom egenverdi og nytteverdi, og senere mellom AIF og Landsforbundet, gjorde idretten splittet.</p></div>
     <div class="card komp"><h3>Under krigen</h3><p>NS forsøkte å nazifisere idretten. Idrettsstreiken samlet utøvere fra begge forbund i en felles motstand.</p></div>
     <div class="card komp"><h3>Etter krigen</h3><p>NIF (1946) samlet idretten. Staten tok ansvar for anlegg og økonomi gjennom STUI og tippemidlene.</p></div>
-    <div class="card komp"><h3>I dag</h3><p>Én frivillig paraplyorganisasjon, spillemidler til anlegg og målet om «idrett for alle» er en direkte arv fra krigs- og etterkrigstiden.</p></div>
+    <div class="card komp"><h3>I dag</h3><p>Etter idrettsrevolusjonen (1965–1985) er idretten en folkebevegelse med nær 2 millioner medlemskap. Én frivillig organisasjon, spillemidler og «idrett for alle» er en arv fra krigs- og etterkrigstiden.</p></div>
   </div>
 </section>
 
@@ -470,36 +487,37 @@ const scores={};
 function setScore(n,got,max){scores[n]=[got,max];document.getElementById('s'+n).textContent=got+' / '+max;updTotal()}
 function updTotal(){let g=0,m=0;Object.values(scores).forEach(([a,b])=>{g+=a;m+=b});document.getElementById('total').textContent=g+' / '+m+(m?` (${Math.round(g/m*100)} %)`:'')}
 function actions(n,check,reset){return `<div class="actions"><button onclick="${check}()">Sjekk svar</button><button class="sec" onclick="${reset}()">↺ Start på nytt</button><span class="result" id="r${n}"></span></div>`}
-function resText(n,g,m){document.getElementById('r'+n).textContent=`${g} av ${m} riktige`+(g/m>=.8?' – bra jobbet!':' – prøv igjen der det er rødt.')}
+function resText(n,g,m){document.getElementById('r'+n).textContent=`${g} av ${m} riktige`+(g===m?' – alt riktig, bra jobbet!':g/m>=.8?' – bra jobbet! Se fasiten der det er rødt.':' – se fasiten i grønt, og trykk ↺ Start på nytt for å prøve igjen.')}
+function fasit(el,html,cls){el.querySelectorAll(':scope > .fasit').forEach(x=>x.remove());if(html)el.insertAdjacentHTML('beforeend',`<div class="fasit ${cls||''}">${html}</div>`)}
 function badge(ok){return `<span class="badge ${ok?'ok':'bad'}">${ok?'Riktig':'Feil'}</span>`}
 
 /* 1 MC */
 const MC=[
- {q:'Hva skjedde med organiseringen av norsk idrett i siste del av 1800-tallet?',o:['Det ble dannet idrettsklubber og særforbund, og skytterne fikk sin egen organisasjon','All idrett ble samlet i Norges Idrettsforbund','Staten overtok ansvaret for alle idrettslag','Arbeiderbevegelsen stiftet sitt eget idrettsforbund'],a:0},
- {q:'Hva betyr det at idrett har egenverdi?',o:['Idretten er verdifull i seg selv, for gleden og prestasjonens skyld','Idretten skal gjøre befolkningen klar til å forsvare landet','Idretten skal gi staten inntekter gjennom pengespill','Idretten skal fremme et bestemt politisk syn'],a:0},
- {q:'Hvorfor ble Arbeidernes Idrettsforbund (AIF) stiftet i 1924?',o:['En voksende arbeiderklasse ønsket en egen idrettsorganisasjon bygd på sosialistiske ideer','Landsforbundet ble forbudt av myndighetene','Okkupasjonsmakten krevde en ny organisasjon','Særforbundene ville bryte ut av Riksforbundet'],a:0},
- {q:'Hva var den viktigste grunnen til at norsk idrett ble samlet i én organisasjon i 1946?',o:['Det felles motstandsarbeidet under idrettsstreiken','Et krav fra Den internasjonale olympiske komité','At AIF gikk konkurs før krigen','Et vedtak i Stortinget om å forby AIF'],a:0},
- {q:'Hva kjennetegnet idrettsrevolusjonen 1965–1985?',o:['Kraftig vekst i medlemskap, med nye idretter og trim for alle','Idretten ble underlagt staten','AIF ble gjenopprettet som eget forbund','Toppidretten ble forbudt'],a:0},
- {q:'Hvilket utviklingstrekk preger norsk idrett de siste tiårene?',o:['Idrett, olympisk og paralympisk arbeid er samlet i én organisasjon med nær 2 millioner medlemskap','Idretten er igjen delt i to konkurrerende forbund','Staten driver idrettslagene direkte','Bare toppidretten får offentlig støtte'],a:0}
+ {q:'Hva skjedde med organiseringen av norsk idrett i siste del av 1800-tallet?',o:['Det ble dannet idrettsklubber og særforbund, og skytterne fikk sin egen organisasjon','All idrett ble samlet i Norges Idrettsforbund','Staten overtok ansvaret for alle idrettslag','Arbeiderbevegelsen stiftet sitt eget idrettsforbund'],a:0,e:'På slutten av 1800-tallet ble det dannet idrettsklubber og særidrettsforbund, og i 1892 dannet skytterne Det frivillige Skyttervæsen. Samlingen i NIF kom først i 1946.'},
+ {q:'Hva betyr det at idrett har egenverdi?',o:['Idretten er verdifull i seg selv, for gleden og prestasjonens skyld','Idretten skal gjøre befolkningen klar til å forsvare landet','Idretten skal gi staten inntekter gjennom pengespill','Idretten skal fremme et bestemt politisk syn'],a:0,e:'Egenverdi betyr at idretten er verdifull i seg selv. Når idretten skal tjene et annet mål, som forsvar eller folkehelse, snakker vi om nytteverdi.'},
+ {q:'Hvorfor ble Arbeidernes Idrettsforbund (AIF) stiftet i 1924?',o:['En voksende arbeiderklasse ønsket en egen idrettsorganisasjon bygd på sosialistiske ideer','Landsforbundet ble forbudt av myndighetene','Okkupasjonsmakten krevde en ny organisasjon','Særforbundene ville bryte ut av Riksforbundet'],a:0,e:'Etter første verdenskrig vokste arbeiderklassen. AIF bygde på sosialistiske ideer og skulle være en motvekt til den borgerlige idretten.'},
+ {q:'Hva var den viktigste grunnen til at norsk idrett ble samlet i én organisasjon i 1946?',o:['Det felles motstandsarbeidet under idrettsstreiken','Et krav fra Den internasjonale olympiske komité','At AIF gikk konkurs før krigen','Et vedtak i Stortinget om å forby AIF'],a:0,e:'Under idrettsstreiken sto utøvere og ledere fra begge forbund sammen mot nazistene. Den felles motstanden la grunnlaget for samlingen i 1946.'},
+ {q:'Hva kjennetegnet idrettsrevolusjonen 1965–1985?',o:['Kraftig vekst i medlemskap, med nye idretter og trim for alle','Idretten ble underlagt staten','AIF ble gjenopprettet som eget forbund','Toppidretten ble forbudt'],a:0,e:'Nye idretter og TRIM-kampanjen ga vekst fra om lag 430 000 medlemskap i 1965 til 1,6 millioner i 1985.'},
+ {q:'Hvilket utviklingstrekk preger norsk idrett de siste tiårene?',o:['Idrett, olympisk og paralympisk arbeid er samlet i én organisasjon med nær 2 millioner medlemskap','Idretten er igjen delt i to konkurrerende forbund','Staten driver idrettslagene direkte','Bare toppidretten får offentlig støtte'],a:0,e:'NIF og Norges Olympiske Komité ble slått sammen i 1996, og i 2007 kom det paralympiske arbeidet med i navnet. I dag har idretten nær 2 millioner medlemskap.'}
 ];
 let mcState=[];
 function renderMC(){mcState=MC.map(()=>null);const el=document.getElementById('t1');el.innerHTML=MC.map((x,i)=>{const ord=shuffle(x.o.map((t,k)=>({t,k})));return `<div class="q" id="mc${i}"><b>${i+1}. ${x.q}</b>${ord.map((o,j)=>`<div class="opt" data-q="${i}" data-k="${o.k}" onclick="pickMC(this)"><span class="l">${'ABCD'[j]}</span>${o.t}</div>`).join('')}</div>`}).join('')+actions(1,'checkMC','renderMC');delete scores[1];document.getElementById('s1').textContent='–';updTotal()}
 function pickMC(el){const i=+el.dataset.q;mcState[i]=+el.dataset.k;el.parentNode.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel','right','wrong'));el.classList.add('sel')}
-function checkMC(){let g=0;MC.forEach((x,i)=>{const box=document.getElementById('mc'+i);box.querySelectorAll('.badge').forEach(b=>b.remove());const ok=mcState[i]===x.a;if(ok)g++;box.className='q '+(ok?'ok':'bad');box.querySelectorAll('.opt').forEach(o=>{o.classList.remove('right','wrong');if(+o.dataset.k===mcState[i])o.classList.add(ok?'right':'wrong')});box.querySelector('b').insertAdjacentHTML('beforeend',badge(ok))});setScore(1,g,MC.length);resText(1,g,MC.length)}
+function checkMC(){let g=0;MC.forEach((x,i)=>{const box=document.getElementById('mc'+i);box.querySelectorAll('.badge').forEach(b=>b.remove());const ok=mcState[i]===x.a;if(ok)g++;box.className='q '+(ok?'ok':'bad');box.querySelectorAll('.opt').forEach(o=>{o.classList.remove('right','wrong');if(+o.dataset.k===mcState[i])o.classList.add(ok?'right':'wrong')});box.querySelector('b').insertAdjacentHTML('beforeend',badge(ok));if(!ok)box.querySelectorAll('.opt').forEach(o=>{if(+o.dataset.k===x.a)o.classList.add('show')});fasit(box,(ok?'':`<b>Riktig svar:</b> ${x.o[x.a]}<br>`)+`<span>${x.e}</span>`,ok?'good':'')});setScore(1,g,MC.length);resText(1,g,MC.length)}
 
 /* 2 TF */
 const TF=[
- ['Idrettsstreiken var en boikott av den nazistyrte idretten under okkupasjonen.',true],
- ['Idrettsstreiken varte bare noen uker høsten 1940.',false],
- ['Både utøvere fra AIF og Landsforbundet deltok i idrettsstreiken.',true],
- ['Under streiken ble det drevet skjult, «illegal» idrett.',true],
- ['Idrettsstreiken førte til at AIF og Landsforbundet gikk hver sin vei etter krigen.',false],
- ['Idrettsstreiken hadde først og fremst økonomiske årsaker.',false]
+ ['Idrettsstreiken var en boikott av den nazistyrte idretten under okkupasjonen.',true,'Idretten boikottet all idrett som NS-regimet styrte.'],
+ ['Idrettsstreiken varte bare noen uker høsten 1940.',false,'Streiken varte fra november 1940 helt til frigjøringen i mai 1945.'],
+ ['Både utøvere fra AIF og Landsforbundet deltok i idrettsstreiken.',true,'Streiken samlet utøvere og ledere fra både AIF og Landsforbundet.'],
+ ['Under streiken ble det drevet skjult, «illegal» idrett.',true,'Illegale konkurranser samlet ofte flere tilskuere enn NS-arrangementene.'],
+ ['Idrettsstreiken førte til at AIF og Landsforbundet gikk hver sin vei etter krigen.',false,'Tvert imot: Den felles motstanden førte til at forbundene ble samlet i NIF i 1946.'],
+ ['Idrettsstreiken hadde først og fremst økonomiske årsaker.',false,'Streiken var politisk: Idretten nektet å la seg styre av nazistene og førerprinsippet.']
 ];
 let tfState=[];
 function renderTF(){tfState=TF.map(()=>null);const el=document.getElementById('t2');el.innerHTML=TF.map((x,i)=>`<div class="q tf" id="tf${i}"><span>${i+1}. ${x[0]}</span><span class="btns"><button onclick="pickTF(${i},true,this)">Riktig</button> <button onclick="pickTF(${i},false,this)">Galt</button></span></div>`).join('')+actions(2,'checkTF','renderTF');delete scores[2];document.getElementById('s2').textContent='–';updTotal()}
 function pickTF(i,v,b){tfState[i]=v;b.parentNode.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')}
-function checkTF(){let g=0;TF.forEach((x,i)=>{const r=document.getElementById('tf'+i);r.querySelectorAll('.badge').forEach(b=>b.remove());const ok=tfState[i]===x[1];if(ok)g++;r.className='q tf '+(ok?'ok':'bad');r.firstChild.insertAdjacentHTML('beforeend',badge(ok))});setScore(2,g,TF.length);resText(2,g,TF.length)}
+function checkTF(){let g=0;TF.forEach((x,i)=>{const r=document.getElementById('tf'+i);r.querySelectorAll('.badge').forEach(b=>b.remove());const ok=tfState[i]===x[1];if(ok)g++;r.className='q tf '+(ok?'ok':'bad');r.firstChild.insertAdjacentHTML('beforeend',badge(ok));fasit(r,(ok?'':`<b>Riktig svar: ${x[1]?'Riktig':'Galt'}.</b> `)+x[2],ok?'good':'')});setScore(2,g,TF.length);resText(2,g,TF.length)}
 
 /* shared drag/click */
 let picked=null;
@@ -510,25 +528,25 @@ function makeDrop(zone,single,bank){zone.addEventListener('dragover',e=>e.preven
 const TL=[['1861','Første nasjonale organisasjon for kroppsøving og våpenbruk','flag'],['1910','Idretten samles i et riksforbund med ni særforbund','merge'],['1919','Det borgerlige forbundet får navnet det har i mellomkrigstiden','flag'],['1924','Arbeiderbevegelsen får sitt eget idrettsforbund','fist'],['1940','Helset og Hofmo blir enige om sammenslåing','merge'],['1940–45','Idrettsfolket boikotter all NS-styrt idrett','stop'],['1946','De to forbundene blir formelt én organisasjon','merge'],['1948','Pengespill begynner å finansiere idrettsanlegg','coin'],['1967','Kampanje for fysisk aktivitet for alle lanseres','run'],['1996','Breddeidrett og olympisk arbeid samles under samme tak','rings']];
 const TLdis=['Første vinter-OL i Norge arrangeres i Oslo','AIF gjenopprettes som eget forbund etter krigen'];
 function renderTL(){const el=document.getElementById('t3');el.innerHTML='<p>Fyll ut tidslinjen: Dra (eller klikk og plasser) hver hendelse til riktig årstall. To av hendelsene hører ikke hjemme her. Bla bortover for å se hele tidslinjen.</p><div class="bank" id="bank3"></div><div class="ftl"><div class="ftl-track">'+TL.map((x,i)=>`<div class="fslot" id="sl${i}"><div class="fdot"></div><div class="fyr">${x[0]}</div><div class="drop" data-i="${i}"></div></div>`).join('')+'</div></div>'+actions(3,'checkTL','renderTL');const bank=document.getElementById('bank3');shuffle(TL.map(x=>x[1]).concat(TLdis)).forEach(t=>bank.appendChild(makeChip(t)));makeDrop(bank,false,bank);el.querySelectorAll('.fslot .drop').forEach(z=>makeDrop(z,true,bank));delete scores[3];document.getElementById('s3').textContent='–';updTotal()}
-function checkTL(){let g=0;TL.forEach((x,i)=>{const s=document.getElementById('sl'+i);s.querySelectorAll('.badge').forEach(b=>b.remove());const c=s.querySelector('.chip');const ok=c&&c.textContent===x[1];if(ok)g++;s.className='fslot '+(ok?'ok':'bad');s.querySelector('.fyr').insertAdjacentHTML('beforeend',badge(ok))});setScore(3,g,TL.length);resText(3,g,TL.length)}
+function checkTL(){let g=0;TL.forEach((x,i)=>{const s=document.getElementById('sl'+i);s.querySelectorAll('.badge').forEach(b=>b.remove());const c=s.querySelector('.chip');const ok=c&&c.textContent===x[1];if(ok)g++;s.className='fslot '+(ok?'ok':'bad');s.querySelector('.fyr').insertAdjacentHTML('beforeend',badge(ok));fasit(s,ok?'':`<b>Riktig:</b> ${x[1]}`)});document.querySelectorAll('#bank3 .chip').forEach(c=>{c.classList.toggle('dis',TLdis.includes(c.textContent))});setScore(3,g,TL.length);resText(3,g,TL.length)}
 
 /* 4 sort */
 const SCOLS=[['S','Skytterbevegelsen','#6b7a3a'],['T','Turnbevegelsen','#2f7fe0'],['E','Den engelske sporten','#e8578a']];
 const SORT=[['Et skirenn der deltakerne også må skyte på blink','S'],['Målet er å gjøre unge menn klare til å forsvare landet','S'],['Øvelsene skal være nyttige for nasjonen i krigstid','S'],['Gruppeoppvisning med øvelser for hele kroppen','T'],['Kroppsøving skal gi sunne og disiplinerte borgere','T'],['Advarer mot å jage etter rekorder','T'],['En løper trener bare på 100 meter for å slå rekorden','E'],['Tidtaking og resultatlister blir viktig','E'],['Konkurransen har verdi i seg selv','E']];
 function renderSort(){const el=document.getElementById('t4');el.innerHTML='<p>Hvilken bevegelse passer hver påstand best med? Tenk på hva som var <em>målet</em> med idretten.</p><div class="bank" id="bank4"></div><div class="cols3">'+SCOLS.map(([k,n,c])=>`<div class="col" style="border-color:${c}"><h4 style="color:${c}">${n}</h4><div class="drop" data-c="${k}" style="min-height:110px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start"></div></div>`).join('')+'</div>'+actions(4,'checkSort','renderSort');const bank=document.getElementById('bank4');shuffle(SORT).forEach(([t,c])=>{const ch=makeChip(t);ch.dataset.c=c;bank.appendChild(ch)});makeDrop(bank,false,bank);el.querySelectorAll('.col .drop').forEach(z=>makeDrop(z,false,bank));delete scores[4];document.getElementById('s4').textContent='–';updTotal()}
-function checkSort(){let g=0;document.querySelectorAll('#t4 .chip').forEach(c=>{c.classList.remove('ok','bad');const z=c.parentNode.dataset.c;if(!z)return;const ok=z===c.dataset.c;if(ok)g++;c.classList.add(ok?'ok':'bad')});setScore(4,g,SORT.length);resText(4,g,SORT.length)}
+function checkSort(){let g=0;const nm=k=>SCOLS.find(c=>c[0]===k)[1];document.querySelectorAll('#t4 .chip').forEach(c=>{c.classList.remove('ok','bad');c.removeAttribute('data-hint');const z=c.parentNode.dataset.c;if(!z)return;const ok=z===c.dataset.c;if(ok)g++;c.classList.add(ok?'ok':'bad');if(!ok)c.dataset.hint=nm(c.dataset.c)});setScore(4,g,SORT.length);resText(4,g,SORT.length)}
 
 /* 5 cloze */
 const CLOZE={text:'Etter første verdenskrig vokste {0}, og mange arbeidere ønsket sin egen idrett. AIF ble bygd på {1} ideer og skulle være en motvekt til den {2} idretten. AIF organiserte seg i {3}, idrettskretser og et sentralt idrettsstyre. Fordi utøvere fra de to forbundene ikke fikk {4} med hverandre, var idretten splittet. Fra midten av 1930-tallet vokste {5}, og felles motstand under krigen førte til at idretten ble samlet i {6} i 1946.',
  ans:['arbeiderklassen','sosialistiske','borgerlige','fleridrettslag','konkurrere','samlingstanken','Norges Idrettsforbund'],
  dis:['middelklassen','liberale','militære','særforbund','trene','idrettsstreiken','Landsforbundet']};
 function renderCloze(){const all=CLOZE.ans.concat(CLOZE.dis);const el=document.getElementById('t5');el.innerHTML='<p style="line-height:2.4">'+CLOZE.text.replace(/\{(\d)\}/g,(m,i)=>`<select id="cz${i}"><option value="">– velg –</option>${shuffle(all).map(o=>`<option>${o}</option>`).join('')}</select>`)+'</p>'+actions(5,'checkCloze','renderCloze');delete scores[5];document.getElementById('s5').textContent='–';updTotal()}
-function checkCloze(){let g=0;CLOZE.ans.forEach((a,i)=>{const s=document.getElementById('cz'+i);const ok=norm(s.value)===norm(a);if(ok)g++;s.className=ok?'ok':'bad'});setScore(5,g,CLOZE.ans.length);resText(5,g,CLOZE.ans.length)}
+function checkCloze(){let g=0;CLOZE.ans.forEach((a,i)=>{const s=document.getElementById('cz'+i);const ok=norm(s.value)===norm(a);if(ok)g++;s.className=ok?'ok':'bad';const nx=s.nextElementSibling;if(nx&&nx.classList.contains('fix'))nx.remove();if(!ok)s.insertAdjacentHTML('afterend',`<span class="fix">${a}</span>`)});setScore(5,g,CLOZE.ans.length);resText(5,g,CLOZE.ans.length)}
 
 /* 6 matching */
 const MATCH=[['Egenverdi','Idrett drives for gleden og prestasjonen i seg selv'],['Nytteverdi','Idrett skal tjene et mål utenfor seg selv, for eksempel forsvar eller helse'],['Særforbund','Organiserer én idrett på nasjonalt nivå'],['Fleridrettslag','Ett lag med mange idretter, typisk for AIF'],['TRIM-kampanjen','Fysisk aktivitet for alle, ikke bare for de beste'],['Idrettsrevolusjonen','Kraftig medlemsvekst og mange nye idretter'],['Folkebevegelse','Organisasjon med medlemmer fra de fleste lag av befolkningen']];
 function renderMatch(){const opts=shuffle(MATCH.map(x=>x[1]));const el=document.getElementById('t6');el.innerHTML='<div class="match" id="mlist">'+shuffle(MATCH.map((x,i)=>i)).map(i=>`<div class="row" data-i="${i}"><b>${MATCH[i][0]}</b><select><option value="">– velg forklaring –</option>${opts.map(o=>`<option>${o}</option>`).join('')}</select></div>`).join('')+'</div>'+actions(6,'checkMatch','renderMatch');delete scores[6];document.getElementById('s6').textContent='–';updTotal()}
-function checkMatch(){let g=0;const list=document.getElementById('mlist');const rows=[...list.children];rows.forEach(r=>{r.querySelectorAll('.badge').forEach(b=>b.remove());const ok=r.querySelector('select').value===MATCH[+r.dataset.i][1];r.dataset.ok=ok?1:0;if(ok)g++;r.className='row '+(ok?'ok':'bad');r.querySelector('b').insertAdjacentHTML('beforeend',badge(ok))});rows.sort((a,b)=>b.dataset.ok-a.dataset.ok).forEach(r=>list.appendChild(r));setScore(6,g,MATCH.length);resText(6,g,MATCH.length)}
+function checkMatch(){let g=0;const list=document.getElementById('mlist');const rows=[...list.children];rows.forEach(r=>{r.querySelectorAll('.badge').forEach(b=>b.remove());const ok=r.querySelector('select').value===MATCH[+r.dataset.i][1];r.dataset.ok=ok?1:0;if(ok)g++;r.className='row '+(ok?'ok':'bad');r.querySelector('b').insertAdjacentHTML('beforeend',badge(ok));fasit(r,ok?'':`<b>Riktig:</b> ${MATCH[+r.dataset.i][1]}`)});rows.sort((a,b)=>b.dataset.ok-a.dataset.ok).forEach(r=>list.appendChild(r));setScore(6,g,MATCH.length);resText(6,g,MATCH.length)}
 
 /* 7 essay */
 const KW=['egenverdi','nytteverdi','skytter','turn','AIF','Landsforbundet','idrettsstreik','NIF','1946','idrettsrevolusjon','folkebevegelse'];
@@ -678,12 +696,12 @@ addEventListener('scroll',()=>{const h=document.documentElement;document.getElem
 function makePDF(){if(!window.jspdf){alert('PDF-biblioteket er ikke lastet.');return}var jsPDF=window.jspdf.jsPDF;const d=new jsPDF();let y=18;const W=180;
  const line=(t,sz=10,b=false)=>{d.setFont('helvetica',b?'bold':'normal');d.setFontSize(sz);d.splitTextToSize(String(t),W).forEach(l=>{if(y>282){d.addPage();y=18}d.text(l,15,y);y+=sz*.5})};
  line('Norsk idretts historie – besvarelse',16,true);y+=2;line('Navn: '+(document.getElementById('navn').value||'–'));line('Dato: '+new Date().toLocaleDateString('nb-NO'));line('Totalpoeng: '+document.getElementById('total').textContent,11,true);y+=4;
- line('1. Flervalg ('+(document.getElementById('s1').textContent)+')',12,true);MC.forEach((x,i)=>line(`${i+1}. ${x.q} → ${mcState[i]==null?'(ikke besvart)':x.o[mcState[i]]} ${mcState[i]===x.a?'[riktig]':'[feil]'}`));y+=3;
- line('2. Riktig/galt ('+document.getElementById('s2').textContent+')',12,true);TF.forEach((x,i)=>line(`${i+1}. ${x[0]} → ${tfState[i]==null?'(ikke besvart)':tfState[i]?'Riktig':'Galt'} ${tfState[i]===x[1]?'[riktig]':'[feil]'}`));y+=3;
- line('3. Tidslinje ('+document.getElementById('s3').textContent+')',12,true);TL.forEach((x,i)=>{const c=document.querySelector('#sl'+i+' .chip');line(`${x[0]}: ${c?c.textContent:'(tom)'} ${c&&c.textContent===x[1]?'[riktig]':'[feil]'}`)});y+=3;
+ line('1. Flervalg ('+(document.getElementById('s1').textContent)+')',12,true);MC.forEach((x,i)=>line(`${i+1}. ${x.q} -> ${mcState[i]==null?'(ikke besvart)':x.o[mcState[i]]} ${mcState[i]===x.a?'[riktig]':'[feil] Riktig svar: '+x.o[x.a]}`));y+=3;
+ line('2. Riktig/galt ('+document.getElementById('s2').textContent+')',12,true);TF.forEach((x,i)=>line(`${i+1}. ${x[0]} -> ${tfState[i]==null?'(ikke besvart)':tfState[i]?'Riktig':'Galt'} ${tfState[i]===x[1]?'[riktig]':'[feil] Riktig svar: '+(x[1]?'Riktig':'Galt')}`));y+=3;
+ line('3. Tidslinje ('+document.getElementById('s3').textContent+')',12,true);TL.forEach((x,i)=>{const c=document.querySelector('#sl'+i+' .chip');line(`${x[0]}: ${c?c.textContent:'(tom)'} ${c&&c.textContent===x[1]?'[riktig]':'[feil] Riktig: '+x[1]}`)});y+=3;
  line('4. Sortering ('+document.getElementById('s4').textContent+')',12,true);document.querySelectorAll('#t4 .col').forEach(col=>{line(col.querySelector('h4').textContent+': '+[...col.querySelectorAll('.chip')].map(c=>c.textContent+(c.dataset.c===col.querySelector('.drop').dataset.c?' ✓':' ✗')).join('; ').replace(/[✓✗]/g,m=>m==='✓'?'(r)':'(f)'))});y+=3;
- line('5. Fyll inn ('+document.getElementById('s5').textContent+')',12,true);CLOZE.ans.forEach((a,i)=>{const v=document.getElementById('cz'+i).value;line(`Felt ${i+1}: ${v||'(tom)'} ${norm(v)===norm(a)?'[riktig]':'[feil]'}`)});y+=3;
- line('6. Koble ('+document.getElementById('s6').textContent+')',12,true);document.querySelectorAll('#mlist .row').forEach(r=>{const i=+r.dataset.i;const v=r.querySelector('select').value;line(`${MATCH[i][0]} → ${v||'(tom)'} ${v===MATCH[i][1]?'[riktig]':'[feil]'}`)});y+=3;
+ line('5. Fyll inn ('+document.getElementById('s5').textContent+')',12,true);CLOZE.ans.forEach((a,i)=>{const v=document.getElementById('cz'+i).value;line(`Felt ${i+1}: ${v||'(tom)'} ${norm(v)===norm(a)?'[riktig]':'[feil] Riktig: '+a}`)});y+=3;
+ line('6. Koble ('+document.getElementById('s6').textContent+')',12,true);document.querySelectorAll('#mlist .row').forEach(r=>{const i=+r.dataset.i;const v=r.querySelector('select').value;line(`${MATCH[i][0]} -> ${v||'(tom)'} ${v===MATCH[i][1]?'[riktig]':'[feil] Riktig: '+MATCH[i][1]}`)});y+=3;
  line('7. Drøfting ('+document.getElementById('s7').textContent+')',12,true);line(document.getElementById('essay').value||'(ikke skrevet)');y+=3;
  line('Refleksjon: OL i Berlin 1936',12,true);line(document.getElementById('refl').value||'–');y+=3;
  line('Hvordan fungerer siden?',12,true);line(document.getElementById('feedback').value||'–');
