@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Organiseringen av norsk idrett – Edvin's Idretts Lab</title>
+<title>Organiseringen av norsk idrett – Edvins Idrettslab</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-:root{--navy:#14284b;--navy2:#1e3a66;--teal:#0f9b8e;--teal-l:#e3f5f3;--orange:#f08a24;--orange-l:#fdf0e3;--bg:#f5f7fa;--card:#fff;--text:#1f2937;--muted:#64748b;--line:#e2e8f0;--green:#16a34a;--green-l:#dcfce7;--red:#dc2626;--red-l:#fee2e2}
+:root{--navy:#14284b;--navy2:#1e3a66;--teal:#0f9b8e;--teal-l:#e3f5f3;--orange:#f08a24;--orange-l:#fdf0e3;--bg:#f5f7fa;--card:#fff;--text:#1f2937;--muted:#64748b;--line:#e2e8f0;--green:#16a34a;--green-l:#dcfce7;--red:#dc2626;--red-l:#fee2e2;--navyd:#14284b;--soft:#f8fafc}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f1720;--card:#17222e;--text:#e6edf3;--muted:#9fb0c0;--line:#2a3a4a;--teal-l:#12332f;--orange-l:#3a2a17;--green-l:#133222;--red-l:#3a1a1a;--navy:#8fb8e0;--soft:#1c2935}}
+:root[data-theme="dark"]{--bg:#0f1720;--card:#17222e;--text:#e6edf3;--muted:#9fb0c0;--line:#2a3a4a;--teal-l:#12332f;--orange-l:#3a2a17;--green-l:#133222;--red-l:#3a1a1a;--navy:#8fb8e0;--soft:#1c2935}
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
 h1,h2,h3{font-family:'Barlow Condensed',sans-serif;line-height:1.15;color:var(--navy)}
 .wrap{max-width:980px;margin:0 auto;padding:0 18px}
 /* progress */
-#progress{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;padding:8px 18px;display:flex;align-items:center;gap:14px;font-size:.85rem;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+#progress{position:sticky;top:0;z-index:50;background:var(--navyd);color:#fff;padding:8px 18px;display:flex;align-items:center;gap:14px;font-size:.85rem;box-shadow:0 2px 8px rgba(0,0,0,.15)}
 #progress .bar{flex:1;height:8px;background:rgba(255,255,255,.2);border-radius:6px;overflow:hidden}
 #progress .fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--orange));transition:width .4s}
 /* hero */
@@ -34,7 +36,7 @@ h2 .num{background:var(--teal);color:#fff;border-radius:8px;font-size:1.1rem;pad
 /* concepts */
 .concepts{display:flex;flex-wrap:wrap;gap:10px}
 .concept{position:relative;background:var(--teal-l);color:var(--navy);border:1px solid var(--teal);padding:6px 14px;border-radius:20px;font-weight:600;cursor:help;font-size:.92rem}
-.concept .tip{visibility:hidden;opacity:0;position:absolute;bottom:125%;left:50%;transform:translateX(-50%);width:260px;background:var(--navy);color:#fff;font-weight:400;font-size:.83rem;padding:10px 12px;border-radius:8px;transition:opacity .2s;z-index:20}
+.concept .tip{visibility:hidden;opacity:0;position:absolute;bottom:125%;left:50%;transform:translateX(-50%);width:260px;background:var(--navyd);color:#fff;font-weight:400;font-size:.83rem;padding:10px 12px;border-radius:8px;transition:opacity .2s;z-index:20}
 .concept:hover .tip,.concept:focus .tip{visibility:visible;opacity:1}
 /* narrative */
 .narr p{margin:.7em 0}
@@ -44,13 +46,13 @@ h2 .num{background:var(--teal);color:#fff;border-radius:8px;font-size:1.1rem;pad
 .col h3{text-align:center;margin:0 0 10px;font-size:1.25rem}
 .box{border-radius:10px;padding:10px 12px;text-align:center;font-weight:600;color:#fff;margin:0 auto;max-width:300px}
 .arrow{text-align:center;color:var(--muted);font-size:1.3rem;line-height:1.2}
-.b-navy{background:var(--navy)}.b-teal{background:var(--teal)}.b-orange{background:var(--orange)}.b-mid{background:#3b5b8c}
+.b-navy{background:var(--navyd)}.b-teal{background:var(--teal)}.b-orange{background:var(--orange)}.b-mid{background:#3b5b8c}
 .box small{display:block;font-weight:400;opacity:.9;font-size:.78rem}
 /* table */
 table.ov{width:100%;border-collapse:collapse;font-size:.92rem}
-table.ov th{background:var(--navy);color:#fff;text-align:left;padding:10px}
+table.ov th{background:var(--navyd);color:#fff;text-align:left;padding:10px}
 table.ov td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
-table.ov tr:nth-child(even) td{background:#f8fafc}
+table.ov tr:nth-child(even) td{background:var(--soft)}
 .tblwrap{overflow-x:auto}
 /* kompendium */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -63,12 +65,12 @@ table.ov tr:nth-child(even) td{background:#f8fafc}
 .toggles{display:flex;gap:8px;margin-bottom:14px}
 .btn{font-family:Inter;font-weight:600;border:none;border-radius:8px;padding:9px 16px;cursor:pointer;font-size:.9rem}
 .btn-p{background:var(--teal);color:#fff}.btn-p:hover{background:#0b8075}
-.btn-s{background:#e2e8f0;color:var(--navy)}.btn-s:hover{background:#cbd5e1}
+.btn-s{background:var(--line);color:var(--text)}.btn-s:hover{background:#cbd5e1}
 .btn-o{background:var(--orange);color:#fff}
 .task{margin-bottom:14px;padding:0;overflow:hidden}
 .task-h{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;user-select:none}
 .task-h h3{margin:0;font-size:1.35rem;flex:1}
-.task-h .badge{font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:12px;background:#e2e8f0;color:var(--muted)}
+.task-h .badge{font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:12px;background:var(--line);color:var(--muted)}
 .task-h .badge.ok{background:var(--green-l);color:var(--green)}.task-h .badge.mid{background:var(--orange-l);color:var(--orange)}
 .task-h .chev{transition:transform .25s;font-size:1.2rem;color:var(--muted)}
 .task.open .chev{transform:rotate(90deg)}
@@ -78,29 +80,29 @@ table.ov tr:nth-child(even) td{background:#f8fafc}
 .actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center}
 .result{font-weight:700;margin-left:6px}
 .q{border:2px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;position:relative}
-.q.right{border-color:var(--green);background:#f6fef8}.q.wrong{border-color:var(--red);background:#fff7f7}
+.q.right{border-color:var(--green);background:var(--soft)}.q.wrong{border-color:var(--red);background:var(--soft)}
 .verdict{position:absolute;top:-11px;right:12px;font-size:.75rem;font-weight:700;padding:2px 9px;border-radius:10px;color:#fff}
 .right .verdict{background:var(--green)}.wrong .verdict{background:var(--red)}
 .qt{font-weight:600;margin-bottom:8px}
 .opt{display:flex;gap:10px;align-items:center;border:1.5px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0;cursor:pointer;transition:all .15s}
 .opt:hover{border-color:var(--teal)}
-.opt .let{background:#e2e8f0;border-radius:6px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0}
+.opt .let{background:var(--line);border-radius:6px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0}
 .opt.sel{border-color:var(--teal);background:var(--teal-l)}.opt.sel .let{background:var(--teal);color:#fff}
 .opt.ok{border-color:var(--green);background:var(--green-l)}.opt.bad{border-color:var(--red);background:var(--red-l)}
 .tf{display:flex;justify-content:space-between;align-items:center;gap:12px;border:2px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0}
 .tf.right{background:var(--green-l);border-color:var(--green)}.tf.wrong{background:var(--red-l);border-color:var(--red)}
 .tf .tfb{display:flex;gap:6px;flex-shrink:0}
-.tf button{border:1.5px solid var(--line);background:#fff;border-radius:6px;padding:5px 12px;cursor:pointer;font-weight:600}
-.tf button.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tf button{border:1.5px solid var(--line);background:var(--card);border-radius:6px;padding:5px 12px;cursor:pointer;font-weight:600}
+.tf button.sel{background:var(--navyd);color:#fff;border-color:var(--navy)}
 .tfv{font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:10px;color:#fff;margin-left:6px}
-select{font-family:Inter;font-size:.9rem;padding:4px 8px;border:1.5px solid var(--line);border-radius:6px;background:#fff}
+select{font-family:Inter;font-size:.9rem;padding:4px 8px;border:1.5px solid var(--line);border-radius:6px;background:var(--card)}
 select.ok{border-color:var(--green);background:var(--green-l)}select.bad{border-color:var(--red);background:var(--red-l)}
 .cloze{line-height:2.3}
 .row-sel{display:flex;justify-content:space-between;align-items:center;gap:10px;border:2px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0}
-.row-sel.right{border-color:var(--green);background:#f6fef8}.row-sel.wrong{border-color:var(--red);background:#fff7f7}
+.row-sel.right{border-color:var(--green);background:var(--soft)}.row-sel.wrong{border-color:var(--red);background:var(--soft)}
 /* drag */
 .bank{display:flex;flex-wrap:wrap;gap:8px;padding:12px;border:2px dashed var(--teal);border-radius:10px;background:var(--teal-l);min-height:54px}
-.chip{background:#fff;border:1.5px solid var(--navy);color:var(--navy);padding:5px 12px;border-radius:16px;font-weight:600;font-size:.88rem;cursor:grab}
+.chip{background:var(--card);border:1.5px solid var(--navy);color:var(--navy);padding:5px 12px;border-radius:16px;font-weight:600;font-size:.88rem;cursor:grab}
 .chip.picked{background:var(--orange);color:#fff;border-color:var(--orange)}
 .drop{display:inline-block;min-width:150px;min-height:32px;border-bottom:2.5px solid var(--navy);margin:0 4px;vertical-align:middle;text-align:center;padding:2px 4px;border-radius:6px 6px 0 0;cursor:pointer}
 .drop.over{background:var(--orange-l)}
@@ -108,7 +110,7 @@ select.ok{border-color:var(--green);background:var(--green-l)}select.bad{border-
 .dq{margin:10px 0;padding:8px 0;border-bottom:1px dashed var(--line)}
 /* matching */
 .match{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.mitem{border:2px solid var(--line);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:.92rem;background:#fff}
+.mitem{border:2px solid var(--line);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:.92rem;background:var(--card)}
 .mitem.sel{border-color:var(--orange);background:var(--orange-l)}
 .mitem.paired{border-color:var(--teal);background:var(--teal-l)}
 .mitem .pn{display:inline-block;background:var(--teal);color:#fff;border-radius:50%;width:20px;height:20px;text-align:center;font-size:.72rem;line-height:20px;margin-right:6px}
@@ -117,13 +119,13 @@ select.ok{border-color:var(--green);background:var(--green-l)}select.bad{border-
 textarea{width:100%;font-family:Inter;font-size:.93rem;border:1.5px solid var(--line);border-radius:8px;padding:10px;resize:vertical}
 textarea:focus,input[type=text]:focus{outline:2px solid var(--teal);border-color:var(--teal)}
 .counter{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;margin:6px 0}
-.kw{padding:2px 9px;border-radius:10px;background:#e2e8f0;color:var(--muted);font-size:.8rem;font-weight:600}
+.kw{padding:2px 9px;border-radius:10px;background:var(--line);color:var(--muted);font-size:.8rem;font-weight:600}
 .kw.hit{background:var(--green-l);color:var(--green)}
 .links a{color:var(--teal);font-weight:600}
 /* nettjakt */
-.hunt{border:3px solid var(--orange);background:linear-gradient(180deg,#fff 0%,#fffaf4 100%)}
+.hunt{border:3px solid var(--orange);background:var(--card)}
 .hunt h2 .num{background:var(--orange)}
-.hq{border:1.5px solid var(--line);border-radius:10px;padding:14px;margin:14px 0;background:#fff}
+.hq{border:1.5px solid var(--line);border-radius:10px;padding:14px;margin:14px 0;background:var(--card)}
 .hq.done{border-color:var(--green)}.hq.miss{border-color:var(--red)}
 .srcgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .srcgrid input{width:100%;font-family:Inter;font-size:.85rem;padding:7px 9px;border:1.5px solid var(--line);border-radius:6px}
@@ -136,13 +138,23 @@ textarea:focus,input[type=text]:focus{outline:2px solid var(--teal);border-color
 figure.orgimg{margin:20px 0 6px}figure.orgimg img{width:100%;border-radius:10px;border:1px solid var(--line)}figure.orgimg figcaption{font-size:.83rem;color:var(--muted);margin-top:6px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:16px 0}.stat{background:var(--teal-l);border-radius:10px;padding:12px;text-align:center}.stat b{display:block;font-family:'Barlow Condensed';font-size:1.9rem;color:var(--navy);line-height:1}.stat span{font-size:.8rem;color:var(--muted)}
 .refs p{padding-left:2em;text-indent:-2em;margin:.5em 0;font-size:.92rem}
-.pres{display:grid;grid-template-columns:240px 1fr;gap:20px;align-items:start}.pres img{width:100%;border-radius:10px}.pres figcaption{font-size:.78rem;color:var(--muted);margin-top:4px}.utv{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-top:12px}.utv div{border-left:4px solid var(--orange);background:#fafbfc;padding:8px 10px;border-radius:0 8px 8px 0;font-size:.88rem}@media(max-width:600px){.pres{grid-template-columns:1fr}}
-.disc{border:3px solid var(--teal);background:linear-gradient(180deg,#fff 0%,#f3fbfa 100%)}.disc ol{padding-left:20px}.disc li{margin:6px 0}.disc .hint2{font-size:.85rem;color:var(--muted);background:#fff;border:1px dashed var(--teal);border-radius:8px;padding:8px 12px;margin:10px 0}
+.pres{display:grid;grid-template-columns:240px 1fr;gap:20px;align-items:start}.pres img{width:100%;border-radius:10px}.pres figcaption{font-size:.78rem;color:var(--muted);margin-top:4px}.utv{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-top:12px}.utv div{border-left:4px solid var(--orange);background:var(--soft);padding:8px 10px;border-radius:0 8px 8px 0;font-size:.88rem}@media(max-width:600px){.pres{grid-template-columns:1fr}}
+.disc{border:3px solid var(--teal);background:var(--card)}.disc ol{padding-left:20px}.disc li{margin:6px 0}.disc .hint2{font-size:.85rem;color:var(--muted);background:var(--card);border:1px dashed var(--teal);border-radius:8px;padding:8px 12px;margin:10px 0}
 .mhead{font-family:'Barlow Condensed';font-weight:700;color:var(--navy);font-size:1.05rem;margin-bottom:2px}
-.mlist{margin-top:14px;border-top:1px dashed var(--line);padding-top:10px}.mlist .mrow{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;margin:5px 0;background:#f8fafc;border-left:5px solid var(--pc);font-size:.9rem}
+.mlist{margin-top:14px;border-top:1px dashed var(--line);padding-top:10px}.mlist .mrow{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;margin:5px 0;background:var(--soft);border-left:5px solid var(--pc);font-size:.9rem}
 .mlist .mrow b{min-width:110px}.mlist .mrow .x{margin-left:auto;cursor:pointer;color:var(--muted);font-weight:700;border:none;background:none;font-size:1rem}
 .mrow.ok{background:var(--green-l)}.mrow.bad{background:var(--red-l)}
-.mitem.paired{border-color:var(--pc);background:#fff;box-shadow:inset 5px 0 0 var(--pc)}.mitem .pn{background:var(--pc)}
+.mitem.paired{border-color:var(--pc);background:var(--card);box-shadow:inset 5px 0 0 var(--pc)}.mitem .pn{background:var(--pc)}
+.keypts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:18px}
+.kp{background:var(--k);color:#fff;border-radius:12px;padding:12px 14px;box-shadow:0 6px 16px color-mix(in srgb,var(--k) 35%,transparent)}
+.kp b{display:block;font-family:"Barlow Condensed";font-size:1.45rem;line-height:1.1}.kp span{font-size:.85rem;opacity:.95}
+.fasit{margin-top:8px;padding:8px 12px;border-radius:8px;background:var(--card);border-left:4px solid var(--green);font-size:.88rem;line-height:1.45;flex-basis:100%}
+.fasit.good{border-left-color:var(--teal);color:var(--muted)}.fasit b{color:var(--green)}
+.opt.show{border-color:var(--green);border-style:dashed;background:var(--green-l)}
+.opt.show::after{content:"Riktig svar";margin-left:auto;font-size:.72rem;font-weight:700;color:var(--green);white-space:nowrap}
+.fix{display:inline-block;margin:0 4px;padding:1px 8px;border-radius:10px;background:var(--green-l);color:var(--green);font-weight:700;font-size:.85rem;border:1.5px dashed var(--green)}
+.fix::before{content:"✔ "}
+.row-sel,.tf{flex-wrap:wrap}
 footer{text-align:center;color:var(--muted);font-size:.82rem;padding:30px 0}
 </style>
 </head>
@@ -162,14 +174,13 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:30px 0}
 <main class="wrap">
 
 <section class="reveal"><div class="card goals">
-<h2><span class="num">✓</span> Læringsmål</h2>
-<p class="instr">Kryss av når du mener du kan målet. Gå tilbake til listen når du er ferdig med oppgavene.</p>
-<label><input type="checkbox"> Jeg kan forklare hva som menes med den frivillige, organiserte idretten.</label>
-<label><input type="checkbox"> Jeg kan beskrive de to linjene i NIF: den organisasjonsmessige (særidrettslinjen) og den geografiske (idrettskretslinjen).</label>
-<label><input type="checkbox"> Jeg kan forklare rollene til idrettslag, idrettsråd, idrettskrets, særforbund, idrettsstyret og idrettstinget.</label>
-<label><input type="checkbox"> Jeg kan forklare forholdet mellom staten og idretten, blant annet gjennom spillemidlene.</label>
-<label><input type="checkbox"> Jeg kan skille mellom organisert, egenorganisert og kommersiell idrett.</label>
-<label><input type="checkbox"> Jeg kan finne informasjon på nettet, vurdere kilden og oppgi den etter APA 7.</label>
+<h2><span class="num">✓</span> Kompetansemål</h2>
+<p style="margin:0 0 6px;font-weight:600">Når du har arbeidet med denne modulen, skal du kunne</p>
+<label><input type="checkbox"> forklare hva som kjennetegner den frivillige sektoren</label>
+<label><input type="checkbox"> beskrive den organiserte norske idrettens formål og målsettinger</label>
+<label><input type="checkbox"> gjøre rede for organiseringen av norsk idrett og forklare forholdet til offentlige myndigheter</label>
+<label><input type="checkbox"> gjøre rede for norsk idretts organisering i forhold til internasjonal idrett</label>
+<label><input type="checkbox"> reflektere om sterke og utfordrende sider ved organisering av norsk idrett</label>
 </div></section>
 
 <section class="reveal"><div class="card">
@@ -192,9 +203,17 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:30px 0}
 
 <section class="reveal"><div class="card narr">
 <h2><span class="num">1</span> Fra idrettslag til idrettsting</h2>
+<div class="keypts">
+<div class="kp" style="--k:#0f9b8e"><b>Frivillig</b><span>Ideelle mål, frivillig medlemskap og demokratisk styring</span></div>
+<div class="kp" style="--k:#f08a24"><b>To linjer</b><span>Særforbund for én idrett – idrettskrets for alle idretter</span></div>
+<div class="kp" style="--k:#3b5b8c"><b>Idrettstinget</b><span>Høyeste myndighet, hvert andre år</span></div>
+<div class="kp" style="--k:#a855f7"><b>Staten</b><span>Spillemidler og krav – idretten er selvstendig</span></div>
+<div class="kp" style="--k:#e11d48"><b>Internasjonalt</b><span>IOC, IPC, WADA og internasjonale særforbund</span></div>
+</div>
 <p>Norsk idrett er en <strong>frivillig og demokratisk medlemsorganisasjon</strong> bygd opp nedenfra. Paraplyorganisasjonen heter <strong>Norges idrettsforbund og olympiske og paralympiske komité (NIF)</strong>.</p>
 <div class="stats"><div class="stat"><b>9 454</b><span>idrettslag</span></div><div class="stat"><b>55</b><span>særforbund</span></div><div class="stat"><b>11</b><span>idrettskretser</span></div><div class="stat"><b>328</b><span>idrettsråd</span></div><div class="stat"><b>~1,9 mill.</b><span>medlemskap</span></div></div>
 <p class="hint">Tall: Norges idrettsforbund (u.å.-b).</p>
+<p>Den <strong>frivillige sektoren</strong> skiller seg fra den offentlige sektoren og næringslivet. Organisasjonene har <strong>ideelle, allmennyttige mål</strong>, bygger på <strong>frivillig medlemskap</strong> og har en <strong>demokratisk styringsstruktur</strong>. NIFs visjon er <em>«Idrettsglede for alle»</em>.</p>
 <p><strong>Idrettslaget</strong> er grunnsteinen. Årsmøtet er lagets øverste organ og velger styret. Det meste av arbeidet gjøres av frivillige.</p>
 <p>Fra laget går det <strong>to linjer</strong> opp:</p>
 <ul>
@@ -243,7 +262,7 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:30px 0}
 <h2><span class="num">2</span> Oversikt</h2>
 <div class="tblwrap"><table class="ov">
 <tr><th>Ledd</th><th>Nivå</th><th>Hovedoppgave</th><th>Eksempel</th></tr>
-<tr><td><strong>Idrettslag</strong></td><td>Lokalt</td><td>Gi medlemmene et aktivitetstilbud; drives av frivillige</td><td>Sauda IL</td></tr>
+<tr><td><strong>Idrettslag</strong></td><td>Lokalt</td><td>Gi medlemmene et aktivitetstilbud; drives av frivillige</td><td>Ditt lokale idrettslag</td></tr>
 <tr><td><strong>Idrettsråd</strong></td><td>Kommune</td><td>Samordne lagene og være idrettens kontakt mot kommunen</td><td>Idrettsrådet i en kommune</td></tr>
 <tr><td><strong>Særkrets / region</strong></td><td>Regionalt</td><td>Organisere kretsserier og aktivitet i én idrett</td><td>Fotballkrets</td></tr>
 <tr><td><strong>Idrettskrets</strong></td><td>Regionalt</td><td>Samordne alle idretter i regionen; kontakt mot fylkeskommunen</td><td>Rogaland idrettskrets</td></tr>
@@ -317,7 +336,7 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:30px 0}
 <p class="hint">PDF-en samler alle svarene dine, poengene, nettjakten og tilbakemeldingen.</p>
 </div></section>
 </main>
-<footer>Edvin's Idretts Lab · Idrett og samfunn · Organiseringen av norsk idrett</footer>
+<footer>Edvins Idrettslab · Idrett og samfunn · Organiseringen av norsk idrett</footer>
 
 <script>
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
@@ -337,25 +356,25 @@ const T1=[ // dropdown: hvilket ledd?
 const T1opts=["Særkrets / region","Idrettsråd","Særforbund","Idrettstinget","Idrettskrets","Årsmøtet i idrettslaget","Olympiatoppen","Idrettsstyret"];
 
 const T2=[
- {q:"Hva menes med at norsk idrett er «bygd opp nedenfra»?",o:["Medlemmene i idrettslagene velger representanter som igjen påvirker kretser, forbund og idrettstinget","Staten utnevner lederne i idrettslagene","Særforbundene bestemmer hvem som får starte idrettslag","De beste utøverne får mest makt i organisasjonen"],a:0},
- {q:"Hva er den viktigste forskjellen på et særforbund og en idrettskrets?",o:["Særforbundet har ansvar for én idrett nasjonalt, idrettskretsen for alle idretter i en region","Særforbundet er regionalt, idrettskretsen er nasjonal","Idrettskretsen arrangerer norgesmesterskap","Det er to navn på det samme leddet"],a:0},
- {q:"Hvilket organ leder NIF i periodene mellom idrettstingene?",o:["Idrettsstyret","Idrettsrådet","Olympiatoppen","Kultur- og likestillingsdepartementet"],a:0},
- {q:"Hvor kommer spillemidlene fra?",o:["Overskuddet fra Norsk Tipping","Medlemskontingenten i idrettslagene","Skatt på treningssentre","Sponsorinntekter til landslagene"],a:0},
- {q:"Hvilket eksempel er egenorganisert aktivitet?",o:["En vennegjeng som spiller basket i parken hver torsdag","Et medlem som trener på et kommersielt treningssenter","En jente som spiller i aldersbestemt serie i håndball","En gutt som deltar i kretsmesterskap i friidrett"],a:0},
- {q:"Hvorfor stiller staten krav til idretten, selv om idretten er selvstendig?",o:["Fordi idretten mottar offentlige midler som skal brukes i tråd med statens idrettspolitikk","Fordi idrettslagene er statlige etater","Fordi staten eier særforbundene","Fordi idrettstinget er underlagt Stortinget"],a:0}
+ {q:"Hva menes med at norsk idrett er «bygd opp nedenfra»?",o:["Medlemmene i idrettslagene velger representanter som igjen påvirker kretser, forbund og idrettstinget","Staten utnevner lederne i idrettslagene","Særforbundene bestemmer hvem som får starte idrettslag","De beste utøverne får mest makt i organisasjonen"],a:0,e:"Lagene velger representanter oppover i systemet. Det er det som gjør idretten demokratisk."},
+ {q:"Hva er den viktigste forskjellen på et særforbund og en idrettskrets?",o:["Særforbundet har ansvar for én idrett nasjonalt, idrettskretsen for alle idretter i en region","Særforbundet er regionalt, idrettskretsen er nasjonal","Idrettskretsen arrangerer norgesmesterskap","Det er to navn på det samme leddet"],a:0,e:"Særforbundet er idrettslinjen (én idrett), idrettskretsen er den geografiske linjen (alle idretter)."},
+ {q:"Hvilket organ leder NIF i periodene mellom idrettstingene?",o:["Idrettsstyret","Idrettsrådet","Olympiatoppen","Kultur- og likestillingsdepartementet"],a:0,e:"Idrettsstyret velges av idrettstinget og er høyeste myndighet mellom tingene."},
+ {q:"Hvor kommer spillemidlene fra?",o:["Overskuddet fra Norsk Tipping","Medlemskontingenten i idrettslagene","Skatt på treningssentre","Sponsorinntekter til landslagene"],a:0,e:"Spillemidlene er overskuddet fra Norsk Tipping, og staten fordeler dem."},
+ {q:"Hvilket eksempel er egenorganisert aktivitet?",o:["En vennegjeng som spiller basket i parken hver torsdag","Et medlem som trener på et kommersielt treningssenter","En jente som spiller i aldersbestemt serie i håndball","En gutt som deltar i kretsmesterskap i friidrett"],a:0,e:"Egenorganisert aktivitet skjer uten medlemskap i en organisasjon eller et kommersielt tilbud."},
+ {q:"Hvorfor stiller staten krav til idretten, selv om idretten er selvstendig?",o:["Fordi idretten mottar offentlige midler som skal brukes i tråd med statens idrettspolitikk","Fordi idrettslagene er statlige etater","Fordi staten eier særforbundene","Fordi idrettstinget er underlagt Stortinget"],a:0,e:"Når idretten tar imot offentlige penger, kan staten stille krav til hvordan de brukes."}
 ];
 
 const T3=[
- {s:"Et idrettslag kan være medlem av flere særforbund samtidig.",a:true},
- {s:"Idrettsrådet er idrettens regionale ledd og samarbeider med fylkeskommunen.",a:false},
- {s:"Idrettstinget er NIFs høyeste myndighet.",a:true},
- {s:"Et kommersielt treningssenter er en del av NIF fordi medlemmene driver med idrett.",a:false},
- {s:"Barneidrettsbestemmelsene er regler som gjelder konkurranser og aktivitet for barn.",a:true},
- {s:"Olympiatoppen er NIFs avdeling for breddeidrett i idrettslagene.",a:false},
- {s:"Idrettskretsene er inndelt etter fylkesgrensene.",a:true},
- {s:"NIF kan eksistere uavhengig av idrettslagene og særforbundene.",a:false},
- {s:"Domsutvalget foreslår kandidater til valgene på idrettstinget.",a:false},
- {s:"Særforbundene er medlem både av NIF og av sine internasjonale særforbund.",a:true}
+ {s:"Et idrettslag kan være medlem av flere særforbund samtidig.",a:true,e:"Et fleridrettslag har ofte flere grupper og er da medlem av ett særforbund per idrett."},
+ {s:"Idrettsrådet er idrettens regionale ledd og samarbeider med fylkeskommunen.",a:false,e:"Idrettsrådet er kommunalt. Det er idrettskretsen som er regional og samarbeider med fylkeskommunen."},
+ {s:"Idrettstinget er NIFs høyeste myndighet.",a:true,e:"Idrettstinget vedtar lover og idrettspolitikk og velger idrettsstyret."},
+ {s:"Et kommersielt treningssenter er en del av NIF fordi medlemmene driver med idrett.",a:false,e:"Treningssentre drives for å tjene penger og er ikke medlem av NIF."},
+ {s:"Barneidrettsbestemmelsene er regler som gjelder konkurranser og aktivitet for barn.",a:true,e:"Bestemmelsene regulerer blant annet konkurranser og resultatlister for barn."},
+ {s:"Olympiatoppen er NIFs avdeling for breddeidrett i idrettslagene.",a:false,e:"Olympiatoppen har ansvar for toppidretten, ikke breddeidretten."},
+ {s:"Idrettskretsene er inndelt etter fylkesgrensene.",a:true,e:"Idrettskretsene følger fylkesgrensene."},
+ {s:"NIF kan eksistere uavhengig av idrettslagene og særforbundene.",a:false,e:"NIF er «et forbund av forbund» og finnes bare i kraft av medlemmene."},
+ {s:"Domsutvalget foreslår kandidater til valgene på idrettstinget.",a:false,e:"Det er valgkomiteen som foreslår kandidater. Domsutvalget dømmer i saker om regelbrudd."},
+ {s:"Særforbundene er medlem både av NIF og av sine internasjonale særforbund.",a:true,e:"Særforbundene er medlem av NIF og av sitt internasjonale særforbund, for eksempel FIS eller FIFA."}
 ];
 
 const T4=[ // matching
@@ -404,29 +423,30 @@ function mkTask(d){
  $('#tasks').appendChild(el);d.build($('#tb'+d.id));
 }
 function rebuild(id){const d=taskDefs[id-1];$('#tb'+id).innerHTML='';d.build($('#tb'+id));delete scores[id];setBadge(id);$('#rs'+id).textContent='';updProg()}
-function runCheck(id){const r=taskDefs[id-1].check();scores[id]=r;$('#rs'+id).textContent=`${r.p} / ${r.m} riktige`;setBadge(id);updProg()}
+function runCheck(id){const r=taskDefs[id-1].check();scores[id]=r;$('#rs'+id).textContent=id===7?`${r.p} av ${r.m} krav oppfylt (antall ord, nøkkelord og kildeliste)`:`${r.p} av ${r.m} riktige`+(r.p===r.m?' – alt riktig, bra jobbet!':r.p/r.m>=.8?' – bra jobbet! Se fasiten der det er rødt.':' – se fasiten i grønt, og trykk ↺ Start på nytt for å prøve igjen.');setBadge(id);updProg()}
 function setBadge(id){const b=$('#bd'+id),s=scores[id];if(!s){b.className='badge';b.textContent='Ikke sjekket';return}const pc=s.p/s.m;b.className='badge '+(pc>=.8?'ok':'mid');b.textContent=`${s.p}/${s.m}`}
 function toggleAll(o){document.querySelectorAll('.task').forEach(t=>t.classList.toggle('open',o))}
 function updProg(){const n=Object.keys(scores).length;$('#pfill').style.width=(n/7*100)+'%';$('#ptext').textContent=`${n} / 7 oppgaver`}
+function fasit(el,html,cls){el.querySelectorAll(':scope > .fasit').forEach(x=>x.remove());if(html)el.insertAdjacentHTML('beforeend',`<div class="fasit ${cls||''}">${html}</div>`)}
 function mark(el,ok){el.classList.remove('right','wrong');el.classList.add(ok?'right':'wrong');let v=el.querySelector(':scope > .verdict');if(!v){v=document.createElement('span');v.className='verdict';el.appendChild(v)}v.textContent=ok?'Riktig':'Feil'}
 
 /* 1 */
 let t1order;
 function b1(c){t1order=shuffle(T1.map((_,i)=>i));t1order.forEach(i=>{const r=document.createElement('div');r.className='row-sel';r.dataset.i=i;r.style.position='relative';
  r.innerHTML=`<span>${T1[i].q}</span><select><option value="">– velg –</option>${shuffle(T1opts).map(o=>`<option>${o}</option>`).join('')}</select>`;c.appendChild(r)})}
-function c1(){let p=0;document.querySelectorAll('#tb1 .row-sel').forEach(r=>{const s=r.querySelector('select'),ok=s.value===T1[r.dataset.i].a;if(ok)p++;s.className=ok?'ok':'bad';mark(r,ok)});return{p,m:T1.length}}
+function c1(){let p=0;document.querySelectorAll('#tb1 .row-sel').forEach(r=>{const s=r.querySelector('select'),ok=s.value===T1[r.dataset.i].a;if(ok)p++;s.className=ok?'ok':'bad';mark(r,ok);fasit(r,ok?'':`<b>Riktig:</b> ${T1[r.dataset.i].a}`)});return{p,m:T1.length}}
 /* 2 */
 function b2(c){shuffle(T2.map((_,i)=>i)).forEach(i=>{const q=T2[i];const d=document.createElement('div');d.className='q';d.dataset.i=i;
  const ord=shuffle(q.o.map((_,k)=>k));d.innerHTML=`<div class="qt">${q.q}</div>`+ord.map((k,n)=>`<div class="opt" data-k="${k}"><span class="let">${'ABCD'[n]}</span>${q.o[k]}</div>`).join('');
  d.querySelectorAll('.opt').forEach(o=>o.onclick=()=>{d.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel','ok','bad'));o.classList.add('sel')});c.appendChild(d)})}
 function c2(){let p=0;document.querySelectorAll('#tb2 .q').forEach(d=>{const a=T2[d.dataset.i].a,s=d.querySelector('.opt.sel');d.querySelectorAll('.opt').forEach(o=>o.classList.remove('ok','bad'));
- const ok=s&&+s.dataset.k===a;if(ok)p++;if(s)s.classList.add(ok?'ok':'bad');if(!ok)d.querySelector(`.opt[data-k="${a}"]`).classList.add('ok');mark(d,ok)});return{p,m:T2.length}}
+ const ok=s&&+s.dataset.k===a;if(ok)p++;if(s)s.classList.add(ok?'ok':'bad');d.querySelectorAll('.opt').forEach(o=>o.classList.remove('show'));if(!ok)d.querySelector(`.opt[data-k="${a}"]`).classList.add('show');mark(d,ok);const q=T2[d.dataset.i];fasit(d,(ok?'':`<b>Riktig svar:</b> ${q.o[a]}<br>`)+q.e,ok?'good':'')});return{p,m:T2.length}}
 /* 3 */
 function b3(c){shuffle(T3.map((_,i)=>i)).forEach(i=>{const r=document.createElement('div');r.className='tf';r.dataset.i=i;
  r.innerHTML=`<span>${T3[i].s}</span><span class="tfb"><button data-v="1">Sant</button><button data-v="0">Usant</button></span>`;
  r.querySelectorAll('button').forEach(b=>b.onclick=()=>{r.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');r.dataset.v=b.dataset.v});c.appendChild(r)})}
 function c3(){let p=0;document.querySelectorAll('#tb3 .tf').forEach(r=>{const ok=r.dataset.v!==undefined&&(r.dataset.v==='1')===T3[r.dataset.i].a;if(ok)p++;r.classList.remove('right','wrong');r.classList.add(ok?'right':'wrong');
- let v=r.querySelector('.tfv');if(!v){v=document.createElement('span');v.className='tfv';r.querySelector('.tfb').appendChild(v)}v.style.background=ok?'var(--green)':'var(--red)';v.textContent=ok?'Riktig':'Feil'});return{p,m:T3.length}}
+ let v=r.querySelector('.tfv');if(!v){v=document.createElement('span');v.className='tfv';r.querySelector('.tfb').appendChild(v)}v.style.background=ok?'var(--green)':'var(--red)';v.textContent=ok?'Riktig':'Feil';const q=T3[r.dataset.i];fasit(r,(ok?'':`<b>Riktig svar: ${q.a?'Sant':'Usant'}.</b> `)+q.e,ok?'good':'')});return{p,m:T3.length}}
 /* 4 */
 let pairs={},selL=null;
 function b4(c){pairs={};selL=null;c.innerHTML=`<div class="match"><div><div class="mhead">Begrep</div><div id="mL"></div></div><div><div class="mhead">Rolle</div><div id="mR"></div></div></div><div class="mlist" id="mlist"><div class="mhead">Dine koblinger</div><div id="mrows" class="hint">Ingen koblinger ennå.</div></div>`;
@@ -443,10 +463,11 @@ function c4(){let p=0;const L=$('#mL'),R=$('#mR');const good=[],bad=[];
  [...good,...bad].forEach(e=>L.appendChild(e));
  const rg=good.map(e=>R.querySelector(`.mitem[data-i="${pairs[e.dataset.i]}"]`));const rest=[...R.children].filter(x=>!rg.includes(x));[...rg,...rest].forEach(e=>R.appendChild(e));
  drawPairs(true);good.forEach(e=>{e.classList.add('ok');R.querySelector(`.mitem[data-i="${pairs[e.dataset.i]}"]`).classList.add('ok')});
+ const wrong=bad.map(e=>`<li><b>${T4[e.dataset.i][0]}</b> → ${T4[e.dataset.i][1]}</li>`).join('');let fb=$('#mfasit');if(!fb){$('#mlist').insertAdjacentHTML('afterend','<div id="mfasit"></div>');fb=$('#mfasit')}fb.innerHTML=wrong?`<div class="fasit"><b>Riktige koblinger der du hadde feil:</b><ul style="margin:4px 0 0;padding-left:18px">${wrong}</ul></div>`:'';
  bad.forEach(e=>{e.classList.add('bad');if(pairs[e.dataset.i]!==undefined)R.querySelector(`.mitem[data-i="${pairs[e.dataset.i]}"]`).classList.add('bad')});return{p,m:T4.length}}
 /* 5 */
 function b5(c){const opts=[...T5.ans,...T5.extra];c.innerHTML=`<p class="cloze">${T5.text.replace(/\{(\d)\}/g,(_,n)=>`<select data-n="${n}"><option value="">– velg –</option>${shuffle(opts).map(o=>`<option>${o}</option>`).join('')}</select>`)}</p>`}
-function c5(){let p=0;document.querySelectorAll('#tb5 select').forEach(s=>{const ok=norm(s.value)===norm(T5.ans[s.dataset.n]);if(ok)p++;s.className=ok?'ok':'bad'});return{p,m:T5.ans.length}}
+function c5(){let p=0;document.querySelectorAll('#tb5 select').forEach(s=>{const ok=norm(s.value)===norm(T5.ans[s.dataset.n]);if(ok)p++;s.className=ok?'ok':'bad';const nx=s.nextElementSibling;if(nx&&nx.classList.contains('fix'))nx.remove();if(!ok)s.insertAdjacentHTML('afterend',`<span class="fix">${T5.ans[s.dataset.n]}</span>`)});return{p,m:T5.ans.length}}
 /* 6 */
 let picked=null;
 function b6(c){picked=null;c.innerHTML=`<div class="bank" id="bank"></div><div id="dqs"></div>`;
@@ -462,7 +483,7 @@ function mkChip(w){const ch=document.createElement('span');ch.className='chip';c
  ch.ondragstart=e=>e.dataTransfer.setData('text',ch.id);
  ch.onclick=e=>{e.stopPropagation();if(picked===ch){ch.classList.remove('picked');picked=null;return}if(picked)picked.classList.remove('picked');picked=ch;ch.classList.add('picked')};return ch}
 function place(z,ch){if(!ch)return;const old=z.querySelector('.chip');if(old)$('#bank').appendChild(old);z.appendChild(ch);z.classList.remove('ok','bad')}
-function c6(){let p=0;document.querySelectorAll('#dqs .drop').forEach(z=>{const ch=z.querySelector('.chip'),ok=ch&&norm(ch.textContent)===norm(T6.items[z.dataset.i].a);if(ok)p++;z.classList.remove('ok','bad');z.classList.add(ok?'ok':'bad')});return{p,m:T6.items.length}}
+function c6(){let p=0;document.querySelectorAll('#dqs .drop').forEach(z=>{const ch=z.querySelector('.chip'),ok=ch&&norm(ch.textContent)===norm(T6.items[z.dataset.i].a);if(ok)p++;z.classList.remove('ok','bad');z.classList.add(ok?'ok':'bad');const nx=z.nextElementSibling;if(nx&&nx.classList.contains('fix'))nx.remove();if(!ok)z.insertAdjacentHTML('afterend',`<span class="fix">${T6.items[z.dataset.i].a}</span>`)});return{p,m:T6.items.length}}
 /* 7 */
 function b7(c){c.innerHTML=`<p>Tenk deg at en ny elev i klassen har begynt å spille håndball i et idrettslag. Forklar for henne hvordan laget hennes henger sammen med resten av norsk idrett. Få med:</p>
 <ul><li>de to linjene i organisasjonen og hvilke ledd som hører til hver linje</li><li>hvorfor norsk idrett kalles demokratisk og frivillig</li><li>hvilken rolle staten har, og hvorfor dette kan gi både fordeler og ulemper for idretten</li></ul>
