@@ -1356,6 +1356,20 @@
   .o2-opt { font-size: 0.8rem; font-weight: 700; padding: 3px 9px 3px 4px; border-radius: 5px; background: rgba(255,255,255,0.08); color: #fff; display: inline-flex; align-items: center; gap: 6px; }
   .o2-opt b { font-family: var(--px); font-size: 0.6rem; color: #000; padding: 3px 5px; border-radius: 3px; }
   .o2-opt-0 b { background: #29ADFF; } .o2-opt-1 b { background: #FFEC27; } .o2-opt-2 b { background: #FF77A8; }
+  button.o2-opt { border: 2px solid transparent; cursor: pointer; font-family: 'Inter', sans-serif; transition: border-color 0.15s, background 0.15s; }
+  button.o2-opt:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.14); }
+  button.o2-opt.sel { border-color: #00E436; background: rgba(0,228,54,0.2); }
+  .o2-qhint { width: 100%; font-size: 0.74rem; color: #aab4dc; }
+  .o2-legend { display: flex; flex-direction: column; gap: 5px; margin: 8px 0 2px; }
+  .o2-leg-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .o2-leg-h { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; min-width: 120px; }
+  .o2-leg-h.bad { color: #FF77A8; } .o2-leg-h.good { color: #00E436; }
+  .o2-tile { display: inline-flex; align-items: center; gap: 7px; background: #0b0f24; border: 2px solid #3a4a80; border-radius: 4px; padding: 3px 9px 3px 3px; }
+  .o2-tile.bad { border-color: rgba(255,0,77,0.6); } .o2-tile.good { border-color: rgba(0,228,54,0.55); }
+  .o2-tile img { width: 32px; height: 32px; image-rendering: pixelated; image-rendering: crisp-edges; background: #1a1430; border-radius: 2px; flex-shrink: 0; }
+  .o2-tile b { display: block; font-size: 0.76rem; color: #FFF1E8; line-height: 1.25; }
+  .o2-tile i { display: block; font-style: normal; font-size: 0.68rem; color: #aab4dc; line-height: 1.25; }
+  .o2-tile.bad i { color: #ff9ab8; } .o2-tile.good i { color: #8ff0a8; }
 
   .o2-screen {
     position: relative; background: #000; border: 3px solid #1D2B53; overflow: hidden; outline: none;
@@ -1398,7 +1412,8 @@
   .o2-card p strong { color: #FFEC27; }
   .o2-goal { font-size: 0.8rem; background: rgba(0,0,0,0.35); border-left: 3px solid #00E436; padding: 6px 9px; border-radius: 0 4px 4px 0; margin: 8px 0 12px; color: #c8ffd8; }
   .o2-fact { font-size: 0.8rem; background: rgba(255,163,0,0.14); border-left: 3px solid #FFA300; padding: 6px 9px; border-radius: 0 4px 4px 0; margin: 8px 0; color: #ffe2b0; }
-  .o2-card-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .o2-card-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; position: sticky; bottom: -16px; background: #1D2B53; padding: 8px 0 6px; box-shadow: 0 -8px 10px -4px #1D2B53; }
+  .o2-card.o2-gold .o2-card-btns, .o2-card.o2-bad .o2-card-btns { background: #1D2B53; }
   .o2-go {
     font-family: var(--px); font-size: 0.62rem; letter-spacing: 1px; cursor: pointer;
     padding: 10px 14px; border: none; border-radius: 3px; color: #000; background: #00E436;
@@ -1462,6 +1477,8 @@
     .o2-card { padding: 12px; }
     .o2-card h3 { font-size: 0.72rem; }
     .o2-card p { font-size: 0.8rem; }
+    .o2-leg-h { min-width: 100%; }
+    .o2-tile img { width: 30px; height: 30px; }
     .o2-stats { grid-template-columns: 1fr 1fr 1fr; }
     .o2-mapbox { grid-template-columns: 120px 1fr; }
   }
@@ -2243,6 +2260,7 @@
         <div class="o2-keys">
           <div><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> eller <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> – styr</div>
           <div>📱 Mobil/nettbrett: dra med fingeren på skjermen</div>
+          <div><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> eller trykk på svaret – velg dør</div>
           <div><kbd>P</kbd> pause · <kbd>Mellomrom</kbd> gå videre</div>
         </div>
       </div>
@@ -3797,7 +3815,7 @@ async function downloadPDF() {
 'use strict';
 const cv = document.getElementById('o2Canvas');
 if (!cv) return;
-const ctx = cv.getContext('2d');
+let ctx = cv.getContext('2d');
 const W = 320, H = 180, TOP = 20;
 ctx.imageSmoothingEnabled = false;
 
@@ -3811,6 +3829,7 @@ const C = { k:'#000000', nv:'#1D2B53', pu:'#7E2553', dg:'#008751', br:'#AB5236',
 const FONT = '8px "Press Start 2P", monospace';
 const LANE_COL = [C.bl, C.ye, C.pk];
 const LANE_LET = ['A', 'B', 'C'];
+const GATE_STOP = 236; // her stopper døra opp, og spillet står stille til spilleren styrer inn
 
 /* ── Hjelpefunksjoner ── */
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
@@ -3873,6 +3892,7 @@ const GATES = [
 /* ── Etappene ── */
 const ZONES = [
   { key: 'luft', name: 'Luftveiene', map: 'Munnhulen → luftrøret → bronkiene', len: 1500, speed: 58, beat: 0,
+    avoid: [['stov', 'Støv', '−1 liv'], ['slim', 'Slim', '−1 liv']], collect: [['term', 'Fagbegrep-kort', '+50 poeng'], ['spark', 'Stjerne', '+10 poeng']],
     col: { bg: '#2b0d1f', wall: '#9e2a5c', edge: C.pk, deep: '#5a1233' },
     tunnel(x) { const p = x / this.len; return { c: 100 + Math.sin(x * 0.012) * 8, h: lerp(62, 42, smooth(0.3, 0.6, p)) }; },
     spawn: [['stov', 5], ['slim', 3], ['spark', 4]], gap: [42, 74],
@@ -3881,8 +3901,9 @@ const ZONES = [
     gates: [{ x: 1340, g: 0 }],
     card: { k: 'ETAPPE 1 AV 7', h: 'Luftveiene',
       p: '«Klar … ferdig …» Løperen tar et dypt innpust i startblokka. Du er ett av milliarder oksygenmolekyler (O₂) som suges inn gjennom <strong>munnhulen</strong>, ned <strong>luftrøret</strong> og ut i <strong>bronkiene</strong>. På veien blir lufta varmet opp, fuktet og renset for støv.',
-      goal: 'Styr unna støv og slim. Plukk opp ★-kortene for å samle fagbegreper. Velg riktig dør når spørsmålet dukker opp!' } },
+      goal: 'Styr unna støv og slim, og plukk opp ★-kortene. Når et spørsmål dukker opp, stopper alt opp ved døra – ta deg god tid og styr inn i riktig dør.' } },
   { key: 'alv', name: 'Alveolene', map: 'Gassutveksling i lungene', len: 1300, speed: 50, beat: 0,
+    avoid: [['co2', 'CO₂ på vei ut', '−5 poeng']], collect: [['rbcC', 'Rød blodcelle', 'Fang den!'], ['term', 'Fagbegrep-kort', '+50 poeng']],
     col: { bg: '#0f2742', wall: '#1f4d7a', edge: C.bl, deep: '#123456' },
     tunnel() { return { c: 99, h: 77 }; },
     spawn: [['co2', 5], ['spark', 3]], gap: [50, 90],
@@ -3893,6 +3914,7 @@ const ZONES = [
       p: 'PANG! Startskuddet går. Du har nådd en <strong>alveole</strong> – en av rundt 300 millioner små lungeblærer. Veggen herfra og inn i blodet er tynnere enn et hårstrå. Nå skjer gassutvekslingen: du <strong>diffunderer</strong> inn i blodet, mens CO₂ går motsatt vei for å bli pustet ut.',
       goal: 'Dykk ned gjennom den stiplede veggen og fang en rød blodcelle. Hemoglobinet binder deg og frakter deg videre. Ikke kræsj i CO₂-molekylene!' } },
   { key: 'lv', name: 'Det lille kretsløpet', map: 'Lungene → venstre forkammer', len: 1400, speed: 64, beat: 0,
+    avoid: [['plate', 'Blodplate', '−5 poeng'], ['hvit', 'Hvit blodcelle', '−5 poeng']], collect: [['term', 'Fagbegrep-kort', '+50 poeng'], ['spark', 'Stjerne', '+10 poeng']],
     col: { bg: '#3a0a14', wall: '#8a1030', edge: C.rd, deep: '#5a0a1e' },
     tunnel(x) { return { c: 100 + Math.sin(x * 0.009) * 12, h: 50 }; },
     spawn: [['plate', 4], ['hvit', 2], ['spark', 3]], gap: [55, 95],
@@ -3903,6 +3925,7 @@ const ZONES = [
       p: 'Bundet til hemoglobin suser du ut av lungene i oksygenrikt blod. Dette er siste del av <strong>det lille kretsløpet</strong>: høyre hjertekammer → lungene → venstre forkammer. Blodet har hentet O₂ og levert fra seg CO₂.',
       goal: 'Unngå blodplatene og de hvite blodcellene som patruljerer. Finn riktig inngang til hjertet.' } },
   { key: 'hjerte', name: 'Hjertet', map: 'Venstre forkammer → venstre hjertekammer', len: 1200, speed: 55, beat: 1.25,
+    avoid: [['klaff', 'Lukket klaff', 'Vent til den åpner seg'], ['plate', 'Blodplate', '−5 poeng'], ['hvit', 'Hvit blodcelle', '−5 poeng']], collect: [['term', 'Fagbegrep-kort', '+50 poeng'], ['spark', 'Stjerne', '+10 poeng']],
     col: { bg: '#2a0610', wall: '#7a0f24', edge: '#ff4d6d', deep: '#4a0818' },
     tunnel() { return { c: 100, h: 68 }; },
     spawn: [['plate', 2], ['hvit', 1], ['spark', 3]], gap: [80, 130],
@@ -3914,6 +3937,7 @@ const ZONES = [
       p: 'Velkommen inn i <strong>hjertet</strong> – en hul muskel med fire kamre. Pulsen til løperen stiger mot 180! <strong>Hjerteklaffene</strong> åpner og lukker seg i takt med hjerteslagene, slik at blodet bare går én vei.',
       goal: 'Vent til klaffen åpner seg før du svømmer gjennom. Svar riktig på veien gjennom hjertet.' } },
   { key: 'aorta', name: 'Det store kretsløpet', map: 'Aorta → arteriene', len: 1600, speed: 92, beat: 0.9,
+    avoid: [['pillar', 'Forgreining', '−1 liv'], ['hvit', 'Hvit blodcelle', '−5 poeng'], ['plate', 'Blodplate', '−5 poeng']], collect: [['term', 'Fagbegrep-kort', '+50 poeng'], ['spark', 'Stjerne', '+10 poeng']],
     col: { bg: '#3a0a14', wall: '#a01236', edge: C.rd, deep: '#600a20' },
     tunnel(x) { const p = x / this.len; return { c: 100 + Math.sin(x * 0.006) * 6, h: lerp(70, 48, smooth(0.35, 0.7, p)) }; },
     spawn: [['pillar', 4], ['hvit', 2], ['plate', 2], ['spark', 3]], gap: [60, 100],
@@ -3924,6 +3948,7 @@ const ZONES = [
       p: 'BOOM! Venstre hjertekammer trekker seg sammen, og du skytes ut i <strong>aorta</strong> – hovedpulsåren. Her er trykket høyt og farten stor. Aorta forgreiner seg i <strong>arterier</strong> (pulsårer) ut til hele kroppen.',
       goal: 'Hold deg unna forgreiningene og finn veien dit O₂ trengs mest.' } },
   { key: 'kap', name: 'Kapillærene', map: 'Kapillærene i lårmuskelen', len: 1300, speed: 44, beat: 0,
+    avoid: [['laktat', 'Laktat (melkesyre)', '−1 liv']], collect: [['term', 'Fagbegrep-kort', '+50 poeng'], ['spark', 'Stjerne', '+10 poeng']],
     col: { bg: '#2e0a12', wall: '#b4471f', edge: C.or, deep: '#7a2a10' },
     tunnel(x) { return { c: 100 + Math.sin(x * 0.018) * 16, h: 28 }; },
     spawn: [['laktat', 6], ['spark', 2]], gap: [38, 64],
@@ -3935,6 +3960,7 @@ const ZONES = [
       fact: 'Oksygenet du leverer nå, brukes i restitusjonen: til å bygge opp igjen kreatinfosfatlagrene og bryte ned laktat. Derfor pester løperen etter målgang!',
       goal: 'Du er i kapillærene i lårmuskelen – de tynneste blodårene. Det er trangt, og det flyter laktat overalt. Unngå dråpene og finn ut hvor oksygenet skal brukes.' } },
   { key: 'mito', name: 'Mitokondrien', map: 'Inne i muskelcellen', len: 1100, speed: 48, beat: 0,
+    avoid: [], collect: [['glu', 'Glukose', '+25 poeng'], ['term', 'Fagbegrep-kort', '+50 poeng']],
     col: { bg: '#241c06', wall: '#7a5a10', edge: C.or, deep: '#4a3808' },
     tunnel(x) { const p = x / this.len; return { c: 100 + Math.sin(x * 0.016) * 36 * smooth(0, 0.15, p) * (1 - smooth(0.85, 1, p)), h: 34 }; },
     spawn: [['glu', 5], ['spark', 2]], gap: [50, 90],
@@ -4052,7 +4078,7 @@ function buildZone(zi) {
 
 /* ── Start / etapper / sjekkpunkt ── */
 function startZone(zi, fromCheckpoint) {
-  G.zi = zi; G.scroll = 0; G.parts = []; G.flash = null; G.shake = 0;
+  G.zi = zi; G.scroll = 0; G.hold = null; G.auto = null; G.waitStart = false; G.parts = []; G.flash = null; G.shake = 0;
   P.x = 44; P.vx = P.vy = 0; P.inv = 0;
   const tn = tun(ZONES[zi], P.x); P.y = tn.c;
   if (zi <= 1) { P.form = 'o2'; P.r = 4; } else if (zi <= 5) { P.form = 'rbc'; P.r = 6; } else { P.form = 'o2'; P.r = 4; }
@@ -4098,8 +4124,32 @@ function showZoneCard(zi) {
   G.state = 'card';
   card('<div class="o2-kicker">' + c.k + '</div><h3>' + c.h + '</h3><p>' + c.p + '</p>' +
        (c.fact ? '<div class="o2-fact">💡 ' + c.fact + '</div>' : '') +
+       legendHTML(ZONES[zi]) +
        '<div class="o2-goal">🎯 ' + c.goal + '</div>', zi === 5 ? 'o2-gold' : '',
-       [{ t: 'START ▶', fn: () => { closeCard(); G.state = 'play'; focusScreen(); } }]);
+       [{ t: 'START ▶', fn: () => { closeCard(); G.state = 'play'; G.waitStart = true; focusScreen(); } }]);
+}
+/* Pikselbilder av hindringer/samleobjekter til etappekortene */
+const SPRITE_CACHE = {};
+function spriteURL(type) {
+  if (SPRITE_CACHE[type]) return SPRITE_CACHE[type];
+  const c = document.createElement('canvas'); c.width = 26; c.height = 26;
+  const old = ctx, oldScroll = G.scroll;
+  ctx = c.getContext('2d'); ctx.imageSmoothingEnabled = false; G.scroll = 0;
+  try {
+    if (type === 'pillar') { rect(9, 0, 9, 26, '#a01236'); rect(9, 0, 2, 26, C.rd); rect(16, 0, 2, 26, '#600a20'); }
+    else if (type === 'klaff') { rect(10, 1, 6, 10, C.br); rect(11, 1, 4, 9, C.pe); rect(10, 15, 6, 10, C.br); rect(11, 16, 4, 9, C.pe); }
+    else if (type === 'co2') { disc(7, 13, 3, C.rd); disc(19, 13, 3, C.rd); disc(13, 13, 3, C.dk); rect(12, 12, 1, 1, C.lg); }
+    else drawEnt({ type, x: 13, y: 13, ph: 0.6, side: -1, r: 4, w: 12, frac: 0.5 }, ZONES[0]);
+  } catch (e) { /* bildet er bare pynt */ }
+  ctx = old; G.scroll = oldScroll;
+  return (SPRITE_CACHE[type] = c.toDataURL());
+}
+function legendHTML(z) {
+  const tile = cls => ([type, label, eff]) => '<span class="o2-tile ' + cls + '"><img src="' + spriteURL(type) + '" alt="" width="36" height="36"><span><b>' + label + '</b><i>' + eff + '</i></span></span>';
+  let h = '<div class="o2-legend">';
+  if (z.avoid && z.avoid.length) h += '<div class="o2-leg-row"><span class="o2-leg-h bad">⛔ Ikke vær borti</span>' + z.avoid.map(tile('bad')).join('') + '</div>';
+  if (z.collect && z.collect.length) h += '<div class="o2-leg-row"><span class="o2-leg-h good">✅ Plukk opp</span>' + z.collect.map(tile('good')).join('') + '</div>';
+  return h + '</div>';
 }
 let toastTimer = null;
 function toast(html, kind, ms) {
@@ -4119,8 +4169,17 @@ function updateStatus() {
 function showQ(g) {
   statusEl.classList.add('o2-ask');
   statusEl.innerHTML = '<div class="o2-q">❓ ' + g.q + '</div><div class="o2-opts">' +
-    g.opts.map((o, i) => '<span class="o2-opt o2-opt-' + i + '"><b>' + LANE_LET[i] + '</b>' + o.label + '</span>').join('') + '</div>';
+    g.opts.map((o, i) => '<button type="button" class="o2-opt o2-opt-' + i + '" data-lane="' + i + '"><b>' + LANE_LET[i] + '</b>' + o.label + '</button>').join('') + '</div>' +
+    '<div class="o2-qhint">⏸ Alt stopper opp ved døra – ta deg god tid. Styr inn i riktig dør, eller trykk på et svar (tast 1, 2 eller 3).</div>';
 }
+function chooseLane(i) {
+  const g = G.gates.find(x => !x.done && x.shown);
+  if (!g || G.state !== 'play') return;
+  G.auto = { g, lane: i }; G.waitStart = false;
+  statusEl.querySelectorAll('.o2-opt').forEach(b => b.classList.toggle('sel', +b.dataset.lane === i));
+  focusScreen();
+}
+statusEl.addEventListener('click', e => { const b = e.target.closest('[data-lane]'); if (b) chooseLane(+b.dataset.lane); });
 function hideQ() {
   if (!statusEl.classList.contains('o2-ask') && statusEl.querySelector('#o2StatusText')) return;
   statusEl.classList.remove('o2-ask');
@@ -4185,7 +4244,7 @@ function laneBounds(g, i) {
 }
 function laneOfY(g, y) { const tn = tun(Z(), g.x); return clamp(Math.floor((y - tn.top) / ((tn.bot - tn.top) / 3)), 0, 2); }
 function passGate(g) {
-  g.done = true; hideQ();
+  g.done = true; G.hold = null; G.auto = null; hideQ();
   const lane = g.lane >= 0 ? g.lane : laneOfY(g, P.y);
   const opt = g.opts[lane];
   G.answered++;
@@ -4219,12 +4278,16 @@ function update(dt) {
     G.beatPrev = beatPh;
   }
   // Fart
-  let sf = 1, halt = false;
+  let sf = 1, halt = false, hold = null;
   for (const g of G.gates) {
+    if (g.done) continue;
     const gs = g.x - G.scroll;
-    if (!g.done && gs - P.x < 300 && !g.shown) { g.shown = true; showQ(g); }
-    if (!g.done && gs - P.x < 210 && gs - P.x > -12) sf = Math.min(sf, 0.4);
+    if (gs - P.x < 300 && !g.shown) { g.shown = true; showQ(g); }
+    if (gs <= GATE_STOP + 100) sf = Math.min(sf, Math.max(0.45, (gs - GATE_STOP) / 100));
+    if (gs <= GATE_STOP) { hold = g; G.scroll = g.x - GATE_STOP; }
   }
+  G.hold = hold;
+  if (hold || G.waitStart) sf = 0;
   if (z.beat && beatPh < 0.18) sf *= 1 + 0.9 * (1 - beatPh / 0.18);
   // Hjerteklaffer
   const kOpen = klaffOpen(beatPh);
@@ -4249,13 +4312,31 @@ function update(dt) {
     const s = Math.min(SPD * 1.4, d * 8);
     P.vx = d > 0.5 ? dx / d * s : 0; P.vy = d > 0.5 ? dy / d * s : 0;
   } else { P.vx *= 0.82; P.vy *= 0.82; }
-  P.x = clamp(P.x + P.vx * dt, 10, 232);
+  if (ix || iy || ptr.on) { G.auto = null; G.waitStart = false; statusEl.querySelectorAll('.o2-opt.sel').forEach(b => b.classList.remove('sel')); }
+  if (G.auto) {
+    const g = G.auto.g;
+    if (g.done) G.auto = null;
+    else {
+      const lb = laneBounds(g, G.auto.lane), cy = (lb.top + lb.bot) / 2, wx = G.scroll + P.x;
+      const inBars = wx > g.x - 72;
+      if (inBars && g.lane >= 0 && g.lane !== G.auto.lane) { P.vx = -SPD; P.vy = 0; }
+      else {
+        // Styr mot midten av valgt fil og fremover samtidig (tunnelen blir bredere nær døra)
+        P.vy = clamp((cy - P.y) * 6, -SPD, SPD);
+        const aligned = Math.abs(P.y - cy) < 4;
+        P.vx = G.hold === g && (inBars || aligned || wx < g.x - 100) ? SPD * 0.8 : 0;
+      }
+    }
+  }
+  const upper = G.hold ? 256 : Math.max(232, P.x - 70 * dt);
+  P.x = clamp(P.x + P.vx * dt, 10, upper);
   P.y += P.vy * dt;
   let tn = tun(z, G.scroll + P.x);
   // Låst fil ved spørsmålsporter
   for (const g of G.gates) {
     if (g.done) continue;
     const wx = G.scroll + P.x;
+    if (wx < g.x - 76) g.lane = -1; // ut av «filene» igjen – kan bytte dør
     if (wx > g.x - 72 && wx < g.x + 12) {
       if (g.lane < 0) g.lane = laneOfY(g, P.y);
       const lb = laneBounds(g, g.lane);
@@ -4271,9 +4352,10 @@ function update(dt) {
   // Objekter
   for (const e of G.ents) {
     if (!e.alive) continue;
+    const still = (G.waitStart || G.hold) && !e.decor;
     e.ph += dt;
-    if (e.vx) e.x += e.vx * dt;
-    if (e.vy) {
+    if (e.vx && !still) e.x += e.vx * dt;
+    if (e.vy && !still) {
       e.y += e.vy * dt;
       const t2 = tun(z, e.x);
       let lo = t2.top + e.r, hi = t2.bot - e.r;
@@ -4282,7 +4364,7 @@ function update(dt) {
       if (e.y < lo) { e.y = lo; e.vy = Math.abs(e.vy); } if (e.y > hi) { e.y = hi; e.vy = -Math.abs(e.vy); }
     }
     if (e.type === 'slim') { const t2 = tun(z, e.x); e.y = e.side < 0 ? t2.top + 5 : t2.bot - 5; }
-    if (e.type === 'rbcC') e.y += Math.sin(e.ph * 2) * 0.15;
+    if (e.type === 'rbcC' && !still) e.y += Math.sin(e.ph * 2) * 0.15;
     const sx = e.x - G.scroll;
     if (sx < -30) { if (e.type === 'rbcD') e.x += W + 80; else e.alive = false; continue; }
     if (sx > W + 20 || e.decor) continue;
@@ -4498,6 +4580,13 @@ function render() {
   drawGates(z);
   for (const p of G.parts) rect(p.x, p.y, p.s || 2, p.s || 2, p.c);
   if (G.state !== 'title') drawPlayer();
+  if (G.state === 'play' && (G.waitStart || G.hold)) {
+    const msg = G.waitStart ? 'STYR FOR Å STARTE' : (G.auto ? 'PÅ VEI INN …' : 'STYR INN I EN DØR →');
+    const w = tw(msg) + 12, x = G.waitStart ? Math.round((W - w) / 2) : 6, y = H - 18;
+    rect(x, y, w, 14, 'rgba(0,0,0,0.8)'); rect(x, y, w, 1, C.ye); rect(x, y + 13, w, 1, C.ye);
+    txt(msg, x + 6, y + 3, Math.floor(G.time * 2.5) % 2 ? C.wh : C.ye);
+    if (G.waitStart && Math.floor(G.time * 2.5) % 2) { txt('→', P.x + 10, P.y - 4, C.ye); }
+  }
   if (G.state === 'finale') drawFinale();
   ctx.restore();
   if (G.flash) rect(0, TOP, W, H - TOP, G.flash.c);
@@ -4562,7 +4651,7 @@ function showTitle() {
   G.state = 'title'; G.zi = 4; buildZone(4); G.scroll = 0;
   card('<div class="o2-kicker">8-BIT · TRENINGSLÆRE · UTHOLDENHET</div><div class="o2-title-big">O₂-REISEN</div>' +
     '<p>Du er et <strong>oksygenmolekyl</strong>. Løperen står i startblokka på 100-meteren. Klarer du å komme deg fra munnen, gjennom lungene, hjertet og blodårene og helt inn i en <strong>mitokondrie</strong> i lårmuskelen?</p>' +
-    '<div class="o2-goal">🕹️ 7 etapper · 6 spørsmålsdører · 22 fagbegreper å samle · 3 liv</div>',
+    '<div class="o2-goal">🕹️ 7 etapper · 6 spørsmålsdører · 22 fagbegreper å samle · 3 liv<br>⏸ Ingen stress: spillet står stille ved hver etappestart og ved hver dør til du styrer videre selv.</div>',
     '', [{ t: 'START SPILLET ▶', fn: () => { G.engaged = true; closeCard(); newGame(); } }]);
 }
 
@@ -4676,6 +4765,7 @@ window.addEventListener('keydown', e => {
   if (k && G.state === 'play') { keys[k] = true; e.preventDefault(); return; }
   if (k && active) e.preventDefault();
   if ((e.key === 'p' || e.key === 'P') && G.engaged) { togglePause(); e.preventDefault(); }
+  if (G.state === 'play' && ['1', '2', '3'].includes(e.key)) { chooseLane(+e.key - 1); e.preventDefault(); }
   if ((e.key === ' ' || e.key === 'Enter') && G.cardGo && overlayEl.classList.contains('show') && G.visible && (G.engaged || document.activeElement === screenEl || screenEl.contains(document.activeElement))) {
     if (e.target.classList && e.target.classList.contains('o2-go')) return; // knappen håndterer selv
     e.preventDefault(); ensureAudio(); G.cardGo();
