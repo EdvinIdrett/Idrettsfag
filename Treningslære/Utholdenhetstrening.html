@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Utholdenhet – Undervisningsopplegg</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&family=Newsreader:wght@400&family=Schibsted+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&family=Newsreader:wght@400&family=Schibsted+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
   :root {
     --navy: #0B1F3A;
@@ -1306,6 +1306,349 @@
   @media (max-width: 600px) {
     .summary-grid { grid-template-columns: 1fr; }
   }
+  /* ══ SPILL: O₂-REISEN ══ */
+  .o2-box {
+    --px: 'Press Start 2P', 'Courier New', monospace;
+    background: #0d1330;
+    background-image: radial-gradient(circle at 12% 8%, rgba(123,97,255,0.28), transparent 42%),
+                      radial-gradient(circle at 92% 90%, rgba(255,0,77,0.22), transparent 45%);
+    border-radius: 18px; padding: 26px 26px 22px; color: #e8ecff;
+    box-shadow: 0 0 0 3px #1D2B53, 0 10px 34px rgba(13,19,48,0.35);
+  }
+  .o2-head { display: flex; gap: 22px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; margin-bottom: 18px; }
+  .o2-head-text { flex: 1 1 360px; }
+  .o2-title {
+    font-family: var(--px); font-size: 1.35rem; line-height: 1.3; margin: 0 0 12px;
+    color: #FFEC27; text-shadow: 3px 3px 0 #FF004D, 6px 6px 0 #1D2B53; letter-spacing: 1px;
+  }
+  .o2-title .o2-t1 { color: #29ADFF; }
+  .o2-title sub { font-size: 0.6em; vertical-align: -0.25em; }
+  .o2-lead { font-size: 0.92rem; line-height: 1.6; color: #c9d2f2; margin: 0; }
+  .o2-lead strong { color: #FF77A8; }
+  .o2-keys {
+    flex: 0 1 280px; font-size: 0.78rem; line-height: 1.5; color: #aab4dc;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 5px;
+  }
+  .o2-keys kbd {
+    display: inline-block; min-width: 18px; text-align: center; padding: 1px 5px; margin: 0 1px;
+    font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 700; color: #1D2B53;
+    background: #FFF1E8; border-radius: 4px; box-shadow: 0 2px 0 #83769C;
+  }
+
+  .o2-stage { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 16px; align-items: start; }
+  .o2-main { min-width: 0; }
+  .o2-main:fullscreen { background: #000; display: flex; flex-direction: column; justify-content: center; padding: 10px; }
+  .o2-main:fullscreen .o2-screen { width: min(100%, calc((100vh - 120px) * 16 / 9)); margin: 0 auto; }
+  .o2-main:fullscreen .o2-status, .o2-main:fullscreen .o2-ctrl { width: min(100%, calc((100vh - 120px) * 16 / 9)); margin-left: auto; margin-right: auto; }
+
+  .o2-status {
+    min-height: 44px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    background: #000; border: 3px solid #1D2B53; border-bottom: none; border-radius: 10px 10px 0 0;
+    padding: 7px 12px; font-family: 'Inter', sans-serif; font-size: 0.84rem; color: #FFF1E8;
+  }
+  .o2-status > span:last-child { flex: 1 1 200px; min-width: 0; }
+  .o2-st-dot { width: 10px; height: 10px; border-radius: 2px; background: #00E436; box-shadow: 0 0 8px #00E436; flex-shrink: 0; }
+  .o2-status.o2-ask { background: #1D2B53; border-color: #FFEC27; animation: o2pulse 1.2s ease-in-out infinite; }
+  @keyframes o2pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,236,39,0.0); } 50% { box-shadow: 0 0 14px 2px rgba(255,236,39,0.35); } }
+  .o2-q { font-weight: 700; font-size: 0.92rem; color: #FFEC27; width: 100%; }
+  .o2-opts { display: flex; gap: 6px; flex-wrap: wrap; }
+  .o2-opt { font-size: 0.8rem; font-weight: 700; padding: 3px 9px 3px 4px; border-radius: 5px; background: rgba(255,255,255,0.08); color: #fff; display: inline-flex; align-items: center; gap: 6px; }
+  .o2-opt b { font-family: var(--px); font-size: 0.6rem; color: #000; padding: 3px 5px; border-radius: 3px; }
+  .o2-opt-0 b { background: #29ADFF; } .o2-opt-1 b { background: #FFEC27; } .o2-opt-2 b { background: #FF77A8; }
+
+  .o2-screen {
+    position: relative; background: #000; border: 3px solid #1D2B53; overflow: hidden; outline: none;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .o2-screen:focus-visible { border-color: #FFEC27; }
+  .o2-screen canvas {
+    display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
+    image-rendering: pixelated; image-rendering: crisp-edges; touch-action: pan-y;
+  }
+  .o2-screen.o2-playing canvas { touch-action: none; cursor: crosshair; }
+
+  .o2-toast {
+    position: absolute; left: 50%; bottom: 8px; transform: translate(-50%, 20px); opacity: 0;
+    max-width: 92%; width: max-content; pointer-events: none; z-index: 3;
+    background: rgba(0,0,0,0.86); border: 2px solid #FFEC27; border-radius: 6px;
+    padding: 6px 11px; font-size: 0.8rem; line-height: 1.4; color: #FFF1E8;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .o2-toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .o2-toast b { color: #FFEC27; }
+  .o2-toast.good { border-color: #00E436; } .o2-toast.good b { color: #00E436; }
+  .o2-toast.bad { border-color: #FF004D; } .o2-toast.bad b { color: #FF77A8; }
+  .o2-toast.term { border-color: #29ADFF; } .o2-toast.term b { color: #29ADFF; }
+
+  .o2-overlay {
+    position: absolute; inset: 0; z-index: 4; display: none; align-items: center; justify-content: center;
+    background: rgba(5,8,26,0.82); padding: 10px; overflow-y: auto;
+  }
+  .o2-overlay.show { display: flex; }
+  .o2-card {
+    width: min(560px, 100%); max-height: 100%; overflow-y: auto; margin: auto;
+    background: #1D2B53; border: 3px solid #FFF1E8; border-radius: 4px;
+    box-shadow: 6px 6px 0 #000; padding: 16px 18px; color: #FFF1E8; text-align: left;
+  }
+  .o2-card.o2-good { border-color: #00E436; } .o2-card.o2-bad { border-color: #FF004D; } .o2-card.o2-gold { border-color: #FFEC27; }
+  .o2-kicker { font-family: var(--px); font-size: 0.55rem; color: #29ADFF; letter-spacing: 1px; margin-bottom: 8px; }
+  .o2-card h3 { font-family: var(--px); font-size: 0.85rem; line-height: 1.5; color: #FFEC27; margin: 0 0 10px; }
+  .o2-card p { font-size: 0.84rem; line-height: 1.55; color: #dfe5ff; margin: 0 0 8px; }
+  .o2-card p strong { color: #FFEC27; }
+  .o2-goal { font-size: 0.8rem; background: rgba(0,0,0,0.35); border-left: 3px solid #00E436; padding: 6px 9px; border-radius: 0 4px 4px 0; margin: 8px 0 12px; color: #c8ffd8; }
+  .o2-fact { font-size: 0.8rem; background: rgba(255,163,0,0.14); border-left: 3px solid #FFA300; padding: 6px 9px; border-radius: 0 4px 4px 0; margin: 8px 0; color: #ffe2b0; }
+  .o2-card-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .o2-go {
+    font-family: var(--px); font-size: 0.62rem; letter-spacing: 1px; cursor: pointer;
+    padding: 10px 14px; border: none; border-radius: 3px; color: #000; background: #00E436;
+    box-shadow: 0 4px 0 #008751; transition: transform 0.08s;
+  }
+  .o2-go:hover { transform: translateY(-1px); }
+  .o2-go:active { transform: translateY(3px); box-shadow: 0 1px 0 #008751; }
+  .o2-go.alt { background: #C2C3C7; box-shadow: 0 4px 0 #5F574F; }
+  .o2-go.yel { background: #FFEC27; box-shadow: 0 4px 0 #AB5236; }
+  .o2-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 8px 0; }
+  .o2-stat { background: rgba(0,0,0,0.35); border-radius: 4px; padding: 6px; text-align: center; }
+  .o2-stat b { display: block; font-family: var(--px); font-size: 0.8rem; color: #FFEC27; margin-bottom: 4px; }
+  .o2-stat span { font-size: 0.7rem; color: #aab4dc; }
+  .o2-title-big { font-family: var(--px); font-size: 1.1rem; line-height: 1.4; color: #FFEC27; text-shadow: 3px 3px 0 #FF004D; margin: 2px 0 8px; }
+
+  .o2-ctrl { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .o2-btn {
+    font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+    background: #1D2B53; color: #FFF1E8; border: 2px solid #3a4a80; border-radius: 6px; padding: 6px 11px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .o2-btn:hover { border-color: #29ADFF; background: #24356a; }
+
+  .o2-mapbox { background: #000; border: 3px solid #1D2B53; border-radius: 10px; padding: 10px 10px 12px; }
+  .o2-map-title { font-family: var(--px); font-size: 0.5rem; color: #FF77A8; letter-spacing: 1px; text-align: center; margin-bottom: 6px; }
+  #o2Map { width: 100%; height: auto; display: block; }
+  #o2Map text { font-family: 'Inter', sans-serif; }
+  .o2-map-cap { font-size: 0.74rem; line-height: 1.4; color: #FFEC27; text-align: center; min-height: 2.8em; margin-top: 4px; }
+  .o2-map-legend { display: flex; flex-direction: column; gap: 3px; margin-top: 6px; font-size: 0.7rem; color: #aab4dc; }
+  .o2-map-legend i { display: inline-block; width: 14px; height: 4px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+
+  .o2-terms { margin-top: 16px; }
+  .o2-terms-head { font-size: 0.84rem; color: #c9d2f2; margin-bottom: 8px; }
+  .o2-terms-head b { color: #FFEC27; font-family: var(--px); font-size: 0.65rem; }
+  .o2-term-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .o2-chip {
+    font-size: 0.74rem; font-weight: 600; padding: 4px 9px; border-radius: 4px;
+    background: rgba(255,255,255,0.05); color: #5d6690; border: 1px dashed #3a4a80;
+    transition: all 0.3s;
+  }
+  .o2-chip.got { color: #000; border-style: solid; transform: translateY(-1px); }
+  .o2-chip.got.c-luft { background: #FFCCAA; border-color: #FFCCAA; }
+  .o2-chip.got.c-blod { background: #FF77A8; border-color: #FF77A8; }
+  .o2-chip.got.c-hjerte { background: #FF004D; border-color: #FF004D; color: #fff; }
+  .o2-chip.got.c-muskel { background: #FFA300; border-color: #FFA300; }
+  .o2-chip.got.c-energi { background: #00E436; border-color: #00E436; }
+  .o2-chip.pop { animation: o2chip 0.6s ease; }
+  @keyframes o2chip { 0% { transform: scale(1); } 40% { transform: scale(1.25); } 100% { transform: scale(1); } }
+
+  @media (max-width: 820px) {
+    .o2-stage { grid-template-columns: 1fr; }
+    .o2-mapbox { display: grid; grid-template-columns: 150px 1fr; gap: 4px 12px; align-items: center; }
+    .o2-map-title { grid-column: 1 / -1; }
+    #o2Map { grid-row: 2 / span 2; }
+    .o2-map-cap { text-align: left; min-height: 0; }
+  }
+  @media (max-width: 600px) {
+    .o2-box { padding: 18px 12px 16px; }
+    .o2-title { font-size: 1rem; }
+    .o2-screen { min-height: 330px; }
+    .o2-card { padding: 12px; }
+    .o2-card h3 { font-size: 0.72rem; }
+    .o2-card p { font-size: 0.8rem; }
+    .o2-stats { grid-template-columns: 1fr 1fr 1fr; }
+    .o2-mapbox { grid-template-columns: 120px 1fr; }
+  }
+  @media print { .o2-section { display: none !important; } }
+  /* ══ OPPGAVE 7: fagbegreper som lyser opp + kilder ══ */
+  .t7-reqs { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 12px; }
+  .t7-req {
+    font-size: 0.78rem; font-weight: 600; padding: 5px 11px; border-radius: 20px;
+    background: #fff; border: 1.5px solid var(--border); color: var(--text-muted);
+    display: inline-flex; gap: 6px; align-items: center; transition: all 0.25s;
+  }
+  .t7-req i { font-style: normal; }
+  .t7-req b { font-variant-numeric: tabular-nums; color: var(--navy); }
+  .t7-req.met { background: var(--success-light); border-color: var(--success); color: #1a5c35; }
+  .t7-req.met b { color: var(--success); }
+  .t7-req.met::after { content: '✓'; font-weight: 800; color: var(--success); }
+
+  .hl-wrap { position: relative; border-radius: 10px; background: var(--bg); }
+  .hl-backdrop {
+    position: absolute; inset: 0; padding: 14px; border: 1.5px solid transparent; border-radius: 10px;
+    font-family: 'Inter', sans-serif; font-size: 0.92rem; line-height: 1.6; letter-spacing: normal;
+    white-space: pre-wrap; overflow-wrap: break-word; word-wrap: break-word;
+    color: transparent; overflow: hidden; pointer-events: none; z-index: 0;
+  }
+  .hl-textarea { position: relative; z-index: 1; background: transparent !important; resize: none; overflow: hidden; display: block; }
+  .hl-backdrop mark { color: transparent; padding: 0; border-radius: 3px; }
+  mark.hl-sentral { background: rgba(0,194,168,0.30); box-shadow: 0 0 0 1px rgba(0,168,146,0.55); }
+  mark.hl-perifer { background: rgba(45,190,108,0.30); box-shadow: 0 0 0 1px rgba(35,166,92,0.55); }
+  mark.hl-prest   { background: rgba(123,97,255,0.24); box-shadow: 0 0 0 1px rgba(106,79,240,0.5); }
+  mark.hl-anaerob { background: rgba(232,93,38,0.26); box-shadow: 0 0 0 1px rgba(217,83,30,0.55); }
+  mark.hl-base-ae { background: transparent; box-shadow: inset 0 -2px 0 rgba(0,194,168,0.75); }
+  mark.hl-base-an { background: transparent; box-shadow: inset 0 -2px 0 rgba(232,93,38,0.75); }
+
+  .t7-meter { position: relative; display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; }
+  .t7-meter b { color: var(--navy); font-size: 0.95rem; }
+  .t7-meter-track { flex: 1; height: 8px; border-radius: 4px; background: var(--border); overflow: hidden; }
+  .t7-meter-fill { height: 100%; width: 0; background: linear-gradient(90deg, #00C2A8, #2DBE6C, #7B61FF, #E85D26); transition: width 0.4s; }
+  .t7-plus {
+    position: absolute; right: 0; top: -30px; font-size: 0.74rem; font-weight: 700; color: #fff;
+    background: var(--gc); padding: 2px 9px; border-radius: 20px; pointer-events: none;
+    animation: t7float 1.5s ease forwards; white-space: nowrap; box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  }
+  @keyframes t7float { 0% { opacity: 0; transform: translateY(6px) scale(0.9); } 15% { opacity: 1; transform: translateY(-8px) scale(1.05); } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(-26px); } }
+
+  .t7-board { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 14px 0 4px; }
+  .t7-grp { --gc: #00C2A8; border-radius: 12px; padding: 10px 12px 12px; background: #f7f9fb; border: 1.5px solid var(--border); border-top: 4px solid var(--gc); }
+  @supports (background: color-mix(in srgb, red 10%, white)) {
+    .t7-grp { background: color-mix(in srgb, var(--gc) 6%, white); border-color: color-mix(in srgb, var(--gc) 25%, white); border-top-color: var(--gc); }
+  }
+  .t7-grp h5 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 800; color: var(--gc);
+    margin: 0; letter-spacing: 0.3px; display: flex; justify-content: space-between; gap: 8px;
+  }
+  .t7-grp-n { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; }
+  .t7-grp .sub { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 8px; }
+  .t7-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .t7-chip {
+    font-size: 0.74rem; font-weight: 600; padding: 3px 9px; border-radius: 20px;
+    background: #fff; color: #8a98a8; border: 1.5px dashed #c8d4e0; transition: all 0.3s;
+  }
+  .t7-chip.on { background: var(--gc); color: #fff; border: 1.5px solid var(--gc); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .t7-chip.on::before { content: '✓ '; }
+  .t7-chip.pop { animation: t7pop 0.7s ease; }
+  @keyframes t7pop { 0% { transform: scale(1); } 35% { transform: scale(1.2); filter: brightness(1.15); } 100% { transform: scale(1); } }
+
+  .src-box {
+    margin-top: 16px; background: linear-gradient(135deg, #fff8e8, #ffffff 70%);
+    border: 1.5px solid #f2d48a; border-left: 5px solid #F2A33A; border-radius: 12px; padding: 14px 16px;
+  }
+  .src-head { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.1rem; color: #8a5a00; letter-spacing: 0.3px; }
+  .src-head span { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0; }
+  .src-intro { font-size: 0.85rem; line-height: 1.55; margin: 4px 0 10px; color: var(--text); }
+  .src-example { font-size: 0.78rem; color: #6a5a30; background: rgba(242,163,58,0.12); border-radius: 8px; padding: 8px 11px; display: flex; flex-direction: column; gap: 3px; margin-bottom: 12px; }
+  .src-row { display: grid; grid-template-columns: 22px 205px 1fr 34px; gap: 8px; margin-bottom: 8px; align-items: center; }
+  .src-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1rem; color: #F2A33A; text-align: center; }
+  .src-row select, .src-row input {
+    font-family: 'Inter', sans-serif; font-size: 0.86rem; padding: 8px 10px; border: 1.5px solid var(--border);
+    border-radius: 8px; background: #fff; color: var(--navy); outline: none; width: 100%; min-width: 0;
+  }
+  .src-row input:focus, .src-row select:focus { border-color: #F2A33A; box-shadow: 0 0 0 3px rgba(242,163,58,0.18); }
+  .src-row.ok input { border-color: var(--success); background: #fbfffc; }
+  .src-row.ok .src-num { color: var(--success); }
+  .src-del { border: none; background: transparent; color: #b0b8c0; font-size: 1rem; cursor: pointer; padding: 6px; border-radius: 6px; }
+  .src-del:hover { color: var(--warn); background: var(--warn-light); }
+  .src-hint { grid-column: 3 / 4; font-size: 0.74rem; color: #a07000; margin-top: -4px; }
+  .src-hint:empty { display: none; }
+  .src-add { margin-top: 2px; }
+  .src-tip { font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; }
+
+  .t7-msg { display: none; margin-top: 14px; padding: 10px 14px; border-radius: 10px; font-size: 0.86rem; line-height: 1.5; }
+  .t7-msg.show { display: block; }
+  .t7-msg ul { margin: 4px 0 0 18px; }
+  .t7-msg.bad { background: var(--warn-light); color: var(--warn); border: 1px solid #f0b8a8; }
+  .t7-msg.good { background: var(--success-light); color: #1a5c35; border: 1px solid #a3dfb8; }
+
+  @media (max-width: 640px) {
+    .t7-board { grid-template-columns: 1fr; }
+    .src-row { grid-template-columns: 22px 1fr 34px; }
+    .src-row select { grid-column: 2 / 3; }
+    .src-row input { grid-column: 2 / 3; }
+    .src-row .src-del { grid-column: 3 / 4; grid-row: 1 / 2; }
+    .src-hint { grid-column: 2 / 3; }
+  }
+  @media print {
+    .t7-board, .src-add, .src-tip, .src-example, .t7-meter, .src-del { display: none !important; }
+    .hl-backdrop { display: none !important; }
+    .hl-textarea { background: white !important; }
+  }
+  /* ══ MER FARGE ══ */
+  :root { --sky: #2F8FE8; --violet: #7B61FF; --amber: #F2A33A; --rose: #E5487A; --green: #2DBE6C; }
+  body {
+    background:
+      radial-gradient(circle at 6% 14%, rgba(0,194,168,0.10), transparent 30%),
+      radial-gradient(circle at 94% 36%, rgba(123,97,255,0.08), transparent 28%),
+      radial-gradient(circle at 8% 70%, rgba(232,93,38,0.07), transparent 28%),
+      radial-gradient(circle at 92% 94%, rgba(47,143,232,0.08), transparent 30%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  header::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 5px;
+    background: linear-gradient(90deg, var(--teal), var(--sky), var(--violet), var(--rose), var(--orange), var(--amber));
+  }
+  .header-pill:nth-child(1) { background: rgba(0,194,168,0.18);  border-color: rgba(0,194,168,0.55);  color: #9ff3e6; }
+  .header-pill:nth-child(2) { background: rgba(47,143,232,0.18); border-color: rgba(47,143,232,0.55); color: #b5d8ff; }
+  .header-pill:nth-child(3) { background: rgba(123,97,255,0.2);  border-color: rgba(123,97,255,0.55); color: #d2c8ff; }
+  .header-pill:nth-child(4) { background: rgba(229,72,122,0.2);  border-color: rgba(229,72,122,0.55); color: #ffc2d6; }
+  .header-pill:nth-child(5) { background: rgba(242,163,58,0.2);  border-color: rgba(242,163,58,0.55); color: #ffe0b0; }
+
+  /* Hver seksjon får sin egen aksentfarge */
+  section:has(> .summary-card)       { --sec: #00C2A8; }
+  section:has(> .anim-box)           { --sec: #E5487A; }
+  section:has(> .prose-summary)      { --sec: #2F8FE8; }
+  section:has(> .sport-gallery-box)  { --sec: #F2A33A; }
+  section:has(> .methods-box)        { --sec: #7B61FF; }
+  section:has(> .slider-box)         { --sec: #E85D26; }
+  section:has(> .key-summary-box)    { --sec: #00C2A8; }
+  section:has(> .practical-box)      { --sec: #E85D26; }
+  section:has(> .o2-box)             { --sec: #7B61FF; }
+  section:has(> .feedback-section)   { --sec: #E5487A; }
+  .section-eyebrow { color: var(--sec, var(--teal)); }
+  .section-eyebrow::after { background: var(--sec, var(--teal)); opacity: 0.35; }
+  .anim-box, .prose-summary, .sport-gallery-box, .methods-box, .slider-box, .feedback-section { border-top: 4px solid var(--sec, var(--teal)); }
+
+  /* Oppsummeringskortet: hvert begrep sin farge */
+  .summary-concept { border-top: 3px solid var(--cc, var(--teal)); }
+  .summary-concept h3 { color: var(--cc, var(--teal)); }
+  .summary-concept:nth-child(1) { --cc: #2ee6cc; }
+  .summary-concept:nth-child(2) { --cc: #6cbcff; }
+  .summary-concept:nth-child(3) { --cc: #a996ff; }
+  .summary-concept:nth-child(4) { --cc: #ff8a5c; }
+  .summary-concept:nth-child(5) { --cc: #ff7aa6; }
+  .summary-concept:nth-child(6) { --cc: #ffc463; }
+
+  /* Treningsmetode-tabellen: farget bakgrunn per type */
+  .methods-table-new tbody tr:has(.type-badge.aerob)   { background: #f2fbf9; }
+  .methods-table-new tbody tr:has(.type-badge.anaerob) { background: #fff5ef; }
+  .methods-table-new tbody tr:hover { filter: brightness(0.98); }
+
+  /* Kompendiet: fire farger */
+  .ks-col:nth-child(1) { --kc: #00A892; }
+  .ks-col:nth-child(2) { --kc: #E5487A; }
+  .ks-col:nth-child(3) { --kc: #7B61FF; }
+  .ks-col:nth-child(4) { --kc: #23A65C; }
+  .ks-col h4 { color: var(--kc, var(--teal)); border-bottom-color: var(--kc, var(--teal-light)); }
+  .ks-list li:hover { border-left-color: var(--kc, var(--teal)); }
+  @supports (background: color-mix(in srgb, red 10%, white)) {
+    .ks-col h4 { border-bottom-color: color-mix(in srgb, var(--kc) 30%, white); }
+    .ks-list li { background: color-mix(in srgb, var(--kc) 6%, white); border-left-color: color-mix(in srgb, var(--kc) 45%, white); }
+  }
+
+  /* Oppgavekortene: hver oppgave sin farge */
+  #act1 { --acc: #00C2A8; } #act2 { --acc: #2F8FE8; } #act3 { --acc: #7B61FF; } #act4 { --acc: #F2A33A; }
+  #act5 { --acc: #E85D26; } #act6 { --acc: #E5487A; } #act7 { --acc: #2DBE6C; }
+  .activity-card { border-left: 6px solid var(--acc, var(--teal)); }
+  .activity-card.completed { border-left-color: var(--success); }
+  .activity-type { color: var(--acc, var(--text-muted)); }
+  @supports (background: color-mix(in srgb, red 10%, white)) {
+    .activity-icon { background: color-mix(in srgb, var(--acc) 15%, white); }
+    .activity-type { color: color-mix(in srgb, var(--acc) 72%, #0B1F3A); }
+    .activity-card.open .activity-header { background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 10%, white), #fff 75%); }
+  }
+
+  @media print {
+    header::after { display: none; }
+    body { background: white !important; }
+  }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
@@ -1373,6 +1716,7 @@
         <li>Gjøre rede for <strong>VO₂-maks</strong>, <strong>utnyttingsgrad</strong> og <strong>arbeidsøkonomi</strong>, og forklare hvordan disse faktorene påvirker utholdenhetsprestasjoner</li>
         <li>Forklare hva <strong>laktatterskel</strong> er, og hvorfor den har betydning for hvor hardt man kan jobbe over tid</li>
         <li>Beskrive hvordan hjertet og kretsløpet tilpasser seg utholdenhetstrening – blant annet endringer i slagvolum, minuttvolum og hvilepuls</li>
+        <li>Beskrive veien oksygenet tar fra lungene til musklene gjennom <strong>det lille</strong> og <strong>det store kretsløpet</strong></li>
         <li>Gjøre rede for ulike <strong>treningsmetoder</strong> innenfor utholdenhetstrening, og vurdere når de ulike metodene egner seg</li>
         <li>Kjenne til sentrale retningslinjer for utholdenhetstrening og helsegevinst</li>
       </ul>
@@ -1384,7 +1728,7 @@
     <div class="section-eyebrow">Oppsummering av kapitlet</div>
     <div class="summary-card">
       <h2>Hva er utholdenhet?</h2>
-      <p><strong style="color:var(--teal)">Definisjon:</strong> Organismen sin evne til å arbeide med relativt høg intensitet over lang tid. God utholdenhet avhenger av tre nøkkelfaktorer: <span class="tt" data-tip="Kroppen sin maksimale evne til å ta opp og omsette oksygen per minutt. Måles i ml/kg/min. Kan økes med opptil 40% hos utrente.">VO₂-maks</span>, <span class="tt" data-tip="Den gjennomsnittlige prosenten av VO₂-maks en utøver klarer å jobbe på over en gitt arbeidstid. Godt trente: 85–90%.">utnyttingsgrad</span> og <span class="tt" data-tip="Mål på hvor mye energi/oksygen en utøver bruker ved en bestemt fart. Avhenger av teknikk – god teknikk = lavere oksygenforbruk.">arbeidsøkonomi</span> – og skilles mellom <span class="tt" data-tip="Med tilstrekkelig oksygen. Energifrigjøring som kan opprettholdes over lang tid."><em style="color:#80d8cc">aerob</em></span> (med oksygen) og <span class="tt" data-tip="Uten tilstrekkelig oksygen. Svært høy intensitet over kort tid – gir melkesyreoppbygging."><em style="color:#f0a070">anaerob</em></span> (uten nok oksygen) form.</p>
+      <p><strong style="color:var(--teal)">Definisjon:</strong> Organismen sin evne til å arbeide med relativt høy intensitet over lang tid. God utholdenhet avhenger av tre nøkkelfaktorer: <span class="tt" data-tip="Kroppen sin maksimale evne til å ta opp og omsette oksygen per minutt. Måles i ml/kg/min. Kan økes med opptil 40% hos utrente.">VO₂-maks</span>, <span class="tt" data-tip="Den gjennomsnittlige prosenten av VO₂-maks en utøver klarer å jobbe på over en gitt arbeidstid. Godt trente: 85–90%.">utnyttingsgrad</span> og <span class="tt" data-tip="Mål på hvor mye energi/oksygen en utøver bruker ved en bestemt fart. Avhenger av teknikk – god teknikk = lavere oksygenforbruk.">arbeidsøkonomi</span> – og skilles mellom <span class="tt" data-tip="Med tilstrekkelig oksygen. Energifrigjøring som kan opprettholdes over lang tid."><em style="color:#80d8cc">aerob</em></span> (med oksygen) og <span class="tt" data-tip="Uten tilstrekkelig oksygen. Svært høy intensitet over kort tid – gir melkesyreoppbygging."><em style="color:#f0a070">anaerob</em></span> (uten nok oksygen) form.</p>
       <div class="summary-grid">
         <div class="summary-concept">
           <h3>VO₂-maks</h3>
@@ -1436,7 +1780,7 @@
     <div class="prose-summary">
       <h2>Utholdenhet – hva kapitlet handler om</h2>
 
-      <p>Utholdenhet er et av de mest grunnleggende begrepene i treningslære, og handler om organismen sin evne til å arbeide med relativt høy intensitet over lang tid. God utholdenhet er ikke bare viktig for idrettsprestasjoner – det har også stor betydning for helse, trivsel og evnen til å takle hverdagens fysiske belastninger. Godt uthald gir større arbeidskapasitet, lavere risiko for hjerte- og karsykdommer og økt evne til å takle stress.</p>
+      <p>Utholdenhet er et av de mest grunnleggende begrepene i treningslære, og handler om organismen sin evne til å arbeide med relativt høy intensitet over lang tid. God utholdenhet er ikke bare viktig for idrettsprestasjoner – det har også stor betydning for helse, trivsel og evnen til å takle hverdagens fysiske belastninger. God utholdenhet gir større arbeidskapasitet, lavere risiko for hjerte- og karsykdommer og økt evne til å takle stress.</p>
 
       <p>Vi skiller mellom <strong><span class="tt" data-tip="Aerob utholdenhet: evnen til å arbeide med tilstrekkelig oksygentilgang over lang tid. Energien frigjøres i mitokondriene ved forbrenning med O₂.">aerob</span></strong> og <strong><span class="tt" data-tip="Anaerob utholdenhet: evnen til å arbeide med svært høy intensitet der kroppen ikke får tilført nok oksygen. Gir rask energi, men medfører melkesyreoppbygging og er tidsbegrenset.">anaerob</span></strong> utholdenhet. Aerob utholdenhet er evnen til å arbeide over lengre tid med tilstrekkelig oksygentilgang – typisk løping, sykling og langrenn. Anaerob utholdenhet handler om å jobbe på svært høy intensitet over kortere tid, der kroppen ikke rekker å hente inn nok oksygen og i stedet produserer <span class="tt" data-tip="Melkesyre (laktat) produseres når kroppen jobber anaerobt. Oppbygging av melkesyre gir den brennende følelsen i musklene under hardt arbeid.">melkesyre</span>.</p>
 
@@ -1444,7 +1788,7 @@
 
       <p><span class="tt" data-tip="Det høyeste intensitetsnivået med full likevekt mellom produksjon og eliminasjon av melkesyre. Godt trente: 80–90% av VO₂-maks."><strong>Laktatterskelen</strong></span> er det høyeste intensitetsnivået der det er full likevekt mellom produksjon og eliminasjon av melkesyre. Under terskelen kan kroppen jobbe lenge uten at melkesyren bygger seg opp. Godt trente utøvere har laktatterskel ved 80–90 % av VO₂-maks, mens utrente gjerne ligger på 65–75 %. Dette betyr at to utøvere med likt VO₂-maks kan ha svært ulik utholdenhetsprestasjon, avhengig av laktatterskelen og utnyttingsgraden.</p>
 
-      <p>Bak prestasjonene ligger fysiologiske tilpasninger. <span class="tt" data-tip="Mengde blod hjertet pumper ut per slag. Ca. 75 ml i hvile. Øker betydelig med aerob trening."><strong>Slagvolumet</strong></span> øker, hvilepulsen synker, og <span class="tt" data-tip="Slagvolum × hjertefrekvens = totalt blod pumpet per minutt. Ca. 5,2 l/min i hvile, opptil 30–40 l/min under maks innsats."><strong>minuttvolumtet</strong></span> kan stige fra ca. 5 liter i hvile til over 30 liter per minutt under maximal innsats. I muskulaturen øker <span class="tt" data-tip="De aller minste blodårene som omgir muskelfibrene og sørger for O₂-tilførsel og avfallsopphenting."><strong>kapillærtetthet</strong></span> og antall <span class="tt" data-tip="Cellens kraftverk der aerob energifrigjøring skjer. Øker i antall og størrelse med aerob utholdenhetstrening."><strong>mitokondrier</strong></span>, slik at cellene effektivt kan bruke oksygen og forbrenne fett. Blod og oksygen fraktes rundt via det store og det lille kretsløpet, der <span class="tt" data-tip="Lungeblærer der gassutveksling skjer: oksygen tas opp i blodet og karbondioksid avgis til lungene."><strong>alveolene</strong></span> i lungene sørger for gassutveksling.</p>
+      <p>Bak prestasjonene ligger fysiologiske tilpasninger. <span class="tt" data-tip="Mengde blod hjertet pumper ut per slag. Ca. 75 ml i hvile. Øker betydelig med aerob trening."><strong>Slagvolumet</strong></span> øker, hvilepulsen synker, og <span class="tt" data-tip="Slagvolum × hjertefrekvens = totalt blod pumpet per minutt. Ca. 5,2 l/min i hvile, opptil 30–40 l/min under maks innsats."><strong>minuttvolumet</strong></span> kan stige fra ca. 5 liter i hvile til over 30 liter per minutt under maksimal innsats. I muskulaturen øker <span class="tt" data-tip="De aller minste blodårene som omgir muskelfibrene og sørger for O₂-tilførsel og avfallsopphenting."><strong>kapillærtetthet</strong></span> og antall <span class="tt" data-tip="Cellens kraftverk der aerob energifrigjøring skjer. Øker i antall og størrelse med aerob utholdenhetstrening."><strong>mitokondrier</strong></span>, slik at cellene effektivt kan bruke oksygen og forbrenne fett. Blod og oksygen fraktes rundt via det store og det lille kretsløpet, der <span class="tt" data-tip="Lungeblærer der gassutveksling skjer: oksygen tas opp i blodet og karbondioksid avgis til lungene."><strong>alveolene</strong></span> i lungene sørger for gassutveksling.</p>
 
       <p>For å oppnå treningseffekt gjelder noen grunnleggende retningslinjer: tren minst tre halvtimer i uken, bruk store muskelgrupper, og øk alltid <em>varigheten</em> før du øker <em>intensiteten</em>. Treningseffekten starter fra ca. 60 % av makspuls. Overdosering av anaerob trening kan ha negative konsekvenser – særlig for unge utøvere – som nedbryting av mitokondrier og redusert treningslyst.</p>
     </div>
@@ -1887,6 +2231,57 @@
     </div><!-- /practical-box -->
   </section>
 
+  <!-- ══ SPILL: O₂-REISEN ══ -->
+  <section class="o2-section" style="margin-bottom: 32px;">
+    <div class="section-eyebrow" style="--sec:#7B61FF">Spill</div>
+    <div class="o2-box" id="o2Box">
+      <div class="o2-head">
+        <div class="o2-head-text">
+          <h2 class="o2-title"><span class="o2-t1">O<sub>2</sub></span>-REISEN</h2>
+          <p class="o2-lead">Du er et oksygenmolekyl i kroppen til en 100-meterløper. Kom deg fra munnen, gjennom <strong>det lille</strong> og <strong>det store kretsløpet</strong>, og helt inn i en mitokondrie i lårmuskelen – før løperen er i mål!</p>
+        </div>
+        <div class="o2-keys">
+          <div><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> eller <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> – styr</div>
+          <div>📱 Mobil/nettbrett: dra med fingeren på skjermen</div>
+          <div><kbd>P</kbd> pause · <kbd>Mellomrom</kbd> gå videre</div>
+        </div>
+      </div>
+
+      <div class="o2-stage">
+        <div class="o2-main" id="o2Main">
+          <div class="o2-status" id="o2Status"><span class="o2-st-dot"></span><span id="o2StatusText">Trykk START for å begynne</span></div>
+          <div class="o2-screen" id="o2Screen" tabindex="0" aria-label="Spillskjerm for O2-reisen">
+            <canvas id="o2Canvas" width="320" height="180"></canvas>
+            <div class="o2-toast" id="o2Toast" aria-live="polite"></div>
+            <div class="o2-overlay" id="o2Overlay"></div>
+          </div>
+          <div class="o2-ctrl">
+            <button class="o2-btn" id="o2BtnPause" type="button">⏸ Pause</button>
+            <button class="o2-btn" id="o2BtnSound" type="button">🔇 Lyd: av</button>
+            <button class="o2-btn" id="o2BtnFull" type="button">⛶ Fullskjerm</button>
+            <button class="o2-btn" id="o2BtnRestart" type="button">↺ Start på nytt</button>
+          </div>
+        </div>
+
+        <aside class="o2-mapbox">
+          <div class="o2-map-title">KART OVER KRETSLØPET</div>
+          <svg id="o2Map" viewBox="0 0 240 296" role="img" aria-label="Kart over det lille og det store kretsløpet"></svg>
+          <div class="o2-map-cap" id="o2MapCap">Følg prikken – den viser hvor oksygenet ditt er.</div>
+          <div class="o2-map-legend">
+            <span><i style="background:#FF004D"></i>Oksygenrikt blod</span>
+            <span><i style="background:#29ADFF"></i>Oksygenfattig blod</span>
+            <span><i style="background:#FFCCAA"></i>Luft</span>
+          </div>
+        </aside>
+      </div>
+
+      <div class="o2-terms">
+        <div class="o2-terms-head">⭐ Fagbegreper du har samlet: <b id="o2TermCount">0 / 22</b></div>
+        <div class="o2-term-chips" id="o2TermChips"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- ══ OPPGAVE 1: FLERVALG ══ -->
   <div class="activity-card open" id="act1">
     <div class="activity-header" onclick="toggleCard('act1')">
@@ -2038,13 +2433,14 @@
       <div class="info-box">Bruk bildene over som støtte. Forklar med egne ord hvordan det <strong>store</strong> og det <strong>lille kretsløpet</strong> fungerer. Bruk fagbegrepene: <span class="tt" data-tip="Hjertet har 4 kamre. Det venstre kammeret pumper oksygenrikt blod ut til kroppen. Det høyre kammeret pumper oksygenfattig blod til lungene.">hjertekammer</span>, <span class="tt" data-tip="De aller minste blodårene. Ligger tett rundt muskelfibrene og sørger for utveksling av O₂ og CO₂.">kapillærer</span>, <span class="tt" data-tip="Lungeblærer der gassutveksling skjer: O₂ tas opp i blodet fra innåndingsluften, mens CO₂ avgis til utåndingsluften.">alveolene</span>, <span class="tt" data-tip="Oksygen (O₂) – livsnødvendig gass som kroppen bruker til å frigjøre energi fra mat. Fraktes av røde blodceller.">oksygen (O₂)</span>, <span class="tt" data-tip="Karbondioksid (CO₂) – avfallsstoff fra energifrigjøringen i cellene. Fraktes tilbake til lungene og pustes ut.">karbondioksid (CO₂)</span>, <span class="tt" data-tip="Mengde blod hjertet pumper per slag. Ca. 75 ml i hvile. Øker med aerob trening til over 100 ml.">slagvolum</span>, <span class="tt" data-tip="Slagvolum × hjertefrekvens = totalt blod per minutt. Ca. 5,2 l/min i hvile, opptil 40 l/min ved maks trening hos toppidrettsutøvere.">minuttvolum</span>.</div>
       <textarea class="open-textarea" id="openText1" placeholder="Skriv svaret ditt her..." rows="7"></textarea>
       <div class="btn-group">
-        <button class="btn btn-secondary" onclick="toggleModelAnswer('ma1')">💡 Vis modellesvar</button>
+        <button class="btn btn-secondary" onclick="toggleModelAnswer('ma1')">💡 Vis modellsvar</button>
         <button class="btn btn-primary" onclick="markOpenDone('act6','openText1')">Marker som fullført</button>
       </div>
       <div class="model-answer" id="ma1">
         <strong>Det store kretsløpet:</strong> Oksygenrikt blod pumpes fra venstre hjertekammer ut i kroppen. Blodet transporteres via pulsårer til kapillærene rundt muskelfibrene, leverer O₂ og tar opp CO₂, og returnerer via blodårer til høyre side av hjertet.
         <br><br><strong>Det lille kretsløpet:</strong> Oksygenfattig blod pumpes fra høyre hjertekammer inn i lungene. I alveolene (lungeblærene) skjer gassutveksling – blodet tar opp nytt O₂ og avgir CO₂. Det oksygenrike blodet strømmer tilbake til venstre hjertekammer, klar for nytt pumpeslag.
       </div>
+      <div class="t7-msg" id="act6Msg"></div>
       <div class="task-done-banner" id="act6-done">✓ Oppgave 6 fullført!</div>
     </div>
   </div>
@@ -2061,17 +2457,52 @@
       <div class="activity-chevron">▼</div>
     </div>
     <div class="activity-body">
-      <div class="info-box">Beskriv de viktigste <strong>fysiologiske virkningene</strong> av henholdsvis aerob og anaerob utholdenhetstrening. Nevn minst 3 virkninger for hver. Husk å skille mellom sentrale og perifere faktorer der det er relevant.</div>
-      <textarea class="open-textarea" id="openText2" placeholder="Skriv svaret ditt her..." rows="8"></textarea>
+      <div class="info-box">Beskriv de viktigste <strong>fysiologiske virkningene</strong> av henholdsvis aerob og anaerob utholdenhetstrening. Nevn minst 3 virkninger for hver. Skill mellom <strong>sentrale</strong> faktorer (hjerte, lunger og blod) og <strong>perifere</strong> faktorer (musklene) der det passer.</div>
+
+      <div class="t7-reqs" id="t7Reqs">
+        <span class="t7-req" id="t7rWords"><i>📝</i> Minst 100 ord <b>0/100</b></span>
+        <span class="t7-req" id="t7rTerms"><i>🔑</i> Minst 8 fagbegreper <b>0/8</b></span>
+        <span class="t7-req" id="t7rCats"><i>⚖️</i> Sentralt, perifert og anaerobt <b>0/3</b></span>
+        <span class="t7-req" id="t7rSrc"><i>📚</i> Minst 2 kilder <b>0/2</b></span>
+      </div>
+
+      <div class="hl-wrap">
+        <div class="hl-backdrop" id="t7Backdrop" aria-hidden="true"></div>
+        <textarea class="open-textarea hl-textarea" id="openText2" placeholder="Skriv svaret ditt her … Fagbegrepene du bruker, lyser opp mens du skriver!" rows="8" spellcheck="true"></textarea>
+      </div>
+      <div class="t7-meter">
+        <span>Fagbegreper brukt: <b id="t7TermCount">0</b></span>
+        <div class="t7-meter-track"><div class="t7-meter-fill" id="t7MeterFill"></div></div>
+        <span id="t7WordCount">0 ord</span>
+      </div>
+
+      <div class="t7-board" id="t7Board"></div>
+
+      <div class="src-box">
+        <div class="src-head">📚 Kilder <span>– minst 2</span></div>
+        <p class="src-intro">Skriv hvor du har hentet informasjonen fra, slik at læreren kan sjekke det. Ta med <strong>tittel</strong>, <strong>forfatter eller nettsted</strong> og <strong>årstall</strong>. For nettsider: lim inn lenken og skriv når du leste den.</p>
+        <div class="src-example">
+          <b>Slik kan det se ut:</b>
+          <span>📘 Lærebok: <em>Treningslære 1</em>, kapittelet om utholdenhet</span>
+          <span>🖥️ Presentasjon: «Utholdenhet» fra læreren, 2026</span>
+          <span>🌐 Nettside: «Tittel på artikkelen», navnet på nettstedet, lenke, lest [dato]</span>
+        </div>
+        <div id="t7Sources"></div>
+        <button class="btn btn-secondary src-add" type="button" onclick="t7AddSource()">+ Legg til kilde</button>
+        <div class="src-tip">💡 Tips: Vis også i teksten hvor opplysningene kommer fra, for eksempel «(Treningslære 1, s. 340)».</div>
+      </div>
+
+      <div class="t7-msg" id="t7Msg"></div>
       <div class="btn-group">
-        <button class="btn btn-secondary" onclick="toggleModelAnswer('ma2')">💡 Vis modellesvar</button>
-        <button class="btn btn-primary" onclick="markOpenDone('act7','openText2')">Marker som fullført</button>
+        <button class="btn btn-secondary" onclick="toggleModelAnswer('ma2')">💡 Vis modellsvar</button>
+        <button class="btn btn-primary" onclick="t7MarkDone()">Marker som fullført</button>
       </div>
       <div class="model-answer" id="ma2">
         <strong>Aerob utholdenhetstrening gir:</strong>
         Hjertet: Større slagvolum, større slagkraft, lavere hvilepuls. Lungene: Mer effektiv ventilasjon. Blodet/blodårene: Bedre O₂- og næringstransport, økt kapillærtetthet rundt muskler. Perifert: Muskelfibrene blir mer utholdende, mitokondriene øker i antall og størrelse, aerobe enzymer øker, bedre fettforbrenning. VO₂-maks øker, utnyttingsgrad øker, laktatterskel øker, bedre arbeidsøkonomi.
         <br><br><strong>Anaerob utholdenhetstrening gir:</strong>
         Anaerob energifrigjøring øker, bedre eliminasjon av melkesyre, anaerobe enzymer øker, evne til å presse seg tross smerter øker. <em>NB – for mye anaerob trening kan gi negative virkninger:</em> nedbryting av mitokondrier, tykke hjertevegger med lite slagvolum, redusert treningslyst hos unge.
+        <br><br><em>Kilder: Lærebok Treningslære 1 (kapittelet om utholdenhet) og presentasjonen «Utholdenhet» fra læreren.</em>
       </div>
       <div class="task-done-banner" id="act7-done">✓ Oppgave 7 fullført!</div>
     </div>
@@ -2121,7 +2552,7 @@
       </div>
     </div>
     <button class="btn-pdf" id="btnDownloadPDF" onclick="downloadPDF()">📥&nbsp; Last ned PDF</button>
-    <p class="pdf-tip">Besvarelsen inneholder alle svarene dine, automatisk retting av flervalgsspørsmål og sant/usant, og tilbakemeldingen din om siden.</p>
+    <p class="pdf-tip">Besvarelsen inneholder alle svarene dine, automatisk retting, fagbegrepene og kildene i oppgave 7, resultatet fra O₂-spillet og tilbakemeldingen din om siden.</p>
   </div>
 
 </main>
@@ -2518,11 +2949,203 @@ function toggleModelAnswer(id) {
   document.getElementById(id).classList.toggle('show');
 }
 
+// ─── OPPGAVE 7: FAGBEGREPER SOM LYSER OPP + KILDER ───────────
+const T7_GROUPS = [
+  { id: 'sentral', name: 'Aerob – sentrale virkninger', sub: 'Hjerte, lunger og blod', col: '#00A892', terms: [
+    ['slagvolum', 'Slagvolum', ['slagvolum\\p{L}*']],
+    ['minuttvolum', 'Minuttvolum', ['minuttvolum\\p{L}*']],
+    ['hvilepuls', 'Hvilepuls', ['hvilepuls\\p{L}*']],
+    ['hjertemuskel', 'Hjertemuskel / slagkraft', ['hjertemuskel\\p{L}*', 'slagkraft\\p{L}*', 'hjertevegg\\p{L}*']],
+    ['blod', 'Blodvolum / hemoglobin', ['blodvolum\\p{L}*', 'hemoglobin\\p{L}*', 'røde blodcelle\\p{L}*']],
+    ['ventilasjon', 'Ventilasjon / alveoler', ['ventilasjon\\p{L}*', 'alveol\\p{L}*', 'lungekapasitet\\p{L}*']],
+    ['sentrale', 'Sentrale faktorer', ['sentral\\p{L}*']]
+  ]},
+  { id: 'perifer', name: 'Aerob – perifere virkninger', sub: 'Musklene', col: '#23A65C', terms: [
+    ['kapillar', 'Kapillærer / kapillærtetthet', ['kapillær\\p{L}*']],
+    ['mitokondrier', 'Mitokondrier', ['mitokondri\\p{L}*']],
+    ['aerobeenzymer', 'Aerobe enzymer', ['aerobe enzym\\p{L}*', 'enzym\\p{L}*']],
+    ['fett', 'Fettforbrenning', ['fettforbrenning\\p{L}*', 'forbrenn\\p{L}* (?:mer )?fett\\p{L}*', 'fettsyre\\p{L}*']],
+    ['glykogen', 'Glykogenlager', ['glykogen\\p{L}*']],
+    ['muskelfibre', 'Muskelfibre', ['muskelfib\\p{L}*', 'muskelcelle\\p{L}*']],
+    ['perifere', 'Perifere faktorer', ['perifer\\p{L}*']]
+  ]},
+  { id: 'prest', name: 'Prestasjonsbegreper', sub: 'Hva som blir bedre', col: '#6A4FF0', terms: [
+    ['vo2', 'VO₂-maks', ['vo\\s?[2₂]\\s?-?\\s?maks\\p{L}*', 'maksimalt oksygenopptak\\p{L}*']],
+    ['utnytting', 'Utnyttingsgrad', ['utnyttingsgrad\\p{L}*', 'utnyttelsesgrad\\p{L}*']],
+    ['laktatterskel', 'Laktatterskel', ['laktatterskel\\p{L}*', 'melkesyreterskel\\p{L}*', 'anaerob terskel\\p{L}*']],
+    ['okonomi', 'Arbeidsøkonomi', ['arbeidsøkonomi\\p{L}*']]
+  ]},
+  { id: 'anaerob', name: 'Anaerob trening', sub: 'Virkninger – og farer', col: '#D9531E', terms: [
+    ['melkesyre', 'Melkesyre / laktat', ['melkesyre\\p{L}*', 'laktat\\p{L}*']],
+    ['toleranse', 'Melkesyretoleranse', ['melkesyretoleranse\\p{L}*', 'laktattoleranse\\p{L}*', 'toleranse\\p{L}*']],
+    ['eliminasjon', 'Eliminasjon av melkesyre', ['eliminasjon\\p{L}*', 'eliminer\\p{L}*']],
+    ['anaerobeenzymer', 'Anaerobe enzymer', ['anaerobe enzym\\p{L}*']],
+    ['kp', 'Kreatinfosfat', ['kreatinfosfat\\p{L}*']],
+    ['smerte', 'Smertetoleranse', ['smerte\\p{L}*', 'presse seg\\p{L}*']],
+    ['overdosering', 'Fare ved overdosering', ['overdoser\\p{L}*', 'negative virkning\\p{L}*', 'redusert treningslyst\\p{L}*']]
+  ]}
+];
+const T7_MIN_WORDS = 100, T7_MIN_TERMS = 8, T7_MIN_SRC = 2;
+const T7_ALL = [];
+T7_GROUPS.forEach(g => g.terms.forEach(([key, label, pats]) => pats.forEach(p => T7_ALL.push({ p, key, g: g.id }))));
+T7_ALL.push({ p: 'anaerob\\p{L}*', key: null, g: 'base-an' }, { p: 'aerob\\p{L}*', key: null, g: 'base-ae' });
+T7_ALL.sort((a, b) => b.p.length - a.p.length);
+// Grensen før ordet fanges i gruppe 1 (fungerer også i nettlesere uten «lookbehind»)
+const T7_RE = new RegExp('(^|[^\\p{L}\\p{N}])(?:' + T7_ALL.map(x => '(' + x.p + ')').join('|') + ')', 'giu');
+const T7_LABEL = {}; T7_GROUPS.forEach(g => g.terms.forEach(([k, l]) => { T7_LABEL[k] = { label: l, g: g.id }; }));
+let t7Found = new Set();
+let t7Sources = [{ type: 'Lærebok', text: '' }, { type: 'Lærerens presentasjon', text: '' }];
+const T7_SRC_TYPES = ['Lærebok', 'Lærerens presentasjon', 'Nettside', 'Artikkel', 'Video', 'Annet'];
+const T7_SRC_PH = {
+  'Lærebok': 'Tittel, kapittel/sidetall – f.eks. Treningslære 1, kapittelet om utholdenhet',
+  'Lærerens presentasjon': 'Tittel og år – f.eks. «Utholdenhet», 2026',
+  'Nettside': 'Tittel, nettsted, lenke og dato du leste den',
+  'Artikkel': 'Tittel, forfatter, hvor den er publisert, årstall',
+  'Video': 'Tittel, kanal/avsender, lenke',
+  'Annet': 'Beskriv kilden så læreren kan finne den'
+};
+const t7Esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+function t7RenderBoard() {
+  document.getElementById('t7Board').innerHTML = T7_GROUPS.map(g => {
+    const n = g.terms.filter(([k]) => t7Found.has(k)).length;
+    return '<div class="t7-grp" style="--gc:' + g.col + '"><h5><span>' + g.name + '</span><span class="t7-grp-n" id="t7n-' + g.id + '">' + n + '/' + g.terms.length + '</span></h5>' +
+      '<div class="sub">' + g.sub + '</div><div class="t7-chips">' +
+      g.terms.map(([k, l]) => '<span class="t7-chip' + (t7Found.has(k) ? ' on' : '') + '" data-k="' + k + '">' + l + '</span>').join('') + '</div></div>';
+  }).join('');
+}
+function t7Analyse(text) {
+  const found = new Set(); let html = '', last = 0, m;
+  T7_RE.lastIndex = 0;
+  while ((m = T7_RE.exec(text))) {
+    const pre = m[1] || '', start = m.index + pre.length, word = m[0].slice(pre.length);
+    let gi = -1; for (let i = 2; i < m.length; i++) if (m[i] !== undefined) { gi = i - 2; break; }
+    const it = T7_ALL[gi];
+    html += t7Esc(text.slice(last, start)) + '<mark class="hl hl-' + it.g + '">' + t7Esc(word) + '</mark>';
+    last = start + word.length;
+    if (it.key) found.add(it.key);
+    if (m[0].length === 0) T7_RE.lastIndex++;
+  }
+  html += t7Esc(text.slice(last));
+  return { html, found };
+}
+function t7Words(text) { return (text.trim().match(/\S+/g) || []).filter(w => /\p{L}/u.test(w)).length; }
+function t7ValidSources() { return t7Sources.filter(s => s.text.trim().length >= 8 && /\p{L}/u.test(s.text)); }
+function t7Update() {
+  const ta = document.getElementById('openText2'); if (!ta) return;
+  const res = t7Analyse(ta.value);
+  document.getElementById('t7Backdrop').innerHTML = res.html + '\n';
+  const newly = [...res.found].filter(k => !t7Found.has(k));
+  t7Found = res.found;
+  // Tavla: tenn/slukk brikker uten å tegne alt på nytt
+  document.querySelectorAll('#t7Board .t7-chip').forEach(ch => {
+    const on = t7Found.has(ch.dataset.k);
+    ch.classList.toggle('on', on);
+    if (newly.includes(ch.dataset.k)) { ch.classList.remove('pop'); void ch.offsetWidth; ch.classList.add('pop'); }
+  });
+  T7_GROUPS.forEach(g => { const el = document.getElementById('t7n-' + g.id); if (el) el.textContent = g.terms.filter(([k]) => t7Found.has(k)).length + '/' + g.terms.length; });
+  const st = t7State();
+  document.getElementById('t7TermCount').textContent = st.terms;
+  document.getElementById('t7WordCount').textContent = st.words + ' ord';
+  document.getElementById('t7MeterFill').style.width = Math.min(100, st.terms / T7_MIN_TERMS * 100) + '%';
+  const setReq = (id, val, min) => { const el = document.getElementById(id); el.classList.toggle('met', val >= min); el.querySelector('b').textContent = Math.min(val, 999) + '/' + min; };
+  setReq('t7rWords', st.words, T7_MIN_WORDS);
+  setReq('t7rTerms', st.terms, T7_MIN_TERMS);
+  setReq('t7rCats', st.cats, 3);
+  setReq('t7rSrc', st.sources.length, T7_MIN_SRC);
+  if (newly.length && typeof t7Spark === 'function') t7Spark(newly);
+}
+function t7State() {
+  const ta = document.getElementById('openText2');
+  const text = ta ? ta.value : '';
+  const byGroup = {};
+  T7_GROUPS.forEach(g => { byGroup[g.id] = g.terms.filter(([k]) => t7Found.has(k)).map(([, l]) => l); });
+  const cats = ['sentral', 'perifer', 'anaerob'].filter(id => byGroup[id].length > 0).length;
+  const sources = t7ValidSources();
+  const words = t7Words(text);
+  return { words, terms: t7Found.size, cats, byGroup, sources,
+    met: words >= T7_MIN_WORDS && t7Found.size >= T7_MIN_TERMS && cats >= 3 && sources.length >= T7_MIN_SRC };
+}
+function t7Spark(keys) {
+  const meter = document.querySelector('.t7-meter');
+  keys.slice(0, 2).forEach((k, i) => {
+    const s = document.createElement('span');
+    s.className = 't7-plus'; s.style.setProperty('--gc', (T7_GROUPS.find(g => g.id === T7_LABEL[k].g) || {}).col || '#00C2A8');
+    s.textContent = '+1 ' + T7_LABEL[k].label;
+    s.style.animationDelay = (i * 0.15) + 's';
+    meter.appendChild(s); setTimeout(() => s.remove(), 1600);
+  });
+}
+
+function t7RenderSources() {
+  const box = document.getElementById('t7Sources');
+  box.innerHTML = t7Sources.map((s, i) =>
+    '<div class="src-row" id="t7src' + i + '">' +
+      '<span class="src-num">' + (i + 1) + '</span>' +
+      '<select onchange="t7SrcType(' + i + ', this.value)" aria-label="Type kilde ' + (i + 1) + '">' +
+        T7_SRC_TYPES.map(t => '<option' + (t === s.type ? ' selected' : '') + '>' + t + '</option>').join('') + '</select>' +
+      '<input type="text" value="' + t7Esc(s.text) + '" placeholder="' + t7Esc(T7_SRC_PH[s.type] || '') + '" oninput="t7SrcText(' + i + ', this.value)" aria-label="Kilde ' + (i + 1) + '">' +
+      '<button type="button" class="src-del" onclick="t7DelSource(' + i + ')" title="Fjern kilde" aria-label="Fjern kilde ' + (i + 1) + '">✕</button>' +
+      '<div class="src-hint" id="t7hint' + i + '"></div>' +
+    '</div>').join('');
+  t7Sources.forEach((s, i) => t7SrcCheck(i));
+}
+function t7SrcCheck(i) {
+  const row = document.getElementById('t7src' + i), hint = document.getElementById('t7hint' + i), s = t7Sources[i];
+  if (!row) return;
+  const ok = s.text.trim().length >= 8 && /\p{L}/u.test(s.text);
+  row.classList.toggle('ok', ok);
+  let h = '';
+  if (s.text.trim() && !ok) h = 'Skriv litt mer, så læreren kan finne kilden.';
+  else if (ok && s.type === 'Nettside' && !/(https?:\/\/|www\.|\.[a-z]{2,}(\/|\b))/i.test(s.text)) h = 'Husk lenken eller navnet på nettstedet (f.eks. noe.no).';
+  else if (ok && s.type === 'Nettside' && !/\d/.test(s.text)) h = 'Skriv gjerne hvilken dato du leste siden.';
+  hint.textContent = h;
+}
+function t7SrcType(i, v) { t7Sources[i].type = v; const inp = document.querySelector('#t7src' + i + ' input'); if (inp) inp.placeholder = T7_SRC_PH[v] || ''; t7SrcCheck(i); t7Update(); }
+function t7SrcText(i, v) { t7Sources[i].text = v; t7SrcCheck(i); t7Update(); }
+function t7AddSource() { t7Sources.push({ type: 'Nettside', text: '' }); t7RenderSources(); const inp = document.querySelector('#t7src' + (t7Sources.length - 1) + ' input'); if (inp) inp.focus(); t7Update(); }
+function t7DelSource(i) { t7Sources.splice(i, 1); if (!t7Sources.length) t7Sources.push({ type: 'Lærebok', text: '' }); t7RenderSources(); t7Update(); }
+
+function t7MarkDone() {
+  const st = t7State(), msg = document.getElementById('t7Msg'), miss = [];
+  if (st.words < T7_MIN_WORDS) miss.push('skrive minst ' + T7_MIN_WORDS + ' ord (du har ' + st.words + ')');
+  if (st.terms < T7_MIN_TERMS) miss.push('bruke minst ' + T7_MIN_TERMS + ' ulike fagbegreper (du har ' + st.terms + ')');
+  if (st.cats < 3) {
+    const lack = [['sentral', 'sentrale virkninger (hjerte, lunger, blod)'], ['perifer', 'perifere virkninger (musklene)'], ['anaerob', 'anaerob trening']]
+      .filter(([id]) => !st.byGroup[id].length).map(([, t]) => t);
+    miss.push('ta med begreper om ' + lack.join(' og '));
+  }
+  if (st.sources.length < T7_MIN_SRC) miss.push('oppgi minst ' + T7_MIN_SRC + ' kilder (du har ' + st.sources.length + ')');
+  if (miss.length) {
+    msg.className = 't7-msg show bad';
+    msg.innerHTML = '<strong>Nesten!</strong> For å fullføre må du også:<ul>' + miss.map(m => '<li>' + m + '</li>').join('') + '</ul>';
+    return;
+  }
+  msg.className = 't7-msg show good';
+  msg.innerHTML = '<strong>Supert!</strong> Du har brukt ' + st.terms + ' fagbegreper og ' + st.sources.length + ' kilder. Alt kommer med i PDF-en.';
+  markComplete('act7');
+}
+
+// Bytt ut den gamle «alert»-meldingen i oppgave 6 med en melding på siden
 function markOpenDone(actId, textId) {
   const txt = document.getElementById(textId).value.trim();
-  if (txt.length < 60) { alert('Skriv et mer fullstendig svar – forsøk å bruke de oppgitte fagbegrepene!'); return; }
+  const msg = document.getElementById(actId + 'Msg');
+  if (txt.length < 60) {
+    if (msg) { msg.className = 't7-msg show bad'; msg.innerHTML = '<strong>Litt kort!</strong> Skriv et mer fullstendig svar, og bruk fagbegrepene som står over tekstfeltet.'; }
+    return;
+  }
+  if (msg) { msg.className = 't7-msg show good'; msg.innerHTML = '<strong>Bra jobba!</strong> Svaret ditt kommer med i PDF-en.'; }
   markComplete(actId);
 }
+
+(function t7Init() {
+  const ta = document.getElementById('openText2'); if (!ta) return;
+  t7RenderBoard(); t7RenderSources();
+  ta.addEventListener('input', t7Update);
+  ta.addEventListener('scroll', () => { document.getElementById('t7Backdrop').scrollTop = ta.scrollTop; });
+  window.addEventListener('resize', () => { autoGrow(ta); });
+  t7Update();
+})();
 
 // ─── DURATION SLIDER ──────────────────────────────────────
 const sliderZones = [
@@ -2724,7 +3347,7 @@ document.querySelectorAll('.summary-concept, .ks-col').forEach((el, i) => {
 });
 
 // Large sections – fade up
-document.querySelectorAll('.learning-goals-box, .summary-card, .prose-summary, .sport-gallery-box, .methods-box, .slider-box, .key-summary-box, .practical-box, .feedback-section, .pdf-section').forEach((el, i) => {
+document.querySelectorAll('.learning-goals-box, .summary-card, .prose-summary, .sport-gallery-box, .methods-box, .slider-box, .key-summary-box, .practical-box, .o2-box, .feedback-section, .pdf-section').forEach((el, i) => {
   el.classList.add('fade-up');
   el.dataset.delay = i * 50;
   scrollObserver.observe(el);
@@ -2844,6 +3467,25 @@ async function downloadPDF() {
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  // Standardfontene i jsPDF kan bare skrive vanlige latinske tegn. Symboler og emoji
+  // ble tidligere til rare tegn i PDF-en – nå byttes de ut før teksten skrives.
+  const pdfSafe = t => String(t)
+    .replace(/₂/g, '2').replace(/→/g, '->').replace(/≈/g, 'ca. ')
+    .replace(/[✓✔✗✕★☆]/g, '').replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
+    .replace(/[^\x00-\xFF\u2013\u2014\u2022\u2026]/gu, '').replace(/ {2,}/g, ' ');
+  const _docText = doc.text.bind(doc);
+  doc.text = (t, ...a) => _docText(Array.isArray(t) ? t.map(pdfSafe) : pdfSafe(t), ...a);
+  const _docSplit = doc.splitTextToSize.bind(doc);
+  doc.splitTextToSize = (t, ...a) => _docSplit(pdfSafe(t), ...a);
+  // Tegnede ikoner (grønn hake / rød kryss / grå prikk)
+  const mark = (x, y, kind) => {
+    const col = kind === true ? [39,174,96] : kind === false ? [192,68,42] : [150,165,180];
+    doc.setFillColor(...col); doc.circle(x, y - 1.2, kind === null ? 1 : 1.8, 'F');
+    if (kind === null) return;
+    doc.setDrawColor(255,255,255); doc.setLineWidth(0.45);
+    if (kind) { doc.line(x - 0.9, y - 1.2, x - 0.25, y - 0.5); doc.line(x - 0.25, y - 0.5, x + 0.95, y - 1.9); }
+    else { doc.line(x - 0.75, y - 1.95, x + 0.75, y - 0.45); doc.line(x - 0.75, y - 0.45, x + 0.75, y - 1.95); }
+  };
   const W = 210, H = 297, lm = 15, top = 15;
   const cw = W - lm * 2;
   let y = top;
@@ -2889,10 +3531,7 @@ async function downloadPDF() {
     doc.text(qLines, lm + 4, y);
     y += qLines.length * 4 + 1;
     if (answer) {
-      const icon  = isCorrect === true ? '✓' : isCorrect === false ? '✗' : '→';
-      const cr = isCorrect === true ? [39,174,96] : isCorrect === false ? [192,68,42] : [80,100,120];
-      setC(...cr); setF(9,'bold');
-      doc.text(icon, lm + 4, y);
+      mark(lm + 5.5, y, isCorrect === true ? true : isCorrect === false ? false : null);
       setF(9,'normal'); setC(45,45,45);
       const aLines = doc.splitTextToSize(answer, cw - 14);
       doc.text(aLines, lm + 10, y);
@@ -2919,7 +3558,7 @@ async function downloadPDF() {
   const m2ok = matchedCnt === matchPairs.length;
   if (m2ok) { totalCorrect++; } totalPossible++;
   setC(45,45,45); setF(9,'normal');
-  doc.text(`Koblet ${matchedCnt} av ${matchPairs.length} begreper riktig.  ${m2ok ? '✓ Fullstendig' : '– Ikke fullstendig'}`, lm+4, y);
+  doc.text(`Koblet ${matchedCnt} av ${matchPairs.length} begreper riktig – ${m2ok ? 'fullstendig' : 'ikke fullstendig'}.`, lm+4, y);
   y += 7;
 
   // ── OPPGAVE 3: FYLL INN ──
@@ -2955,15 +3594,14 @@ async function downloadPDF() {
   const s5ok = s5correct >= 5;
   if (s5ok) totalCorrect++; totalPossible++;
   setC(45,45,45); setF(9,'normal');
-  doc.text(`${s5correct} av ${sortItems.length} plassert riktig.  ${s5ok ? '✓' : '–'}`, lm+4, y);
+  doc.text(`${s5correct} av ${sortItems.length} plassert riktig.`, lm+4, y);
   y += 5;
   items5.forEach((el, pos) => {
     checkPage(7);
     const origIdx = parseInt(el.dataset.origIdx);
     const item = sortCurrent[origIdx];
     const ok = item && item.correct === pos;
-    setC(...(ok ? [39,174,96] : [192,68,42])); setF(8,'bold');
-    doc.text(ok ? '✓' : '✗', lm+4, y);
+    mark(lm + 5.5, y, !!ok);
     setC(45,45,45); setF(8,'normal');
     doc.text(`${pos+1}. ${item ? item.label : '?'}`, lm+10, y);
     y += 5;
@@ -3003,6 +3641,32 @@ async function downloadPDF() {
     doc.text('(Ikke besvart)', lm+4, y); y+=7;
   }
 
+  if (typeof t7State === 'function') {
+    const s7 = t7State();
+    checkPage(14); y += 2;
+    setC(11,31,58); setF(9,'bold');
+    doc.text(`Fagbegreper brukt (${s7.terms}):`, lm+4, y); y += 4.8;
+    const grpNames = { sentral: 'Aerob – sentrale', perifer: 'Aerob – perifere', prest: 'Prestasjon', anaerob: 'Anaerob' };
+    setF(8.5,'normal'); setC(45,45,45);
+    let anyTerm = false;
+    Object.entries(s7.byGroup).forEach(([g, list]) => {
+      if (!list.length) return; anyTerm = true;
+      doc.splitTextToSize(`${grpNames[g]}: ${list.join(', ')}`, cw - 12).forEach(l => { checkPage(6); doc.text(l, lm+7, y); y += 4.3; });
+    });
+    if (!anyTerm) { setC(150,150,150); doc.text('Ingen fagbegreper funnet.', lm+7, y); y += 4.3; }
+    y += 2; checkPage(10);
+    setC(11,31,58); setF(9,'bold'); doc.text('Kilder:', lm+4, y); y += 4.8;
+    setF(8.5,'normal'); setC(45,45,45);
+    if (s7.sources.length) s7.sources.forEach((src, i) => {
+      doc.splitTextToSize(`${i+1}. ${src.type}: ${src.text.trim()}`, cw - 12).forEach(l => { checkPage(6); doc.text(l, lm+7, y); y += 4.3; });
+    });
+    else { setC(192,68,42); doc.text('Ingen kilder oppgitt.', lm+7, y); y += 4.3; }
+    y += 2; checkPage(8);
+    setF(8,'italic'); setC(...(s7.met ? [39,174,96] : [192,68,42]));
+    doc.text(`Krav: ${s7.words}/${T7_MIN_WORDS} ord · ${s7.terms}/${T7_MIN_TERMS} fagbegreper · ${s7.cats}/3 kategorier · ${s7.sources.length}/${T7_MIN_SRC} kilder${s7.met ? ' – alle krav oppfylt' : ''}`, lm+4, y);
+    y += 7;
+  }
+
   // ── SCORE SUMMARY (last page) ──
   checkPage(40);
   y += 6;
@@ -3013,7 +3677,7 @@ async function downloadPDF() {
   setC(255,255,255); setF(10,'normal');
   doc.text(`Rettede oppgaver: ${totalCorrect} av ${totalPossible} poeng`, lm+6, y+18);
   const pct = totalPossible > 0 ? Math.round(totalCorrect/totalPossible*100) : 0;
-  doc.text(`Prosent: ${pct}%  ${pct>=80?'🎉 Meget bra!':pct>=60?'Bra forsøk!':'Les gjennom svarene på nytt.'}`, lm+6, y+25);
+  doc.text(`Prosent: ${pct}% – ${pct>=80?'Meget bra!':pct>=60?'Bra forsøk!':'Les gjennom svarene på nytt.'}`, lm+6, y+25);
   y += 36;
 
   // ── PRAKTISK AKTIVITET ──
@@ -3024,7 +3688,7 @@ async function downloadPDF() {
     doc.setFillColor(232,93,38);
     doc.roundedRect(lm, y, cw, 10, 2, 2, 'F');
     setC(255,255,255); setF(10,'bold');
-    doc.text('🏃 Praktisk klasseromsaktivitet – Kjenn kroppen din', lm+4, y+7);
+    doc.text('Praktisk klasseromsaktivitet – Kjenn kroppen din', lm+4, y+7);
     y += 14;
     // Pulse table
     const pRows = [0,1,2,3].map(r => ({
@@ -3068,6 +3732,17 @@ async function downloadPDF() {
     y += 6;
   }
 
+  // ── BONUS: O2-REISEN ──
+  if (window.O2_RESULT) {
+    const r = window.O2_RESULT;
+    checkPage(24);
+    doc.setFillColor(123,97,255); doc.roundedRect(lm, y, cw, 10, 2, 2, 'F');
+    setC(255,255,255); setF(10,'bold'); doc.text('Bonus: O2-reisen (8-bit spill)', lm+4, y+7); y += 15;
+    setC(45,45,45); setF(9,'normal');
+    doc.text(`Fullført med ${r.score} poeng · ${r.correct} av ${r.gates} riktige dører · ${r.terms} av ${r.totalTerms} fagbegreper samlet`, lm+4, y);
+    y += 9;
+  }
+
 // ── TILBAKEMELDING OM NETTSIDEN (alltid med, uavhengig av om "Send" ble trykket) ──
   checkPage(24);
   doc.setFillColor(240,245,250);
@@ -3080,8 +3755,9 @@ async function downloadPDF() {
   const fbComment = fbTextEl ? fbTextEl.value.trim() : '';
   setC(45,45,45); setF(9,'normal');
   if (selectedRating > 0) {
-    const stars = '★'.repeat(selectedRating) + '☆'.repeat(7 - selectedRating);
-    doc.text(`Rangering: ${stars}  (${selectedRating} av 7)`, lm+4, y);
+    const rLabel = ['Svært dårlig','Dårlig','Litt dårlig','Nøytral','Bra','Veldig bra','Perfekt!'][selectedRating - 1];
+    doc.text(`Rangering: ${selectedRating} av 7 (${rLabel})`, lm+4, y);
+    for (let i = 0; i < 7; i++) { doc.setFillColor(...(i < selectedRating ? [0,194,168] : [220,226,232])); doc.circle(lm + 62 + i * 5, y - 1.2, 1.7, 'F'); }
     y += 6;
   } else {
     setC(150,150,150); setF(9,'italic');
@@ -3111,6 +3787,950 @@ async function downloadPDF() {
 </script>
 
 
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   O₂-REISEN – 8-bit spill om oksygenets vei gjennom kroppen
+   til en 100-meterløper. Ren canvas, ingen eksterne biblioteker.
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+'use strict';
+const cv = document.getElementById('o2Canvas');
+if (!cv) return;
+const ctx = cv.getContext('2d');
+const W = 320, H = 180, TOP = 20;
+ctx.imageSmoothingEnabled = false;
+
+const $ = id => document.getElementById(id);
+const screenEl = $('o2Screen'), overlayEl = $('o2Overlay'), toastEl = $('o2Toast');
+const statusEl = $('o2Status');
+
+/* ── PICO-8-palett for ekte 8-bit-følelse ── */
+const C = { k:'#000000', nv:'#1D2B53', pu:'#7E2553', dg:'#008751', br:'#AB5236', dk:'#5F574F', lg:'#C2C3C7',
+  wh:'#FFF1E8', rd:'#FF004D', or:'#FFA300', ye:'#FFEC27', gr:'#00E436', bl:'#29ADFF', la:'#83769C', pk:'#FF77A8', pe:'#FFCCAA' };
+const FONT = '8px "Press Start 2P", monospace';
+const LANE_COL = [C.bl, C.ye, C.pk];
+const LANE_LET = ['A', 'B', 'C'];
+
+/* ── Hjelpefunksjoner ── */
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const lerp = (a, b, t) => a + (b - a) * t;
+const smooth = (e0, e1, x) => { const t = clamp((x - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
+function rngOf(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function rect(x, y, w, h, c) { ctx.fillStyle = c; ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); }
+function disc(cx, cy, r, c) {
+  ctx.fillStyle = c; cx = Math.round(cx); cy = Math.round(cy); r = Math.round(r);
+  for (let dy = -r; dy <= r; dy++) { const w = Math.floor(Math.sqrt(r * r - dy * dy) + 0.35); ctx.fillRect(cx - w, cy + dy, 2 * w + 1, 1); }
+}
+function txt(s, x, y, c, al) { ctx.font = FONT; ctx.textBaseline = 'top'; ctx.textAlign = al || 'left'; ctx.fillStyle = c; ctx.fillText(s, Math.round(x), Math.round(y)); }
+function stxt(s, x, y, c, al) { txt(s, x + 1, y + 1, C.k, al); txt(s, x, y, c, al); }
+function tw(s) { ctx.font = FONT; return ctx.measureText(s).width; }
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+/* ── Fagbegreper som kan samles ── */
+const TERMS = {
+  luftror:        { t: 'Luftrøret', c: 'luft', d: 'Leder lufta fra svelget ned mot lungene.' },
+  bronkiene:      { t: 'Bronkiene', c: 'luft', d: 'Forgreiningene av luftrøret inne i lungene.' },
+  alveolene:      { t: 'Alveolene', c: 'luft', d: 'Ca. 300 millioner lungeblærer med 70–80 m² flate. Her skjer gassutvekslingen.' },
+  diffusjon:      { t: 'Diffusjon', c: 'luft', d: 'Gass vandrer fra høy til lav konsentrasjon: O₂ inn i blodet, CO₂ ut i lufta.' },
+  hemoglobin:     { t: 'Hemoglobin', c: 'blod', d: 'Proteinet i de røde blodcellene som binder O₂ og frakter det rundt i kroppen.' },
+  lille:          { t: 'Det lille kretsløpet', c: 'blod', d: 'Høyre hjertekammer → lungene → venstre forkammer. Blodet henter O₂ og leverer CO₂.' },
+  plasma:         { t: 'Plasma', c: 'blod', d: 'Den flytende delen av blodet. Frakter næringsstoffer, CO₂ og varme.' },
+  forkammer:      { t: 'Forkammer', c: 'hjerte', d: 'Hjertet har to forkamre. De tar imot blodet som kommer inn til hjertet.' },
+  hjertekammer:   { t: 'Hjertekammer', c: 'hjerte', d: 'De to kraftige kamrene som pumper blodet ut av hjertet.' },
+  slagvolum:      { t: 'Slagvolum', c: 'hjerte', d: 'Blodmengden hjertet pumper ut per slag. Ca. 75 ml i hvile – øker med utholdenhetstrening.' },
+  hjertefrekvens: { t: 'Hjertefrekvens', c: 'hjerte', d: 'Antall hjerteslag per minutt (puls). Makspuls ≈ 220 minus alder.' },
+  aorta:          { t: 'Aorta', c: 'hjerte', d: 'Hovedpulsåren. Tar imot blodet fra venstre hjertekammer.' },
+  arterier:       { t: 'Arterier', c: 'blod', d: 'Pulsårer: tykke, sterke og elastiske årer som fører blodet ut fra hjertet.' },
+  minuttvolum:    { t: 'Minuttvolum', c: 'hjerte', d: 'Slagvolum × hjertefrekvens. Ca. 5 l/min i hvile, opptil 30–40 l/min hos godt trente.' },
+  store:          { t: 'Det store kretsløpet', c: 'blod', d: 'Venstre hjertekammer → hele kroppen → høyre forkammer. Leverer O₂ til cellene.' },
+  kapillarer:     { t: 'Kapillærer', c: 'muskel', d: 'De minste blodårene. Tynn vegg og lavt trykk – her skjer utvekslingen med cellene.' },
+  kapillartetthet:{ t: 'Kapillærtetthet', c: 'muskel', d: 'Hvor mange kapillærer som ligger rundt muskelfibrene. Øker med utholdenhetstrening.' },
+  laktat:         { t: 'Laktat (melkesyre)', c: 'muskel', d: 'Dannes ved anaerob energifrigjøring, når musklene trenger mer energi enn oksygenet rekker å gi.' },
+  mitokondrier:   { t: 'Mitokondrier', c: 'energi', d: 'Cellens kraftverk. Her skjer den aerobe energifrigjøringen.' },
+  vo2maks:        { t: 'VO₂-maks', c: 'energi', d: 'Kroppens maksimale evne til å ta opp og omsette oksygen per minutt.' },
+  atp:            { t: 'ATP', c: 'energi', d: 'Kroppens «energivaluta». Musklene trenger ATP for å trekke seg sammen.' },
+  aerob:          { t: 'Aerob energifrigjøring', c: 'energi', d: 'Glykogen eller fett + O₂ → ATP + CO₂ + vann.' }
+};
+const TERM_KEYS = Object.keys(TERMS);
+
+/* ── Spørsmålsporter ── */
+const GATES = [
+  { q: 'Hvor skjer gassutvekslingen i lungene?', o: ['ALVEOLENE', 'BRONKIENE', 'LUFTRØRET'],
+    why: 'I alveolene (lungeblærene) er veggen ekstremt tynn. Der diffunderer O₂ over i blodet i kapillærene rundt.' },
+  { q: 'Det oksygenrike blodet fra lungene når hjertet. Hvor kommer det inn?', o: ['VENSTRE FORKAMMER', 'HØYRE FORKAMMER', 'VENSTRE HJERTEKAMMER'],
+    why: 'Det lille kretsløpet ender i venstre forkammer. Venstre side av hjertet tar imot oksygenrikt blod fra lungene.' },
+  { q: 'Fra venstre forkammer – hvor går blodet videre?', o: ['VENSTRE HJERTEKAMMER', 'HØYRE HJERTEKAMMER', 'LUNGENE'],
+    why: 'Blodet går fra forkammeret ned i hjertekammeret på samme side. En hjerteklaff sørger for at det ikke renner tilbake.' },
+  { q: 'Venstre hjertekammer trekker seg sammen. Hvor pumpes du ut?', o: ['AORTA', 'LUNGENE', 'HØYRE FORKAMMER'],
+    why: 'Venstre hjertekammer pumper blodet ut i aorta – hovedpulsåren. Her starter det store kretsløpet.' },
+  { q: 'Løperen sprinter for fullt. Hvor sendes mest blod nå?', o: ['LÅRMUSKLENE', 'MAGESEKKEN', 'HUDEN'],
+    why: 'Under hardt arbeid går det meste av minuttvolumet til musklene som jobber. Fordøyelsen må vente.' },
+  { q: 'Hvor i muskelcellen brukes oksygenet?', o: ['MITOKONDRIENE', 'CYTOPLASMA', 'CELLEKJERNEN'],
+    why: 'Aerob energifrigjøring skjer i mitokondriene. I cytoplasma skjer den anaerobe energifrigjøringen – uten oksygen.' }
+];
+
+/* ── Etappene ── */
+const ZONES = [
+  { key: 'luft', name: 'Luftveiene', map: 'Munnhulen → luftrøret → bronkiene', len: 1500, speed: 58, beat: 0,
+    col: { bg: '#2b0d1f', wall: '#9e2a5c', edge: C.pk, deep: '#5a1233' },
+    tunnel(x) { const p = x / this.len; return { c: 100 + Math.sin(x * 0.012) * 8, h: lerp(62, 42, smooth(0.3, 0.6, p)) }; },
+    spawn: [['stov', 5], ['slim', 3], ['spark', 4]], gap: [42, 74],
+    terms: ['luftror', 'bronkiene'],
+    signs: [[30, 'MUNNHULEN'], [300, 'LUFTRØRET'], [800, 'BRONKIENE']],
+    gates: [{ x: 1340, g: 0 }],
+    card: { k: 'ETAPPE 1 AV 7', h: 'Luftveiene',
+      p: '«Klar … ferdig …» Løperen tar et dypt innpust i startblokka. Du er ett av milliarder oksygenmolekyler (O₂) som suges inn gjennom <strong>munnhulen</strong>, ned <strong>luftrøret</strong> og ut i <strong>bronkiene</strong>. På veien blir lufta varmet opp, fuktet og renset for støv.',
+      goal: 'Styr unna støv og slim. Plukk opp ★-kortene for å samle fagbegreper. Velg riktig dør når spørsmålet dukker opp!' } },
+  { key: 'alv', name: 'Alveolene', map: 'Gassutveksling i lungene', len: 1300, speed: 50, beat: 0,
+    col: { bg: '#0f2742', wall: '#1f4d7a', edge: C.bl, deep: '#123456' },
+    tunnel() { return { c: 99, h: 77 }; },
+    spawn: [['co2', 5], ['spark', 3]], gap: [50, 90],
+    terms: ['alveolene', 'diffusjon'],
+    signs: [[30, 'ALVEOLE (LUFT)']],
+    gates: [],
+    card: { k: 'ETAPPE 2 AV 7', h: 'Alveolene – gassutveksling',
+      p: 'PANG! Startskuddet går. Du har nådd en <strong>alveole</strong> – en av rundt 300 millioner små lungeblærer. Veggen herfra og inn i blodet er tynnere enn et hårstrå. Nå skjer gassutvekslingen: du <strong>diffunderer</strong> inn i blodet, mens CO₂ går motsatt vei for å bli pustet ut.',
+      goal: 'Dykk ned gjennom den stiplede veggen og fang en rød blodcelle. Hemoglobinet binder deg og frakter deg videre. Ikke kræsj i CO₂-molekylene!' } },
+  { key: 'lv', name: 'Det lille kretsløpet', map: 'Lungene → venstre forkammer', len: 1400, speed: 64, beat: 0,
+    col: { bg: '#3a0a14', wall: '#8a1030', edge: C.rd, deep: '#5a0a1e' },
+    tunnel(x) { return { c: 100 + Math.sin(x * 0.009) * 12, h: 50 }; },
+    spawn: [['plate', 4], ['hvit', 2], ['spark', 3]], gap: [55, 95],
+    terms: ['lille', 'plasma'],
+    signs: [[40, 'OKSYGENRIKT BLOD']],
+    gates: [{ x: 1240, g: 1 }],
+    card: { k: 'ETAPPE 3 AV 7', h: 'Det lille kretsløpet',
+      p: 'Bundet til hemoglobin suser du ut av lungene i oksygenrikt blod. Dette er siste del av <strong>det lille kretsløpet</strong>: høyre hjertekammer → lungene → venstre forkammer. Blodet har hentet O₂ og levert fra seg CO₂.',
+      goal: 'Unngå blodplatene og de hvite blodcellene som patruljerer. Finn riktig inngang til hjertet.' } },
+  { key: 'hjerte', name: 'Hjertet', map: 'Venstre forkammer → venstre hjertekammer', len: 1200, speed: 55, beat: 1.25,
+    col: { bg: '#2a0610', wall: '#7a0f24', edge: '#ff4d6d', deep: '#4a0818' },
+    tunnel() { return { c: 100, h: 68 }; },
+    spawn: [['plate', 2], ['hvit', 1], ['spark', 3]], gap: [80, 130],
+    terms: ['forkammer', 'hjertekammer', 'slagvolum', 'hjertefrekvens'],
+    signs: [[30, 'VENSTRE FORKAMMER'], [640, 'VENSTRE HJERTEKAMMER']],
+    gates: [{ x: 380, g: 2 }, { x: 870, g: 3 }],
+    klaffer: [560, 1060],
+    card: { k: 'ETAPPE 4 AV 7', h: 'Hjertet',
+      p: 'Velkommen inn i <strong>hjertet</strong> – en hul muskel med fire kamre. Pulsen til løperen stiger mot 180! <strong>Hjerteklaffene</strong> åpner og lukker seg i takt med hjerteslagene, slik at blodet bare går én vei.',
+      goal: 'Vent til klaffen åpner seg før du svømmer gjennom. Svar riktig på veien gjennom hjertet.' } },
+  { key: 'aorta', name: 'Det store kretsløpet', map: 'Aorta → arteriene', len: 1600, speed: 92, beat: 0.9,
+    col: { bg: '#3a0a14', wall: '#a01236', edge: C.rd, deep: '#600a20' },
+    tunnel(x) { const p = x / this.len; return { c: 100 + Math.sin(x * 0.006) * 6, h: lerp(70, 48, smooth(0.35, 0.7, p)) }; },
+    spawn: [['pillar', 4], ['hvit', 2], ['plate', 2], ['spark', 3]], gap: [60, 100],
+    terms: ['aorta', 'arterier', 'minuttvolum', 'store'],
+    signs: [[40, 'AORTA'], [760, 'ARTERIENE']],
+    gates: [{ x: 1440, g: 4 }],
+    card: { k: 'ETAPPE 5 AV 7', h: 'Det store kretsløpet',
+      p: 'BOOM! Venstre hjertekammer trekker seg sammen, og du skytes ut i <strong>aorta</strong> – hovedpulsåren. Her er trykket høyt og farten stor. Aorta forgreiner seg i <strong>arterier</strong> (pulsårer) ut til hele kroppen.',
+      goal: 'Hold deg unna forgreiningene og finn veien dit O₂ trengs mest.' } },
+  { key: 'kap', name: 'Kapillærene', map: 'Kapillærene i lårmuskelen', len: 1300, speed: 44, beat: 0,
+    col: { bg: '#2e0a12', wall: '#b4471f', edge: C.or, deep: '#7a2a10' },
+    tunnel(x) { return { c: 100 + Math.sin(x * 0.018) * 16, h: 28 }; },
+    spawn: [['laktat', 6], ['spark', 2]], gap: [38, 64],
+    terms: ['kapillarer', 'kapillartetthet', 'laktat'],
+    signs: [[40, 'KAPILLÆRENE']],
+    gates: [{ x: 1140, g: 5 }],
+    card: { k: 'ETAPPE 6 AV 7', h: '🏁 Løperen er i mål!',
+      p: 'Tida er <strong>10,48 sekunder</strong> – men du er ikke fremme ennå! Faktisk har løperen brukt svært lite oksygen i løpet. Det aerobe systemet trenger tid på å komme i gang, og en 100-meter er over altfor fort. Rundt <strong>90 % av energien</strong> kom fra anaerobe kilder: kreatinfosfat og anaerob nedbrytning av glykogen – som gir laktat (melkesyre).',
+      fact: 'Oksygenet du leverer nå, brukes i restitusjonen: til å bygge opp igjen kreatinfosfatlagrene og bryte ned laktat. Derfor pester løperen etter målgang!',
+      goal: 'Du er i kapillærene i lårmuskelen – de tynneste blodårene. Det er trangt, og det flyter laktat overalt. Unngå dråpene og finn ut hvor oksygenet skal brukes.' } },
+  { key: 'mito', name: 'Mitokondrien', map: 'Inne i muskelcellen', len: 1100, speed: 48, beat: 0,
+    col: { bg: '#241c06', wall: '#7a5a10', edge: C.or, deep: '#4a3808' },
+    tunnel(x) { const p = x / this.len; return { c: 100 + Math.sin(x * 0.016) * 36 * smooth(0, 0.15, p) * (1 - smooth(0.85, 1, p)), h: 34 }; },
+    spawn: [['glu', 5], ['spark', 2]], gap: [50, 90],
+    terms: ['mitokondrier', 'vo2maks'],
+    signs: [[40, 'MITOKONDRIEN']],
+    gates: [],
+    card: { k: 'ETAPPE 7 AV 7', h: 'Mitokondrien',
+      p: 'Du har diffundert inn i muskelcellen og videre inn i en <strong>mitokondrie</strong> – cellens kraftverk. Her skjer den aerobe energifrigjøringen: glykogen eller fett brytes ned ved hjelp av O₂, og det dannes <strong>ATP</strong>, CO₂ og vann.',
+      goal: 'Plukk opp glukose (drivstoff) og kom deg helt inn til kjernen av kraftverket!' } }
+];
+const RUN_LEN = ZONES.slice(0, 5).reduce((s, z) => s + z.len, 0);
+
+/* ── Spilltilstand ── */
+const G = {
+  state: 'title', zi: 0, scroll: 0, time: 0, total: 0, lives: 3, score: 0,
+  ents: [], parts: [], gates: [], terms: new Set(), correct: 0, answered: 0,
+  shake: 0, flash: null, beatPrev: 0, checkpoint: null, engaged: false, visible: true,
+  finaleT: 0, demoScroll: 0
+};
+const P = { x: 50, y: 100, vx: 0, vy: 0, r: 4, form: 'o2', inv: 0, trail: 0 };
+const keys = {};
+const ptr = { on: false, x: 0, y: 0 };
+let soundOn = false, AC = null;
+
+/* ── Lyd (8-bit pip via WebAudio) ── */
+function snd(f, d, type, vol, f2, delay) {
+  if (!soundOn) return;
+  try {
+    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+    const t = AC.currentTime + (delay || 0);
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.type = type || 'square'; o.frequency.setValueAtTime(f, t);
+    if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + d);
+    g.gain.setValueAtTime(vol || 0.04, t); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+    o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + d + 0.03);
+  } catch (e) { /* lyd er valgfritt */ }
+}
+const SFX = {
+  spark: () => snd(1320, 0.05),
+  term: () => { snd(660, 0.07); snd(880, 0.07, 'square', 0.04, 0, 0.07); snd(1320, 0.1, 'square', 0.04, 0, 0.14); },
+  hit: () => snd(220, 0.28, 'sawtooth', 0.05, 55),
+  soft: () => snd(330, 0.08, 'triangle', 0.05, 200),
+  ok: () => [523, 659, 784, 1047].forEach((f, i) => snd(f, 0.09, 'square', 0.04, 0, i * 0.08)),
+  bad: () => { snd(311, 0.18, 'square', 0.05); snd(233, 0.3, 'square', 0.05, 0, 0.18); },
+  beat: () => snd(70, 0.14, 'sine', 0.14, 40),
+  bind: () => { snd(392, 0.08); snd(587, 0.12, 'square', 0.04, 0, 0.08); },
+  win: () => [523, 659, 784, 1047, 784, 1047, 1319].forEach((f, i) => snd(f, 0.12, 'square', 0.05, 0, i * 0.11))
+};
+
+/* ── Tunnel med automatisk utvidelse ved spørsmålsporter ── */
+function tun(z, x) {
+  const t = z.tunnel(x);
+  let h = t.h;
+  z.gates.forEach(g => { const d = Math.abs(x - g.x); if (d < 220) h = Math.max(h, lerp(64, h, smooth(90, 220, d))); });
+  h = Math.min(h, t.c - (TOP + 2), (H - 2) - t.c);
+  return { c: t.c, h, top: t.c - h, bot: t.c + h };
+}
+const Z = () => ZONES[G.zi];
+
+/* ── Lage innholdet i en etappe ── */
+function mkEnt(type, x, y, r) {
+  const e = { type, x, y, vx: 0, vy: 0, ph: r() * 6.28, r: 4, hard: false, soft: false, alive: true };
+  switch (type) {
+    case 'stov': e.r = 4; e.hard = true; e.vy = (r() - 0.5) * 18; e.vx = -8; break;
+    case 'slim': e.r = 6; e.hard = true; e.side = r() < 0.5 ? -1 : 1; break;
+    case 'spark': e.r = 4; break;
+    case 'co2': e.r = 6; e.soft = true; e.vy = -(12 + r() * 12); e.vx = -6; break;
+    case 'rbcC': e.r = 7; e.vx = 12 + r() * 10; break;
+    case 'rbcD': e.r = 6; e.decor = true; e.vx = -(8 + r() * 30); break;
+    case 'hvit': e.r = 7; e.soft = true; e.vy = (r() - 0.5) * 22; break;
+    case 'plate': e.r = 4; e.soft = true; e.vx = -(6 + r() * 14); e.vy = (r() - 0.5) * 12; break;
+    case 'pillar': e.hard = true; e.side = r() < 0.5 ? -1 : 1; e.w = 12; e.frac = 0.42 + r() * 0.12; break;
+    case 'laktat': e.r = 4; e.hard = true; e.vy = (r() - 0.5) * 26; e.vx = -(4 + r() * 10); break;
+    case 'glu': e.r = 5; break;
+  }
+  return e;
+}
+function pickW(list, r) { const tot = list.reduce((s, a) => s + a[1], 0); let v = r() * tot; for (const [k, w] of list) { if ((v -= w) <= 0) return k; } return list[0][0]; }
+
+function buildZone(zi) {
+  const z = ZONES[zi], r = rngOf(1000 + zi * 97 + Math.floor(Math.random() * 1e6));
+  const ents = [];
+  const avoid = z.gates.map(g => [g.x, 160]).concat((z.klaffer || []).map(k => [k, 70]));
+  for (let x = 240; x < z.len - 60;) {
+    x += z.gap[0] + r() * (z.gap[1] - z.gap[0]);
+    if (avoid.some(([ax, d]) => Math.abs(x - ax) < d)) continue;
+    const type = pickW(z.spawn, r);
+    const tn = tun(z, x);
+    let y = lerp(tn.top + 10, tn.bot - 10, r());
+    if (z.key === 'alv') y = type === 'co2' ? lerp(110, 168, r()) : lerp(30, 88, r());
+    ents.push(mkEnt(type, x, y, r));
+  }
+  // Fagbegrep-kort jevnt fordelt, med fri plass rundt
+  const tAvoid = z.gates.map(g => [g.x, 120]).concat((z.klaffer || []).map(k => [k, 50]));
+  const cands = [];
+  for (let x = 150; x < z.len - 90; x += 10) if (!tAvoid.some(([ax, d]) => Math.abs(x - ax) < d)) cands.push(x);
+  z.terms.forEach((k, i) => {
+    const x = cands[Math.floor(cands.length * (i + 0.5) / z.terms.length)];
+    const tn = tun(z, x);
+    const y = z.key === 'alv' ? (i % 2 ? 130 : 58) : tn.c + (i % 2 ? 10 : -10);
+    for (const e of ents) if (Math.abs(e.x - x) < 40) e.alive = false;
+    ents.push({ type: 'term', key: k, x, y, r: 6, ph: r() * 6, alive: true });
+  });
+  // Røde blodceller: fangbare i alveolene, ellers bakgrunnstrafikk
+  if (z.key === 'alv') for (let x = 160; x < z.len - 80; x += 95 + r() * 50) ents.push(mkEnt('rbcC', x, lerp(112, 166, r()), r));
+  if (['lv', 'aorta', 'hjerte'].includes(z.key)) for (let x = 0; x < z.len + 400; x += 70 + r() * 80) { const tn = tun(z, x); ents.push(mkEnt('rbcD', x, lerp(tn.top + 8, tn.bot - 8, r()), r)); }
+  if (z.key === 'kap') for (let x = 0; x < z.len + 300; x += 90 + r() * 60) { const tn = tun(z, x); ents.push(mkEnt('rbcD', x, lerp(tn.top + 8, tn.bot - 8, r()), r)); }
+  G.ents = ents.filter(e => e.alive);
+  G.gates = z.gates.map(gd => {
+    const src = GATES[gd.g];
+    const opts = shuffle(src.o.map((label, i) => ({ label, ok: i === 0 })));
+    return { x: gd.x, q: src.q, why: src.why, right: src.o[0], opts, lane: -1, done: false, shown: false };
+  });
+}
+
+/* ── Start / etapper / sjekkpunkt ── */
+function startZone(zi, fromCheckpoint) {
+  G.zi = zi; G.scroll = 0; G.parts = []; G.flash = null; G.shake = 0;
+  P.x = 44; P.vx = P.vy = 0; P.inv = 0;
+  const tn = tun(ZONES[zi], P.x); P.y = tn.c;
+  if (zi <= 1) { P.form = 'o2'; P.r = 4; } else if (zi <= 5) { P.form = 'rbc'; P.r = 6; } else { P.form = 'o2'; P.r = 4; }
+  if (zi === 1) P.y = 60;
+  buildZone(zi);
+  if (!fromCheckpoint) G.checkpoint = { zi, score: G.score, terms: new Set(G.terms), correct: G.correct, answered: G.answered };
+  hideQ(); updateStatus(); mapUpdate();
+  showZoneCard(zi);
+}
+function newGame() {
+  G.score = 0; G.lives = 3; G.terms = new Set(); G.correct = 0; G.answered = 0; G.total = 0;
+  renderChips(); startZone(0);
+}
+function retryCheckpoint() {
+  const cp = G.checkpoint;
+  G.score = cp.score; G.terms = new Set(cp.terms); G.correct = cp.correct; G.answered = cp.answered; G.lives = 3;
+  renderChips(); startZone(cp.zi, true);
+}
+function nextZone() {
+  const z = Z();
+  if (z.key === 'alv' && P.form !== 'rbc') {
+    P.form = 'rbc'; P.r = 6; G.score = Math.max(0, G.score - 20); collectTerm('hemoglobin', true);
+    toast('<b>Puh!</b> En rød blodcelle fanget deg i siste liten (−20).', 'bad');
+  }
+  if (G.zi >= ZONES.length - 1) { startFinale(); return; }
+  startZone(G.zi + 1);
+}
+
+/* ── DOM: kort, toast, status, spørsmål ── */
+function card(html, cls, buttons) {
+  overlayEl.innerHTML = '<div class="o2-card ' + (cls || '') + '">' + html + '<div class="o2-card-btns">' +
+    buttons.map((b, i) => '<button type="button" class="o2-go ' + (b.cls || '') + '" data-i="' + i + '">' + b.t + '</button>').join('') + '</div></div>';
+  overlayEl.classList.add('show');
+  overlayEl.querySelectorAll('.o2-go').forEach(btn => btn.addEventListener('click', ev => {
+    ev.stopPropagation(); const b = buttons[+btn.dataset.i]; ensureAudio(); b.fn();
+  }));
+  G.cardGo = buttons[0] ? buttons[0].fn : null;
+  const first = overlayEl.querySelector('.o2-go'); if (first && G.engaged) first.focus({ preventScroll: true });
+}
+function closeCard() { overlayEl.classList.remove('show'); overlayEl.innerHTML = ''; G.cardGo = null; }
+function showZoneCard(zi) {
+  const c = ZONES[zi].card;
+  G.state = 'card';
+  card('<div class="o2-kicker">' + c.k + '</div><h3>' + c.h + '</h3><p>' + c.p + '</p>' +
+       (c.fact ? '<div class="o2-fact">💡 ' + c.fact + '</div>' : '') +
+       '<div class="o2-goal">🎯 ' + c.goal + '</div>', zi === 5 ? 'o2-gold' : '',
+       [{ t: 'START ▶', fn: () => { closeCard(); G.state = 'play'; focusScreen(); } }]);
+}
+let toastTimer = null;
+function toast(html, kind, ms) {
+  toastEl.className = 'o2-toast show ' + (kind || '');
+  toastEl.innerHTML = html;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), ms || 2600);
+}
+function updateStatus() {
+  const statusTxt = $('o2StatusText'); if (!statusTxt) return;
+  if (G.state === 'title') { statusTxt.textContent = 'Trykk START for å begynne'; return; }
+  const z = Z(), m = runnerMeters();
+  const t = runnerTime(m);
+  statusTxt.innerHTML = '<b>Etappe ' + (G.zi + 1) + '/7 · ' + z.name + '</b> &nbsp;·&nbsp; ' + z.map +
+    ' &nbsp;·&nbsp; 🏃 ' + (m >= 100 ? 'I mål: 10,48 s' : Math.round(m) + ' m (' + t.toFixed(1).replace('.', ',') + ' s)');
+}
+function showQ(g) {
+  statusEl.classList.add('o2-ask');
+  statusEl.innerHTML = '<div class="o2-q">❓ ' + g.q + '</div><div class="o2-opts">' +
+    g.opts.map((o, i) => '<span class="o2-opt o2-opt-' + i + '"><b>' + LANE_LET[i] + '</b>' + o.label + '</span>').join('') + '</div>';
+}
+function hideQ() {
+  if (!statusEl.classList.contains('o2-ask') && statusEl.querySelector('#o2StatusText')) return;
+  statusEl.classList.remove('o2-ask');
+  statusEl.innerHTML = '<span class="o2-st-dot"></span><span id="o2StatusText"></span>';
+  updateStatus();
+}
+
+/* ── Begrepssamling ── */
+function renderChips() {
+  const box = $('o2TermChips');
+  box.innerHTML = TERM_KEYS.map(k => '<span class="o2-chip c-' + TERMS[k].c + (G.terms.has(k) ? ' got' : '') +
+    '" data-term="' + k + '" title="' + TERMS[k].d.replace(/"/g, '&quot;') + '">' + TERMS[k].t + '</span>').join('');
+  $('o2TermCount').textContent = G.terms.size + ' / ' + TERM_KEYS.length;
+}
+function collectTerm(k, silent) {
+  if (G.terms.has(k)) return;
+  G.terms.add(k);
+  const chip = document.querySelector('.o2-chip[data-term="' + k + '"]');
+  if (chip) { chip.classList.add('got', 'pop'); setTimeout(() => chip.classList.remove('pop'), 700); }
+  $('o2TermCount').textContent = G.terms.size + ' / ' + TERM_KEYS.length;
+  if (!silent) { SFX.term(); toast('<b>★ ' + TERMS[k].t + '</b> – ' + TERMS[k].d, 'term', 3600); }
+}
+
+/* ── Løperen på 100-meteren ── */
+function runnerMeters() {
+  if (G.state === 'title') return 0;
+  if (G.zi >= 5) return 100;
+  let before = 0; for (let i = 0; i < G.zi; i++) before += ZONES[i].len;
+  return clamp((before + G.scroll) / RUN_LEN * 100, 0, 100);
+}
+function runnerTime(m) { return 10.48 * Math.pow(m / 100, 0.85); }
+function heartRate() {
+  const m = runnerMeters();
+  if (G.zi <= 4) return Math.round(lerp(112, 192, m / 100));
+  if (G.zi === 5) return 192;
+  return Math.round(lerp(190, 172, clamp(G.scroll / Z().len, 0, 1)));
+}
+
+/* ── Treff og innsamling ── */
+const HIT_TXT = { stov: '<b>Støv!</b> Luftveiene prøver å rense det bort.', slim: '<b>Slim!</b> Det fanger støv – og deg.',
+  laktat: '<b>Au! Laktat!</b> Sprint = mye anaerob energifrigjøring.', pillar: '<b>Kræsj!</b> Du traff en forgreining av arterien.' };
+const SOFT_TXT = { co2: 'CO₂ på vei ut – slipp den forbi!', hvit: 'Hvit blodcelle: «Hvem der? Å, bare et O₂ …»', plate: 'Blodplate i veien!' };
+function burst(x, y, col, n, spd) {
+  for (let i = 0; i < n; i++) { const a = Math.random() * 6.28, s = (spd || 40) * (0.4 + Math.random()); G.parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 0.5 + Math.random() * 0.4, c: col }); }
+}
+function hurt(type) {
+  G.lives--; P.inv = 1.6; G.shake = 0.25; G.flash = { c: 'rgba(255,0,77,0.35)', t: 0.18 };
+  SFX.hit(); burst(P.x, P.y, C.rd, 14, 50);
+  toast((HIT_TXT[type] || '<b>Au!</b>') + ' (−1 liv)', 'bad');
+  if (G.lives <= 0) gameOver();
+}
+function bump(e) {
+  P.inv = 0.5; P.x = Math.max(10, P.x - 14); P.vy += (P.y < e.y ? -60 : 60);
+  G.score = Math.max(0, G.score - 5); SFX.soft();
+  if (Math.random() < 0.6) toast(SOFT_TXT[e.type] + ' (−5)', '', 1600);
+}
+
+/* ── Spørsmålsporter ── */
+function laneBounds(g, i) {
+  const tn = tun(Z(), g.x), lh = (tn.bot - tn.top) / 3;
+  return { top: tn.top + i * lh, bot: tn.top + (i + 1) * lh, tn };
+}
+function laneOfY(g, y) { const tn = tun(Z(), g.x); return clamp(Math.floor((y - tn.top) / ((tn.bot - tn.top) / 3)), 0, 2); }
+function passGate(g) {
+  g.done = true; hideQ();
+  const lane = g.lane >= 0 ? g.lane : laneOfY(g, P.y);
+  const opt = g.opts[lane];
+  G.answered++;
+  if (opt.ok) {
+    G.correct++; G.score += 100; SFX.ok(); burst(P.x, P.y, C.gr, 22, 60);
+    G.flash = { c: 'rgba(0,228,54,0.25)', t: 0.25 };
+    toast('<b>RIKTIG! +100</b> ' + g.why, 'good', 4600);
+  } else {
+    SFX.bad(); G.lives--; G.flash = { c: 'rgba(255,0,77,0.35)', t: 0.25 }; G.shake = 0.3;
+    G.state = 'card';
+    const dead = G.lives <= 0;
+    card('<div class="o2-kicker">FEIL DØR</div><h3>Ikke helt …</h3><p>Du valgte <strong>' + opt.label + '</strong>. Riktig svar er <strong>' + g.right + '</strong>.</p><p>' + g.why + '</p>' +
+      (dead ? '' : '<div class="o2-goal">Blodet sender deg likevel riktig vei – men det kostet ett liv.</div>'),
+      'o2-bad', [{ t: dead ? 'OK' : 'FORTSETT ▶', fn: () => { closeCard(); if (dead) gameOver(); else { G.state = 'play'; focusScreen(); } } }]);
+  }
+  if (Z().key === 'kap') {
+    P.form = 'o2'; P.r = 4; SFX.bind(); burst(P.x, P.y, C.bl, 16, 40);
+    setTimeout(() => { if (G.state === 'play') toast('<b>Slipp!</b> Du løsner fra hemoglobinet og diffunderer inn i muskelcellen.', 'term', 3400); }, opt.ok ? 2400 : 200);
+  }
+}
+
+/* ── Oppdatering ── */
+function update(dt) {
+  const z = Z();
+  G.time += dt; G.total += dt;
+  // Hjerteslag (spillfart – den ekte pulsen vises i HUD)
+  let beatPh = 0;
+  if (z.beat) {
+    beatPh = (G.time % z.beat) / z.beat;
+    if (beatPh < G.beatPrev) SFX.beat();
+    G.beatPrev = beatPh;
+  }
+  // Fart
+  let sf = 1, halt = false;
+  for (const g of G.gates) {
+    const gs = g.x - G.scroll;
+    if (!g.done && gs - P.x < 300 && !g.shown) { g.shown = true; showQ(g); }
+    if (!g.done && gs - P.x < 210 && gs - P.x > -12) sf = Math.min(sf, 0.4);
+  }
+  if (z.beat && beatPh < 0.18) sf *= 1 + 0.9 * (1 - beatPh / 0.18);
+  // Hjerteklaffer
+  const kOpen = klaffOpen(beatPh);
+  if (z.klaffer) for (const k of z.klaffer) {
+    const ks = k - G.scroll;
+    if (ks > P.x - 4 && ks - P.x < P.r + 30) {
+      const tn = tun(z, k), gapH = kOpen * 30;
+      const inGap = Math.abs(P.y - tn.c) < gapH - P.r;
+      if (!inGap && ks - P.x < P.r + 5) { P.x = ks - P.r - 5; if (P.x <= 12) { P.x = 12; halt = true; } }
+    }
+  }
+  if (halt) sf = 0;
+  G.scroll += z.speed * sf * dt;
+
+  // Spiller
+  let ix = 0, iy = 0;
+  if (keys.l) ix--; if (keys.r) ix++; if (keys.u) iy--; if (keys.d) iy++;
+  const SPD = 100;
+  if (ix || iy) { const l = Math.hypot(ix, iy); P.vx = ix / l * SPD; P.vy = iy / l * SPD; }
+  else if (ptr.on) {
+    const dx = (ptr.x + 22) - P.x, dy = ptr.y - P.y, d = Math.hypot(dx, dy);
+    const s = Math.min(SPD * 1.4, d * 8);
+    P.vx = d > 0.5 ? dx / d * s : 0; P.vy = d > 0.5 ? dy / d * s : 0;
+  } else { P.vx *= 0.82; P.vy *= 0.82; }
+  P.x = clamp(P.x + P.vx * dt, 10, 232);
+  P.y += P.vy * dt;
+  let tn = tun(z, G.scroll + P.x);
+  // Låst fil ved spørsmålsporter
+  for (const g of G.gates) {
+    if (g.done) continue;
+    const wx = G.scroll + P.x;
+    if (wx > g.x - 72 && wx < g.x + 12) {
+      if (g.lane < 0) g.lane = laneOfY(g, P.y);
+      const lb = laneBounds(g, g.lane);
+      tn = { top: lb.top + 3, bot: lb.bot - 3, c: (lb.top + lb.bot) / 2 };
+    }
+    if (wx > g.x && !g.done) passGate(g);
+  }
+  P.y = clamp(P.y, tn.top + P.r + 1, tn.bot - P.r - 1);
+  if (P.inv > 0) P.inv -= dt;
+  P.trail -= dt;
+  if (P.trail <= 0) { P.trail = 0.06; G.parts.push({ x: P.x - P.r - 1, y: P.y + (Math.random() * 4 - 2), vx: -30, vy: 0, life: 0.35, c: P.form === 'rbc' ? '#ff6b8f' : '#7fd6ff', s: 1 }); }
+
+  // Objekter
+  for (const e of G.ents) {
+    if (!e.alive) continue;
+    e.ph += dt;
+    if (e.vx) e.x += e.vx * dt;
+    if (e.vy) {
+      e.y += e.vy * dt;
+      const t2 = tun(z, e.x);
+      let lo = t2.top + e.r, hi = t2.bot - e.r;
+      if (z.key === 'alv' && e.type === 'rbcC') { lo = 106; hi = 170; }
+      if (e.type === 'co2' && e.y < 30) { e.alive = false; continue; }
+      if (e.y < lo) { e.y = lo; e.vy = Math.abs(e.vy); } if (e.y > hi) { e.y = hi; e.vy = -Math.abs(e.vy); }
+    }
+    if (e.type === 'slim') { const t2 = tun(z, e.x); e.y = e.side < 0 ? t2.top + 5 : t2.bot - 5; }
+    if (e.type === 'rbcC') e.y += Math.sin(e.ph * 2) * 0.15;
+    const sx = e.x - G.scroll;
+    if (sx < -30) { if (e.type === 'rbcD') e.x += W + 80; else e.alive = false; continue; }
+    if (sx > W + 20 || e.decor) continue;
+    // Kollisjon
+    if (e.type === 'pillar') {
+      const t2 = tun(z, e.x), len = (t2.bot - t2.top) * e.frac;
+      const ry0 = e.side < 0 ? t2.top - 20 : t2.bot - len, ry1 = e.side < 0 ? t2.top + len : t2.bot + 20;
+      const cx = clamp(P.x, sx - e.w / 2, sx + e.w / 2), cy = clamp(P.y, ry0, ry1);
+      if (Math.hypot(P.x - cx, P.y - cy) < P.r && P.inv <= 0) hurt('pillar');
+      continue;
+    }
+    const d = Math.hypot(sx - P.x, e.y - P.y);
+    if (d > e.r + P.r - 1) continue;
+    if (e.type === 'spark') { e.alive = false; G.score += 10; SFX.spark(); burst(sx, e.y, C.ye, 6, 30); }
+    else if (e.type === 'glu') { e.alive = false; G.score += 25; SFX.spark(); burst(sx, e.y, C.or, 8, 35); toast('<b>Glukose +25</b> – drivstoff til mitokondrien.', '', 1400); }
+    else if (e.type === 'term') { e.alive = false; G.score += 50; burst(sx, e.y, C.wh, 12, 45); collectTerm(e.key); }
+    else if (e.type === 'rbcC') {
+      if (P.form === 'o2') {
+        e.alive = false; P.form = 'rbc'; P.r = 6; G.score += 50; SFX.bind(); burst(sx, e.y, C.rd, 16, 45);
+        collectTerm('hemoglobin', true);
+        toast('<b>★ Hemoglobin! +50</b> Du er bundet til en rød blodcelle. Hold deg nede i blodet!', 'term', 3600);
+      }
+    }
+    else if (e.hard && P.inv <= 0) { hurt(e.type); }
+    else if (e.soft && P.inv <= 0) { bump(e); }
+  }
+  G.ents = G.ents.filter(e => e.alive);
+
+  // Partikler
+  for (const p of G.parts) { p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= 0.96; p.vy *= 0.96; p.life -= dt; }
+  G.parts = G.parts.filter(p => p.life > 0);
+  if (G.shake > 0) G.shake -= dt;
+  if (G.flash) { G.flash.t -= dt; if (G.flash.t <= 0) G.flash = null; }
+
+  G.statusTick = (G.statusTick || 0) + dt;
+  if (G.statusTick > 0.25) { G.statusTick = 0; if (!statusEl.classList.contains('o2-ask')) updateStatus(); mapUpdate(); }
+
+  if (G.state === 'play' && G.scroll >= z.len) nextZone();
+}
+function klaffOpen(ph) { return ph < 0.5 ? Math.sin(ph / 0.5 * Math.PI) : 0; }
+
+/* ── Tegning ── */
+function drawBg(z) {
+  rect(0, TOP, W, H - TOP, z.col.bg);
+  const s = G.scroll;
+  if (z.key === 'luft') {
+    for (let k = Math.floor(s / 26); k < (s + W) / 26 + 1; k++) { const x = k * 26 - s; if (k * 26 < 760) rect(x, TOP, 3, H, '#3a1229'); }
+  } else if (z.key === 'alv') {
+    rect(0, 99, W, H - 99, '#3a0a14');
+    for (let k = Math.floor(s * 0.6 / 46) - 1; k < (s * 0.6 + W) / 46 + 1; k++) {
+      const x = k * 46 - s * 0.6, y = 46 + ((k * 37) % 30);
+      ctx.strokeStyle = '#1f4d7a'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(Math.round(x) + 0.5, y + 0.5, 14 + (k % 3) * 3, 0, 6.28); ctx.stroke();
+    }
+    for (let x = -((s * 1.5) % 12); x < W; x += 12) rect(x, 97, 6, 2, C.pe);
+    stxt('LUFT', 4, TOP + 4, '#7fb8e8'); stxt('BLOD (KAPILLÆR)', 4, 166, '#ff8fa8');
+  } else if (z.key === 'mito') {
+    for (let k = Math.floor(s / 14); k < (s + W) / 14 + 1; k++) { const x = k * 14 - s, y = 30 + ((k * 53) % 140); rect(x, y, 2, 2, '#4a3c10'); }
+  } else {
+    const sp = z.key === 'kap' ? 1.1 : 1.7;
+    for (let k = 0; k < 26; k++) {
+      const y = TOP + 6 + ((k * 47) % (H - TOP - 12)), len = 6 + (k % 4) * 3;
+      const x = W - ((G.time * z.speed * sp + k * 53) % (W + 40));
+      rect(x, y, len, 1, z.col.deep);
+    }
+  }
+}
+function drawWalls(z) {
+  const beatPh = z.beat ? (G.time % z.beat) / z.beat : 1;
+  const pulse = z.beat ? Math.max(0, 1 - beatPh / 0.25) : 0;
+  for (let sx = 0; sx < W; sx += 2) {
+    const wx = G.scroll + sx, tn = tun(z, wx);
+    const top = Math.round(tn.top - pulse * 3), bot = Math.round(tn.bot + pulse * 3);
+    rect(sx, TOP, 2, top - TOP, z.col.wall);
+    rect(sx, bot, 2, H - bot, z.col.wall);
+    if (z.key === 'kap') {
+      for (let y = TOP; y < top - 3; y += 6) rect(sx, y, 2, 3, z.col.deep);
+      for (let y = bot + 4; y < H; y += 6) rect(sx, y, 2, 3, z.col.deep);
+    } else {
+      const band = ((Math.floor(wx / 8)) % 2) ? z.col.deep : z.col.wall;
+      rect(sx, top - 6, 2, 3, band); rect(sx, bot + 3, 2, 3, band);
+    }
+    rect(sx, top - 2, 2, 2, z.col.edge);
+    rect(sx, bot, 2, 2, z.col.edge);
+    if (z.key === 'luft' && Math.floor(wx / 4) % 2 === 0) {
+      const wave = Math.round(Math.sin(G.time * 8 + wx * 0.3) * 1.5);
+      rect(sx, top, 1, 3 + wave, C.pe); rect(sx, bot - 3 - wave, 1, 3 + wave, C.pe);
+    }
+  }
+}
+function drawSigns(z) {
+  for (const [x, label] of z.signs) {
+    const sx = x - G.scroll; if (sx < -180 || sx > W) continue;
+    const tn = tun(z, x), w = tw(label) + 8;
+    const y = Math.max(TOP + 2, Math.round(tn.top) + 4);
+    rect(sx, y, w, 12, 'rgba(0,0,0,0.7)'); rect(sx, y, w, 1, z.col.edge); rect(sx, y + 11, w, 1, z.col.edge);
+    txt(label, sx + 4, y + 2, C.wh);
+  }
+}
+function drawKlaffer(z, beatPh) {
+  if (!z.klaffer) return;
+  const open = klaffOpen(beatPh);
+  for (const k of z.klaffer) {
+    const ks = Math.round(k - G.scroll); if (ks < -10 || ks > W + 10) continue;
+    const tn = tun(z, k), gapH = open * 30;
+    const t1 = tn.c - gapH, b1 = tn.c + gapH;
+    rect(ks - 3, tn.top, 6, t1 - tn.top, C.br); rect(ks - 2, tn.top, 4, t1 - tn.top - 1, C.pe);
+    rect(ks - 3, b1, 6, tn.bot - b1, C.br); rect(ks - 2, b1 + 1, 4, tn.bot - b1, C.pe);
+    if (open < 0.15) stxt('KLAFF', ks - 18, tn.top - 11 > TOP ? tn.top - 11 : tn.bot + 2, C.ye);
+  }
+}
+function drawGates(z) {
+  for (const g of G.gates) {
+    const gs = Math.round(g.x - G.scroll); if (gs < -90 || gs > W + 10) continue;
+    const tn = tun(z, g.x), lh = (tn.bot - tn.top) / 3;
+    const barStart = Math.round(g.x - 72 - G.scroll);
+    for (let i = 1; i < 3; i++) {
+      const y = Math.round(tn.top + i * lh) - 3;
+      rect(barStart, y, gs - barStart + 6, 6, z.col.wall); rect(barStart, y, gs - barStart + 6, 1, z.col.edge); rect(barStart, y + 5, gs - barStart + 6, 1, C.k);
+    }
+    for (let i = 0; i < 3; i++) {
+      const y0 = Math.round(tn.top + i * lh) + (i ? 3 : 0), y1 = Math.round(tn.top + (i + 1) * lh) - (i < 2 ? 3 : 0);
+      const col = g.done ? (g.opts[i].ok ? C.gr : C.dk) : LANE_COL[i];
+      rect(gs, y0, 5, y1 - y0, col);
+      if (!g.done || g.opts[i].ok) {
+        const label = LANE_LET[i] + ' ' + g.opts[i].label, w = tw(label) + 8, ly = Math.round((y0 + y1) / 2) - 6;
+        rect(gs + 8, ly, w, 12, 'rgba(0,0,0,0.8)'); rect(gs + 8, ly, 2, 12, col);
+        txt(label, gs + 13, ly + 2, col);
+      }
+    }
+  }
+}
+function drawO2(x, y, t) {
+  const b = Math.round(Math.sin(t * 6)); y += b;
+  disc(x - 3, y, 5, C.nv); disc(x + 3, y, 5, C.nv);
+  disc(x - 3, y, 4, C.bl); disc(x + 3, y, 4, C.bl);
+  rect(x - 5, y - 3, 2, 1, C.wh); rect(x + 1, y - 3, 2, 1, C.wh);
+  rect(x - 3, y - 1, 1, 2, C.k); rect(x + 2, y - 1, 1, 2, C.k);
+  rect(x - 1, y + 2, 3, 1, C.nv);
+}
+function drawRBC(x, y, t, withO2, eyes) {
+  disc(x, y, 7, C.pu); disc(x, y, 6, C.rd);
+  disc(x, y + 1, 2, '#b8002f'); rect(x - 4, y - 4, 2, 1, '#ff8fa8');
+  if (eyes) { rect(x - 3, y - 2, 2, 2, C.wh); rect(x + 2, y - 2, 2, 2, C.wh); rect(x - 2, y - 1, 1, 1, C.k); rect(x + 3, y - 1, 1, 1, C.k); }
+  if (withO2) { const b = Math.round(Math.sin(t * 6)); disc(x - 2, y - 8 + b, 2, C.bl); disc(x + 2, y - 8 + b, 2, C.bl); rect(x - 3, y - 9 + b, 1, 1, C.wh); }
+}
+function drawEnt(e, z) {
+  const x = Math.round(e.x - G.scroll), y = Math.round(e.y), t = e.ph;
+  switch (e.type) {
+    case 'stov': rect(x - 2, y - 2, 3, 3, C.lg); rect(x + 1, y, 3, 3, C.dk); rect(x - 3, y + 1, 2, 2, C.dk); rect(x, y - 4 + Math.round(Math.sin(t * 5)), 2, 2, C.lg); break;
+    case 'slim': disc(x, y, 6, C.dg); disc(x, y, 5, C.gr); rect(x - 2, y - 3, 2, 1, '#b8ffcc'); rect(x + 1, y + (e.side < 0 ? 5 : -7), 2, 3 + Math.round(Math.abs(Math.sin(t * 2)) * 2), C.gr); break;
+    case 'spark': { const f = Math.floor(t * 8) % 2; rect(x - 1, y - 3 - f, 2, 6 + 2 * f, C.ye); rect(x - 3 - f, y - 1, 6 + 2 * f, 2, C.ye); rect(x - 1, y - 1, 2, 2, C.wh); break; }
+    case 'co2': disc(x - 5, y, 3, C.rd); disc(x + 5, y, 3, C.rd); disc(x, y, 3, C.dk); rect(x - 1, y - 1, 1, 1, C.lg); txt('CO2', x - 11, y - 14, '#c9a0a0'); break;
+    case 'rbcC': drawRBC(x, y, t, false, true); if (P.form === 'o2' && Math.floor(t * 3) % 2) txt('!', x - 3, y - 18, C.ye); break;
+    case 'rbcD': disc(x, y, 6, '#6a0a22'); disc(x, y, 5, '#a8123a'); disc(x, y + 1, 2, '#7a0a28'); break;
+    case 'hvit': {
+      disc(x, y, 7, C.lg); disc(x - 4, y - 3, 3, C.wh); disc(x + 4, y + 2, 3, C.wh); disc(x, y, 6, C.wh);
+      disc(x - 1, y + 1, 2, C.la); disc(x + 2, y - 1, 2, C.la);
+      const look = P.y < y ? -1 : 1; rect(x - 3, y - 3 + look, 2, 2, C.k); rect(x + 1, y - 3 + look, 2, 2, C.k); break;
+    }
+    case 'plate': rect(x - 3, y - 1, 7, 3, C.br); rect(x - 2, y - 1, 5, 2, C.pe); break;
+    case 'pillar': {
+      const tn = tun(z, e.x), len = (tn.bot - tn.top) * e.frac;
+      const y0 = e.side < 0 ? TOP : Math.round(tn.bot - len), y1 = e.side < 0 ? Math.round(tn.top + len) : H;
+      rect(x - e.w / 2, y0, e.w, y1 - y0, z.col.wall); rect(x - e.w / 2, y0, 2, y1 - y0, z.col.edge);
+      rect(x - e.w / 2, e.side < 0 ? y1 - 2 : y0, e.w, 2, z.col.edge);
+      break;
+    }
+    case 'laktat': { disc(x, y + 1, 4, '#4a6a00'); disc(x, y + 1, 3, '#c8f03c'); rect(x - 1, y - 4, 2, 3, '#c8f03c'); rect(x - 1, y, 1, 1, C.wh); if (Math.floor(t * 2) % 3 === 0) txt('L', x - 3, y - 14, '#c8f03c'); break; }
+    case 'glu': { rect(x - 3, y - 5, 6, 1, C.br); rect(x - 5, y - 4, 10, 8, C.br); rect(x - 3, y + 4, 6, 1, C.br); rect(x - 4, y - 3, 8, 6, C.or); rect(x - 2, y - 4, 4, 1, C.or); rect(x - 2, y - 2, 2, 1, C.ye); break; }
+    case 'term': {
+      const b = Math.round(Math.sin(t * 4) * 2), glow = Math.floor(t * 6) % 2;
+      if (glow) { rect(x - 7, y - 8 + b, 14, 16, 'rgba(255,236,39,0.35)'); }
+      rect(x - 5, y - 6 + b, 10, 13, C.ye); rect(x - 4, y - 5 + b, 8, 11, C.wh);
+      rect(x - 1, y - 3 + b, 2, 7, C.or); rect(x - 3, y - 1 + b, 6, 2, C.or); break;
+    }
+  }
+}
+function drawPlayer() {
+  if (P.inv > 0 && Math.floor(P.inv * 12) % 2) return;
+  const x = Math.round(P.x), y = Math.round(P.y);
+  if (P.form === 'rbc') drawRBC(x, y, G.time, true, true); else drawO2(x, y, G.time);
+}
+function heartIcon(x, y, c) {
+  rect(x + 1, y, 2, 1, c); rect(x + 4, y, 2, 1, c); rect(x, y + 1, 7, 2, c); rect(x + 1, y + 3, 5, 1, c); rect(x + 2, y + 4, 3, 1, c); rect(x + 3, y + 5, 1, 1, c);
+}
+function drawHUD() {
+  rect(0, 0, W, TOP, C.k); rect(0, TOP - 1, W, 1, '#2a2a3a');
+  for (let i = 0; i < 3; i++) heartIcon(4 + i * 9, 7, i < G.lives ? C.rd : C.dk);
+  const m = runnerMeters(), x0 = 36, x1 = 196;
+  rect(x0, 15, x1 - x0, 1, C.dk);
+  for (let k = 0; k <= 10; k++) rect(x0 + (x1 - x0) * k / 10, 14, 1, k % 5 ? 2 : 3, C.lg);
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 2; j++) rect(x1 + 1 + j * 2, 3 + i * 2, 2, 2, (i + j) % 2 ? C.wh : C.k);
+  rect(x1, 3, 1, 12, C.wh);
+  const rx = Math.round(x0 + (x1 - x0) * m / 100) - 2, f = m >= 100 ? 0 : Math.floor(G.total * 10) % 2;
+  rect(rx + 1, 3, 2, 2, C.pe); rect(rx, 5, 4, 4, C.or);
+  if (f) { rect(rx - 1, 6, 1, 2, C.pe); rect(rx + 4, 5, 1, 2, C.pe); rect(rx, 9, 1, 4, C.nv); rect(rx + 3, 9, 1, 3, C.nv); rect(rx + 4, 12, 1, 1, C.nv); }
+  else { rect(rx + 4, 7, 1, 2, C.pe); rect(rx - 1, 5, 1, 2, C.pe); rect(rx + 1, 9, 1, 4, C.nv); rect(rx + 2, 9, 1, 2, C.nv); rect(rx + 3, 11, 1, 2, C.nv); }
+  stxt(m >= 100 ? 'MÅL' : (Math.round(m) + 'M'), 204, 6, m >= 100 ? C.gr : C.wh);
+  stxt('HF' + heartRate(), 236, 6, C.pk);
+  stxt(String(G.score).padStart(4, '0'), 284, 6, C.ye);
+}
+function render() {
+  const z = Z();
+  const beatPh = z.beat ? (G.time % z.beat) / z.beat : 1;
+  ctx.save();
+  if (G.shake > 0) ctx.translate(Math.round((Math.random() - 0.5) * 4), Math.round((Math.random() - 0.5) * 4));
+  drawBg(z);
+  for (const e of G.ents) if (e.decor) drawEnt(e, z);
+  drawWalls(z);
+  drawSigns(z);
+  drawKlaffer(z, beatPh);
+  for (const e of G.ents) if (!e.decor) { const sx = e.x - G.scroll; if (sx > -20 && sx < W + 20) drawEnt(e, z); }
+  drawGates(z);
+  for (const p of G.parts) rect(p.x, p.y, p.s || 2, p.s || 2, p.c);
+  if (G.state !== 'title') drawPlayer();
+  if (G.state === 'finale') drawFinale();
+  ctx.restore();
+  if (G.flash) rect(0, TOP, W, H - TOP, G.flash.c);
+  drawHUD();
+  if (G.state === 'title') drawTitle();
+}
+
+/* ── Tittelskjerm (bakgrunnsdemo) ── */
+function drawTitle() {
+  rect(0, TOP, W, H - TOP, 'rgba(0,0,0,0.35)');
+  const t = G.time;
+  drawO2(70, 100 + Math.round(Math.sin(t * 2) * 6), t);
+  drawRBC(250, 100 + Math.round(Math.cos(t * 2) * 6), t, false, true);
+}
+
+/* ── Finale i mitokondrien ── */
+function startFinale() {
+  G.state = 'finale'; G.finaleT = 0; SFX.win();
+  collectTerm('atp', true); collectTerm('aerob', true); renderChips();
+  hideQ();
+}
+function drawFinale() {
+  const t = G.finaleT, cx = 230, cy = 100;
+  const r = Math.min(40, 8 + t * 30);
+  disc(cx, cy, r + 2, C.br); disc(cx, cy, r, C.or); disc(cx, cy, Math.max(2, r - 8), C.ye);
+  if (t > 0.6) { const s = 1 + Math.floor(t * 4) % 2; stxt('ATP!', cx - 16, cy - 4, s > 1 ? C.wh : C.k); }
+  if (t > 0.3 && Math.random() < 0.5) burst(cx + (Math.random() - 0.5) * 40, cy + (Math.random() - 0.5) * 40, [C.ye, C.or, C.gr, C.bl][Math.floor(Math.random() * 4)], 2, 50);
+  if (t > 1) { stxt('+ CO2', cx - 20, cy + 30, C.lg); stxt('+ H2O', cx - 20, cy + 42, C.bl); }
+}
+function finaleUpdate(dt) {
+  G.time += dt; G.finaleT += dt;
+  P.x = lerp(P.x, 230, dt * 2); P.y = lerp(P.y, 100, dt * 2);
+  for (const p of G.parts) { p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; }
+  G.parts = G.parts.filter(p => p.life > 0);
+  if (G.finaleT > 2.6 && G.state === 'finale') { G.score += G.lives * 100; showWin(); }
+}
+function showWin() {
+  G.state = 'win';
+  window.O2_RESULT = { score: G.score, terms: G.terms.size, totalTerms: TERM_KEYS.length, correct: G.correct, gates: GATES.length, time: Math.round(G.total) };
+  const pct = G.correct / GATES.length;
+  const medal = pct === 1 && G.terms.size >= 20 ? '🥇 Gullmolekyl!' : pct >= 0.66 ? '🥈 Sølvmolekyl!' : '🥉 Bronsemolekyl!';
+  card('<div class="o2-kicker">OPPDRAG FULLFØRT · ' + medal + '</div><div class="o2-title-big">ATP LAGET!</div>' +
+    '<p>Oksygenet ditt hjalp muskelcellen med å lage <strong>ATP</strong>. Selv ender oksygenet opp i <strong>vann (H₂O)</strong>. CO₂ som ble dannet, reiser nå tilbake gjennom <strong>venene</strong> → <strong>høyre forkammer</strong> → <strong>høyre hjertekammer</strong> → <strong>lungene</strong>, der den pustes ut. Da har blodet gått hele runden – både det store og det lille kretsløpet.</p>' +
+    '<div class="o2-stats"><div class="o2-stat"><b>' + G.score + '</b><span>poeng</span></div><div class="o2-stat"><b>' + G.correct + '/' + GATES.length + '</b><span>riktige dører</span></div><div class="o2-stat"><b>' + G.terms.size + '/' + TERM_KEYS.length + '</b><span>fagbegreper</span></div></div>' +
+    '<div class="o2-fact">💡 Husk: En 100-meter er i hovedsak <strong>anaerob</strong>. Oksygenet får den store jobben <em>etter</em> målgang – i restitusjonen.</div>',
+    'o2-gold', [
+      { t: '▶ SE RETUREN PÅ KARTET', cls: 'yel', fn: () => { closeCard(); playReturn(); } },
+      { t: '↺ SPILL IGJEN', cls: 'alt', fn: () => { closeCard(); newGame(); } }
+    ]);
+  statusEl.classList.remove('o2-ask');
+  statusEl.innerHTML = '<span class="o2-st-dot"></span><span id="o2StatusText">🏆 Fullført! ' + G.score + ' poeng · ' + G.correct + '/' + GATES.length + ' riktige · ' + G.terms.size + '/' + TERM_KEYS.length + ' begreper (resultatet kommer med i PDF-en)</span>';
+}
+function gameOver() {
+  G.state = 'over'; hideQ();
+  card('<div class="o2-kicker">GAME OVER</div><h3>Oksygenet ditt ble stoppet!</h3><p>Du er tom for liv på etappe ' + (G.zi + 1) + ': <strong>' + Z().name + '</strong>. Prøv igjen – fagbegrepene du samlet før denne etappen, beholder du.</p>',
+    'o2-bad', [
+      { t: '↺ PRØV ETAPPEN IGJEN', fn: () => { closeCard(); retryCheckpoint(); } },
+      { t: 'START HELT PÅ NYTT', cls: 'alt', fn: () => { closeCard(); newGame(); } }
+    ]);
+}
+function showTitle() {
+  G.state = 'title'; G.zi = 4; buildZone(4); G.scroll = 0;
+  card('<div class="o2-kicker">8-BIT · TRENINGSLÆRE · UTHOLDENHET</div><div class="o2-title-big">O₂-REISEN</div>' +
+    '<p>Du er et <strong>oksygenmolekyl</strong>. Løperen står i startblokka på 100-meteren. Klarer du å komme deg fra munnen, gjennom lungene, hjertet og blodårene og helt inn i en <strong>mitokondrie</strong> i lårmuskelen?</p>' +
+    '<div class="o2-goal">🕹️ 7 etapper · 6 spørsmålsdører · 22 fagbegreper å samle · 3 liv</div>',
+    '', [{ t: 'START SPILLET ▶', fn: () => { G.engaged = true; closeCard(); newGame(); } }]);
+}
+
+/* ── Kart over kretsløpet (SVG) ── */
+const MAP_SEGS = {
+  munn: { d: 'M120 2 V26', c: '#FFCCAA', air: 1 },
+  alv: { d: 'M120 26 Q132 42 171 48', c: '#FFCCAA', air: 1 },
+  lv: { d: 'M171 48 H216 V130 H154', c: '#FF004D' },
+  hj: { d: 'M138 130 V166', c: '#FF004D' },
+  ao: { d: 'M154 166 H228 V261 H170', c: '#FF004D' },
+  kap: { d: 'M170 261 H118', c: '#FF004D' },
+  mito: { d: 'M118 261 H100', c: '#FFA300' },
+  ven: { d: 'M70 261 H10 V130 H86', c: '#29ADFF', ret: 1 },
+  hh: { d: 'M102 130 V166', c: '#29ADFF', ret: 1 },
+  lp: { d: 'M86 166 H22 V48 H69', c: '#29ADFF', ret: 1 },
+  ut: { d: 'M95 48 Q108 40 120 26 V2', c: '#FFCCAA', ret: 1, air: 1 }
+};
+const ZONE_SEG = ['munn', 'alv', 'lv', 'hj', 'ao', 'kap', 'mito'];
+const MAP_CAPS = ['Munnhulen → luftrøret → bronkiene', 'Alveolene: O₂ diffunderer inn i blodet', 'Lille kretsløp: lungene → venstre forkammer',
+  'Hjertet: venstre forkammer → venstre hjertekammer', 'Store kretsløp: aorta → arteriene', 'Kapillærene i lårmuskelen', 'Inn i mitokondrien'];
+function buildMap() {
+  const svg = $('o2Map'); if (!svg) return;
+  let h = '';
+  h += '<rect x="0" y="0" width="240" height="296" fill="#000"/>';
+  h += '<ellipse cx="95" cy="48" rx="26" ry="22" fill="#3a1a2a" stroke="#FF77A8" stroke-width="1.5"/><ellipse cx="145" cy="48" rx="26" ry="22" fill="#3a1a2a" stroke="#FF77A8" stroke-width="1.5"/>';
+  for (let i = 0; i < 14; i++) h += '<circle cx="' + (78 + (i % 7) * 12 + (i > 6 ? 6 : 0)) + '" cy="' + (40 + Math.floor(i / 7) * 14) + '" r="3" fill="none" stroke="#FF77A8" stroke-opacity="0.5"/>';
+  h += '<text x="120" y="80" fill="#FF77A8" font-size="8" font-weight="700" text-anchor="middle">LUNGENE</text>';
+  h += '<text x="120" y="100" fill="#c9a0ff" font-size="7.5" font-weight="700" text-anchor="middle" letter-spacing="0.5">DET LILLE KRETSLØPET</text>';
+  [['hf', 86, 116, 32, 28, '#123a5c'], ['vf', 122, 116, 32, 28, '#5c1222'], ['hk', 86, 148, 32, 36, '#123a5c'], ['vk', 122, 148, 32, 36, '#5c1222']]
+    .forEach(([id, x, y, w, hh, f]) => { h += '<rect id="o2m-' + id + '" x="' + x + '" y="' + y + '" width="' + w + '" height="' + hh + '" rx="4" fill="' + f + '" stroke="#FFF1E8" stroke-opacity="0.5"/>'; });
+  h += '<text x="80" y="128" fill="#9fd8ff" font-size="7" text-anchor="end">Høyre</text><text x="80" y="136" fill="#9fd8ff" font-size="7" text-anchor="end">forkammer</text>';
+  h += '<text x="80" y="164" fill="#9fd8ff" font-size="7" text-anchor="end">Høyre</text><text x="80" y="172" fill="#9fd8ff" font-size="7" text-anchor="end">hjertekammer</text>';
+  h += '<text x="160" y="128" fill="#ffa0b4" font-size="7">Venstre</text><text x="160" y="136" fill="#ffa0b4" font-size="7">forkammer</text>';
+  h += '<text x="160" y="164" fill="#ffa0b4" font-size="7">Venstre</text><text x="160" y="172" fill="#ffa0b4" font-size="7">hjertekammer</text>';
+  h += '<text x="120" y="196" fill="#FFF1E8" font-size="8" font-weight="700" text-anchor="middle">HJERTET</text>';
+  h += '<text x="120" y="222" fill="#c9a0ff" font-size="7.5" font-weight="700" text-anchor="middle" letter-spacing="0.5">DET STORE KRETSLØPET</text>';
+  h += '<rect x="70" y="244" width="100" height="34" rx="8" fill="#5a2a10" stroke="#FFA300" stroke-width="1.5"/>';
+  for (let i = 0; i < 4; i++) h += '<line x1="76" x2="164" y1="' + (250 + i * 7) + '" y2="' + (250 + i * 7) + '" stroke="#FFA300" stroke-opacity="0.25"/>';
+  h += '<ellipse cx="96" cy="261" rx="9" ry="5" fill="#FFA300"/><path d="M89 261 q2 -3 4 0 t4 0 t4 0 t4 0" fill="none" stroke="#5a2a10" stroke-width="1"/>';
+  h += '<text x="120" y="290" fill="#FFA300" font-size="8" font-weight="700" text-anchor="middle">LÅRMUSKEL</text>';
+  Object.entries(MAP_SEGS).forEach(([id, s]) => {
+    h += '<path id="o2s-' + id + '" d="' + s.d + '" fill="none" stroke="' + s.c + '" stroke-width="' + (s.air ? 2 : 3) + '" stroke-linecap="round" stroke-linejoin="round"' +
+      (s.ret ? ' stroke-dasharray="4 3" opacity="0.35"' : ' opacity="0.22"') + '/>';
+  });
+  h += '<circle id="o2m-dot" cx="120" cy="2" r="5" fill="#29ADFF" stroke="#fff" stroke-width="1.5"/>';
+  svg.innerHTML = h;
+}
+function segEl(id) { return document.getElementById('o2s-' + id); }
+function mapUpdate() {
+  const dot = $('o2m-dot'); if (!dot) return;
+  const cur = G.state === 'title' ? -1 : (G.state === 'win' || G.state === 'finale' ? 7 : G.zi);
+  ZONE_SEG.forEach((id, i) => { const el = segEl(id); if (el) el.setAttribute('opacity', i < cur ? '1' : i === cur ? '0.9' : '0.22'); });
+  ['hf', 'vf', 'hk', 'vk'].forEach(id => { const r = $('o2m-' + id); if (r) r.setAttribute('stroke-opacity', '0.5'); });
+  if (G.zi === 3 && G.state !== 'title') { const r = $('o2m-' + (G.scroll < 560 ? 'vf' : 'vk')); if (r) r.setAttribute('stroke-opacity', '1'); }
+  if (cur < 0) { dot.setAttribute('cx', 120); dot.setAttribute('cy', 2); $('o2MapCap').textContent = 'Følg prikken – den viser hvor oksygenet ditt er.'; return; }
+  const segId = ZONE_SEG[Math.min(cur, 6)], el = segEl(segId);
+  const p = cur >= 7 ? 1 : clamp(G.scroll / Z().len, 0, 1);
+  const L = el.getTotalLength(), pt = el.getPointAtLength(L * p);
+  dot.setAttribute('cx', pt.x.toFixed(1)); dot.setAttribute('cy', pt.y.toFixed(1));
+  dot.setAttribute('fill', cur >= 2 && cur <= 5 ? '#FF004D' : '#29ADFF');
+  $('o2MapCap').textContent = MAP_CAPS[Math.min(cur, 6)];
+}
+function playReturn() {
+  const order = [['ven', 'Venene fører oksygenfattig blod tilbake til hjertet', 'hf'], ['hh', 'Høyre forkammer → høyre hjertekammer', 'hk'],
+    ['lp', 'Lille kretsløp: høyre hjertekammer → lungene', null], ['ut', 'CO₂ pustes ut. Runden er fullført!', null]];
+  const dot = $('o2m-dot'); dot.setAttribute('fill', '#29ADFF');
+  ['ven', 'hh', 'lp', 'ut'].forEach(id => segEl(id).setAttribute('opacity', '0.35'));
+  let i = 0, t0 = performance.now();
+  G.state = 'return';
+  function step(now) {
+    if (G.state !== 'return') return;
+    const [id, cap, room] = order[i], el = segEl(id), dur = 1800;
+    const p = clamp((now - t0) / dur, 0, 1), L = el.getTotalLength(), pt = el.getPointAtLength(L * p);
+    dot.setAttribute('cx', pt.x.toFixed(1)); dot.setAttribute('cy', pt.y.toFixed(1));
+    el.setAttribute('opacity', '1'); $('o2MapCap').textContent = cap;
+    if (room) $('o2m-' + room).setAttribute('stroke-opacity', '1');
+    if (p >= 1) { i++; t0 = now; if (i >= order.length) { G.state = 'win'; showWinAgain(); return; } }
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+  document.querySelector('.o2-mapbox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function showWinAgain() {
+  card('<div class="o2-kicker">HELE RUNDEN</div><h3>Blodet har gått både det store og det lille kretsløpet</h3>' +
+    '<p><strong>Store kretsløp:</strong> venstre hjertekammer → aorta → arterier → kapillærer → vener → høyre forkammer.</p>' +
+    '<p><strong>Lille kretsløp:</strong> høyre hjertekammer → lungene (CO₂ ut, O₂ inn) → venstre forkammer.</p>',
+    'o2-gold', [{ t: '↺ SPILL IGJEN', fn: () => { closeCard(); newGame(); } }, { t: 'LUKK', cls: 'alt', fn: () => { closeCard(); } }]);
+}
+
+/* ── Hovedløkke ── */
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (G.visible) {
+    if (G.state === 'play') update(dt);
+    else if (G.state === 'finale') finaleUpdate(dt);
+    else if (G.state === 'title') { G.time += dt; G.scroll = (G.scroll + 30 * dt) % 1200; }
+    else G.time += dt * 0.25;
+    render();
+  }
+  requestAnimationFrame(frame);
+}
+
+/* ── Inndata ── */
+const KEYMAP = { ArrowLeft: 'l', ArrowRight: 'r', ArrowUp: 'u', ArrowDown: 'd', a: 'l', d: 'r', w: 'u', s: 'd', A: 'l', D: 'r', W: 'u', S: 'd' };
+function isField(el) { return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || el.isContentEditable); }
+window.addEventListener('keydown', e => {
+  if (isField(e.target)) return;
+  const k = KEYMAP[e.key];
+  const active = G.engaged && G.visible && ['play', 'card', 'pause', 'finale'].includes(G.state);
+  if (k && G.state === 'play') { keys[k] = true; e.preventDefault(); return; }
+  if (k && active) e.preventDefault();
+  if ((e.key === 'p' || e.key === 'P') && G.engaged) { togglePause(); e.preventDefault(); }
+  if ((e.key === ' ' || e.key === 'Enter') && G.cardGo && overlayEl.classList.contains('show') && G.visible && (G.engaged || document.activeElement === screenEl || screenEl.contains(document.activeElement))) {
+    if (e.target.classList && e.target.classList.contains('o2-go')) return; // knappen håndterer selv
+    e.preventDefault(); ensureAudio(); G.cardGo();
+  }
+});
+window.addEventListener('keyup', e => { const k = KEYMAP[e.key]; if (k) keys[k] = false; });
+window.addEventListener('blur', () => { Object.keys(keys).forEach(k => keys[k] = false); if (G.state === 'play') togglePause(true); });
+function toCanvas(ev) { const r = cv.getBoundingClientRect(); return { x: (ev.clientX - r.left) / r.width * W, y: (ev.clientY - r.top) / r.height * H }; }
+cv.addEventListener('pointerdown', ev => { if (G.state !== 'play') return; const p = toCanvas(ev); ptr.on = true; ptr.x = p.x; ptr.y = p.y; try { cv.setPointerCapture(ev.pointerId); } catch (e) {} ev.preventDefault(); });
+cv.addEventListener('pointermove', ev => { if (!ptr.on) return; const p = toCanvas(ev); ptr.x = p.x; ptr.y = p.y; });
+['pointerup', 'pointercancel', 'lostpointercapture'].forEach(n => cv.addEventListener(n, () => { ptr.on = false; }));
+
+function focusScreen() { try { screenEl.focus({ preventScroll: true }); } catch (e) {} screenEl.classList.add('o2-playing'); }
+function togglePause(force) {
+  if (G.state === 'play' || force === true) {
+    if (G.state !== 'play') return;
+    G.state = 'pause'; $('o2BtnPause').textContent = '▶ Fortsett';
+    card('<div class="o2-kicker">PAUSE</div><h3>Spillet står på pause</h3><p>Trykk <strong>P</strong>, mellomrom eller knappen for å fortsette.</p>', '',
+      [{ t: 'FORTSETT ▶', fn: () => { closeCard(); G.state = 'play'; $('o2BtnPause').textContent = '⏸ Pause'; focusScreen(); } }]);
+  } else if (G.state === 'pause') { closeCard(); G.state = 'play'; $('o2BtnPause').textContent = '⏸ Pause'; focusScreen(); }
+}
+function ensureAudio() { if (soundOn && AC && AC.state === 'suspended') AC.resume(); }
+$('o2BtnPause').addEventListener('click', () => { if (G.state === 'play' || G.state === 'pause') togglePause(); });
+$('o2BtnSound').addEventListener('click', () => {
+  soundOn = !soundOn; $('o2BtnSound').textContent = soundOn ? '🔈 Lyd: på' : '🔇 Lyd: av';
+  if (soundOn) { try { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); AC.resume(); } catch (e) {} SFX.spark(); }
+});
+$('o2BtnFull').addEventListener('click', () => {
+  const el = $('o2Main');
+  if (document.fullscreenElement) document.exitFullscreen();
+  else if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
+  else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+});
+$('o2BtnRestart').addEventListener('click', () => { G.engaged = true; closeCard(); newGame(); });
+screenEl.addEventListener('click', () => { if (G.state === 'play') focusScreen(); });
+
+// Pause automatisk når spillet ikke er synlig
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(entries => entries.forEach(en => {
+    G.visible = en.isIntersecting;
+    if (!en.isIntersecting && G.state === 'play' && !document.fullscreenElement) togglePause(true);
+  }), { threshold: 0.25 }).observe(screenEl);
+}
+document.addEventListener('visibilitychange', () => { if (document.hidden && G.state === 'play') togglePause(true); });
+
+/* ── Oppstart ── */
+buildMap(); renderChips(); showTitle();
+if (document.fonts && document.fonts.load) document.fonts.load(FONT).catch(() => {});
+requestAnimationFrame(frame);
+
+// Testkrok (brukes bare til automatisk testing)
+window.__o2 = { G, P, ZONES, startZone, nextZone, newGame, keys };
+})();
+
+</script>
 
 <!-- ══ ANIMASJON: last React via flere CDN-er med fallback ══ -->
 <!-- Noen skolenettverk blokkerer enkelte CDN-er (f.eks. unpkg.com). Vi prøver
@@ -3174,7 +4794,10 @@ async function downloadPDF() {
     // kjører trygt — ikke ved sideinnlasting, men her.
     if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') { showLoadError(); return; }
     try {
-      var src = atob(COMPONENT_CODE_B64);
+      // atob() gir rå bytes – de må dekodes som UTF-8, ellers blir «ø» til «Ã¸»
+      var bin = atob(COMPONENT_CODE_B64), bytes = new Uint8Array(bin.length);
+      for (var bi = 0; bi < bin.length; bi++) bytes[bi] = bin.charCodeAt(bi);
+      var src = (typeof TextDecoder !== 'undefined') ? new TextDecoder('utf-8').decode(bytes) : decodeURIComponent(escape(bin));
       var s = document.createElement('script');
       s.textContent = src;
       document.head.appendChild(s);
