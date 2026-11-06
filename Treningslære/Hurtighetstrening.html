@@ -567,6 +567,25 @@
   .alias-pts{font-family:var(--font-display); font-weight:800; font-size:1.4rem; font-variant-numeric:tabular-nums;}
   .score-table tr.alias-cur td{background:var(--orange-soft);}
   .alias-adj.plus{color:var(--ok-dark);}
+
+  /* ---------- menylinje ---------- */
+  .topbar{position:sticky; top:env(safe-area-inset-top,0px); z-index:60; background:rgba(11,31,58,.96); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); color:var(--white); box-shadow:0 6px 18px rgba(11,31,58,.18);}
+  .topbar-row{display:flex; align-items:center; gap:12px; padding-block:8px 6px;}
+  .home-btn{flex-shrink:0; display:inline-flex; align-items:center; gap:6px; background:var(--orange); color:var(--white); font-weight:700; font-size:.85rem; padding:.45em .95em; border-radius:999px; text-decoration:none; white-space:nowrap; transition:background .15s ease, transform .15s ease;}
+  .home-btn:hover{background:#c94e1c; transform:translateY(-1px);}
+  .home-btn span[aria-hidden]{font-size:1.05rem; line-height:1;}
+  .home-short{display:none;}
+  @media (max-width:560px){ .home-long{display:none;} .home-short{display:inline;} }
+  .section-nav{flex:1; min-width:0; display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 28px),transparent); mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 28px),transparent); padding-left:10px; padding-right:24px;}
+  .section-nav::-webkit-scrollbar{display:none;}
+  .section-nav a{white-space:nowrap; color:rgba(255,255,255,.82); text-decoration:none; font-size:.82rem; font-weight:600; padding:.4em .8em; border-radius:999px; transition:background .15s ease, color .15s ease;}
+  .section-nav a:hover{background:rgba(255,255,255,.12); color:var(--white);}
+  .section-nav a.active{background:var(--teal); color:var(--navy);}
+  .topbar .progress-inner{padding-block:0 8px;}
+  .topbar .progress-label{color:rgba(255,255,255,.9); font-size:.78rem;}
+  .topbar .progress-track{height:6px; background:rgba(255,255,255,.18);}
+  main section[id], #pdf{scroll-margin-top:calc(var(--nav-h,96px) + 12px);}
 </style>
 </head>
 <body>
@@ -615,7 +634,24 @@
   </div>
 </header>
 
-<div class="progress-sticky">
+<div class="topbar" id="topbar">
+  <div class="wrap topbar-row">
+    <a class="home-btn" href="https://edvinidrett.github.io/Idrettsfag/" aria-label="Tilbake til forsiden av Edvins Idrettslab"><span aria-hidden="true">⌂</span><span class="home-long">Edvins Idrettslab</span><span class="home-short">Hjem</span></a>
+    <nav class="section-nav" id="sectionNav" aria-label="Innhold på siden">
+      <a href="#laeringsmaal" data-sec="laeringsmaal">Læringsmål</a>
+      <a href="#hva" data-sec="hva">Begreper</a>
+      <a href="#video" data-sec="video">Video</a>
+      <a href="#typer" data-sec="typer">Fire typer</a>
+      <a href="#bolt" data-sec="bolt">Bolt 9,58</a>
+      <a href="#sammendrag" data-sec="sammendrag">Teori</a>
+      <a href="#reaksjon" data-sec="reaksjon">Reaksjonstest</a>
+      <a href="#praktisk" data-sec="praktisk">Praktisk økt</a>
+      <a href="#tabell" data-sec="tabell">Oversikt</a>
+      <a href="#kompendium" data-sec="kompendium">Kompendium</a>
+      <a href="#oppgaver" data-sec="oppgaver">Oppgaver</a>
+      <a href="#pdf" data-sec="pdf">Last ned PDF</a>
+    </nav>
+  </div>
   <div class="wrap progress-inner">
     <span class="progress-label" id="progressText">0/7 fullført</span>
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -1520,6 +1556,37 @@ if('IntersectionObserver' in window){
   }
   window.addEventListener('scroll', () => { if(!ticking){ ticking = true; requestAnimationFrame(upd); } }, {passive:true});
   upd();
+})();
+
+/* ---------- menylinje: aktiv seksjon ---------- */
+(function(){
+  const bar = $('#topbar'), nav = $('#sectionNav');
+  const links = $$('a', nav), secs = links.map(a => document.getElementById(a.dataset.sec)).filter(Boolean);
+  let cur = '';
+  function setH(){ document.documentElement.style.setProperty('--nav-h', bar.offsetHeight + 'px'); }
+  function upd(){
+    const line = bar.offsetHeight + 40;
+    let id = '';
+    secs.forEach(s => { if(s.getBoundingClientRect().top <= line) id = s.id; });
+    if(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) id = 'pdf';
+    if(id === cur) return;
+    cur = id;
+    links.forEach(a => a.classList.toggle('active', a.dataset.sec === id));
+    const act = links.find(a => a.dataset.sec === id);
+    if(act){
+      const l = act.offsetLeft - nav.offsetLeft, target = l - (nav.clientWidth - act.offsetWidth) / 2;
+      nav.scrollTo({ left: Math.max(0, target), behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
+  }
+  let ticking = false;
+  window.addEventListener('scroll', () => { if(!ticking){ ticking = true; requestAnimationFrame(() => { ticking = false; upd(); }); } }, { passive:true });
+  window.addEventListener('resize', () => { setH(); upd(); });
+  links.forEach(a => a.addEventListener('click', e => {
+    const t = document.getElementById(a.dataset.sec); if(!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start' });
+  }));
+  setH(); upd();
 })();
 
 /* ---------- tooltips (touch) ---------- */
