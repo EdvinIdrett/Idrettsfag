@@ -268,6 +268,14 @@ textarea{min-height:230px;resize:vertical}
 .videobtn:hover{background:var(--orange)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.bg-art{display:none}}
 </style>
+<style id="edl-home-css">
+  .edl-home{flex-shrink:0; display:inline-flex; align-items:center; gap:6px; background:#E85D26; color:#fff !important; font-family:'Inter',system-ui,sans-serif; font-weight:700; font-size:.85rem; line-height:1.2; padding:.45em .95em; border-radius:999px; text-decoration:none !important; white-space:nowrap; transition:background .15s ease, transform .15s ease;}
+  .edl-home:hover{background:#c94e1c; transform:translateY(-1px);}
+  .edl-home:focus-visible{outline:3px solid #FFC233; outline-offset:2px;}
+  .edl-home .edl-ico{font-size:1.05rem; line-height:1;}
+  .edl-short{display:none;}
+  @media (max-width:560px){ .edl-long{display:none;} .edl-short{display:inline;} }
+</style>
 </head>
 <body>
 <div class="bg" aria-hidden="true"></div>
@@ -276,7 +284,7 @@ textarea{min-height:230px;resize:vertical}
 
 <div id="pop" role="tooltip"></div>
 <header class="topbar">
-  <div class="brand">Edvin's <span>Idretts Lab</span></div>
+  <a class="edl-home" href="https://edvinidrett.github.io/Idrettsfag/" aria-label="Tilbake til forsiden av Edvins Idrettslab"><span class="edl-ico" aria-hidden="true">⌂</span><span class="edl-long">Edvins Idrettslab</span><span class="edl-short">Hjem</span></a>
   <button class="navbtn" id="prev" aria-label="Forrige del">◀</button>
   <nav class="dots" id="dots" aria-label="Deler av siden"></nav>
   <button class="navbtn" id="next" aria-label="Neste del">▶</button>

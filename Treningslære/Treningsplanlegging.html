@@ -306,6 +306,36 @@ footer{text-align:center;padding:2.4rem 0 3rem;color:#7889a4;font-size:.8rem;}
 </style>
 </head>
 <body>
+<!-- EDL-NAV START: felles menylinje for Edvins Idrettslab -->
+<style id="edl-nav-css">
+  .edl-topbar{position:fixed; top:0; left:0; right:0; z-index:900; background:rgba(11,31,58,.96); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); color:#fff; box-shadow:0 6px 18px rgba(11,31,58,.18); padding-top:env(safe-area-inset-top,0px); font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  .edl-row{max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:12px; padding:8px max(16px, env(safe-area-inset-right,0px)) 8px max(16px, env(safe-area-inset-left,0px)); box-sizing:border-box;}
+  .edl-home{flex-shrink:0; display:inline-flex; align-items:center; gap:6px; background:#E85D26; color:#fff !important; font-weight:700; font-size:.85rem; line-height:1.2; padding:.45em .95em; border-radius:999px; text-decoration:none !important; white-space:nowrap; transition:background .15s ease, transform .15s ease;}
+  .edl-home:hover{background:#c94e1c; transform:translateY(-1px);}
+  .edl-home .edl-ico{font-size:1.05rem; line-height:1;}
+  .edl-short{display:none;}
+  @media (max-width:560px){ .edl-long{display:none;} .edl-short{display:inline;} }
+  .edl-nav{flex:1; min-width:0; display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; padding:0 24px 0 10px;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 28px),transparent); mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 28px),transparent);}
+  .edl-nav::-webkit-scrollbar{display:none;}
+  .edl-nav a{white-space:nowrap; color:rgba(255,255,255,.82) !important; text-decoration:none !important; font-size:.82rem; font-weight:600; line-height:1.2; padding:.45em .8em; border-radius:999px; transition:background .15s ease, color .15s ease;}
+  .edl-nav a:hover{background:rgba(255,255,255,.12); color:#fff !important;}
+  .edl-nav a.edl-active{background:#00C2A8; color:#0B1F3A !important;}
+  .edl-topbar a:focus-visible{outline:3px solid #FFC233; outline-offset:2px;}
+  .edl-spacer{display:block; width:100%;}
+  @media print{ .edl-topbar, .edl-spacer{display:none !important;} }
+</style>
+<div class="edl-topbar" id="edlTopbar">
+  <div class="edl-row">
+    <a class="edl-home" href="https://edvinidrett.github.io/Idrettsfag/" aria-label="Tilbake til forsiden av Edvins Idrettslab"><span class="edl-ico" aria-hidden="true">⌂</span><span class="edl-long">Edvins Idrettslab</span><span class="edl-short">Hjem</span></a>
+    <nav class="edl-nav" id="edlNav" aria-label="Innhold på siden"></nav>
+  </div>
+</div>
+<div class="edl-spacer" id="edlSpacer" aria-hidden="true"></div>
+<!-- EDL-NAV TOP END -->
+
+
+
 
 <!-- HERO -->
 <header class="hero">
@@ -1289,5 +1319,99 @@ function genPDF(){
   doc.save('Treningsplanlegging_'+safeName+'.pdf');
 }
 </script>
+<!-- EDL-NAV SCRIPT START -->
+<script>
+(function(){
+  var LINKS = [["Etter dette kapittelet", "Læringsmål"], ["Nøkkelbegreper", "Begreper"], ["Treningsprosessen", "Treningsprosessen"], ["Fra øktplan", "Fra øktplan til flerårsplan"], ["Fase 1", "Grunnpilarene"], ["Arbeidskravsanalyse", "Kapasitetsprofil"], ["Eksempler på øktplaner", "Øktplaner"], ["#oppgaver", "Oppgaver"], ["Last ned", "Last ned PDF"]];
+  var bar = document.getElementById('edlTopbar'), nav = document.getElementById('edlNav'), spacer = document.getElementById('edlSpacer');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function norm(s){ return (s || '').toLowerCase().replace(/&amp;/g, '&').replace(/[^a-zæøå0-9?&\-– ]+/gi, ' ').replace(/\s+/g, ' ').trim(); }
+  function slug(s){ return 'edl-' + norm(s).replace(/[^a-zæøå0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40); }
+  var cands = null;
+  function findTarget(key){
+    if(key.charAt(0) === '#'){ return document.getElementById(key.slice(1)); }
+    if(key.indexOf('sel:') === 0){ var q = document.querySelector(key.slice(4)); return q ? (q.closest('section') || q) : null; }
+    if(!cands) cands = Array.prototype.slice.call(document.querySelectorAll('h1,h2,h3,[class*="title"],[class*="label"],[class*="heading"],[class*="eyebrow"]')).filter(function(e){ return !bar.contains(e); });
+    var k = norm(key);
+    for(var i = 0; i < cands.length; i++){
+      var t = cands[i].textContent || '';
+      if(t.length < 140 && norm(t).indexOf(k) === 0) return cands[i].closest('section') || cands[i];
+    }
+    for(var j = 0; j < cands.length; j++){
+      var t2 = cands[j].textContent || '';
+      if(t2.length < 140 && norm(t2).indexOf(k) >= 0) return cands[j].closest('section') || cands[j];
+    }
+    return null;
+  }
+  var items = [];
+  LINKS.forEach(function(l){
+    var el = findTarget(l[0]);
+    if(!el || items.some(function(it){ return it.el === el; })) return;
+    if(!el.id) el.id = slug(l[1]);
+    var a = document.createElement('a'); a.href = '#' + el.id; a.textContent = l[1];
+    a.addEventListener('click', function(e){ e.preventDefault(); go(el); });
+    nav.appendChild(a); items.push({ a:a, el:el });
+  });
+  /* andre faste/klebrige linjer øverst flyttes ned under menyen */
+  var pushed = null, stack = 0;
+  function inScroller(el){
+    for(var p = el.parentElement; p && p !== document.body && p !== document.documentElement; p = p.parentElement){
+      var o = getComputedStyle(p); if(/(auto|scroll|hidden)/.test(o.overflowY + o.overflowX)) return true;
+    }
+    return false;
+  }
+  function collect(){
+    pushed = [];
+    var all = document.body.getElementsByTagName('*');
+    for(var i = 0; i < all.length; i++){
+      var el = all[i];
+      if(bar.contains(el) || el === spacer) continue;
+      var cs = getComputedStyle(el);
+      if((cs.position !== 'sticky' && cs.position !== 'fixed') || cs.top === 'auto') continue;
+      var top = el.dataset.edlTop != null ? parseFloat(el.dataset.edlTop) : (parseFloat(cs.top) || 0);
+      var isBar = top <= 2 && el.offsetHeight > 0 && el.offsetHeight < 200 && (el.offsetWidth >= window.innerWidth * 0.5 || el.offsetHeight <= 12);
+      if(cs.position === 'fixed' && !isBar) continue;
+      if(cs.position === 'sticky' && inScroller(el)) continue;
+      el.dataset.edlTop = top;
+      pushed.push({ el:el, top:top, bar:isBar });
+    }
+  }
+  function layout(){
+    var h = bar.offsetHeight;
+    spacer.style.height = h + 'px';
+    document.documentElement.style.setProperty('--edl-nav-h', h + 'px');
+    if(!pushed) collect();
+    stack = h;
+    pushed.forEach(function(p){
+      p.el.style.top = (p.top + h) + 'px';
+      if(p.bar && p.el.offsetParent !== null) stack = Math.max(stack, h + p.top + p.el.offsetHeight);
+    });
+  }
+  function go(el){
+    var y = el.getBoundingClientRect().top + window.pageYOffset - stack - 12;
+    window.scrollTo({ top: Math.max(0, y), behavior: reduce ? 'auto' : 'smooth' });
+  }
+  var cur = null;
+  function upd(){
+    var line = stack + 50, act = null;
+    items.forEach(function(it){ if(it.el.offsetParent !== null && it.el.getBoundingClientRect().top <= line) act = it; });
+    if(window.innerHeight + window.pageYOffset >= document.documentElement.scrollHeight - 4 && items.length) act = items[items.length - 1];
+    if(act === cur) return;
+    cur = act;
+    items.forEach(function(it){ it.a.classList.toggle('edl-active', it === act); });
+    if(act){
+      var l = act.a.offsetLeft - nav.offsetLeft - (nav.clientWidth - act.a.offsetWidth) / 2;
+      try { nav.scrollTo({ left: Math.max(0, l), behavior: reduce ? 'auto' : 'smooth' }); } catch(e){ nav.scrollLeft = Math.max(0, l); }
+    }
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(function(){ ticking = false; upd(); }); } }, { passive:true });
+  window.addEventListener('resize', function(){ layout(); upd(); });
+  function init(){ pushed = null; layout(); upd(); }
+  layout(); upd();
+  if(document.readyState === 'complete') init(); else window.addEventListener('load', init);
+})();
+</script>
+<!-- EDL-NAV END -->
 </body>
 </html>
