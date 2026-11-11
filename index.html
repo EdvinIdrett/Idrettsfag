@@ -427,6 +427,30 @@
     .folder-subjects.open { display: flex; }
     .folder-subjects .subject-card { margin: 0; }
 
+
+    /* LÆREPLAN (LK20) */
+    .card-toggle.lp-toggle { color: var(--text-mid); }
+    .lp-panel { display: none; border-top: 1px solid var(--border); padding: 1.1rem 1.5rem 1.3rem; background: rgba(26,111,186,0.035); cursor: default; }
+    .lp-panel.open { display: block; }
+    .lp-meta { font-size: 0.72rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .lp-meta a { color: var(--blue); text-decoration: none; font-weight: 600; }
+    .lp-meta a:hover { text-decoration: underline; }
+    .lp-h { font-family: "Barlow Condensed", sans-serif; font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text); margin: 1rem 0 0.45rem; }
+    .lp-h:first-of-type { margin-top: 0.2rem; }
+    .lp-verdi { font-size: 0.82rem; line-height: 1.6; color: var(--text-mid); }
+    .lp-ke { display: grid; gap: 0.45rem; }
+    .lp-ke div { border-left: 3px solid var(--c); background: color-mix(in srgb, var(--c) 7%, transparent); border-radius: 0 8px 8px 0; padding: 0.45rem 0.7rem; font-size: 0.8rem; line-height: 1.5; color: var(--text-mid); }
+    .lp-ke b { display: block; color: var(--text); font-size: 0.82rem; }
+    .lp-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.55rem; }
+    .lp-tab { border: 1.5px solid var(--c); background: transparent; color: var(--c); border-radius: 999px; padding: 0.2rem 0.7rem; font: 600 0.75rem "Inter", sans-serif; cursor: pointer; }
+    .lp-tab.on { background: var(--c); color: #fff; }
+    .lp-intro { font-size: 0.78rem; color: var(--text-light); margin-bottom: 0.35rem; }
+    .lp-goals { margin: 0; padding-left: 1.15rem; font-size: 0.82rem; line-height: 1.55; color: var(--text-mid); }
+    .lp-goals li { margin-bottom: 0.3rem; }
+    .lp-goals li::marker { color: var(--c); }
+    .lp-src { margin-top: 0.7rem; font-size: 0.72rem; color: var(--text-light); }
+    .lp-src a { color: var(--blue); }
+
     /* FOOTER */
     footer {
       text-align: center; padding: 3rem 2rem;
@@ -784,6 +808,295 @@ const items = [
   },
 ];
 
+// LÆREPLANER (LK20) – kompetansemål og kjerneelementer fra Udir
+const LAREPLANER = {
+ "Idrett og Samfunn": {
+  "plan": "Læreplan i idrett og samfunn",
+  "kode": "IDR03-02",
+  "url": "https://www.udir.no/lk20/idr03-02?lang=nob",
+  "verdi": "Faget viser hvordan idrett og samfunn påvirker hverandre, og gir innsikt i idrettens historie, organisering og framtid. Inkludering, toleranse, likeverd, likestilling og fair play står sentralt, sammen med idrettens etiske ansvar for natur og miljø.",
+  "ke": [
+   [
+    "Idrettens verdigrunnlag",
+    "Hvilke verdier og holdninger idretten bør bygge på, og hvordan vi kan reflektere over etiske valg i idretten."
+   ],
+   [
+    "Idrettens utvikling",
+    "Idrettens historie, hvordan idretten er organisert og ledet fra lokalt til internasjonalt nivå, og hvor den kan være på vei."
+   ],
+   [
+    "Helse og idrett",
+    "Sammenhengen mellom idrett, helse og livskvalitet i samfunnet, og hvordan idrett former identitet og fellesskap."
+   ],
+   [
+    "Idrettskritisk tenkning",
+    "Vurdere kilder kritisk og analysere forholdet mellom idrett og samfunn, slik at du kan ta stilling i idrettspolitiske spørsmål."
+   ]
+  ],
+  "sett": [
+   [
+    "Idrett og samfunn",
+    [
+     "diskutere og forstå idrettens verdigrunnlag",
+     "utarbeide og vurdere problemstillinger knyttet til idrett og menneskesyn",
+     "drøfte hvilken betydning idrettens egenverdi og nytteverdi har for individet og samfunnet",
+     "forklare hovedtrekk ved idrettens historiske utvikling fram til i dag",
+     "gjør rede for utviklingen av de moderne olympiske lekene fram til i dag",
+     "drøfte hvordan barne- og ungdomsidrett bør drives",
+     "drøfte betydningen idrettsanlegg har for individet og samfunnet",
+     "forklare hvordan idretten blir organisert, finansiert og ledet på ulike nivåer og i ulike kulturer",
+     "vurdere medienes rolle i idretten",
+     "reflektere over hvordan idretten kan bidra til miljøbevissthet og bærekraftig utvikling",
+     "diskutere betydningen av fysisk aktivitet for egen helse og identitet og for samfunnet",
+     "diskutere problemstillinger rundt kjønnsroller og kroppssyn i idretten",
+     "drøfte aktuelle idrettspolitiske temaer",
+     "forstå kilders pålitelighet og metoder for innhenting av informasjon"
+    ],
+    "https://www.udir.no/lk20/idr03-02/kompetansemaal-og-vurdering/kv280?lang=nob"
+   ]
+  ]
+ },
+ "Treningslære 1": {
+  "plan": "Læreplan i treningslære",
+  "kode": "IDR02-03",
+  "url": "https://www.udir.no/lk20/idr02-03?lang=nob",
+  "verdi": "Faget handler om fysiske, koordinative, psykiske og sosiale egenskaper, og om å sette mål, planlegge og vurdere trening for helse og prestasjon. Det skal styrke identitet, selvtillit og motivasjon, og lære elevene å vurdere informasjon om trening kritisk og etisk.",
+  "ke": [
+   [
+    "Trening og planlegging",
+    "Planlegge trening ut fra treningstilstand, nivå og mål, med kunnskap om egenskaper, treningsformer, metoder og treningsprinsipper."
+   ],
+   [
+    "Kroppens oppbygning og funksjon",
+    "Hva som skjer i kroppen når vi trener: muskel-, nerve- og skjelettsystemet, sirkulasjon, respirasjon og energifrigjøring."
+   ],
+   [
+    "Trening, helse og livsstil",
+    "Hvordan trening, ernæring, restitusjon, mental trening og skadeforebygging påvirker helse og prestasjon."
+   ],
+   [
+    "Anvendt treningslære",
+    "Bruke teorien i praktiske treningssituasjoner, se sammenhenger og vurdere informasjon og trening kritisk."
+   ]
+  ],
+  "sett": [
+   [
+    "Treningslære 1",
+    [
+     "sette seg ulike mål med tanke på prestasjonsutvikling",
+     "beskrive arbeidskravs og kapasitetsanalyse",
+     "utarbeide og reflektere over betydningen av økt-, uke- og periodeplaner",
+     "forklare treningsformer, treningsmetoder og øvelser",
+     "gjøre rede for grunnleggende treningsprinsipper",
+     "beskrive tester innenfor ulike treningsformer",
+     "forklare hvordan oppvarming og treningsformer kan påvirke kroppen fysisk og psykisk",
+     "forklare kroppens sirkulasjons- og respirasjonssystem",
+     "beskrive oppbygningen av og funksjonen til muskel-, nerve- og skjelettsystemet, og forklare muskelarbeid i ulike øvelser",
+     "beskrive aerob og anaerob energifrigjøring",
+     "gjøre rede for hvordan idrettsskader kan forebygges og behandles",
+     "gjøre rede for hvordan ernæring, restitusjon og livsstil kan påvirke helse og prestasjonsutvikling",
+     "drøfte informasjon om trening på en kritisk måte"
+    ],
+    "https://www.udir.no/lk20/idr02-03/kompetansemaal-og-vurdering/kv278?lang=nob"
+   ]
+  ]
+ },
+ "Treningslære 2": {
+  "plan": "Læreplan i treningslære",
+  "kode": "IDR02-03",
+  "url": "https://www.udir.no/lk20/idr02-03?lang=nob",
+  "verdi": "Faget handler om fysiske, koordinative, psykiske og sosiale egenskaper, og om å sette mål, planlegge og vurdere trening for helse og prestasjon. Det skal styrke identitet, selvtillit og motivasjon, og lære elevene å vurdere informasjon om trening kritisk og etisk.",
+  "ke": [
+   [
+    "Trening og planlegging",
+    "Planlegge trening ut fra treningstilstand, nivå og mål, med kunnskap om egenskaper, treningsformer, metoder og treningsprinsipper."
+   ],
+   [
+    "Kroppens oppbygning og funksjon",
+    "Hva som skjer i kroppen når vi trener: muskel-, nerve- og skjelettsystemet, sirkulasjon, respirasjon og energifrigjøring."
+   ],
+   [
+    "Trening, helse og livsstil",
+    "Hvordan trening, ernæring, restitusjon, mental trening og skadeforebygging påvirker helse og prestasjon."
+   ],
+   [
+    "Anvendt treningslære",
+    "Bruke teorien i praktiske treningssituasjoner, se sammenhenger og vurdere informasjon og trening kritisk."
+   ]
+  ],
+  "sett": [
+   [
+    "Treningslære 2",
+    [
+     "drøfte og ta i bruk grunnleggende treningsprinsipper",
+     "utarbeide og begrunne arbeidskravs- og kapasitetsanalyse, treningsplaner og mål knyttet til prestasjonsutvikling i en valgt idrettsaktivitet",
+     "bruke og vurdere forskjellige tester",
+     "gjøre rede for faktorer som har betydning for utvikling av fysiske, psykiske, tekniske og koordinative egenskaper",
+     "gjøre rede for hvordan energifrigjøringen foregår i idrettsaktiviteter",
+     "gjøre rede for mekaniske og organiske forhold som er sentrale i en valgt øvelse",
+     "forklare bevegelsesprinsipper som har betydning for funksjonell teknikk i en valgt idrettsaktivitet",
+     "gjør rede for treningsformer, treningsmetoder og øvelser som har betydning for en valgt idrettsaktivitet",
+     "utføre mental trening og drøfte betydningen av slik trening",
+     "drøfte hvordan doping og stimulerende midler kan virke negativt inn på helse og prestasjon",
+     "vurdere påliteligheten av kilder knyttet til treningslære",
+     "vurdere sammenheng mellom trening, helse og prestasjonsutvikling"
+    ],
+    "https://www.udir.no/lk20/idr02-03/kompetansemaal-og-vurdering/kv279?lang=nob"
+   ]
+  ]
+ },
+ "Aktivitetslære": {
+  "plan": "Læreplan i aktivitetslære",
+  "kode": "IDR01-02",
+  "url": "https://www.udir.no/lk20/idr01-02?lang=nob",
+  "verdi": "Faget handler om fysisk aktivitet, idrett, lek og friluftsliv, og om å utvikle motoriske ferdigheter, helse og identitet. Samarbeid, fair play, innsats og felles opplevelser er sentrale verdier, og faget skal motivere til et aktivt og inkluderende liv.",
+  "ke": [
+   [
+    "Idretter",
+    "Prøve ulike idretter og utvikle idrettslige og sosiale ferdigheter gjennom praksis, samarbeid og målrettet trening."
+   ],
+   [
+    "Lek og aktiviteter",
+    "Bevege seg på kreative måter gjennom lek og varierte aktiviteter, og være en del av et fellesskap."
+   ],
+   [
+    "Basistrening",
+    "Trene grunnleggende fysiske, psykiske, koordinative og sosiale egenskaper for helse og videre ferdighetsutvikling."
+   ],
+   [
+    "Friluftsliv",
+    "Ferdes i ulike naturområder gjennom årstidene på en måte som tar vare på miljøet og bygger fellesskap."
+   ]
+  ],
+  "sett": [
+   [
+    "Aktivitetslære 1",
+    [
+     "gjennomføre samarbeid og fair play",
+     "bruke ferdigheter og gjennomføre målrettet trening i et variert utvalg av idretter fra ulike miljøkategorier",
+     "reflektere over egen praksis og opplevelser i trening og på tur",
+     "bruke ulike ferdigheter i svømming til livberging i vann",
+     "utforske og gjennomføre leker og aktiviteter i ulike miljøkategorier",
+     "gjennomføre målrettet trening av fysiske og koordinative egenskaper",
+     "gjennomføre kortsiktige planer og forstå betydningen av treningsplanlegging",
+     "planlegge og gjennomføre tur med og uten overnatting i ulike naturmiljøer",
+     "bruke redskaper, utstyr, mat og bekledning på en hensiktsmessig og sikker måte",
+     "planlegge og gjennomføre dagsopplegg hvor mestring av friluftslivaktiviteter står sentralt",
+     "planlegge og gjennomføre skadeforebyggende trening"
+    ],
+    "https://www.udir.no/lk20/idr01-02/kompetansemaal-og-vurdering/kv275?lang=nob"
+   ],
+   [
+    "Aktivitetslære 2",
+    [
+     "anvende forpliktende samarbeid og fair play",
+     "utvikle ferdigheter og gjennomføre målrettet trening i et variert utvalg av idretter fra ulike miljøkategorier",
+     "reflektere over erfaring fra turer og aktiviteter",
+     "utforske og vise allsidighet i lek og aktiviteter i ulike miljøkategorier",
+     "utvikle fysiske, psykiske og koordinative egenskaper gjennom målrettet trening",
+     "gjennomføre treningsplaner og reflektere over betydningen av målrettet trening",
+     "planlegge, gjennomføre og vurdere tur med og uten overnatting i ulike naturmiljøer og til ulike årstider, hvor naturopplevelsen står sentralt",
+     "utvikle og anvende basisferdigheter i friluftsliv på en hensiktsmessig og bærekraftig måte"
+    ],
+    "https://www.udir.no/lk20/idr01-02/kompetansemaal-og-vurdering/kv276?lang=nob"
+   ],
+   [
+    "Aktivitetslære 3",
+    [
+     "reflektere over og anvende forpliktende samarbeid og fair play",
+     "utvikle og bruke ferdigheter gjennom målrettet trening i et variert utvalg av idretter",
+     "vurdere utbyttet av turer og aktiviteter",
+     "anvende motoriske ferdigheter, kreativitet og allsidighet i lek og aktiviteter",
+     "utvikle basisegenskaper gjennom systematisk trening",
+     "gjennomføre treningsplaner og vurdere betydningen av systematisk trening",
+     "planlegge, gjennomføre og vurdere turer med og uten overnatting i ulike naturmiljøer og til ulike årstider, hvor et bærekraftig friluftsliv er sentralt",
+     "reflektere over hvordan egen deltakelse i friluftsliv har betydning for samarbeid og fellesskap"
+    ],
+    "https://www.udir.no/lk20/idr01-02/kompetansemaal-og-vurdering/kv277?lang=nob"
+   ]
+  ]
+ },
+ "Treningsledelse": {
+  "plan": "Læreplan i treningsledelse",
+  "kode": "IDR04-03",
+  "url": "https://www.udir.no/lk20/idr04-03?lang=nob",
+  "verdi": "Faget gir kompetanse til å bli en god trener og leder, slik at flere i lokalsamfunnet kan oppleve mestring og glede i fysisk aktivitet. Et inkluderende og motiverende læringsmiljø, samarbeid, demokrati, ansvar, respekt og empati er sentrale verdier.",
+  "ke": [
+   [
+    "Trener- og lederrollen",
+    "Bli bevisst på hvordan du fungerer som forbilde og leder, og lære metoder for ledelse, instruksjon og ulike læringsmiljø."
+   ],
+   [
+    "Aktivitets- og treningsledelse",
+    "Sette sammen og lede økter med varierte øvelser og metoder, gi tilbakemeldinger, og planlegge og gjennomføre arrangementer."
+   ]
+  ],
+  "sett": [
+   [
+    "Treningsledelse 1",
+    [
+     "gjøre rede for og anvende grunnprinsippene for instruksjon og ledelse",
+     "gjøre rede for og bruke ulike undervisnings- og instruksjonsmetoder",
+     "gjør rede for ulike leder- og treneregenskaper",
+     "utarbeide og gjennomføre hensiktsmessige planer for aktivitet og trening",
+     "reflektere over egen og andres praksis som trener og leder"
+    ],
+    "https://www.udir.no/lk20/idr04-03/kompetansemaal-og-vurdering/kv281?lang=nob"
+   ],
+   [
+    "Treningsledelse 2",
+    [
+     "beskrive sentrale forhold ved barns vekst og utvikling",
+     "forklare hvordan samspill og kommunikasjon påvirker læring og utvikling i ulike former for aktivitet og trening",
+     "veilede både individuelt og i gruppe i ulike praksissituasjoner",
+     "bruke hensiktsmessige aktiviteter, øvelser og undervisningsmetoder i praksis",
+     "planlegge, lede og vurdere trening som fører til ferdighetsutvikling i en idrettsaktivitet",
+     "planlegge, lede og vurdere aktiviteter for grupper og enkeltpersoner med ulike forutsetninger",
+     "vurdere egen og andres praksis som trener og leder",
+     "vise variasjon i valg av aktiviteter, øvelser og metoder ved planlegging og gjennomføring av aktivitet og trening",
+     "planlegge, gjennomføre og evaluere et arrangement knyttet til treningsledelse"
+    ],
+    "https://www.udir.no/lk20/idr04-03/kompetansemaal-og-vurdering/kv282?lang=nob"
+   ]
+  ]
+ }
+};
+
+function esc(t) { return String(t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function lpGoals(set) {
+  return `<p class="lp-intro">Mål for opplæringen er at eleven skal kunne</p>
+    <ol class="lp-goals">${set[1].map(g => `<li>${esc(g)}</li>`).join("")}</ol>
+    <p class="lp-src"><a href="${set[2]}" target="_blank" rel="noopener">Se ${esc(set[0])} hos Udir ↗</a></p>`;
+}
+function lpHTML(s) {
+  const lp = LAREPLANER[s.name]; if (!lp) return "";
+  const tabs = lp.sett.length > 1
+    ? `<div class="lp-tabs">${lp.sett.map((t, i) => `<button type="button" class="lp-tab${i ? "" : " on"}" data-i="${i}">${esc(t[0])}</button>`).join("")}</div>` : "";
+  return `<button class="card-toggle lp-toggle" type="button" onclick="toggleLp(this)">
+      <span class="toggle-icon">▼</span> Læreplan (LK20)</button>
+    <div class="lp-panel" style="--c:${s.tagColor}">
+      <div class="lp-meta">${esc(lp.plan)} · <a href="${lp.url}" target="_blank" rel="noopener">${lp.kode} ↗</a></div>
+      <div class="lp-h">Fagets verdier</div>
+      <p class="lp-verdi">${esc(lp.verdi)}</p>
+      <div class="lp-h">Kjerneelementer</div>
+      <div class="lp-ke">${lp.ke.map(k => `<div><b>${esc(k[0])}</b>${esc(k[1])}</div>`).join("")}</div>
+      <div class="lp-h">Kompetansemål</div>
+      ${tabs}<div class="lp-goalbox">${lpGoals(lp.sett[0])}</div>
+    </div>`;
+}
+function toggleLp(btn) {
+  const panel = btn.nextElementSibling;
+  const open = panel.classList.toggle("open");
+  btn.querySelector(".toggle-icon").textContent = open ? "▲" : "▼";
+}
+document.addEventListener("click", e => {
+  const tab = e.target.closest(".lp-tab"); if (!tab) return;
+  const panel = tab.closest(".lp-panel");
+  const name = panel.closest(".subject-card").querySelector(".subject-name").textContent;
+  panel.querySelectorAll(".lp-tab").forEach(t => t.classList.toggle("on", t === tab));
+  panel.querySelector(".lp-goalbox").innerHTML = lpGoals(LAREPLANER[name].sett[+tab.dataset.i]);
+});
+
 function makeSubjectCard(s, delay) {
   const card = document.createElement("div");
   card.className = "subject-card reveal";
@@ -849,7 +1162,8 @@ function makeSubjectCard(s, delay) {
     <button class="card-toggle" onclick="toggleChapters(this)">
       <span class="toggle-icon">${q ? "▲" : "▼"}</span> ${q ? "Skjul kapitler" : "Vis kapitler"}
     </button>
-    <div class="chapters-list${q ? " open" : ""}">${chapHTML}</div>`;
+    <div class="chapters-list${q ? " open" : ""}">${chapHTML}</div>
+    ${lpHTML(s)}`;
   setTimeout(() => {
     const fill = card.querySelector(".perf-bar-fill");
     fill.style.width = s.fill + "%";
@@ -930,6 +1244,7 @@ buildCards();
 
 // Siste oppdateringer – legg nyeste øverst, behold maks 5
 const UPDATES = [
+  { date: "2026-11-11", text: "Kompetansemål og kjerneelementer fra læreplanene (LK20) er lagt inn på forsiden og i alle ferdige kapitler" },
   { date: "2026-11-11", text: "Kapittel 4: Organisering av norsk idrett har fått «Hva vet du fra før?», verdigrunnlaget og podkast" },
   { date: "2026-11-06", text: "Nytt kapittel: Hurtighetstrening, med menylinje for rask navigering" },
   { date: "2026-11-04", text: "Utholdenhetstrening: nytt 8-bit spill (O₂-reisen), ny oppgave 7 med fagbegreper og kilder" },
