@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Koordinasjonstrening – Edvins Idrettslab</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--navy:#14284b;--navy2:#1e3a68;--teal:#14a3a3;--teal-l:#d9f3f3;--orange:#f28c28;--orange-l:#fdebd8;--bg:#f4f7fb;--card:#fff;--txt:#1c2533;--mut:#5d6b80;--ok:#1f9d55;--ok-l:#e3f6eb;--bad:#d64545;--bad-l:#fbe6e6;--line:#dde4ee;--purple:#7b5cd6;--pink:#e2508a;--yellow:#f5c518}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px;overflow-x:clip}
+body{margin:0;padding-top:54px;font-family:Inter,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;overflow-x:clip}
+h1,h2,h3,h4{font-family:"Barlow Condensed",sans-serif;letter-spacing:.3px;line-height:1.15;margin:.2em 0 .5em}
+h2{font-size:2.2rem;color:var(--navy);position:relative;display:inline-block}
+h2::after{content:"";position:absolute;left:0;bottom:-6px;height:5px;width:0;border-radius:5px;background:linear-gradient(90deg,var(--teal),var(--orange));transition:width .9s .2s ease}
+.in h2::after,h2.in::after{width:100%}
+h3{font-size:1.45rem;color:var(--navy2)}
+a{color:var(--teal)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 18px}
+section{padding:46px 0;position:relative}
+.card{background:var(--card);border-radius:16px;box-shadow:0 4px 18px rgba(20,40,75,.07);padding:24px;margin-bottom:18px;border:1px solid var(--line);transition:transform .25s,box-shadow .25s}
+.card.lift:hover{transform:translateY(-5px);box-shadow:0 14px 30px rgba(20,40,75,.13)}
+.btn{font:600 .95rem Inter;border:0;border-radius:10px;padding:10px 18px;cursor:pointer;background:var(--navy);color:#fff;transition:.15s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.12)}.btn:active{transform:scale(.96)}
+.btn.teal{background:var(--teal)}.btn.orange{background:var(--orange)}.btn.ghost{background:#e8edf5;color:var(--navy)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.src{font-size:.82rem;color:var(--mut);font-style:italic}
+.eyebrow{display:inline-block;background:var(--teal-l);color:var(--navy);font-weight:700;font-size:.75rem;letter-spacing:.8px;text-transform:uppercase;padding:3px 12px;border-radius:99px;margin-bottom:6px}
+/* reveal */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv[data-a=l]{transform:translateX(-60px)}.rv[data-a=r]{transform:translateX(60px)}.rv[data-a=z]{transform:scale(.88)}
+.rv.in{opacity:1;transform:none}
+/* topbar */
+#top{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--navy);color:#fff;height:54px;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+#top .row{height:54px;flex-wrap:nowrap;gap:8px}
+.home{display:flex;align-items:center;gap:6px;background:var(--orange);color:#fff;text-decoration:none;font-weight:700;padding:7px 12px;border-radius:9px;white-space:nowrap;font-size:.88rem}
+.home:hover{filter:brightness(1.1)}
+#nav{display:flex;gap:2px;overflow-x:auto;flex:1;scrollbar-width:none}#nav::-webkit-scrollbar{display:none}
+#nav a{color:#cfd8e6;text-decoration:none;font-size:.82rem;font-weight:600;padding:6px 10px;border-radius:8px;white-space:nowrap;transition:.2s}
+#nav a:hover{background:rgba(255,255,255,.12);color:#fff}#nav a.act{background:var(--teal);color:#fff}
+#progTxt{font-size:.8rem;font-weight:700;background:rgba(255,255,255,.14);padding:5px 10px;border-radius:99px;white-space:nowrap}
+#motion{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:5px 8px;cursor:pointer;font-size:.8rem;white-space:nowrap}
+#scrollLine{position:fixed;top:54px;left:0;height:5px;width:0;z-index:99;background:linear-gradient(90deg,var(--teal),var(--orange))}
+#roller{position:fixed;top:45px;left:0;z-index:101;font-size:20px;line-height:1;pointer-events:none;margin-left:-10px}
+@media(max-width:640px){.home span.long{display:none}#motion{display:none}}
+/* background blobs */
+.blob{position:fixed;border-radius:50%;filter:blur(60px);opacity:.22;z-index:-1;pointer-events:none;animation:drift 18s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(60px,-80px) scale(1.25)}}
+/* hero */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 55%,var(--teal) 135%);background-size:200% 200%;animation:heroBg 14s ease infinite alternate;color:#fff;padding:60px 0 90px;position:relative;overflow:hidden}
+@keyframes heroBg{to{background-position:100% 100%}}
+.hero .grid{display:grid;grid-template-columns:1.25fr .75fr;gap:20px;align-items:center}
+@media(max-width:760px){.hero .grid{grid-template-columns:1fr}.hero svg.jug{max-width:240px;margin:0 auto}}
+.hero h1{font-size:clamp(2.6rem,7vw,4.8rem);margin:.1em 0}
+.hero h1 .w{white-space:nowrap;display:inline-block}.hero h1 .w span{display:inline-block;animation:letter .7s cubic-bezier(.2,.9,.3,1.3) backwards}
+@keyframes letter{from{opacity:0;transform:translateY(40px) rotate(8deg)}}
+.hero p{max-width:600px;font-size:1.08rem;opacity:.93}
+.tag{display:inline-block;background:var(--orange);color:#fff;font-weight:700;font-size:.78rem;padding:4px 12px;border-radius:99px;letter-spacing:.5px}
+.shape{position:absolute;opacity:.5;animation:float 7s ease-in-out infinite;will-change:transform}
+@keyframes float{50%{translate:0 -24px;rotate:20deg}}
+.jug .arm{animation:armL .6s ease-in-out infinite alternate;transform-origin:150px 128px}
+.jug .arm.r{animation-delay:-.3s}
+@keyframes armL{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+.wave{position:absolute;left:0;bottom:-1px;width:200%;height:60px;animation:waveX 9s linear infinite}
+@keyframes waveX{to{transform:translateX(-50%)}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:-46px;position:relative;z-index:3}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 8px 24px rgba(20,40,75,.12);border-bottom:5px solid var(--teal)}
+.stat:nth-child(2){border-color:var(--orange)}.stat:nth-child(3){border-color:var(--purple)}.stat:nth-child(4){border-color:var(--pink)}
+.stat b{font:800 2.4rem "Barlow Condensed";color:var(--navy);display:block;line-height:1}
+.stat small{color:var(--mut);font-weight:600}
+/* goals */
+.goal{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:10px;cursor:pointer;transition:.2s}
+.goal:hover{background:var(--teal-l);transform:translateX(6px)}
+.goal .chk{width:24px;height:24px;border:2px solid var(--teal);border-radius:7px;flex:none;display:grid;place-items:center;color:#fff;font-weight:800;transition:.2s}
+.goal.done .chk{background:var(--teal);transform:scale(1.15) rotate(8deg)}.goal.done span{color:var(--mut)}
+.lk li{margin:4px 0}
+/* concepts */
+.concepts{display:flex;flex-wrap:wrap;gap:10px}
+.term{position:relative;background:var(--teal-l);color:var(--navy);font-weight:600;padding:8px 14px;border-radius:99px;cursor:help;border:2px solid transparent;transition:.2s}
+.term:nth-child(even){background:var(--orange-l)}
+.term:hover,.term:focus{border-color:var(--teal);transform:translateY(-3px) scale(1.04);outline:0;z-index:50}
+.term .tip{display:none;position:absolute;left:0;top:118%;width:290px;max-width:80vw;background:var(--navy);color:#fff;font-weight:400;font-size:.88rem;padding:12px;border-radius:10px;z-index:20;box-shadow:0 8px 20px rgba(0,0,0,.25);animation:tipIn .2s}
+@keyframes tipIn{from{opacity:0;transform:translateY(-6px)}}
+.term:hover .tip,.term:focus .tip{display:block}
+/* signal path */
+.sig{display:flex;align-items:center;gap:0;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.sig .node{background:#fff;border:2px solid var(--line);border-radius:12px;padding:10px 12px;text-align:center;font-weight:700;font-size:.88rem;min-width:118px;animation:nodeP 4s infinite}
+.sig .node small{display:block;font-weight:400;color:var(--mut)}
+.sig .node:nth-of-type(2){animation-delay:1s}.sig .node:nth-of-type(3){animation-delay:2s}.sig .node:nth-of-type(4){animation-delay:3s}
+@keyframes nodeP{0%,20%{border-color:var(--orange);box-shadow:0 0 0 6px rgba(242,140,40,.2);transform:scale(1.06)}30%,100%{border-color:var(--line);box-shadow:none;transform:none}}
+.sig .arr{width:46px;height:6px;background:linear-gradient(90deg,var(--teal) 50%,transparent 50%);background-size:14px 6px;animation:flow .5s linear infinite;border-radius:3px}
+@keyframes flow{to{background-position:14px 0}}
+@media(max-width:640px){.sig{flex-direction:column}.sig .arr{width:6px;height:26px;background:linear-gradient(180deg,var(--teal) 50%,transparent 50%);background-size:6px 14px;animation-name:flowY}}
+@keyframes flowY{to{background-position:0 14px}}
+/* factors */
+.factors{background:var(--teal-l);border-radius:14px;padding:16px 18px;margin:16px 0}
+.factors h3{margin-top:0}
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:820px){.fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.fgrid{grid-template-columns:1fr}}
+.fc{background:#fff;border-radius:12px;padding:12px;border-left:6px solid var(--c);transition:.25s}
+.fc:hover{transform:translateY(-4px);box-shadow:0 10px 20px rgba(20,40,75,.12)}
+.fc span{font-size:1.6rem;display:block}.fc b{display:block;color:var(--navy)}.fc small{color:var(--mut);line-height:1.4;display:block;margin-top:2px}
+/* abilities */
+.abil{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.abil .ab{flex:0 1 calc(25% - 11px)}
+@media(max-width:900px){.abil .ab{flex-basis:calc(50% - 7px)}}
+.ab{background:#fff;border-radius:16px;border:2px solid var(--line);border-top:7px solid var(--c);cursor:pointer;transition:.25s;overflow:hidden;text-align:center;padding-bottom:10px}
+.ab:hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:0 12px 26px rgba(20,40,75,.15)}
+.ab.sel{border-color:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 25%,transparent)}
+.ab svg{width:100%;display:block;background:linear-gradient(180deg,#f8fbfd,#fff)}
+.ab b{font:700 1.3rem "Barlow Condensed";color:var(--navy)}
+#abInfo{margin-top:16px;border-left:7px solid var(--teal);background:#fff;padding:18px;border-radius:12px;min-height:110px;box-shadow:0 4px 18px rgba(20,40,75,.07);transition:border-color .3s}
+#abInfo.pop{animation:pop .35s}
+@keyframes pop{from{transform:scale(.97);opacity:.4}}
+.k-sway{transform-origin:100px 106px;animation:kSway 1.6s ease-in-out infinite alternate}
+@keyframes kSway{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+.k-hop{animation:kHop .25s ease-out infinite alternate}
+@keyframes kHop{to{transform:translateY(-12px)}}
+.k-beat{transform-box:fill-box;transform-origin:center;animation:kBeat 2s infinite;fill:#dde4ee}
+@keyframes kBeat{0%,22%{fill:#f28c28;transform:scale(1.5)}25%,100%{fill:#dde4ee;transform:scale(1)}}
+.k-lamp{animation:kLamp 3s infinite}
+@keyframes kLamp{0%,45%{fill:#d64545}50%,92%{fill:#1f9d55}100%{fill:#d64545}}
+.k-run{animation:kRun 3s infinite}
+@keyframes kRun{0%,50%{transform:translateX(0);opacity:1;animation-timing-function:ease-out}80%{transform:translateX(115px);opacity:1}90%{transform:translateX(115px);opacity:0}91%{transform:translateX(0);opacity:0}100%{transform:translateX(0);opacity:1}}
+.k-jump{animation:kJump .9s cubic-bezier(.3,0,.7,1) infinite alternate}
+@keyframes kJump{from{transform:translateY(8px)}to{transform:translateY(-40px)}}
+.k-spin{transform-origin:100px 80px;animation:kSpin 1.8s linear infinite}
+@keyframes kSpin{to{transform:rotate(360deg)}}
+.k-dash{animation:kDash 1s linear infinite}
+@keyframes kDash{to{stroke-dashoffset:-18}}
+.k-kick{transform-origin:60px 74px;animation:kKick 2s infinite}
+@keyframes kKick{0%{transform:rotate(30deg)}40%{transform:rotate(35deg)}50%{transform:rotate(-25deg)}65%{transform:rotate(0)}100%{transform:rotate(30deg)}}
+/* citation example */
+.citex{margin:12px 0 8px;padding:12px 16px;border-radius:12px;background:var(--orange-l);border-left:6px solid var(--orange);font-size:.92rem}
+.citex ul{margin:6px 0 0;padding-left:18px}.citex li{margin:4px 0}
+#pc{font-weight:600;color:var(--bad)}#pc.okc{color:var(--ok)}
+/* task summary */
+.sum{font-weight:600;font-size:.95rem;padding:8px 14px;border-radius:10px;display:none}
+.sum.ok,.sum.bad{display:inline-block}
+.sum.ok{background:var(--ok-l);color:var(--ok)}.sum.bad{background:var(--orange-l);color:#a4520a}
+.sum.pop{animation:pop .4s}
+/* stopwatch */
+.bal{align-items:end}
+.swatch{display:flex;gap:14px;align-items:center;margin-top:14px;padding:12px;border-radius:14px;background:#f1f5fa;flex-wrap:wrap}
+.swring{width:96px;height:96px;flex:none}
+#swArc{transition:stroke-dashoffset .1s linear,stroke .3s}
+#swT{font:800 2.6rem "Barlow Condensed",Inter;color:var(--navy);line-height:1;font-variant-numeric:tabular-nums}
+#swT small{font-size:1.1rem;color:var(--mut)}
+.swatch.run #swT{color:var(--teal)}
+.swsave{padding:6px 12px}.swsave:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.bal input.flash{animation:flashIn .9s}
+@keyframes flashIn{0%{background:var(--ok-l);border-color:var(--ok);transform:scale(1.08)}100%{background:#fff}}
+/* video */
+.vidbox{position:relative;width:100%;max-width:760px;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 8px 22px rgba(20,40,75,.15)}
+.vidbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+/* curling game */
+#curlWrap{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#eef6fb}
+#curl{display:block;width:100%;height:auto;border:0;border-radius:0}
+#curlWrap.shake{animation:shake .45s}
+.pbar.cur{position:relative;background:linear-gradient(90deg,#e8edf5 74%,#fbe6e6 74%)}
+.pbar.cur::after{content:"MAKS";position:absolute;left:74%;top:-2px;bottom:-2px;border-left:3px solid var(--bad);font:800 .62rem Inter;color:var(--bad);padding-left:4px;line-height:22px}
+#pwrap.over #pfill{background:var(--bad);animation:shake .25s infinite}
+#sweep{touch-action:none;user-select:none;background:var(--purple)}#sweep.on{transform:scale(.95);filter:brightness(1.2)}
+.pbar{height:18px;background:#e8edf5;border-radius:99px;overflow:hidden;margin:10px 0}
+#pfill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--yellow),var(--bad));border-radius:99px}
+#thr{touch-action:none;user-select:none;font-size:1.05rem;padding:14px 22px}
+/* new widgets */
+.def{margin:0 0 18px;padding:20px 24px;border-left:8px solid var(--orange);background:var(--orange-l);border-radius:12px;font:600 clamp(1.25rem,2.6vw,1.7rem)/1.3 "Barlow Condensed";color:var(--navy)}
+.def cite{display:block;font:italic 400 .85rem Inter;color:var(--mut);margin-top:6px}
+.sports{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.sports>span,.sports>button{font:600 .95rem Inter;padding:8px 14px;border-radius:99px;border:2px solid var(--teal);background:#fff;color:var(--navy);cursor:pointer;transition:.2s}
+.sports button:hover,.sports button.on{background:var(--teal);color:#fff;transform:translateY(-3px) rotate(-2deg)}
+.sports button .e{display:inline-block}.sports button.on .e{animation:spin .6s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sports.lo span{border-color:var(--line);background:#f1f5fa;cursor:default}
+.sporttxt{min-height:48px;padding:10px 14px;border-radius:10px;background:var(--teal-l);transition:.3s}
+.ben{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.ben{grid-template-columns:1fr}}
+.bi{display:flex;gap:8px;align-items:center;padding:9px 10px;border:2px solid var(--line);border-radius:10px;cursor:pointer;font-size:.9rem;line-height:1.3;transition:.2s;opacity:0;transform:translateY(14px)}
+.in .bi{opacity:1;transform:none}
+.bi:hover{border-color:var(--teal)}.bi .i{font-size:1.3rem;flex:none}
+.bi.on{border-color:var(--ok);background:var(--ok-l)}
+.skate{width:100%;max-width:420px;display:block;margin:6px auto 0}
+.sk-b{animation:skB 1.2s ease-in-out infinite alternate}@keyframes skB{from{transform:translateX(-6px)}to{transform:translateX(6px)}}
+.sk-a{animation:skA 1.6s ease-in-out infinite alternate}@keyframes skA{to{transform:translateX(8px)}}
+.senses{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:760px){.senses{grid-template-columns:repeat(2,1fr)}}
+.sn{border:2px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;background:#fff;transition:.25s}
+.sn:hover{transform:translateY(-5px);border-color:var(--c)}.sn.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 12%,#fff)}
+.sn .ic{font-size:2rem;display:block;animation:bob 2.6s ease-in-out infinite}
+.sn:nth-child(2) .ic{animation-delay:.4s}.sn:nth-child(3) .ic{animation-delay:.8s}.sn:nth-child(4) .ic{animation-delay:1.2s}.sn:nth-child(5) .ic{animation-delay:1.6s}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.sn b{font-size:.9rem;color:var(--navy)}
+#senseInfo{margin-top:12px;border-left:6px solid var(--teal);background:#f8fbfd;padding:14px;border-radius:10px;min-height:70px}
+.exp{display:flex;flex-wrap:wrap;gap:6px;font-size:1.7rem}
+.exp span{animation:popIn 4s ease-in-out infinite}
+@keyframes popIn{0%{opacity:.15;transform:scale(.6)}20%,80%{opacity:1;transform:scale(1)}100%{opacity:.15;transform:scale(.6)}}
+.bomsvg{width:100%;max-width:260px;display:block;margin:0 auto}
+.two{border-top:7px solid var(--c);margin:0}.two .ex{color:var(--mut);font-size:.92rem;margin-bottom:0}
+.meterwrap{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.meter{width:240px;max-width:100%}
+.strevtxt{margin-top:12px;padding:12px 14px;border-radius:10px;font-weight:600;transition:background .3s}
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;align-items:start}
+.g{background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+.g:hover{transform:translateY(-4px);border-color:var(--teal);box-shadow:0 10px 22px rgba(20,40,75,.1)}
+.g .gn{font:800 2rem "Barlow Condensed";color:var(--teal);line-height:1}
+.g .gi{position:absolute;right:12px;top:10px;font-size:1.6rem;transition:.3s}
+.g:hover .gi{transform:scale(1.3) rotate(-10deg)}
+.g b{display:block;color:var(--navy);margin-top:4px}
+.g .ge{max-height:0;overflow:hidden;color:var(--mut);font-size:.9rem;transition:max-height .45s ease,margin .3s}
+.g.on{border-color:var(--orange);background:var(--orange-l)}.g.on .ge{max-height:160px;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th{background:var(--navy);color:#fff;text-align:left;padding:10px}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr{transition:.2s}tbody tr:hover td{background:var(--teal-l)}
+.komp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.komp{grid-template-columns:1fr}}
+.komp .card{border-top:6px solid var(--teal);margin:0}
+.komp .card:nth-child(2){border-top-color:var(--orange)}.komp .card:nth-child(3){border-top-color:var(--purple)}.komp .card:nth-child(4){border-top-color:var(--pink)}
+.komp .ico{font-size:2rem;display:inline-block;animation:wig 3s ease-in-out infinite}
+.komp .card:nth-child(2) .ico{animation-delay:.7s}.komp .card:nth-child(3) .ico{animation-delay:1.4s}.komp .card:nth-child(4) .ico{animation-delay:2.1s}
+@keyframes wig{0%,80%,100%{transform:none}85%{transform:rotate(-14deg) scale(1.2)}92%{transform:rotate(12deg) scale(1.2)}}
+canvas{width:100%;max-width:100%;background:#fff;border-radius:12px;border:1px solid var(--line)}
+input[type=range]{width:100%;accent-color:var(--teal)}
+/* lab */
+.lab{background:linear-gradient(135deg,#c4560f,var(--orange) 60%,#f5a548);color:#fff;border-radius:22px;padding:28px 22px;position:relative;overflow:hidden}
+.lab h2{color:#fff}.lab h2::after{background:#fff}
+.lab>p{max-width:70ch}
+.lab .card{color:var(--txt)}
+.lab .bub{position:absolute;border-radius:50%;background:rgba(255,255,255,.14);animation:bub 9s linear infinite}
+@keyframes bub{from{transform:translateY(40px);opacity:0}20%{opacity:1}to{transform:translateY(-520px);opacity:0}}
+.exph{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.exph .num{width:46px;height:46px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:800 1.5rem "Barlow Condensed";flex:none;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(20,40,75,.4)}70%,100%{box-shadow:0 0 0 14px rgba(20,40,75,0)}}
+.exph h3{margin:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:780px){.grid2{grid-template-columns:1fr}}
+.nums{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.nums label,.bal label{font-size:.75rem;font-weight:700;color:var(--mut);display:block}
+.nums input,.bal input{width:100%;font:inherit;padding:7px;border-radius:8px;border:2px solid var(--line);text-align:center}
+.nums input:focus,.bal input:focus{border-color:var(--teal);outline:0}
+.bal{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.beats{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:12px 0}
+.beat{aspect-ratio:1;border-radius:12px;border:2px solid var(--line);background:#f8fafc;display:grid;place-items:center;cursor:pointer;font-size:1.5rem;transition:.08s;user-select:none;position:relative}
+.beat small{position:absolute;bottom:2px;font-size:.55rem;font-weight:700;color:var(--mut)}
+.beat:nth-child(4n+1){border-color:var(--navy2)}
+.beat.now{background:var(--orange);border-color:var(--orange);transform:scale(1.14);box-shadow:0 6px 16px rgba(242,140,40,.5)}
+@media(max-width:560px){.beats{grid-template-columns:repeat(4,1fr)}}
+#bpmV{font:800 2rem "Barlow Condensed";color:var(--navy)}
+/* tasks */
+.task{padding:0;overflow:hidden}
+.task>.hd{display:flex;align-items:center;gap:12px;padding:18px 22px;cursor:pointer;background:#fff;transition:.2s}
+.task>.hd:hover{background:#f2f8fb;padding-left:28px}
+.task .badge{background:var(--navy);color:#fff;border-radius:10px;width:40px;height:40px;display:grid;place-items:center;font:800 1.3rem "Barlow Condensed";flex:none;transition:.3s}
+.task.open .badge{background:var(--teal);transform:rotate(-8deg)}
+.task .hd h3{margin:0;flex:1}
+.task .score{font-weight:700;font-size:.9rem;padding:4px 10px;border-radius:99px;background:#e8edf5;color:var(--mut)}
+.task .score.ok{background:var(--ok-l);color:var(--ok);animation:pop .4s}.task .score.bad{background:var(--orange-l);color:#b4600c}
+.task .arrow{transition:.25s}.task.open .arrow{transform:rotate(90deg)}
+.task .bd{display:none;padding:4px 22px 22px}.task.open .bd{display:block;animation:tipIn .3s}
+.q{border:2px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;position:relative;transition:.25s}
+.q.ok{border-color:var(--ok);background:var(--ok-l)}.q.bad{border-color:var(--bad);background:var(--bad-l);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.q .vd{position:absolute;right:10px;top:10px;font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:99px;color:#fff}
+.q.ok .vd{background:var(--ok)}.q.bad .vd{background:var(--bad)}
+.q b.qt{display:block;padding-right:64px}
+.opt{display:flex;gap:10px;align-items:center;padding:9px 12px;border:2px solid var(--line);border-radius:10px;margin:6px 0;cursor:pointer;background:#fff;transition:.15s}
+.opt:hover{border-color:var(--teal);transform:translateX(4px)}
+.opt .l{width:28px;height:28px;border-radius:8px;background:#e8edf5;display:grid;place-items:center;font-weight:800;flex:none}
+.opt.sel{border-color:var(--navy)}.opt.sel .l{background:var(--navy);color:#fff}
+.opt.right{border-color:var(--ok);background:var(--ok-l)}.opt.right .l{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--bad-l)}.opt.wrong .l{background:var(--bad);color:#fff}
+.tf{display:flex;gap:8px;margin-top:8px}.tf button{flex:1;padding:9px;border-radius:9px;border:2px solid var(--line);background:#fff;font:700 .95rem Inter;cursor:pointer;transition:.15s}
+.tf button:hover{border-color:var(--teal)}.tf button.sel{border-color:var(--navy);background:var(--navy);color:#fff}
+.bank{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:#f1f5fa;border-radius:12px;margin-bottom:14px;min-height:54px}
+.chip{background:var(--teal);color:#fff;padding:6px 12px;border-radius:99px;font-weight:600;cursor:grab;user-select:none;transition:transform .15s}
+.chip:hover{transform:scale(1.07) rotate(-2deg)}.chip.pick{outline:3px solid var(--orange)}
+.slot{display:inline-block;min-width:140px;min-height:34px;border-bottom:3px dashed var(--teal);margin:0 4px;padding:2px 8px;vertical-align:middle;border-radius:6px;cursor:pointer;text-align:center}
+.slot.ok{background:var(--ok-l);border-color:var(--ok)}.slot.bad{background:var(--bad-l);border-color:var(--bad)}
+.clz{line-height:2.7}
+select{font:inherit;padding:5px 8px;border-radius:8px;border:2px solid var(--line);background:#fff;max-width:100%}
+select.ok{border-color:var(--ok);background:var(--ok-l)}select.bad{border-color:var(--bad);background:var(--bad-l)}
+.match{display:grid;grid-template-columns:1fr 1.6fr;gap:10px}
+.mi{padding:10px 12px;border:2px solid var(--line);border-radius:10px;cursor:pointer;background:#fff;font-size:.92rem;transition:.15s;margin-bottom:8px}
+.mi:hover{border-color:var(--teal);transform:scale(1.02)}.mi.pick{border-color:var(--orange);background:var(--orange-l)}
+.mi.ok{border-color:var(--ok)!important;background:var(--ok-l)}.mi.bad{border-color:var(--bad)!important;background:var(--bad-l)}
+textarea{width:100%;min-height:150px;font:inherit;padding:12px;border-radius:10px;border:2px solid var(--line);resize:vertical}
+textarea:focus{border-color:var(--teal);outline:0}
+.kw{display:inline-block;margin:3px;padding:3px 10px;border-radius:99px;background:#e8edf5;font-size:.82rem;transition:.3s}
+.kw.hit{background:var(--ok);color:#fff;transform:scale(1.08)}
+.fb{margin-top:10px;font-weight:600}
+.refs li{margin:6px 0}
+footer{background:var(--navy);color:#cfd8e6;text-align:center;padding:30px;font-size:.88rem}
+.confetti{position:fixed;top:-12px;width:10px;height:14px;z-index:200;pointer-events:none;animation:fall 2.2s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+body.still *,body.still *::before,body.still *::after{animation:none!important;transition:none!important}
+body.still .rv{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+@media print{#top,#scrollLine,#roller,.blob{display:none!important}body{padding:0}.rv{opacity:1;transform:none}.task .bd{display:block}}
+</style>
+</head>
+<body>
+<div class="blob" style="width:340px;height:340px;background:var(--teal);left:-90px;top:30%"></div>
+<div class="blob" style="width:300px;height:300px;background:var(--orange);right:-80px;top:62%;animation-delay:-6s"></div>
+<div class="blob" style="width:240px;height:240px;background:var(--purple);left:40%;top:88%;animation-delay:-11s"></div>
+
+<div id="top"><div class="wrap row">
+  <a class="home" href="https://edvinidrett.github.io/Idrettsfag/" aria-label="Tilbake til forsiden av Edvins Idrettslab">⌂ <span class="long">Edvins Idrettslab</span></a>
+  <nav id="nav" aria-label="Innhold på siden"></nav>
+  <span id="progTxt">0/7</span>
+  <button id="motion" title="Slå animasjoner av eller på">⏸ Animasjon</button>
+</div></div>
+<div id="scrollLine"></div><div id="roller">⚽</div>
+
+<header class="hero">
+  <div class="shape" data-px=".25" style="width:70px;height:70px;border-radius:50%;background:var(--orange);left:6%;top:14%"></div>
+  <div class="shape" data-px=".45" style="width:34px;height:34px;border-radius:8px;background:var(--yellow);left:46%;top:10%;animation-delay:-2s"></div>
+  <div class="shape" data-px=".15" style="width:48px;height:48px;border-radius:50%;border:8px solid var(--pink);left:38%;bottom:22%;animation-delay:-4s"></div>
+  <div class="shape" data-px=".6" style="width:22px;height:22px;border-radius:50%;background:#fff;right:8%;top:16%;animation-delay:-1s"></div>
+  <div class="wrap grid">
+    <div>
+      <span class="tag">TRENINGSLÆRE 1 · EDVINS IDRETTSLAB</span>
+      <h1 id="title">Koordinasjonstrening</h1>
+      <p>Hvordan samarbeider nervesystemet og musklene for å gi presise og velkoordinerte bevegelser – og hvordan kan vi trene det? Bla nedover, se de koordinative egenskapene i bevegelse og prøv dem selv.</p>
+      <a class="btn orange" href="#egenskaper" style="text-decoration:none;display:inline-block">Se egenskapene i bevegelse ↓</a>
+    </div>
+    <svg class="jug" viewBox="0 0 300 260" aria-label="Animert figur som sjonglerer med tre baller">
+      <ellipse cx="150" cy="246" rx="70" ry="8" fill="rgba(0,0,0,.2)"/>
+      <g stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none">
+        <path d="M150 118V190M150 190L128 244M150 190L172 244"/>
+        <path class="arm" d="M150 128L118 152"/><path class="arm r" d="M150 128L182 152"/>
+      </g>
+      <circle cx="150" cy="100" r="17" fill="#fff"/>
+      <g>
+        <circle r="10" fill="#f28c28"><animateMotion dur="1.8s" repeatCount="indefinite" path="M185 150C170 10 108 30 115 150C130 10 192 30 185 150Z"/></circle>
+        <circle r="10" fill="#f5c518"><animateMotion dur="1.8s" begin="-0.6s" repeatCount="indefinite" path="M185 150C170 10 108 30 115 150C130 10 192 30 185 150Z"/></circle>
+        <circle r="10" fill="#e2508a"><animateMotion dur="1.8s" begin="-1.2s" repeatCount="indefinite" path="M185 150C170 10 108 30 115 150C130 10 192 30 185 150Z"/></circle>
+      </g>
+    </svg>
+  </div>
+  <svg class="wave" viewBox="0 0 2400 60" preserveAspectRatio="none"><path fill="#f4f7fb" d="M0 30Q150 0 300 30T600 30T900 30T1200 30T1500 30T1800 30T2100 30T2400 30V60H0Z"/></svg>
+</header>
+
+<main class="wrap">
+<div class="stats">
+  <div class="stat rv" data-a="z"><b data-count="7">0</b><small>koordinative egenskaper</small></div>
+  <div class="stat rv" data-a="z"><b data-count="7">0</b><small>retningslinjer</small></div>
+  <div class="stat rv" data-a="z"><b data-count="3">0</b><small>eksperimenter i klassen</small></div>
+  <div class="stat rv" data-a="z"><b data-count="7">0</b><small>oppgaver</small></div>
+</div>
+
+<section id="maal" data-nav="Læringsmål">
+  <h2 class="rv">Læringsmål</h2>
+  <div class="grid2">
+    <div class="card rv" data-a="l" id="goals">
+      <p style="margin-top:0"><b>Dette skal du kunne:</b></p>
+      <div class="goal"><div class="chk"></div><span>Forklare hva som menes med koordinasjon</span></div>
+      <div class="goal"><div class="chk"></div><span>Begrunne hvorfor det er viktig å trene koordinasjon</span></div>
+      <div class="goal"><div class="chk"></div><span>Gjøre rede for faktorer som har betydning for koordinasjon</span></div>
+      <div class="goal"><div class="chk"></div><span>Gjøre rede for de ulike koordinative egenskapene</span></div>
+      <div class="goal"><div class="chk"></div><span>Vite hvilke retningslinjer som gjelder for koordinasjonstrening</span></div>
+      <div class="goal"><div class="chk"></div><span>Gjøre rede for hvordan du kan trene koordinasjon</span></div>
+      <div class="goal"><div class="chk"></div><span>Gjøre rede for og praktisere ulike former for koordinasjonstrening</span></div>
+    </div>
+    <div class="card rv lk" data-a="r">
+      <span class="eyebrow">LK20 · Treningslære 1</span>
+      <p style="margin:.2em 0"><b>Kompetansemål</b> – eleven skal kunne</p>
+      <ul style="margin:.2em 0 .6em;padding-left:20px">
+        <li>forklare treningsformer, treningsmetoder og øvelser</li>
+        <li>beskrive oppbygningen av og funksjonen til muskel-, nerve- og skjelettsystemet, og forklare muskelarbeid i ulike øvelser</li>
+        <li>beskrive tester innenfor ulike treningsformer</li>
+      </ul>
+      <p style="margin:0"><b>Kjerneelementer:</b> Treningsplanlegging · Kroppens oppbygning og funksjon</p>
+      <p class="src" style="margin:.5em 0 0">Utdanningsdirektoratet (2020), læreplan i treningslære (IDR02-03).</p>
+    </div>
+  </div>
+</section>
+
+<section id="begreper" data-nav="Begreper">
+  <h2 class="rv">Sentrale begreper</h2>
+  <p class="rv">Hold musepekeren over – eller trykk på – et begrep for å se forklaringen.</p>
+  <div class="concepts rv">
+    <span class="term" tabindex="0">Koordinasjon<span class="tip">Evnen til å samordne bevegelser i forhold til hverandre og til omgivelsene.</span></span>
+    <span class="term" tabindex="0">Koordinative egenskaper<span class="tip">Balanse, rytme, romorientering, reaksjonsevne, øye–hånd-koordinasjon, øye–fot-koordinasjon og tilpasset kraftinnsats.</span></span>
+    <span class="term" tabindex="0">Teknikk<span class="tip">Måten en bevegelsesoppgave løses på i en idrett. Koordinasjon danner en viktig del av grunnlaget for å utvikle tekniske ferdigheter.</span></span>
+    <span class="term" tabindex="0">Sanseapparatet<span class="tip">Syn, hørsel, lukt, følelse og smak. Sanseorganene mottar hele tiden stimuli og sender dem gjennom sensoriske nerver inn til sentralnervesystemet.</span></span>
+    <span class="term" tabindex="0">Likevektssansen<span class="tip">Sitter i det indre øret og forteller om kroppens stilling og bevegelse – for eksempel når en forlengsrulle avsluttes med en stans.</span></span>
+    <span class="term" tabindex="0">Trykk- og berøringssansen<span class="tip">Registrerer trykk og berøring mot huden – for eksempel i det du lander på benken og skal holde balansen.</span></span>
+    <span class="term" tabindex="0">Leddsansen<span class="tip">Sanseceller i leddkapsel, leddbånd og leddbrusk registrerer stillingen leddet har, om det er bøyd eller strukket.</span></span>
+    <span class="term" tabindex="0">Muskelsansen<span class="tip">Muskelspolen og senespolen gir informasjon om musklenes lengde og spenning.</span></span>
+    <span class="term" tabindex="0">Bevegelseserfaring<span class="tip">De bevegelsene utøveren har prøvd tidligere. Allsidig påvirkning fra flere idretter gir et bredere grunnlag.</span></span>
+    <span class="term" tabindex="0">Motoriske programmer<span class="tip">Bevegelsesmønstre som ligger lagret i sentralnervesystemet. Når du gjentar en øvelse, styrkes de nerveforbindelsene som er aktive.</span></span>
+    <span class="term" tabindex="0">Generell koordinasjonstrening<span class="tip">Koordinasjonstrening som ikke retter seg mot noen bestemt idrett.</span></span>
+    <span class="term" tabindex="0">Idrettsspesifikk koordinasjonstrening<span class="tip">Koordinasjonstrening som inngår i treningen av en bestemt idrett.</span></span>
+    <span class="term" tabindex="0">Automatisert<span class="tip">Når en bevegelsesoppgave er løst og går av seg selv, utvikler du ikke lenger den koordinative egenskapen i særlig grad.</span></span>
+    <span class="term" tabindex="0">Omstillingsevne<span class="tip">Evnen til å tilpasse seg ny teknikk og nytt utstyr – for eksempel da skøyteteknikken kom inn i langrenn.</span></span>
+  </div>
+</section>
+
+<section id="teori" data-nav="Hva er det?">
+  <h2 class="rv">Hva er koordinasjon?</h2>
+  <div class="card rv">
+    <blockquote class="def">«Koordinasjon er evnen til å samordne bevegelser i forhold til hverandre og til omgivelsene.»<cite>Gjerset et al. (2022)</cite></blockquote>
+    <p><b>Idretter som stiller store krav til koordinasjon</b> – trykk på en idrett:</p>
+    <div class="sports" id="sportsHi"></div>
+    <p id="sportTxt" class="sporttxt">I alle disse idrettene stilles det store krav til god teknikk.</p>
+    <p><b>Også krav til koordinasjon</b>, men her har andre faktorer større betydning for resultatet:</p>
+    <div class="sports lo"><span>⚽ Fotball</span><span>🤾 Håndball</span><span>⛷️ Langrenn</span></div>
+  </div>
+</section>
+
+<section id="hvorfor" data-nav="Hvorfor?">
+  <h2 class="rv">Hvorfor trene koordinasjon?</h2>
+  <div class="grid2">
+    <div class="card rv" data-a="l">
+      <p style="margin-top:0">Treningen av de koordinative egenskapene gjør at du blir flink til å <b>løse nye bevegelsesoppgaver</b>. Koordinasjon danner en viktig del av grunnlaget for utvikling av <b>tekniske ferdigheter</b> i idrett.</p>
+      <p>Utvikling av ny teknikk og nytt utstyr stiller hele tiden krav til utøverens <b>omstillingsevne</b>. Da skøyteteknikken ble innført i langrenn, sto utøverne overfor store oppgaver. Hvor godt de klarte å tilpasse teknikken til det nye utstyret, avhang av de koordinative egenskapene deres.</p>
+      <svg class="skate" viewBox="0 0 320 110" aria-label="Animasjon: fra klassisk til skøyting i langrenn">
+        <line x1="0" y1="96" x2="320" y2="96" stroke="#dde4ee" stroke-width="4"/>
+        <g class="sk-a"><circle cx="70" cy="34" r="8" fill="#14284b"/><path stroke="#14284b" stroke-width="4" stroke-linecap="round" fill="none" d="M70 42L66 68L56 94M66 68L80 94M68 50L52 64M68 50L86 60"/><line x1="40" y1="96" x2="100" y2="96" stroke="#14a3a3" stroke-width="5" stroke-linecap="round"/></g>
+        <text x="70" y="14" text-anchor="middle" font-size="12" font-family="Inter" font-weight="700" fill="#5d6b80">klassisk</text>
+        <path d="M120 60H190" stroke="#f28c28" stroke-width="4" stroke-dasharray="6 6" class="k-dash"/><path d="M186 52L198 60L186 68" fill="#f28c28"/>
+        <g class="sk-b"><circle cx="250" cy="34" r="8" fill="#14284b"/><path stroke="#14284b" stroke-width="4" stroke-linecap="round" fill="none" d="M250 42L248 68L228 92M248 68L270 92M249 50L232 62M249 50L268 62"/><line x1="210" y1="100" x2="240" y2="88" stroke="#f28c28" stroke-width="5" stroke-linecap="round"/><line x1="260" y1="88" x2="292" y2="100" stroke="#f28c28" stroke-width="5" stroke-linecap="round"/></g>
+        <text x="250" y="14" text-anchor="middle" font-size="12" font-family="Inter" font-weight="700" fill="#5d6b80">skøyting</text>
+      </svg>
+    </div>
+    <div class="card rv" data-a="r">
+      <p style="margin-top:0"><b>Når du trener koordinasjonen din, kan du …</b> <small style="color:var(--mut)">(trykk for å huke av det du har opplevd selv)</small></p>
+      <div class="ben" id="ben"></div>
+    </div>
+  </div>
+</section>
+
+<section id="faktorer" data-nav="Faktorer">
+  <h2 class="rv">Faktorer som har betydning for koordinasjon</h2>
+  <div class="card rv">
+    <h3>1 · Forhold ved sanseorganene</h3>
+    <p>Sanseapparatet består av syn, hørsel, lukt, følelse og smak. Trykk på en sans for å se hvordan den hjelper deg i idretten.</p>
+    <div class="senses" id="senses"></div>
+    <div id="senseInfo"><i>Velg en sans …</i></div>
+    <p style="margin-top:16px">Sanseorganene mottar hele tiden stimuli. Signalene går gjennom <b>sensoriske nerver</b> inn til sentralnervesystemet. Sanseinntrykket blir bearbeidet og sendt ut til musklene gjennom <b>motoriske nerver</b>.</p>
+    <div class="sig" aria-label="Animasjon av signalveien">
+      <div class="node">👁️ Sanseorganene<small>mottar stimuli</small></div><div class="arr"></div>
+      <div class="node">↗ Sensoriske nerver<small>inn til sentralnervesystemet</small></div><div class="arr"></div>
+      <div class="node">🧠 Sentralnerve&shy;systemet<small>bearbeider inntrykket</small></div><div class="arr"></div>
+      <div class="node">↘ Motoriske nerver<small>ut til musklene</small></div><div class="arr"></div>
+      <div class="node">💪 Musklene<small>bevegelse</small></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card lift rv" data-a="l">
+      <h3>2 · Utøverens bevegelseserfaring</h3>
+      <p>Allsidig påvirkning fra flere idretter gir mange bevegelseserfaringer å bygge på. Jo flere bevegelser du har prøvd, desto lettere er det å løse en ny bevegelsesoppgave.</p>
+      <div class="exp" aria-hidden="true"><span style="animation-delay:0.0s">🤸</span><span style="animation-delay:0.25s">⚽</span><span style="animation-delay:0.5s">🏊</span><span style="animation-delay:0.75s">⛷️</span><span style="animation-delay:1.0s">🧗</span><span style="animation-delay:1.25s">🏀</span><span style="animation-delay:1.5s">🤾</span><span style="animation-delay:1.75s">🚴</span><span style="animation-delay:2.0s">🛹</span><span style="animation-delay:2.25s">🏐</span></div>
+    </div>
+    <div class="card lift rv" data-a="r">
+      <h3>3 · Motoriske programmer</h3>
+      <p>Motoriske programmer ligger lagret i sentralnervesystemet. Gjentar du øvelsen, styrkes de nerveforbindelsene som er aktive.</p>
+      <p><b>Eksempel:</b> Balanser på bommen – og legg så til at du sjonglerer med baller samtidig.</p>
+      <svg viewBox="0 0 220 120" class="bomsvg" aria-label="Animasjon: balanse på bom og sjonglering samtidig">
+        <rect x="30" y="100" width="160" height="8" rx="4" fill="#f28c28"/><rect x="50" y="108" width="6" height="12" fill="#dde4ee"/><rect x="164" y="108" width="6" height="12" fill="#dde4ee"/>
+        <g class="k-sway" style="transform-origin:110px 100px"><circle cx="110" cy="44" r="8" fill="#14284b"/><path stroke="#14284b" stroke-width="4" stroke-linecap="round" fill="none" d="M110 52V76L104 100M110 76L116 100M110 58L94 66M110 58L126 66"/>
+        <circle r="6" fill="#e2508a"><animateMotion dur="1.6s" repeatCount="indefinite" path="M126 66C120 0 96 10 94 66C100 0 124 10 126 66Z"/></circle>
+        <circle r="6" fill="#f5c518"><animateMotion dur="1.6s" begin="-0.8s" repeatCount="indefinite" path="M126 66C120 0 96 10 94 66C100 0 124 10 126 66Z"/></circle></g>
+      </svg>
+    </div>
+  </div>
+  <p class="src rv">Kilde: Gjerset et al. (2022).</p>
+</section>
+
+<section id="egenskaper" data-nav="Egenskapene">
+  <h2 class="rv">De koordinative egenskapene</h2>
+  <p class="rv">Hver animasjon viser én egenskap. Trykk på et kort for forklaring, eksempler og forslag til trening.</p>
+  <div class="abil" id="abil"></div>
+  <div id="abInfo"><i>Velg en egenskap over …</i></div>
+
+  <div class="card rv" style="margin-top:22px">
+    <span class="eyebrow">Prøv selv</span>
+    <h3>Tilpasset kraftinnsats: curling</h3>
+    <p>Hold inne kasteknappen for å bygge opp kraft, og slipp når kraften passer. Steinen skal stoppe i huset – helst midt i. Hold inne <b>🧹 Sop!</b> mens steinen glir, så glir den lenger. Slår du gule steiner ut av huset, får du utslagspoeng. Men pass deg: holder du inne for lenge, går det galt … Fem kast per runde.</p>
+    <div id="curlWrap"><canvas id="curl" width="1000" height="260" aria-label="Curlingbane sett ovenfra"></canvas></div>
+    <div id="pwrap"><div class="pbar cur"><div id="pfill"></div></div></div>
+    <div class="row"><button class="btn orange" id="thr">🥌 Hold inne – slipp for å kaste</button><button class="btn" id="sweep">🧹 Sop!</button><b id="thrRes" style="flex:1;min-width:220px">Kast 1 av 5</b></div>
+  </div>
+</section>
+
+<section id="trening" data-nav="Hvordan trene?">
+  <h2 class="rv">Hvordan trene koordinasjon?</h2>
+  <div class="grid2">
+    <div class="card lift rv two" data-a="l" style="--c:var(--teal)"><span class="eyebrow">Type 1</span><h3>Generell koordinasjonstrening</h3><p>Retter seg ikke mot noen bestemt idrett.</p><p class="ex">Eksempler: sjonglering, balanse på ett bein, hinkeleker, kast og mottak med ulike baller.</p></div>
+    <div class="card lift rv two" data-a="r" style="--c:var(--orange)"><span class="eyebrow" style="background:var(--orange-l)">Type 2</span><h3>Idrettsspesifikk koordinasjonstrening</h3><p>Inngår i treningen av en bestemt idrett.</p><p class="ex">Eksempler: føring mellom kjegler i fotball, skrutrening på trampoline i stup, balanse på ski i variert terreng.</p></div>
+  </div>
+  <div class="card rv">
+    <span class="eyebrow">Prøv selv</span>
+    <h3>Strevemåleren: trener du koordinasjon nå?</h3>
+    <p>Så lenge du strever for å få løst en bevegelsesoppgave, trener du koordinasjon. Når oppgaven er løst og får preg av å være automatisert, utvikler du ikke lenger den koordinative egenskapen i særlig grad. Kunsten er å treffe det nivået som er aktuelt for treningssituasjonen.</p>
+    <p><b>Tenk på en øvelse du nettopp har gjort.</b> Dra i glidebryteren: hvor mye måtte du streve?</p>
+    <div class="meterwrap">
+      <svg viewBox="0 0 240 140" class="meter" aria-hidden="true">
+        <path d="M20 120A100 100 0 0 1 70 33.4" stroke="#b9c4d4" stroke-width="22" fill="none"/>
+        <path d="M70 33.4A100 100 0 0 1 192 52" stroke="#1f9d55" stroke-width="22" fill="none"/>
+        <path d="M192 52A100 100 0 0 1 220 120" stroke="#d64545" stroke-width="22" fill="none"/>
+        <g id="needle" style="transform-origin:120px 120px;transition:transform .35s cubic-bezier(.3,1.5,.5,1)"><line x1="120" y1="120" x2="120" y2="34" stroke="#14284b" stroke-width="5" stroke-linecap="round"/></g>
+        <circle cx="120" cy="120" r="10" fill="#14284b"/>
+      </svg>
+      <div style="flex:1;min-width:220px">
+        <input type="range" id="strev" min="0" max="100" value="50" aria-label="Hvor mye måtte du streve">
+        <div class="row" style="justify-content:space-between;font-size:.8rem;color:var(--mut)"><span>Går av seg selv</span><span>Klarer det nesten aldri</span></div>
+        <div id="strevTxt" class="strevtxt"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="retningslinjer" data-nav="Retningslinjer">
+  <h2 class="rv">Retningslinjer for koordinasjonstrening</h2>
+  <p class="rv">Trykk på en retningslinje for å se et eksempel.</p>
+  <div class="gl" id="gl"></div>
+  <p class="src rv">Kilde: Gjerset et al. (2022, s. 215).</p>
+</section>
+
+<section id="kompendium" data-nav="Kompendium">
+  <h2 class="rv">Kompendium</h2>
+  <div class="komp">
+    <div class="card lift rv" data-a="l"><span class="ico">🎯</span><h3>Hva er koordinasjon?</h3><p>Evnen til å samordne bevegelser i forhold til hverandre og til omgivelsene. Koordinasjon er en viktig del av grunnlaget for å utvikle tekniske ferdigheter.</p></div>
+    <div class="card lift rv" data-a="r"><span class="ico">👁️</span><h3>Sanseorganene</h3><p>Synet er den viktigste sansen når du utfører bevegelser. Likevektssansen, trykk- og berøringssansen, leddsansen og muskelsansen gir hjernen informasjon om kroppens stilling og bevegelse.</p></div>
+    <div class="card lift rv" data-a="l"><span class="ico">🧠</span><h3>Motoriske programmer og erfaring</h3><p>Bevegelser lagres som motoriske programmer i sentralnervesystemet. Allsidig bevegelseserfaring fra flere idretter gjør det lettere å løse nye bevegelsesoppgaver.</p></div>
+    <div class="card lift rv" data-a="r"><span class="ico">🔁</span><h3>Strev og variasjon</h3><p>Så lenge du strever, trener du koordinasjon. Ta utgangspunkt i kjente øvelser, men lag variasjon – når øvelsen er automatisert, gir den lite ny utvikling.</p></div>
+  </div>
+</section>
+
+<section id="praktisk" data-nav="Praktisk">
+ <div class="lab rv">
+  <span class="bub" style="width:40px;height:40px;left:8%;bottom:0"></span><span class="bub" style="width:22px;height:22px;left:30%;bottom:0;animation-delay:-3s"></span><span class="bub" style="width:60px;height:60px;left:62%;bottom:0;animation-delay:-5s"></span><span class="bub" style="width:28px;height:28px;left:86%;bottom:0;animation-delay:-7s"></span>
+  <span class="eyebrow" style="background:rgba(255,255,255,.25);color:#fff">Praktisk del · ca. 45 min</span><br>
+  <h2>Koordinasjonslaben</h2>
+  <p>I denne økta er dere forskere på egen kropp. Dere gjør tre små eksperimenter i klasserommet, fører inn tallene her på siden og ser resultatene tegnes opp mens dere jobber. Tallene blir med i PDF-en.</p>
+  <p><b>Organisering:</b> grupper på tre – én utfører, én teller eller tar tid, én fører inn tall. Bytt roller for hvert eksperiment. <b>Utstyr:</b> to ark per elev (krølles til baller) og en mobil med stoppeklokke.</p>
+
+  <div class="card">
+    <div class="exph"><div class="num">1</div><div><h3>Læringskurven – lær å sjonglere</h3><small>Motorisk læring · øye–hånd · ca. 15 min</small></div></div>
+    <div class="grid2">
+      <div>
+        <ol style="padding-left:20px;margin-top:0">
+          <li>Krøll to ark til baller. Oppgaven er å sjonglere <b>to baller med én hånd</b> (den du skriver med).</li>
+          <li>Ta <b>10 forsøk</b>. I hvert forsøk teller makkeren hvor mange fangster du klarer på rad før en ball faller.</li>
+          <li>Før inn tallet etter hvert forsøk, og følg med på kurven.</li>
+          <li>Ta til slutt ett forsøk med den andre hånda.</li>
+        </ol>
+        <div class="nums" id="lcIn"></div>
+        <div style="margin-top:8px;max-width:150px" class="bal"><div style="grid-column:1/-1"><label>Motsatt hånd (1 forsøk)</label><input type="number" min="0" id="lcOther"></div></div>
+        <p id="lcTxt" style="font-size:.9rem;font-weight:600"></p>
+      </div>
+      <div><canvas id="lcCv" width="520" height="300"></canvas></div>
+    </div>
+    <div class="vid">
+      <p style="margin:16px 0 8px"><b>🎬 Se hvordan det gjøres</b> – videoen starter 20 sekunder ut.</p>
+      <div class="vidbox"><iframe src="https://www.youtube-nocookie.com/embed/7DKaWwRo-EI?start=20&rel=0" title="Video om sjonglering" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+      <p class="src" style="margin:.4em 0 0">Virker ikke videoen? <a href="https://www.youtube.com/watch?v=7DKaWwRo-EI&t=20s" target="_blank" rel="noopener">Åpne den på YouTube</a>.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="exph"><div class="num">2</div><div><h3>Hvem holder deg oppe? Sansene og balansen</h3><small>Balanse · sanseceller · ca. 10 min</small></div></div>
+    <div class="grid2">
+      <div>
+        <ol style="padding-left:20px;margin-top:0">
+          <li>Stå på ett bein med armene i kors over brystet. Makkeren tar tiden til du må sette ned foten eller løsne armene (maks 60 sekunder).</li>
+          <li>Gjør testen på tre måter og før inn sekundene:</li>
+        </ol>
+        <div class="bal">
+          <div><label>A · Åpne øyne</label><input type="number" min="0" max="60" step="0.1" id="b0"></div>
+          <div><label>B · Lukkede øyne</label><input type="number" min="0" max="60" step="0.1" id="b1"></div>
+          <div><label>C · Lukkede øyne, hodet bakover</label><input type="number" min="0" max="60" step="0.1" id="b2"></div>
+        </div>
+        <div class="swatch">
+          <svg viewBox="0 0 120 120" class="swring" aria-hidden="true"><circle cx="60" cy="60" r="52" stroke="#e8edf5" stroke-width="10" fill="none"/><circle id="swArc" cx="60" cy="60" r="52" stroke="#14a3a3" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)"/></svg>
+          <div class="swin">
+            <div id="swT" aria-live="polite">0,0<small> s</small></div>
+            <div class="row" style="gap:6px;margin-top:6px"><button class="btn teal" id="swGo">▶ Start</button><button class="btn ghost" id="swRst">↺ Nullstill</button></div>
+            <div class="row" style="gap:6px;margin-top:8px;font-size:.85rem"><span style="font-weight:600;color:var(--mut)">Lagre tiden i:</span><button class="btn ghost swsave" data-t="0" disabled>A</button><button class="btn ghost swsave" data-t="1" disabled>B</button><button class="btn ghost swsave" data-t="2" disabled>C</button></div>
+          </div>
+        </div>
+        <p style="font-size:.88rem;color:var(--mut)">Makkeren starter klokka idet foten løftes, og stopper når foten settes ned eller armene løsner. Klokka stopper selv etter 60 sekunder. Stå ved en pult eller la makkeren stå klar, slik at ingen faller.</p>
+        <p id="balTxt" style="font-size:.9rem;font-weight:600"></p>
+      </div>
+      <div><canvas id="balCv" width="520" height="260"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="exph"><div class="num">3</div><div><h3>Rytmemaskinen</h3><small>Rytme · reaksjonsevne · hele gruppa · ca. 10 min</small></div></div>
+    <p>Gruppa følger mønsteret i takt med maskinen. Trykk på en rute for å bytte bevegelse. Start rolig, og øk tempoet med 10 slag om gangen. Hvor høyt tempo klarer hele gruppa i to runder uten feil?</p>
+    <div class="beats" id="beats"></div>
+    <div class="row">
+      <button class="btn teal" id="mStart">▶ Start</button>
+      <button class="btn ghost" id="mRand">🎲 Nytt mønster</button>
+      <label style="display:flex;align-items:center;gap:6px;font-size:.9rem"><input type="checkbox" id="mSnd" checked> Lyd</label>
+      <span style="flex:1;min-width:160px"><input type="range" id="bpm" min="50" max="170" step="10" value="70"></span>
+      <span><span id="bpmV">70</span> slag/min</span>
+    </div>
+    <div class="bal" style="max-width:260px;margin-top:10px"><div style="grid-column:1/-1"><label>Høyeste tempo gruppa klarte (slag/min)</label><input type="number" id="mBest" min="50" max="170" step="10"></div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:0">
+    <h3>Etterpå: hva fant dere ut?</h3>
+    <ol style="padding-left:20px">
+      <li>Hvordan ser læringskurven deres ut? Strevde dere fortsatt ved forsøk 10, eller begynte oppgaven å bli automatisert – og hva betyr det for om dere trener koordinasjon?</li>
+      <li>Hvorfor ble resultatet annerledes med den andre hånda?</li>
+      <li>Hva forteller balansetesten om synet og likevektssansen? Hvilke andre sanser hjalp dere da øynene var lukket?</li>
+      <li>Hva skjedde med bevegelsene da tempoet i rytmemaskinen ble høyt?</li>
+    </ol>
+    <textarea id="labRef" placeholder="Skriv gruppas svar her …" style="min-height:120px"></textarea>
+  </div>
+ </div>
+</section>
+
+<section id="oppgaver" data-nav="Oppgaver">
+  <h2 class="rv">Oppgaver</h2>
+  <div class="row rv" style="margin-bottom:14px"><button class="btn ghost" id="openAll">Vis alle</button><button class="btn ghost" id="closeAll">Skjul alle</button></div>
+  <div id="tasks"></div>
+</section>
+
+<section id="kilder" data-nav="Kilder">
+  <h2 class="rv">Kilder</h2>
+  <div class="card rv">
+    <ul class="refs">
+      <li>Gjerset, A. mfl. (2022). <i>Treningslære</i>. Gyldendal.</li>
+      <li>Utdanningsdirektoratet. (2020). <i>Læreplan i treningslære (IDR02-03)</i>. <a href="https://www.udir.no/lk20/idr02-03" target="_blank" rel="noopener">https://www.udir.no/lk20/idr02-03</a></li>
+    </ul>
+    <p style="margin-bottom:0"><b>Slik viser du til læreboka i egen tekst:</b> «Koordinasjon bør trenes tidlig i økta, fordi god konsentrasjon er avgjørende (Gjerset et al., 2022, s. 215).» Ta alltid med sidetall: (Gjerset et al., 2022, s. 215). Få hjelp på <a href="https://kildekompasset.no" target="_blank" rel="noopener">Kildekompasset.no</a> eller bruk <a href="https://www.zotero.org" target="_blank" rel="noopener">Zotero</a>.</p>
+  </div>
+</section>
+
+<section id="pdf" data-nav="PDF">
+  <h2 class="rv">Hvordan fungerer siden?</h2>
+  <div class="card rv">
+    <p>Fant du tekniske feil – knapper som ikke virker eller feil i rettingen? Beskriv det her. Det blir med i PDF-en.</p>
+    <textarea id="feedback" style="min-height:90px" placeholder="F.eks. «Dra-og-slipp fungerte ikke på iPad i oppgave 3»"></textarea>
+  </div>
+  <div class="card rv" data-a="z" style="text-align:center">
+    <h3>Last ned svarene dine</h3>
+    <p>PDF-en samler oppgavesvar, poeng, tallene fra Koordinasjonslaben og tilbakemeldingen din.</p>
+    <div class="row" style="justify-content:center"><input id="stuName" placeholder="Navn og klasse" style="font:inherit;padding:10px;border-radius:10px;border:2px solid var(--line)"><button class="btn orange" id="pdfBtn">⬇ Last ned PDF</button></div>
+  </div>
+</section>
+</main>
+<footer>Edvins Idrettslab · Koordinasjonstrening · Treningslære 1 · Kilde: Gjerset, A. mfl. (2022). Treningslære. Gyldendal.</footer>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>(s||'').toString().trim().toLowerCase().replace(/\s+/g,' ');
+let still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- title letters ---------- */
+(()=>{const t=$('#title');let n=0;t.innerHTML=['Koordinasjons','trening'].map(w=>`<span class="w">${[...w].map(c=>`<span style="animation-delay:${(n++)*.035}s">${c}</span>`).join('')}</span>`).join('<wbr>')})();
+
+/* ---------- nav + scroll spy ---------- */
+$$('section[data-nav]').forEach(s=>$('#nav').insertAdjacentHTML('beforeend',`<a href="#${s.id}" data-s="${s.id}">${s.dataset.nav}</a>`));
+const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){$$('#nav a').forEach(a=>a.classList.toggle('act',a.dataset.s===e.target.id));const a=$('#nav a.act');if(a)$('#nav').scrollTo({left:a.offsetLeft-60,behavior:'smooth'})}}),{rootMargin:'-45% 0px -50% 0px'});
+$$('section[data-nav]').forEach(s=>spy.observe(s));
+
+/* ---------- scroll effects ---------- */
+const px=$$('[data-px]');
+function onScroll(){const y=scrollY,h=document.documentElement.scrollHeight-innerHeight,p=h>0?y/h*100:0;
+ $('#scrollLine').style.width=p+'%';const r=$('#roller');r.style.left=p+'%';r.style.transform=`rotate(${y}deg)`;
+ if(!still)px.forEach(e=>e.style.transform=`translateY(${y*e.dataset.px}px)`)}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ---------- reveal + counters ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target);
+ const c=e.target.querySelector('[data-count]');if(c){const n=+c.dataset.count;let i=0;const t=setInterval(()=>{c.textContent=++i;if(i>=n)clearInterval(t)},110)}}),{threshold:.1});
+function watch(){$$('.rv:not(.in)').forEach((el,i)=>{io.observe(el)})}
+$$('.stats .rv,.komp .rv,.two').forEach((el,i)=>el.style.transitionDelay=(i%4)*.12+'s');
+
+/* ---------- motion toggle ---------- */
+function applyStill(){document.body.classList.toggle('still',still);$$('svg').forEach(s=>{try{still?s.pauseAnimations():s.unpauseAnimations()}catch(e){}});$('#motion').textContent=still?'▶ Animasjon':'⏸ Animasjon'}
+$('#motion').onclick=()=>{still=!still;applyStill()};
+
+/* ---------- goals ---------- */
+$$('.goal').forEach(g=>g.onclick=()=>{g.classList.toggle('done');g.querySelector('.chk').textContent=g.classList.contains('done')?'✓':''});
+
+/* ---------- abilities ---------- */
+const S='stroke="#14284b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"';
+const G='<line x1="15" y1="108" x2="185" y2="108" stroke="#dde4ee" stroke-width="4" stroke-linecap="round"/>';
+const AB=[
+ {n:'Balanse',s:'Balanse',c:'#14a3a3',d:'Evnen til å holde kroppen i likevekt – i ro (statisk balanse) og i bevegelse (dynamisk balanse).',e:'Turn på bom, alpint, landing etter hopp, takling i fotball.',t:'Stå og beveg deg på liten eller ustødig understøttelsesflate, lukk øynene, legg til kast og mottak.',
+  svg:`<rect x="30" y="106" width="140" height="8" rx="4" fill="#f28c28"/><g class="k-sway"><circle cx="100" cy="36" r="9" fill="#14284b"/><path ${S} d="M100 45V78L100 106M100 78L120 88L114 100M100 54L70 48M100 54L130 48"/></g>`},
+ {n:'Rytme',s:'Rytme',c:'#f28c28',d:'Evnen til å utføre bevegelser i et hensiktsmessig tidsmønster, og til å holde og variere takten.',e:'Hekkeløp, tilløp i lengde og høyde, dans, diagonalgang i langrenn.',t:'Bevegelser til musikk eller klapp, faste stegmønstre, bevisst variasjon av tempo.',
+  svg:`<line x1="20" y1="100" x2="180" y2="100" stroke="#dde4ee" stroke-width="4" stroke-linecap="round"/><g class="k-hop"><circle cx="100" cy="42" r="9" fill="#14284b"/><path ${S} d="M100 51V78L90 100M100 78L110 100M100 58L84 70M100 58L116 70"/></g>${[0,1,2,3].map(i=>`<circle class="k-beat" cx="${70+i*20}" cy="118" r="6" style="animation-delay:${i*.5}s"/>`).join('')}`},
+ {n:'Reaksjonsevne',s:'Reaksjon',c:'#1f9d55',d:'Evnen til å oppfatte et signal og raskt sette i gang en hensiktsmessig bevegelse.',e:'Start i sprint, keeperredning, retur av serve.',t:'Starter på ulike signaler (lyd, syn, berøring) og fra ulike utgangsstillinger.',
+  svg:`${G}<circle class="k-lamp" cx="28" cy="28" r="11"/><line x1="40" y1="96" x2="40" y2="108" stroke="#f28c28" stroke-width="4" stroke-linecap="round"/><g class="k-run"><circle cx="62" cy="58" r="9" fill="#14284b"/><path ${S} d="M56 65L44 84L58 106M44 84L30 100M52 72L66 84M52 72L38 70"/></g>`},
+ {n:'Romorientering',s:'Romorient.',c:'#1e3a68',d:'Evnen til å vite hvor kroppen er i rommet, og i forhold til redskap, med- og motspillere.',e:'Salto og skru i turn og stup, plassering på banen i lagspill, hopp i freeski.',t:'Rulle, hjul og rotasjoner, trampoline, spill på små områder.',
+  svg:`<path d="M40 114Q100 124 160 114" stroke="#f28c28" stroke-width="5" fill="none" stroke-linecap="round"/><g class="k-jump"><g class="k-spin"><circle cx="100" cy="62" r="8" fill="#14284b"/><path ${S} d="M100 70V88L88 100M100 88L112 100M100 76L86 82M100 76L114 82"/></g></g>`},
+ {n:'Øye–hånd-koordinasjon',s:'Øye–hånd',c:'#e2508a',d:'Evnen til å samordne det øynene ser, med bevegelser i armer og hender.',e:'Mottak og kast i håndball, slag i tennis og badminton, fingerslag i volleyball.',t:'Kast og mottak med ulike baller, sjonglering, slag mot vegg.',
+  svg:`${G}<circle cx="155" cy="44" r="9" fill="#14284b"/><path ${S} d="M155 53V84L147 108M155 84L163 108M155 60L136 50M155 60L170 72"/><line class="k-dash" x1="147" y1="42" x2="78" y2="26" stroke="#14a3a3" stroke-width="2" stroke-dasharray="4 5"/><circle r="7" fill="#e2508a"><animateMotion dur="1.3s" repeatCount="indefinite" path="M15 96Q70 -20 131 46"/></circle>`},
+ {n:'Øye–fot-koordinasjon',s:'Øye–fot',c:'#7b5cd6',d:'Evnen til å samordne det øynene ser, med bevegelser i bein og føtter.',e:'Mottak og pasning i fotball, sats på planken, stegplassering i terrengløp.',t:'Triksing, føring mellom kjegler, stige- og hinkeøvelser.',
+  svg:`${G}<circle cx="60" cy="36" r="9" fill="#14284b"/><path ${S} d="M60 45V74L54 106M60 52L44 64M60 52L76 62"/><path class="k-kick" ${S} d="M60 74L72 104"/><circle r="7" fill="#7b5cd6"><animateMotion dur="2s" repeatCount="indefinite" path="M175 100L82 100L175 100"/></circle>`},
+ {n:'Tilpasset kraftinnsats',s:'Tilp. kraft',c:'#d64545',d:'Evnen til å dosere akkurat så mye kraft som bevegelsen krever – verken for mye eller for lite.',e:'Pasningslengde i fotball, putt i golf, stoppball i badminton.',t:'Kast og spark mot blinker på ulike avstander – bytt avstand for hvert forsøk.',
+  svg:`${G}<rect x="14" y="12" width="64" height="8" rx="4" fill="#e8edf5"/><rect x="14" y="12" height="8" rx="4" fill="#d64545" width="24"><animate attributeName="width" values="24;24;44;44;64;64" keyTimes="0;0.333;0.334;0.666;0.667;1" dur="3.6s" repeatCount="indefinite"/></rect><text x="14" y="32" font-size="9" font-family="Inter" font-weight="700" fill="#5d6b80">kraft</text><circle cx="28" cy="50" r="9" fill="#14284b"/><path ${S} d="M28 59V84L20 108M28 84L36 108M28 66L40 62"/>${[95,135,175].map(x=>`<ellipse cx="${x}" cy="108" rx="12" ry="4" fill="#fff" stroke="#14a3a3" stroke-width="3"/>`).join('')}<g transform="translate(-50,-50)"><circle r="6" fill="#d64545"><animateMotion id="tk1" begin="0s;tk3.end" dur="1.2s" path="M90 112Q117 90 145 158"/><animateMotion id="tk2" begin="tk1.end" dur="1.2s" path="M90 112Q137 60 185 158"/><animateMotion id="tk3" begin="tk2.end" dur="1.2s" path="M90 112Q157 30 225 158"/></circle></g>`}
+];
+$('#abil').innerHTML=AB.map((a,i)=>`<div class="ab rv" data-a="z" data-i="${i}" style="--c:${a.c};transition-delay:${(i%4)*.08}s" tabindex="0" role="button"><svg viewBox="0 0 200 130" aria-hidden="true">${a.svg}</svg><b>${a.n}</b></div>`).join('');
+function pick(el){$$('.ab').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');const a=AB[el.dataset.i],b=$('#abInfo');b.style.borderColor=a.c;b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');
+ b.innerHTML=`<h3 style="margin:0;color:${a.c}">${a.n}</h3><p style="margin:.3em 0">${a.d}</p><p style="margin:.3em 0"><b>I idretten:</b> ${a.e}</p><p style="margin:0"><b>Slik kan den trenes:</b> ${a.t}</p><p class="src" style="margin:.5em 0 0">Kilde: Gjerset et al. (2022).</p>`}
+$$('.ab').forEach(el=>{el.onclick=()=>pick(el);el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(el)}}});
+
+/* ---------- curling game ---------- */
+(()=>{const cv=$('#curl'),ctx=cv.getContext('2d'),W=1000,H=260,R=12,TEE={x:820,y:130},HOG=560,BACK=892,REL=118,ACC=112,ACC_SWEEP=58,VMAX=455,PMAX=1.35;
+ const dpr=Math.min(2,window.devicePixelRatio||1);cv.width=W*dpr;cv.height=H*dpr;ctx.scale(dpr,dpr);
+ const btn=$('#thr'),sw=$('#sweep'),fill=$('#pfill'),res=$('#thrRes'),wrap=$('#curlWrap'),pw=$('#pwrap');
+ const pebble=Array.from({length:140},()=>[Math.random()*W,Math.random()*H,Math.random()*1.4+.4]);
+ let stones=[],state='idle',p=0,t0=0,raf=null,n=0,tot=0,sweeping=false,thrown=null,inHouseBefore=[],curler={x:44,mode:'stand',t:0},fly=null,last=0,msg='';
+ const inHouse=s=>Math.hypot(s.x-TEE.x,s.y-TEE.y)<=78+R;
+ function newRound(){n=0;tot=0;stones=[];
+  const spots=[[700+Math.random()*40,112+Math.random()*36],[790+Math.random()*50,100+Math.random()*60],[835+Math.random()*30,128+(Math.random()<.5?-1:1)*(25+Math.random()*25)]];
+  spots.forEach(([x,y])=>stones.push({x,y,vx:0,vy:0,c:'y'}));res.textContent='Kast 1 av 5 – gul lag har lagt tre steiner. Treff huset!';draw()}
+ /* ---- drawing ---- */
+ function stone(x,y,c,sc=1){ctx.save();ctx.translate(x,y);ctx.scale(sc,sc);
+  ctx.fillStyle='rgba(0,0,0,.18)';ctx.beginPath();ctx.arc(2,3,R,0,7);ctx.fill();
+  ctx.fillStyle='#8f98a6';ctx.beginPath();ctx.arc(0,0,R,0,7);ctx.fill();
+  ctx.fillStyle=c==='r'?'#d64545':'#f5c518';ctx.beginPath();ctx.arc(0,0,R*.62,0,7);ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,.55)';ctx.fillRect(-R*.15,-R*.55,R*.3,R*1.1);ctx.restore()}
+ function figure(x,mode,t){ctx.save();ctx.translate(x,0);ctx.strokeStyle='#14284b';ctx.fillStyle='#14284b';ctx.lineWidth=4;ctx.lineCap='round';ctx.lineJoin='round';
+  if(mode==='slide'){ // lunge low behind the stone
+   ctx.beginPath();ctx.arc(30,92,8,0,7);ctx.fill();
+   ctx.beginPath();ctx.moveTo(26,100);ctx.lineTo(8,116);ctx.moveTo(8,116);ctx.lineTo(28,134);ctx.lineTo(36,134);ctx.moveTo(8,116);ctx.lineTo(-22,128);ctx.moveTo(22,104);ctx.lineTo(58,124);ctx.moveTo(20,106);ctx.lineTo(10,140);ctx.stroke();
+   ctx.strokeStyle='#5d6b80';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(10,140);ctx.lineTo(-6,152);ctx.stroke()}
+  else if(mode==='hurl'){ // standing, arm high, spinning a bit after throw
+   ctx.translate(20,120);ctx.rotate(Math.sin(t*14)*.25);ctx.translate(-20,-120);
+   ctx.beginPath();ctx.arc(20,72,8,0,7);ctx.fill();
+   ctx.beginPath();ctx.moveTo(20,80);ctx.lineTo(20,112);ctx.lineTo(10,140);ctx.moveTo(20,112);ctx.lineTo(32,140);ctx.moveTo(20,88);ctx.lineTo(44,64);ctx.moveTo(20,88);ctx.lineTo(0,100);ctx.stroke();
+   ctx.fillStyle='#fff';ctx.strokeStyle='#14284b';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(70,44,30,16,0,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#14284b';ctx.font='700 14px Inter';ctx.textAlign='center';ctx.fillText('Oi!',70,49)}
+  else { // stand in the hack, crouched, stone in front
+   ctx.beginPath();ctx.arc(18,96,8,0,7);ctx.fill();
+   ctx.beginPath();ctx.moveTo(18,104);ctx.lineTo(14,122);ctx.lineTo(4,140);ctx.moveTo(14,122);ctx.lineTo(28,140);ctx.moveTo(17,110);ctx.lineTo(42,124);ctx.moveTo(17,110);ctx.lineTo(0,124);ctx.stroke();
+   ctx.strokeStyle='#5d6b80';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,124);ctx.lineTo(-14,150);ctx.stroke()}
+  ctx.restore()}
+ function draw(now){ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#eef6fb';ctx.fillRect(0,0,W,H);ctx.fillStyle='rgba(20,40,75,.06)';pebble.forEach(([x,y,r])=>{ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill()});
+  [[78,'#2d7dd2'],[58,'#fff'],[38,'#d64545'],[18,'#fff']].forEach(([r,c])=>{ctx.fillStyle=c;ctx.beginPath();ctx.arc(TEE.x,TEE.y,r,0,7);ctx.fill()});
+  ctx.strokeStyle='#14284b';ctx.globalAlpha=.55;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,TEE.y);ctx.lineTo(W,TEE.y);ctx.moveTo(TEE.x,0);ctx.lineTo(TEE.x,H);ctx.moveTo(BACK,0);ctx.lineTo(BACK,H);ctx.stroke();
+  ctx.lineWidth=5;ctx.strokeStyle='#d64545';ctx.beginPath();ctx.moveTo(HOG,0);ctx.lineTo(HOG,H);ctx.stroke();ctx.globalAlpha=1;
+  ctx.fillStyle='#5d6b80';ctx.font='700 11px Inter';ctx.fillText('HOGLINJE',HOG+6,14);ctx.fillText('BAKLINJE',BACK+6,14);
+  ctx.fillStyle='#14284b';ctx.fillRect(22,120,14,20);
+  stones.forEach(s=>stone(s.x,s.y,s.c));
+  if(state==='charge'||state==='idle'){figure(curler.x,'stand');if(state==='charge'||n<5)stone(curler.x+56,130,'r')}
+  else if(state==='slide'){figure(curler.x,'slide');
+   if(sweeping&&thrown&&!thrown.gone){const bx=thrown.x+34,wig=Math.sin((now||0)/45)*10;ctx.strokeStyle='#7b5cd6';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(bx+20,thrown.y-40);ctx.lineTo(bx,thrown.y+wig*.4);ctx.stroke();ctx.fillStyle='#7b5cd6';ctx.fillRect(bx-4,thrown.y+wig*.4-8,8,16);
+    ctx.font='800 16px "Barlow Condensed",Inter';ctx.fillStyle='#7b5cd6';ctx.fillText('SOP! SOP!',bx+10,thrown.y-46)}}
+  else if(state==='gag'){figure(60,'hurl',(now||0)/1000);
+   if(fly){const z=fly.z;ctx.fillStyle='rgba(0,0,0,'+Math.max(.05,.25-z/600)+')';ctx.beginPath();ctx.ellipse(fly.x,130,R*(1+z/200),R*.6,0,0,7);ctx.fill();
+    ctx.save();ctx.translate(fly.x,130-z);ctx.rotate(fly.x/40);stone(0,0,'r',1+z/90);ctx.restore()}
+   if(fly&&fly.crash){ // hole in the wall + label
+    ctx.fillStyle='#14284b';ctx.beginPath();ctx.moveTo(W,8);[[W-18,20],[W-8,32],[W-26,44],[W-12,58],[W-30,72],[W-10,86],[W-20,100],[W,112]].forEach(([x,y])=>ctx.lineTo(x,y));ctx.closePath();ctx.fill();
+    ctx.strokeStyle='#14284b';ctx.lineWidth=2;[[W-30,72,W-60,64],[W-26,44,W-52,30],[W-20,100,W-46,112]].forEach(([a,b,c,d])=>{ctx.beginPath();ctx.moveTo(a,b);ctx.lineTo(c,d);ctx.stroke()});
+    ctx.font='800 24px "Barlow Condensed",Inter';const tx='KRASJ! … og ut av hallen 😅',tw=ctx.measureText(tx).width+26;
+    ctx.fillStyle='#fff';ctx.strokeStyle='#d64545';ctx.lineWidth=3;ctx.beginPath();ctx.roundRect?ctx.roundRect(W-tw-70,44,tw,40,10):ctx.rect(W-tw-70,44,tw,40);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#d64545';ctx.textAlign='left';ctx.fillText(tx,W-tw-57,72)}}
+  else figure(curler.x,'stand');
+  if(msg){ctx.fillStyle='rgba(20,40,75,.86)';ctx.font='700 15px Inter';const w=ctx.measureText(msg).width+28;ctx.beginPath();ctx.roundRect?ctx.roundRect(W/2-w/2-120,H-40,w,28,8):ctx.rect(W/2-w/2-120,H-40,w,28);ctx.fill();ctx.fillStyle='#fff';ctx.textAlign='center';ctx.fillText(msg,W/2-120,H-21);ctx.textAlign='left'}}
+ /* ---- charging ---- */
+ function setBar(){fill.style.width=Math.min(100,p/PMAX*100)+'%';pw.classList.toggle('over',p>1)}
+ function charge(now){p=Math.min(PMAX,(now-t0)/1700);setBar();draw(now);if(p>=PMAX){release();return}raf=requestAnimationFrame(charge)}
+ function start(){if(state!=='idle')return;if(n>=5)newRound();state='charge';msg='';t0=performance.now();raf=requestAnimationFrame(charge)}
+ function release(){if(state!=='charge')return;cancelAnimationFrame(raf);
+  if(p>1){gag();return}
+  inHouseBefore=stones.filter(s=>s.c==='y'&&inHouse(s));
+  thrown={x:REL,y:130+(Math.random()-.5)*14,vx:VMAX*p,vy:(Math.random()-.5)*6,c:'r'};stones.push(thrown);state='slide';curler.x=44;last=performance.now();raf=requestAnimationFrame(sim)}
+ /* ---- physics ---- */
+ function sim(now){const dt=Math.min(.033,(now-last)/1000);last=now;
+  if(curler.x<100)curler.x+=dt*160;
+  const steps=4,h=dt/steps;for(let k=0;k<steps;k++){
+   stones.forEach(s=>{const v=Math.hypot(s.vx,s.vy);if(v<=0)return;const a=(s===thrown&&sweeping?ACC_SWEEP:ACC)*h,nv=Math.max(0,v-a);s.vx*=nv/v;s.vy*=nv/v;s.x+=s.vx*h;s.y+=s.vy*h});
+   for(let i=0;i<stones.length;i++)for(let j=i+1;j<stones.length;j++){const A=stones[i],B=stones[j],dx=B.x-A.x,dy=B.y-A.y,d=Math.hypot(dx,dy);
+    if(d>0&&d<2*R){const nx=dx/d,ny=dy/d,ov=2*R-d;A.x-=nx*ov/2;A.y-=ny*ov/2;B.x+=nx*ov/2;B.y+=ny*ov/2;
+     const rel=(A.vx-B.vx)*nx+(A.vy-B.vy)*ny;if(rel>0){const imp=rel*.92;A.vx-=imp*nx;A.vy-=imp*ny;B.vx+=imp*nx;B.vy+=imp*ny;clack()}}}}
+  stones.forEach(s=>{if(s.x>BACK+R||s.y<R-2||s.y>H-R+2)s.gone=true});stones=stones.filter(s=>!s.gone||(s===thrown&&(thrown.gone=true,false)));
+  draw(now);
+  const moving=stones.some(s=>Math.hypot(s.vx,s.vy)>.5);if(moving){raf=requestAnimationFrame(sim);return}
+  stones.forEach(s=>{s.vx=0;s.vy=0});score()}
+ let actx;function clack(){if(!$('#mSnd')||!$('#mSnd').checked)return;try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.type='triangle';o.frequency.value=180;g.gain.setValueAtTime(.3,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.12);o.connect(g).connect(actx.destination);o.start();o.stop(actx.currentTime+.13)}catch(e){}}
+ function score(){let pts=0,why;
+  if(thrown.gone){why='for mye kraft – steinen gled over baklinjen';}
+  else if(thrown.x<HOG){why='for lite kraft – steinen stoppet før hoglinjen';stones=stones.filter(s=>s!==thrown)}
+  else{const d=Math.hypot(thrown.x-TEE.x,thrown.y-TEE.y);if(inHouse(thrown)){pts=Math.max(10,Math.round(100-d*1.0));why=d<18+R?'midt i blinken!':'i huset – godt tilpasset'}else why=thrown.x<TEE.x?'litt for lite kraft – utenfor huset':'litt for mye kraft – utenfor huset'}
+  const knocked=inHouseBefore.filter(s=>!stones.includes(s)||!inHouse(s)).length;if(knocked){pts+=25*knocked;why+=` + utslag ×${knocked} (+${25*knocked})`}
+  finish(pts,why)}
+ function finish(pts,why){n++;tot+=pts;sweeping=false;sw.classList.remove('on');fill.style.width='0';pw.classList.remove('over');
+  res.textContent=n<5?`Kast ${n}: ${pts} poeng (${why}). Kast ${n+1} av 5.`:`Kast 5: ${pts} poeng (${why}). Ferdig: ${tot} poeng! Trykk for ny runde.`;
+  msg=pts?`+${pts} poeng`:'0 poeng';state='idle';curler.x=44;draw();setTimeout(()=>{if(state==='idle'){msg='';draw()}},1800)}
+ /* ---- the gag ---- */
+ function gag(){state='gag';sweeping=false;msg='';const T0=performance.now();fly={x:110,z:0,crash:false};pw.classList.add('over');
+  const step=now=>{const t=(now-T0)/1000;if(t<1.3){fly.x=110+t*760;fly.z=Math.sin(Math.min(1,t/1.3)*Math.PI*.62)*92}else{fly.x=W+60;fly.crash=true;if(!fly.shook){fly.shook=1;wrap.classList.remove('shake');void wrap.offsetWidth;wrap.classList.add('shake')}}
+   draw(now);if(t<2.6){raf=requestAnimationFrame(step)}else{fly=null;finish(0,'altfor mye kraft – utøveren kastet steinen gjennom lufta og ut av hallen 😅')}};raf=requestAnimationFrame(step)}
+ /* ---- input ---- */
+ btn.onpointerdown=e=>{e.preventDefault();try{btn.setPointerCapture(e.pointerId)}catch(_){}start()};
+ btn.onpointerup=release;btn.onpointercancel=release;
+ btn.onkeydown=e=>{if((e.key===' '||e.key==='Enter')&&!e.repeat){e.preventDefault();start()}};
+ btn.onkeyup=e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();release()}};
+ const swOn=e=>{if(e)e.preventDefault();if(state==='slide'){sweeping=true;sw.classList.add('on')}},swOff=()=>{sweeping=false;sw.classList.remove('on')};
+ sw.onpointerdown=e=>{try{sw.setPointerCapture(e.pointerId)}catch(_){}swOn(e)};sw.onpointerup=swOff;sw.onpointercancel=swOff;
+ sw.onkeydown=e=>{if((e.key===' '||e.key==='Enter')&&!e.repeat)swOn(e)};sw.onkeyup=swOff;
+ newRound();
+})();
+
+/* ---------- sports ---------- */
+const HI=[['🤿','Stup','Romorientering: stuperen må vite hvor kroppen er gjennom salto og skru, og treffe vannet riktig.'],['🤸','Turn','Balanse og romorientering: på bom, i salto og i landinger.'],['⛸️','Kunstløp','Balanse, rytme og romorientering: hopp med rotasjon og landing på en smal skøyte.'],['🏂','Snowboard (freestyle)','Romorientering og balanse: rotasjoner i lufta og landing i fart.'],['⛳','Golf','Tilpasset kraftinnsats og øye–hånd: slaget må doseres ned til centimeteren.'],['💃','Dans','Rytme: bevegelsene skal følge musikken og hverandre.'],['🥌','Curling','Tilpasset kraftinnsats: steinen må få nøyaktig riktig fart.']];
+$('#sportsHi').innerHTML=HI.map((h,i)=>`<button data-i="${i}"><span class="e">${h[0]}</span> ${h[1]}</button>`).join('');
+$$('#sportsHi button').forEach(b=>b.onclick=()=>{$$('#sportsHi button').forEach(x=>x.classList.remove('on'));b.classList.add('on');const h=HI[b.dataset.i];$('#sportTxt').innerHTML=`<b>${h[1]}:</b> ${h[2]} I alle disse idrettene stilles det store krav til god teknikk.`});
+
+/* ---------- benefits ---------- */
+const BEN=[['🌱','Utvide bevegelseserfaringene dine'],['🧱','Opparbeide en basis for utvikling av tekniske ferdigheter'],['🧩','Løse nye bevegelsesoppgaver raskere og på den mest hensiktsmessige måten'],['🌊','Få bedre flyt i bevegelsene'],['🚀','Lære nye teknikker raskere'],['💪','Utnytte muskelkraften bedre enn tidligere'],['🍃','Arbeide mer økonomisk og utføre arbeidet lettere'],['🔀','Finne fram til større variasjon i arbeidsteknikker'],['⚡','Oppnå bedre konsentrasjon og reaksjonsevne i arbeid, fritid og idrett']];
+$('#ben').innerHTML=BEN.map((b,i)=>`<div class="bi" style="transition-delay:${.15+i*.08}s"><span class="i">${b[0]}</span>${b[1]}</div>`).join('');
+$$('.bi').forEach(b=>b.onclick=()=>{b.classList.toggle('on');b.style.transitionDelay='0s'});
+
+/* ---------- senses ---------- */
+const SN=[['👁️','Synet','#14a3a3','Den viktigste sansen når du utfører bevegelser. Du bruker synet for å følge ballen, se medspillere og vurdere avstander.'],['🌀','Likevektssansen','#7b5cd6','Sitter i det indre øret og registrerer kroppens stilling og bevegelse. Eksempel: en forlengsrulle som avsluttes med en stans.'],['✋','Trykk- og berøringssansen','#e2508a','Registrerer trykk og berøring. Eksempel: i det du lander på benken og skal holde balansen.'],['🦵','Leddsansen','#f28c28','Sanseceller i leddkapsel, leddbånd og leddbrusk registrerer stillingen leddet har – om det er bøyd eller strukket.'],['💪','Muskelsansen','#1e3a68','Muskelspolen og senespolen gir informasjon om musklenes lengde og spenning.']];
+$('#senses').innerHTML=SN.map((x,i)=>`<div class="sn" data-i="${i}" style="--c:${x[2]}" tabindex="0" role="button"><span class="ic">${x[0]}</span><b>${x[1]}</b></div>`).join('');
+$$('.sn').forEach(el=>{const go=()=>{$$('.sn').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');const x=SN[el.dataset.i],b=$('#senseInfo');b.style.borderColor=x[2];b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');b.innerHTML=`<b style="color:${x[2]}">${x[0]} ${x[1]}</b><br>${x[3]}`};el.onclick=go;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
+
+/* ---------- strev meter ---------- */
+function strev(){const v=+$('#strev').value,t=$('#strevTxt');$('#needle').style.transform=`rotate(${-90+v*1.8}deg)`;
+ if(v<30){t.style.background='#eef1f6';t.innerHTML='⚪ Øvelsen har preg av å være <b>automatisert</b>. Du utvikler ikke lenger den koordinative egenskapen i særlig grad. Lag variasjon eller legg inn nye momenter.'}
+ else if(v<=80){t.style.background='var(--ok-l)';t.innerHTML='🟢 Du <b>strever</b> for å løse bevegelsesoppgaven – da trener du koordinasjon. Dette er riktig nivå.'}
+ else{t.style.background='var(--bad-l)';t.innerHTML='🔴 Oppgaven er så vanskelig at du sjelden får den til. <b>Start med enklere øvelser</b> og ta utgangspunkt i noe du kjenner.'}}
+$('#strev').oninput=strev;strev();
+
+/* ---------- guidelines ---------- */
+const GL=[['⏰','Tren koordinasjon tidlig i økta','God konsentrasjon er avgjørende for et godt resultat. Legg øvelsene rett etter oppvarmingen.'],['📈','Start enkelt og øk vanskelighetsgraden','Stå på ett bein → lukk øynene → ta imot en ball samtidig.'],['✨','Prøv øvelser du ikke har gjort før','Nye bevegelsesoppgaver gir mest å streve med.'],['🧩','Tren flere egenskaper i samme øvelse','Balanser på bommen og sjonglér samtidig: balanse og øye–hånd-koordinasjon.'],['⏱️','Legg inn tidspress og øk hastigheten','Gjennomfør stigeøvelsen på tid, eller øk tempoet i rytmeøvelsen.'],['⏩','La øvelsene følge tettere på hverandre','Kortere pauser mellom stasjonene gir mindre tid til å «nullstille» seg.'],['🏋️','Kombiner med fysiske egenskaper','Presise pasninger rett etter et tungt intervalldrag – slik det er i kamp.']];
+$('#gl').innerHTML=GL.map((g,i)=>`<div class="g rv" data-a="z" style="transition-delay:${(i%4)*.08}s"><span class="gi">${g[0]}</span><div class="gn">${i+1}</div><b>${g[1]}</b><div class="ge">${g[2]}</div></div>`).join('');
+$$('.g').forEach(g=>g.onclick=()=>g.classList.toggle('on'));
+
+function axes(c,W,H,L,T,B,max,step){c.clearRect(0,0,W,H);c.font='12px Inter';c.textAlign='right';c.lineWidth=1;
+ for(let v=0;v<=max;v+=step){const y=T+(H-T-B)*(1-v/max);c.strokeStyle='#e3e9f1';c.beginPath();c.moveTo(L,y);c.lineTo(W-12,y);c.stroke();c.fillStyle='#5d6b80';c.fillText(v,L-8,y+4)}}
+
+/* ---------- lab 1: learning curve ---------- */
+$('#lcIn').innerHTML=Array.from({length:10},(_,i)=>`<div><label>Forsøk ${i+1}</label><input type="number" min="0" id="lc${i}"></div>`).join('');
+const lcVals=()=>Array.from({length:10},(_,i)=>{const v=$('#lc'+i).value;return v===''?null:+v});
+function drawLC(){const cv=$('#lcCv'),c=cv.getContext('2d'),W=cv.width,H=cv.height,L=40,T=18,B=40,v=lcVals(),o=$('#lcOther').value;
+ const mx=Math.max(5,...v.filter(x=>x!==null),o===''?0:+o),max=Math.ceil(mx/5)*5;axes(c,W,H,L,T,B,max,max/5);
+ const X=i=>L+20+i*(W-L-50)/9,Y=val=>T+(H-T-B)*(1-val/max);
+ c.fillStyle='#5d6b80';c.textAlign='center';c.font='12px Inter';for(let i=0;i<10;i++)c.fillText(i+1,X(i),H-B+16);c.fillText('Forsøk',W/2,H-6);
+ const pts=v.map((val,i)=>val===null?null:[X(i),Y(val)]).filter(Boolean);
+ if(pts.length){c.strokeStyle='#14a3a3';c.lineWidth=4;c.lineJoin='round';c.beginPath();pts.forEach((p,i)=>i?c.lineTo(...p):c.moveTo(...p));c.stroke();pts.forEach(p=>{c.fillStyle='#fff';c.beginPath();c.arc(p[0],p[1],7,0,7);c.fill();c.strokeStyle='#14a3a3';c.lineWidth=3;c.stroke()})}
+ if(o!==''){c.strokeStyle='#f28c28';c.setLineDash([6,6]);c.lineWidth=3;c.beginPath();c.moveTo(L,Y(+o));c.lineTo(W-12,Y(+o));c.stroke();c.setLineDash([]);c.fillStyle='#b4600c';c.textAlign='right';c.fillText('motsatt hånd',W-14,Y(+o)-6)}
+ const f=v.filter(x=>x!==null);let t='';if(f.length>=6){const a=(f[0]+f[1]+f[2])/3,b=(f.at(-1)+f.at(-2)+f.at(-3))/3;t=`Snitt de tre første: ${a.toFixed(1)} · snitt de tre siste: ${b.toFixed(1)}. `+(b>a?'Kurven stiger – det er motorisk læring dere ser.':'Ingen tydelig framgang ennå – læring går ofte i rykk og napp.')}
+ $('#lcTxt').textContent=t}
+$$('#lcIn input,#lcOther').forEach(i=>i.oninput=drawLC);drawLC();
+
+/* ---------- lab 2: balance ---------- */
+function drawBal(){const cv=$('#balCv'),c=cv.getContext('2d'),W=cv.width,H=cv.height,L=40,T=18,B=40;axes(c,W,H,L,T,B,60,15);
+ const lab=['A · Åpne øyne','B · Lukkede','C · Lukkede + hode bak'],col=['#14a3a3','#f28c28','#7b5cd6'],v=[0,1,2].map(i=>Math.min(60,+$('#b'+i).value||0)),gw=(W-L-12)/3;
+ v.forEach((val,i)=>{const h=(H-T-B)*val/60,x=L+i*gw+gw*.2;c.fillStyle=col[i];c.beginPath();c.roundRect?c.roundRect(x,H-B-h,gw*.6,h,[8,8,0,0]):c.rect(x,H-B-h,gw*.6,h);c.fill();c.fillStyle='#14284b';c.font='600 12px Inter';c.textAlign='center';c.fillText(lab[i],x+gw*.3,H-B+18);if(val)c.fillText(val+' s',x+gw*.3,H-B-h-6)});
+ $('#balTxt').textContent=v[0]&&v[1]?(v[1]<v[0]?`Uten synet falt tiden med ${Math.round((1-v[1]/v[0])*100)} %. Synet er en viktig del av balansen.`:'Tiden falt ikke uten syn – likevektssansen og sansecellene i muskler og ledd gjorde jobben.'):''}
+$$('#b0,#b1,#b2').forEach(i=>i.oninput=drawBal);drawBal();
+/* ---------- stopwatch ---------- */
+(()=>{let t0=0,el=0,int=null;const T=$('#swT'),go=$('#swGo'),arc=$('#swArc'),box=$('.swatch'),saves=$$('.swsave'),C=326.7;
+ const show=()=>{const v=Math.min(60,el);T.innerHTML=v.toFixed(1).replace('.',',')+'<small> s</small>';arc.style.strokeDashoffset=C*(1-v/60);arc.style.stroke=v>=60?'#f28c28':'#14a3a3'};
+ const beep=()=>{try{const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator();o.frequency.value=880;o.connect(a.destination);o.start();o.stop(a.currentTime+.4)}catch(e){}};
+ const stop=()=>{clearInterval(int);int=null;box.classList.remove('run');go.textContent='▶ Start';saves.forEach(b=>b.disabled=el<=0)};
+ go.onclick=()=>{if(int){el=(performance.now()-t0)/1000;stop();show();return}if(el>=60)el=0;t0=performance.now()-el*1000;box.classList.add('run');go.textContent='■ Stopp';saves.forEach(b=>b.disabled=true);
+  int=setInterval(()=>{el=(performance.now()-t0)/1000;if(el>=60){el=60;stop();beep()}show()},50)};
+ $('#swRst').onclick=()=>{stop();el=0;show();saves.forEach(b=>b.disabled=true)};
+ saves.forEach(b=>b.onclick=()=>{const inp=$('#b'+b.dataset.t);inp.value=Math.min(60,el).toFixed(1);inp.classList.remove('flash');void inp.offsetWidth;inp.classList.add('flash');drawBal();el=0;show();saves.forEach(x=>x.disabled=true)});
+ show()})();
+
+/* ---------- lab 3: rhythm machine ---------- */
+const MV=[['🖐️','Lår'],['👏','Klapp'],['🫰','Knips'],['🦶','Tramp'],['·','Pause']];let pat=[0,0,1,2,0,1,3,4],mI=-1,mT=null,actx;
+function drawBeats(){$('#beats').innerHTML=pat.map((m,i)=>`<div class="beat${i===mI?' now':''}" data-i="${i}">${MV[m][0]}<small>${MV[m][1]}</small></div>`).join('');$$('.beat').forEach(b=>b.onclick=()=>{pat[b.dataset.i]=(pat[b.dataset.i]+1)%MV.length;drawBeats()})}
+function tick(){mI=(mI+1)%8;$$('.beat').forEach((b,i)=>b.classList.toggle('now',i===mI));
+ if($('#mSnd').checked&&pat[mI]!==4){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=mI%4===0?990:660;g.gain.setValueAtTime(.25,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.09);o.connect(g).connect(actx.destination);o.start();o.stop(actx.currentTime+.1)}catch(e){}}}
+function mRun(){clearInterval(mT);mT=setInterval(tick,60000/+$('#bpm').value)}
+$('#mStart').onclick=()=>{if(mT){clearInterval(mT);mT=null;mI=-1;drawBeats();$('#mStart').textContent='▶ Start'}else{tick();mRun();$('#mStart').textContent='■ Stopp'}};
+$('#bpm').oninput=()=>{$('#bpmV').textContent=$('#bpm').value;if(mT)mRun()};
+$('#mRand').onclick=()=>{pat=pat.map((_,i)=>i===7?4:Math.random()*4|0);drawBeats()};
+drawBeats();
+
+/* ================= TASKS ================= */
+const results={};
+function confetti(){if(still)return;const cols=['#14a3a3','#f28c28','#e2508a','#f5c518','#7b5cd6'];for(let i=0;i<36;i++){const d=document.createElement('i');d.className='confetti';d.style.cssText=`left:${Math.random()*100}vw;background:${cols[i%5]};animation-delay:${Math.random()*.5}s;border-radius:${i%2?'50%':'2px'}`;document.body.appendChild(d);setTimeout(()=>d.remove(),2900)}}
+function updProg(){const done=Object.values(results).filter(r=>r.checked).length;$('#progTxt').textContent=`${done}/7`}
+function setScore(id,got,tot){results[id]={...(results[id]||{}),got,tot,checked:true};const s=$(`#t${id} .score`);s.textContent=`${got}/${tot}`;s.className='score '+(got/tot>=.8?'ok':'bad');const pc=Math.round(got/tot*100),m=$(`#t${id} .sum`);m.className='sum '+(got/tot>=.8?'ok':'bad');m.innerHTML=(id===7?`Du fikk <b>${got} av ${tot} poeng</b> (${pc} %).`:`Du fikk <b>${got} av ${tot} riktige</b> (${pc} %).`)+(got/tot>=.8?' Bra jobba! 🎉':id===7?' Se hva som mangler under.':' Se over de røde og prøv igjen.');void m.offsetWidth;m.classList.add('pop');if(got/tot>=.8)confetti();updProg()}
+function taskShell(id,title,intro){const d=document.createElement('div');d.className='card task rv';d.id='t'+id;d.innerHTML=`<div class="hd"><div class="badge">${id}</div><h3>${title}</h3><span class="score">Ikke levert</span><span class="arrow">▶</span></div><div class="bd"><p>${intro}</p><div class="cont"></div><div class="row" style="margin-top:10px"><button class="btn teal chk">Sjekk svar</button><button class="btn ghost rst">↺ Start på nytt</button><span class="sum" aria-live="polite"></span></div><div class="fb"></div></div>`;$('#tasks').appendChild(d);d.querySelector('.hd').onclick=()=>d.classList.toggle('open');d.querySelector('.rst').addEventListener('click',()=>{const m=d.querySelector('.sum');m.className='sum';m.textContent=''});return d}
+const verdict=(q,ok)=>{q.classList.remove('ok','bad');void q.offsetWidth;q.classList.add(ok?'ok':'bad');let v=q.querySelector('.vd');if(!v){v=document.createElement('span');v.className='vd';q.appendChild(v)}v.textContent=ok?'RIKTIG':'FEIL'};
+const mark=ok=>ok?'[riktig]':'[feil]';
+
+/* 1 MC */
+const MC=[
+ ['En fotballspiller slår en 30-meters pasning som skal lande i beina på medspilleren. Hvilken koordinativ egenskap avgjør mest om pasningen får riktig lengde?',['Tilpasset kraftinnsats','Reaksjonsevne','Romorientering','Øye–hånd-koordinasjon'],0],
+ ['Hvorfor bør koordinasjonstrening legges tidlig i økta?',['Musklene har da størst lager av glykogen og kreatinfosfat','God konsentrasjon er avgjørende for resultatet','Den kan erstatte oppvarmingen','Laktatnivået er høyest'],1],
+ ['En turner vet hele tiden hvor hun er i lufta i en dobbel salto. Hvilken egenskap beskriver dette best?',['Balanse','Reaksjonsevne','Romorientering','Rytme'],2],
+ ['Hvilken sans regnes som den viktigste når du utfører bevegelser?',['Leddsansen','Trykk- og berøringssansen','Hørselen','Synet'],3],
+ ['Når utvikler du ikke lenger den koordinative egenskapen i særlig grad?',['Når øvelsen kombineres med tidspress og økt hastighet','Når du strever med å løse oppgaven','Når oppgaven har preg av å være automatisert','Når du tar utgangspunkt i en kjent øvelse og varierer den'],2]
+];
+(()=>{const d=taskShell(1,'Flervalg – bruk fagbegrepene','Velg det beste svaret. Flere alternativer kan virke rimelige.');const c=d.querySelector('.cont');
+ function build(){c.innerHTML='';MC.forEach((m,qi)=>{const q=document.createElement('div');q.className='q';q.innerHTML=`<b class="qt">${qi+1}. ${m[0]}</b>`;shuf(m[1].map((t,i)=>[t,i])).forEach(([t,i],k)=>{const o=document.createElement('div');o.className='opt';o.dataset.i=i;o.innerHTML=`<span class="l">${'ABCD'[k]}</span>${t}`;o.onclick=()=>{q.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));o.classList.add('sel')};q.appendChild(o)});c.appendChild(q)})}
+ build();
+ d.querySelector('.chk').onclick=()=>{let g=0;const ans=[];c.querySelectorAll('.q').forEach((q,qi)=>{const s=q.querySelector('.opt.sel');q.querySelectorAll('.opt').forEach(o=>{o.classList.remove('right','wrong');if(+o.dataset.i===MC[qi][2])o.classList.add('right')});if(s&&+s.dataset.i!==MC[qi][2])s.classList.add('wrong');const ok=!!s&&+s.dataset.i===MC[qi][2];if(ok)g++;verdict(q,ok);ans.push(`${qi+1}. ${s?MC[qi][1][s.dataset.i]:'(ikke svart)'} ${mark(ok)}`)});results[1]={ans};setScore(1,g,MC.length)};
+ d.querySelector('.rst').onclick=build;})();
+
+/* 2 TF */
+const TF=[
+ ['Leddsansen får informasjon fra muskelspolen og senespolen.',false],
+ ['Når du stanser etter en forlengsrulle, er det særlig likevektssansen som forteller hvordan kroppen står.',true],
+ ['Fotball, håndball og langrenn stiller ikke krav til koordinasjon, fordi andre faktorer avgjør resultatet.',false],
+ ['Å trene koordinasjon kan gjøre at du utnytter muskelkraften bedre og arbeider mer økonomisk.',true],
+ ['Sanseinntrykk sendes inn til sentralnervesystemet gjennom motoriske nerver.',false],
+ ['Generell koordinasjonstrening kan også være nyttig for en utøver som bare driver med én idrett.',true],
+ ['En øvelse som har blitt automatisert, utvikler den koordinative egenskapen like mye som da den var ny.',false],
+ ['Når du gjentar en øvelse, styrkes de nerveforbindelsene som er aktive.',true],
+ ['Det er lurt å starte med de vanskeligste øvelsene, slik at utøveren blir utfordret med en gang.',false]
+];
+/* shuffle so that no more than two true or two false come in a row */
+function mixTF(a){for(let k=0;k<200;k++){const r=shuf(a);if(r.every((x,i)=>i<2||!(x[1]===r[i-1][1]&&x[1]===r[i-2][1])))return r}return shuf(a)}
+(()=>{const d=taskShell(2,'Sant eller usant','Ta stilling til hver påstand.');const c=d.querySelector('.cont');
+ function build(){c.innerHTML='';mixTF(TF).forEach(([t,a])=>{const q=document.createElement('div');q.className='q';q.dataset.a=a;q.dataset.t=t;q.innerHTML=`<b class="qt">${t}</b><div class="tf"><button data-v="true">Sant</button><button data-v="false">Usant</button></div>`;q.querySelectorAll('button').forEach(b=>b.onclick=()=>{q.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')});c.appendChild(q)})}
+ build();
+ d.querySelector('.chk').onclick=()=>{let g=0;const ans=[];c.querySelectorAll('.q').forEach(q=>{const s=q.querySelector('.sel');const ok=!!s&&s.dataset.v===q.dataset.a;if(ok)g++;verdict(q,ok);ans.push(`${q.dataset.t} Svar: ${s?s.textContent:'(ikke svart)'} ${mark(ok)}`)});results[2]={ans};setScore(2,g,TF.length)};
+ d.querySelector('.rst').onclick=build;})();
+
+/* 3 Drag word bank */
+const DW={txt:'Sanseorganene mottar hele tiden stimuli. Signalene går gjennom {sensoriske} nerver inn til {sentralnervesystemet}. Sanseinntrykket blir bearbeidet og sendt ut til musklene gjennom {motoriske} nerver. Bevegelser vi har lært, ligger lagret som {motoriske programmer} i sentralnervesystemet. Når du gjentar en øvelse, styrkes de {nerveforbindelsene} som er aktive. Når oppgaven får preg av å være {automatisert}, utvikler du ikke lenger den koordinative egenskapen i særlig grad.',dist:['hjernebarken','periodisert']};
+(()=>{const d=taskShell(3,'Dra og slipp – fra sanseinntrykk til bevegelse','Dra ordene til riktig plass, eller trykk på et ord og deretter på en luke. To ord passer ikke.');const c=d.querySelector('.cont');let picked=null;
+ const words=[...DW.txt.matchAll(/\{(.+?)\}/g)].map(m=>m[1]);
+ function mk(w){const ch=document.createElement('span');ch.className='chip';ch.textContent=w;ch.draggable=true;ch.id='w'+Math.random().toString(36).slice(2);ch.ondragstart=e=>e.dataTransfer.setData('text/plain',ch.id);ch.onclick=e=>{e.stopPropagation();if(picked===ch){ch.classList.remove('pick');picked=null;return}if(picked)picked.classList.remove('pick');picked=ch;ch.classList.add('pick')};return ch}
+ function place(s,ch){if(!ch)return;const old=s.querySelector('.chip');if(old&&old!==ch)c.querySelector('.bank').appendChild(old);s.appendChild(ch);ch.classList.remove('pick');picked=null;s.classList.remove('ok','bad')}
+ function build(){picked=null;let i=0;c.innerHTML=`<div class="bank"></div><div class="clz">${DW.txt.replace(/\{(.+?)\}/g,()=>`<span class="slot" data-a="${words[i++]}"></span>`)}</div>`;const bank=c.querySelector('.bank');
+  shuf([...words,...DW.dist]).forEach(w=>bank.appendChild(mk(w)));
+  bank.ondragover=e=>e.preventDefault();bank.ondrop=e=>{e.preventDefault();const el=document.getElementById(e.dataTransfer.getData('text/plain'));if(el)bank.appendChild(el)};
+  bank.onclick=()=>{if(picked){bank.appendChild(picked);picked.classList.remove('pick');picked=null}};
+  c.querySelectorAll('.slot').forEach(s=>{s.ondragover=e=>e.preventDefault();s.ondrop=e=>{e.preventDefault();place(s,document.getElementById(e.dataTransfer.getData('text/plain')))};s.onclick=()=>{if(picked)place(s,picked)}})}
+ build();
+ d.querySelector('.chk').onclick=()=>{let g=0;const ans=[];c.querySelectorAll('.slot').forEach(s=>{const v=s.textContent;const ok=norm(v)===norm(s.dataset.a);s.classList.remove('ok','bad');s.classList.add(ok?'ok':'bad');if(ok)g++;ans.push(`${v||'(tom)'} ${mark(ok)}`)});results[3]={ans};setScore(3,g,words.length)};
+ d.querySelector('.rst').onclick=build;})();
+
+/* 4 Dropdown cloze */
+const DD=[
+ ['Koordinasjon danner en viktig del av grunnlaget for utvikling av','tekniske ferdigheter',['tekniske ferdigheter','fysiske egenskaper','taktiske ferdigheter'],'i idrett.'],
+ ['En hekkeløper som holder tre steg mellom hver hekk, er avhengig av god','rytme',['rytme','reaksjonsevne','romorientering'],'.'],
+ ['Koordinasjonstrening som inngår i treningen av en bestemt idrett, kalles','idrettsspesifikk',['idrettsspesifikk','generell','allsidig'],'koordinasjonstrening.'],
+ ['I det du lander på benken og skal holde balansen, får du informasjon fra','trykk- og berøringssansen',['trykk- og berøringssansen','leddsansen','synssansen'],'.'],
+ ['En keeper som følger ballen med blikket og slår den unna med hånda, bruker','øye–hånd-koordinasjon',['øye–hånd-koordinasjon','øye–fot-koordinasjon','tilpasset kraftinnsats'],'.'],
+ ['Muskelspolen og senespolen hører til','muskelsansen',['muskelsansen','leddsansen','likevektssansen'],'.']
+];
+(()=>{const d=taskShell(4,'Fyll inn – velg riktig fagbegrep','Velg riktig alternativ i hver nedtrekksliste.');const c=d.querySelector('.cont');
+ function build(){c.innerHTML=DD.map((r,i)=>`<div class="q"><span style="display:block;padding-right:64px">${i+1}. ${r[0]} <select data-a="${r[1]}"><option value="">– velg –</option>${shuf(r[2]).map(o=>`<option>${o}</option>`).join('')}</select> ${r[3]}</span></div>`).join('')}
+ build();
+ d.querySelector('.chk').onclick=()=>{let g=0;const ans=[];c.querySelectorAll('.q').forEach((q,i)=>{const s=q.querySelector('select');const ok=norm(s.value)===norm(s.dataset.a);s.className=ok?'ok':'bad';verdict(q,ok);if(ok)g++;ans.push(`${i+1}. ${s.value||'(ikke valgt)'} ${mark(ok)}`)});results[4]={ans};setScore(4,g,DD.length)};
+ d.querySelector('.rst').onclick=build;})();
+
+/* 5 Matching */
+const MA=[['Balanse','En slalåmløper gjenvinner likevekten etter et ujevnt parti i løypa'],['Rytme','En lengdehopper holder jevn stegfrekvens i tilløpet og treffer planken'],['Øye–hånd','En volleyballspiller følger ballen og treffer rent med et fingerslag'],['Øye–fot','En fotballspiller demper en høy ball med vrista'],['Romorientering','En stuper vet hvor hun er i lufta midt i en skru'],['Reaksjonsevne','En sprinter går ut av blokka idet skuddet går'],['Tilpasset kraftinnsats','En golfspiller doserer slaget på en kort putt']];
+(()=>{const d=taskShell(5,'Kobling – egenskap og situasjon','Trykk på en egenskap og deretter på situasjonen der den er mest avgjørende. Trykk på et koblet kort for å løse opp paret.');const c=d.querySelector('.cont');let pairs={},pickL=null;
+ const colors=['#14a3a3','#f28c28','#e2508a','#7b5cd6','#1e3a68','#1f9d55','#d6a400','#d64545'];
+ function paint(){c.querySelectorAll('.mi').forEach(m=>{m.classList.remove('ok','bad');m.style.borderColor='';m.style.borderWidth=''});let n=0;Object.entries(pairs).forEach(([l,r])=>{const col=colors[n++%8];[c.querySelector(`.L .mi[data-i="${l}"]`),c.querySelector(`.R .mi[data-i="${r}"]`)].forEach(e=>{e.style.borderColor=col;e.style.borderWidth='3px'})})}
+ function build(){pairs={};pickL=null;c.innerHTML=`<div class="match"><div class="L"></div><div class="R"></div></div>`;
+  shuf(MA.map((m,i)=>[m[0],i])).forEach(([t,i])=>c.querySelector('.L').insertAdjacentHTML('beforeend',`<div class="mi" data-i="${i}"><b>${t}</b></div>`));
+  shuf(MA.map((m,i)=>[m[1],i])).forEach(([t,i])=>c.querySelector('.R').insertAdjacentHTML('beforeend',`<div class="mi" data-i="${i}">${t}</div>`));
+  c.querySelectorAll('.L .mi').forEach(l=>l.onclick=()=>{if(pairs[l.dataset.i]!==undefined){delete pairs[l.dataset.i];paint();return}c.querySelectorAll('.L .mi').forEach(x=>x.classList.remove('pick'));pickL=l;l.classList.add('pick')});
+  c.querySelectorAll('.R .mi').forEach(r=>r.onclick=()=>{const k=Object.keys(pairs).find(k=>pairs[k]===r.dataset.i);if(k!==undefined){delete pairs[k];paint();return}if(!pickL)return;pairs[pickL.dataset.i]=r.dataset.i;pickL.classList.remove('pick');pickL=null;paint()})}
+ build();
+ d.querySelector('.chk').onclick=()=>{let g=0;const ans=[];const L=c.querySelector('.L'),R=c.querySelector('.R');
+  MA.forEach((m,i)=>{const l=L.querySelector(`[data-i="${i}"]`),has=pairs[i]!==undefined,r=has?R.querySelector(`[data-i="${pairs[i]}"]`):null,ok=has&&+pairs[i]===i;l.classList.add(ok?'ok':'bad');if(r)r.classList.add(ok?'ok':'bad');if(ok)g++;ans.push(`${m[0]}: ${has?MA[pairs[i]][1]:'(ikke koblet)'} ${mark(ok)}`)});
+  MA.forEach((m,i)=>{if(pairs[i]!==undefined&&+pairs[i]===i){L.prepend(L.querySelector(`[data-i="${i}"]`));R.prepend(R.querySelector(`[data-i="${i}"]`))}});
+  results[5]={ans};setScore(5,g,MA.length)};
+ d.querySelector('.rst').onclick=build;})();
+
+/* 6 Guidelines */
+const GLS=['Tidlig i økta','Fra enkelt til vanskeligere','Nye øvelser','Flere egenskaper i én øvelse','Tidspress og økt hastighet','Øvelsene tettere på hverandre','Kombinert med fysiske egenskaper'];
+const CL=[
+ ['Treneren legger balanse- og reaksjonsøvelsene rett etter oppvarmingen, mens spillerne er konsentrerte.',0],
+ ['Først står eleven på ett bein, så lukker hun øynene, og til slutt tar hun imot en ball samtidig.',1],
+ ['Gruppa prøver en aktivitet som ingen av dem har gjort før.',2],
+ ['Turneren balanserer på bommen og sjonglerer med baller samtidig.',3],
+ ['Spillerne skal gjennomføre stigeøvelsen så raskt de klarer, og tiden blir tatt.',4],
+ ['Pausene mellom stasjonene i koordinasjonsløypa blir kortere og kortere.',5],
+ ['Spillerne skal ta imot og slå presise pasninger rett etter et tungt intervalldrag.',6]
+];
+(()=>{const d=taskShell(6,'Hvilken retningslinje følger treneren?','Les hver situasjon og velg den retningslinjen for koordinasjonstrening som passer best. Hver retningslinje brukes én gang.');const c=d.querySelector('.cont');
+ function build(){c.innerHTML=shuf(CL).map(r=>`<div class="q" data-a="${GLS[r[1]]}" data-t="${r[0]}"><span style="display:block;padding-right:64px">${r[0]}</span><select style="margin-top:6px"><option value="">– velg retningslinje –</option>${shuf(GLS).map(o=>`<option>${o}</option>`).join('')}</select></div>`).join('')}
+ build();
+ d.querySelector('.chk').onclick=()=>{let g=0;const ans=[];c.querySelectorAll('.q').forEach(q=>{const s=q.querySelector('select');const ok=s.value===q.dataset.a;s.className=ok?'ok':'bad';verdict(q,ok);if(ok)g++;ans.push(`${q.dataset.t} ${s.value||'(ikke valgt)'} ${mark(ok)}`)});results[6]={ans};setScore(6,g,CL.length)};
+ d.querySelector('.rst').onclick=build;})();
+
+/* 7 Writing */
+const pages=x=>(x.match(/\d{4}\s*,\s*(s\.|side)\s*\d+/gi)||[]).length;
+const KW=['koordinasjon','balanse','rytme','romorientering','reaksjonsevne','tilpasset kraftinnsats','øye-hånd','øye-fot','synet','likevektssansen','leddsansen','muskelsansen','bevegelseserfaring','motoriske programmer','idrettsspesifikk','automatiser','teknikk'];
+const nd=x=>norm(x).replace(/[–—]/g,'-');
+(()=>{const d=taskShell(7,'Skriveoppgave – koordinasjonstrening i din idrett','Velg en idrett og gjør rede for hvordan du kan trene de mest relevante koordinative egenskapene i denne idretten. Forklar hvilke sanseorganer som er særlig viktige i idretten, og vis hvordan du bruker retningslinjene for koordinasjonstrening i øvelsene du foreslår. Bruk læreboka som kilde og vis til den etter APA 7 – <b>med sidetall</b> hver gang du bruker noe fra boka.<div class="citex"><b>📖 Husk sidetall når du viser til boka!</b><ul><li><b>Navnet i setningen:</b> Gjerset et al. (2022, s. 215) skriver at koordinasjon bør trenes tidlig i økta, fordi god konsentrasjon er avgjørende for et godt resultat.</li><li><b>Kilden i parentes:</b> Koordinasjon bør trenes tidlig i økta, fordi god konsentrasjon er avgjørende for et godt resultat (Gjerset et al., 2022, s. 215).</li><li><b>I kildelista</b> (uten sidetall): Gjerset, A. mfl. (2022). <i>Treningslære</i>. Gyldendal.</li></ul></div><small>Hjelp til kildebruk: <a href="https://kildekompasset.no" target="_blank" rel="noopener">Kildekompasset.no</a> · <a href="https://www.zotero.org" target="_blank" rel="noopener">Zotero</a></small>');const c=d.querySelector('.cont');
+ c.innerHTML=`<textarea id="wr" placeholder="Skriv teksten din her (minst 250 ord) …"></textarea><div class="row" style="justify-content:space-between;font-size:.88rem;margin-top:6px"><span id="wc">0 ord</span><span id="pc">0 kildehenvisninger med sidetall</span><span id="kc">0 av 6 fagbegreper (mål)</span></div><div style="margin-top:6px">${KW.map(k=>`<span class="kw" data-k="${k}">${k}</span>`).join('')}</div><input id="srcIn" placeholder="Kilde (APA 7), f.eks. Gjerset, A. mfl. (2022). Treningslære. Gyldendal." style="width:100%;font:inherit;padding:10px;margin-top:10px;border-radius:10px;border:2px solid var(--line)">`;
+ const wr=c.querySelector('#wr');const upd=()=>{const t=nd(wr.value);$('#wc').textContent=(t.match(/\S+/g)||[]).length+' ord';let h=0;c.querySelectorAll('.kw').forEach(k=>{const hit=t.includes(k.dataset.k);k.classList.toggle('hit',hit);if(hit)h++});$('#kc').textContent=`${h} av 6 fagbegreper (mål)`;const pg=pages(wr.value);const pe=$('#pc');pe.textContent=pg?`${pg} kildehenvisning${pg>1?'er':''} med sidetall ✓`:'0 kildehenvisninger med sidetall';pe.classList.toggle('okc',pg>0)};wr.oninput=upd;
+ d.querySelector('.chk').onclick=()=>{const t=nd(wr.value),w=(t.match(/\S+/g)||[]).length,h=KW.filter(k=>t.includes(k)).length,src=c.querySelector('#srcIn').value.trim().length>10,pg=pages(wr.value);
+  const pts=(w>=250?2:w>=150?1:0)+(h>=6?2:h>=3?1:0)+(src?1:0)+(pg?1:0);
+  d.querySelector('.fb').innerHTML=`Ordantall: ${w} ${w>=250?'✓':'(mål: 250)'} · Fagbegreper: ${h} ${h>=6?'✓':'(mål: 6)'} · Kilde i kildelista: ${src?'✓':'mangler'} · Sidetall i teksten: ${pg?pg+' ✓':'mangler – skriv f.eks. (Gjerset et al., 2022, s. 215)'}<br><small>Poengene viser bare omfang, begrepsbruk, kildeliste og sidetall. Læreren vurderer innholdet.</small>`;
+  results[7]={ans:[`Tekst (${w} ord): ${wr.value}`,`Kilde: ${c.querySelector('#srcIn').value}`,`Kildehenvisninger med sidetall: ${pg}`]};setScore(7,pts,6)};
+ d.querySelector('.rst').onclick=()=>{wr.value='';c.querySelector('#srcIn').value='';upd();d.querySelector('.fb').textContent=''};})();
+
+$('#openAll').onclick=()=>$$('.task').forEach(t=>t.classList.add('open'));
+$('#closeAll').onclick=()=>$$('.task').forEach(t=>t.classList.remove('open'));
+
+/* ---------- PDF ---------- */
+$('#pdfBtn').onclick=()=>{
+ if(!window.jspdf){alert('PDF-biblioteket ble ikke lastet. Bruk «Lagre som PDF» i utskriftsvinduet som åpnes.');window.print();return}
+ var jsPDF=window.jspdf.jsPDF;const doc=new jsPDF({unit:'mm',format:'a4'});let y=18;
+ const clean=s=>(s||'').toString().replace(/[–—]/g,'-').replace(/…/g,'...').replace(/[«»]/g,'"').replace(/[^\x00-\xFF]/g,'');
+ const add=(txt,size,bold)=>{doc.setFont('helvetica',bold?'bold':'normal');doc.setFontSize(size||10);doc.splitTextToSize(clean(txt),180).forEach(l=>{if(y>283){doc.addPage();y=18}doc.text(l,15,y);y+=(size||10)*.45+.6});};
+ const gap=n=>{y+=n||3};
+ const names=['Flervalg','Sant eller usant','Dra og slipp','Fyll inn','Kobling','Retningslinjer','Skriveoppgave'];let tg=0,tt=0;
+ add('Koordinasjonstrening - besvarelse',18,true);gap(2);
+ add(`Navn: ${$('#stuName').value||'-'}    Dato: ${new Date().toLocaleDateString('no-NO')}`,11);gap();
+ for(let i=1;i<=7;i++){const r=results[i];if(r&&r.checked){tg+=r.got;tt+=r.tot}add(`Oppgave ${i}: ${names[i-1]} - ${r&&r.checked?r.got+'/'+r.tot:'ikke levert'}`,12,true);(r&&r.ans||[]).forEach(a=>add(a,10));gap()}
+ add(`Totalt: ${tg}/${tt}${tt?' ('+Math.round(tg/tt*100)+' %)':''}`,13,true);gap(5);
+ add('Koordinasjonslaben',14,true);
+ const lv=lcVals().map(v=>v===null?'-':v).join(', ');
+ add('1 Læringskurven (fangster på rad, forsøk 1-10): '+lv,10);add('   Motsatt hånd: '+($('#lcOther').value||'-'),10);
+ add(`2 Balanse (sekunder): åpne øyne ${$('#b0').value||'-'}, lukkede øyne ${$('#b1').value||'-'}, lukkede øyne og hodet bakover ${$('#b2').value||'-'}`,10);
+ add('3 Rytmemaskinen, høyeste tempo: '+($('#mBest').value||'-')+' slag/min',10);
+ add('Refleksjon: '+($('#labRef').value.trim()||'-'),10);gap(4);
+ add('Hvordan fungerer siden?',12,true);add($('#feedback').value.trim()||'-',10);
+ doc.save('Koordinasjonstrening_'+(clean($('#stuName').value).replace(/\s+/g,'_')||'besvarelse')+'.pdf')};
+
+watch();applyStill();
+</script>
+</body>
+</html>
